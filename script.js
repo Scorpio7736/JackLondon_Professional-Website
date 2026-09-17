@@ -667,13 +667,8 @@ internalPageLinks.forEach(
 
 
 /* =========================================
-   INITIALIZE WEBSITE
+   INITIALIZE SKILLS
    ========================================= */
-
-/*
-    These functions are defined
-    inside skills.js.
-*/
 
 buildProgrammingLanguageCards();
 
@@ -684,12 +679,16 @@ buildToolsCards();
 buildAdditionalSkillsCards();
 
 
-/*
-    Start website on Home.
+/* =========================================
+   INITIALIZE EXPERIENCE
+   ========================================= */
 
-    No animation is used during
-    initial page load.
-*/
+buildExperiences();
+
+
+/* =========================================
+   OPEN INITIAL PAGE
+   ========================================= */
 
 openPage(
     "home",
