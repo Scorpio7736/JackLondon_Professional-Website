@@ -679,23 +679,14 @@ buildToolsCards();
 buildAdditionalSkillsCards();
 
 
-/* =========================================
-   INITIALIZE EXPERIENCE
-   ========================================= */
-
 buildExperiences();
 
-
-/* =========================================
-   INITIALIZE PROJECTS
-   ========================================= */
 
 buildProjects();
 
 
-/* =========================================
-   OPEN INITIAL PAGE
-   ========================================= */
+buildCertifications();
+
 
 openPage(
     "home",
