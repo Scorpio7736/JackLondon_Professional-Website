@@ -180,8 +180,9 @@
         <li>VS Community 2022</li>
       </ul>
       <div class="links">
-        <a href="https://github.com/Scorpio7736/Schedule_Creator_V2" target="_blank">Repo ↗</a>
-      </div>
+        <a href="scv2.html" class="page-transition-link">More Info →</a>
+        <a href="https://github.com/Scorpio7736/Schedule_Creator_V2" target="_blank" rel="noopener">Repo ↗</a>
+</div>
     </article>
 
     <article class="card project">
@@ -313,8 +314,44 @@
   </footer>
 
   <script>
-    <!-- Keep Current Year -->
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+
+    /* Keep Current Year */
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+
+    /* =====================================================
+       PAGE TRANSITION
+       ===================================================== */
+
+    const pageTransitionLinks =
+        document.querySelectorAll(".page-transition-link");
+
+
+    pageTransitionLinks.forEach(link => {
+
+        link.addEventListener("click", event => {
+
+            event.preventDefault();
+
+            const destination =
+                link.getAttribute("href");
+
+
+            document.body.classList.add("page-exit");
+
+
+            setTimeout(() => {
+
+                window.location.href =
+                    destination;
+
+            }, 300);
+
+        });
+
+    });
+
+</script>
 </body>
 </html>

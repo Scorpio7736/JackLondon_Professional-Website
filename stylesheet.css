@@ -683,3 +683,15 @@ p {
     border: 1px solid #dddddd;
   }
 }
+
+body {
+    opacity: 1;
+
+    transition:
+        opacity 1.75s ease;
+}
+
+
+body.page-exit {
+    opacity: 0;
+}
