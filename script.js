@@ -167,6 +167,20 @@ function buildTabs(page) {
     workspaceTabs.innerHTML = "";
 
 
+    /* Create sliding indicator */
+
+    const indicator =
+        document.createElement("div");
+
+    indicator.classList.add(
+        "workspace-tab-indicator"
+    );
+
+    workspaceTabs.appendChild(
+        indicator
+    );
+
+
     const sections =
         page.querySelectorAll(
             ".page-section[data-tab]"
@@ -222,6 +236,89 @@ function buildTabs(page) {
 
         }
     );
+
+
+    /* Position indicator under first tab */
+
+    requestAnimationFrame(() => {
+
+        const activeTab =
+            workspaceTabs.querySelector(
+                ".workspace-tab.active"
+            );
+
+
+        if (activeTab) {
+
+            moveTabIndicator(
+                activeTab,
+                false
+            );
+
+        }
+
+    });
+
+}
+
+/* =========================================
+   MOVE TOP TAB INDICATOR
+   ========================================= */
+
+function moveTabIndicator(
+    tab,
+    animate = true
+) {
+
+    const indicator =
+        workspaceTabs.querySelector(
+            ".workspace-tab-indicator"
+        );
+
+
+    if (!indicator || !tab) {
+        return;
+    }
+
+
+    /*
+        Position relative to the tabs container.
+    */
+
+    const containerRect =
+        workspaceTabs.getBoundingClientRect();
+
+
+    const tabRect =
+        tab.getBoundingClientRect();
+
+
+    const left =
+        tabRect.left -
+        containerRect.left +
+        workspaceTabs.scrollLeft;
+
+
+    /*
+        Keep the underline slightly smaller
+        than the tab itself.
+    */
+
+    const sidePadding = 12;
+
+
+    indicator.style.transition =
+        animate
+            ? "left 180ms ease, width 180ms ease"
+            : "none";
+
+
+    indicator.style.left =
+        `${left + sidePadding}px`;
+
+
+    indicator.style.width =
+        `${tabRect.width - (sidePadding * 2)}px`;
 
 }
 
@@ -289,14 +386,43 @@ function setActiveTabBySection(
         );
 
 
+    let selectedTab = null;
+
+
     tabs.forEach(tab => {
+
+        const isActive =
+            tab.dataset.sectionId ===
+            sectionId;
+
 
         tab.classList.toggle(
             "active",
-            tab.dataset.sectionId === sectionId
+            isActive
         );
 
+
+        if (isActive) {
+
+            selectedTab =
+                tab;
+
+        }
+
     });
+
+
+    /*
+        Slide indicator to new tab.
+    */
+
+    if (selectedTab) {
+
+        moveTabIndicator(
+            selectedTab
+        );
+
+    }
 
 }
 

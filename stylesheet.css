@@ -825,20 +825,34 @@ button.nav-item {
 }
 
 
-.workspace-tab.active::after {
-    content: "";
+/* =========================================
+   SLIDING TAB INDICATOR
+   ========================================= */
 
+.workspace-tabs {
+    position: relative;
+}
+
+
+.workspace-tab-indicator {
     position: absolute;
 
-    left: 12px;
-    right: 12px;
     bottom: 0;
+    left: 0;
 
     height: 3px;
+    width: 0;
 
     background: var(--accent);
 
-    border-radius: 3px 3px 0 0;
+    border-radius:
+        3px 3px 0 0;
+
+    pointer-events: none;
+
+    transition:
+        left 180ms ease,
+        width 180ms ease;
 }
 
 
@@ -1906,3 +1920,10 @@ button.nav-item {
 
 }
 
+@media (prefers-reduced-motion: reduce) {
+
+    .workspace-tab-indicator {
+        transition: none;
+    }
+
+}
