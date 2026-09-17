@@ -78,6 +78,7 @@ function openPage(pageName) {
             `.page-view[data-page="${pageName}"]`
         );
 
+
     if (!selectedPage) {
         return;
     }
@@ -89,13 +90,19 @@ function openPage(pageName) {
     /* Hide all pages */
 
     pages.forEach(page => {
-        page.classList.remove("active");
+
+        page.classList.remove(
+            "active"
+        );
+
     });
 
 
     /* Show selected page */
 
-    selectedPage.classList.add("active");
+    selectedPage.classList.add(
+        "active"
+    );
 
 
     /* Update sidebar */
@@ -110,9 +117,11 @@ function openPage(pageName) {
     });
 
 
-    /* Update header */
+    /* Update workspace header */
 
-    const config = pageConfig[pageName];
+    const config =
+        pageConfig[pageName];
+
 
     if (config) {
 
@@ -135,12 +144,16 @@ function openPage(pageName) {
 
     /* Build page-specific tabs */
 
-    buildTabs(selectedPage);
+    buildTabs(
+        selectedPage
+    );
 
 
     /* Watch sections while scrolling */
 
-    setupSectionObserver(selectedPage);
+    setupSectionObserver(
+        selectedPage
+    );
 
 }
 
@@ -153,53 +166,62 @@ function buildTabs(page) {
 
     workspaceTabs.innerHTML = "";
 
+
     const sections =
         page.querySelectorAll(
             ".page-section[data-tab]"
         );
 
 
-    sections.forEach((section, index) => {
+    sections.forEach(
+        (section, index) => {
 
-        const button =
-            document.createElement("button");
-
-
-        button.classList.add(
-            "workspace-tab"
-        );
+            const button =
+                document.createElement(
+                    "button"
+                );
 
 
-        button.dataset.sectionId =
-            section.id;
+            button.classList.add(
+                "workspace-tab"
+            );
 
 
-        button.textContent =
-            section.dataset.tab;
+            button.dataset.sectionId =
+                section.id;
 
 
-        if (index === 0) {
-            button.classList.add("active");
-        }
+            button.textContent =
+                section.dataset.tab;
 
 
-        button.addEventListener(
-            "click",
-            () => {
+            if (index === 0) {
 
-                scrollToSection(
-                    section.id
+                button.classList.add(
+                    "active"
                 );
 
             }
-        );
 
 
-        workspaceTabs.appendChild(
-            button
-        );
+            button.addEventListener(
+                "click",
+                () => {
 
-    });
+                    scrollToSection(
+                        section.id
+                    );
+
+                }
+            );
+
+
+            workspaceTabs.appendChild(
+                button
+            );
+
+        }
+    );
 
 }
 
@@ -211,7 +233,9 @@ function buildTabs(page) {
 function scrollToSection(sectionId) {
 
     const section =
-        document.getElementById(sectionId);
+        document.getElementById(
+            sectionId
+        );
 
 
     if (!section) {
@@ -255,7 +279,9 @@ function scrollToSection(sectionId) {
    SET ACTIVE TOP TAB
    ========================================= */
 
-function setActiveTabBySection(sectionId) {
+function setActiveTabBySection(
+    sectionId
+) {
 
     const tabs =
         workspaceTabs.querySelectorAll(
@@ -282,7 +308,9 @@ function setActiveTabBySection(sectionId) {
 function setupSectionObserver(page) {
 
     if (sectionObserver) {
+
         sectionObserver.disconnect();
+
     }
 
 
@@ -325,7 +353,8 @@ function setupSectionObserver(page) {
             },
 
             {
-                root: workspaceContent,
+                root:
+                    workspaceContent,
 
                 rootMargin:
                     "-10% 0px -65% 0px",
@@ -341,9 +370,15 @@ function setupSectionObserver(page) {
         );
 
 
-    sections.forEach(section => {
-        sectionObserver.observe(section);
-    });
+    sections.forEach(
+        section => {
+
+            sectionObserver.observe(
+                section
+            );
+
+        }
+    );
 
 }
 
@@ -352,44 +387,57 @@ function setupSectionObserver(page) {
    SIDEBAR NAVIGATION
    ========================================= */
 
-pageNavigation.forEach(button => {
+pageNavigation.forEach(
+    button => {
 
-    button.addEventListener(
-        "click",
-        () => {
+        button.addEventListener(
+            "click",
+            () => {
 
-            openPage(
-                button.dataset.page
-            );
+                openPage(
+                    button.dataset.page
+                );
 
-        }
-    );
+            }
+        );
 
-});
+    }
+);
 
 
 /* =========================================
    INTERNAL PAGE LINKS
    ========================================= */
 
-internalPageLinks.forEach(button => {
+internalPageLinks.forEach(
+    button => {
 
-    button.addEventListener(
-        "click",
-        () => {
+        button.addEventListener(
+            "click",
+            () => {
 
-            openPage(
-                button.dataset.page
-            );
+                openPage(
+                    button.dataset.page
+                );
 
-        }
-    );
+            }
+        );
 
-});
+    }
+);
 
 
 /* =========================================
-   INITIAL PAGE
+   INITIALIZE WEBSITE
    ========================================= */
+
+/*
+    This function is defined
+    inside skills.js.
+*/
+
+buildProgrammingLanguageCards();
+
+buildFrameworkCards();
 
 openPage("home");
