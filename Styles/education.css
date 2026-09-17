@@ -1,7 +1,353 @@
 /* =========================================
    EDUCATION PAGE
    ========================================= */
+/* =========================================
+   SCHOOL CONTAINER
+   ========================================= */
 
+.education-school-container {
+    width: 100%;
+}
+
+
+/* =========================================
+   SCHOOL CARD
+   ========================================= */
+
+.education-school-card {
+    width: 100%;
+
+    padding: 28px;
+
+    background:
+        var(--surface-secondary);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 2px 8px rgba(
+            0,
+            0,
+            0,
+            0.12
+        );
+}
+
+
+/* =========================================
+   SCHOOL HEADER
+   ========================================= */
+
+.education-school-header {
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+
+    margin-bottom: 26px;
+}
+
+
+/* =========================================
+   SCHOOL ICON
+   ========================================= */
+
+.education-school-icon {
+    position: relative;
+
+    width: 76px;
+    height: 76px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background:
+        #25242a;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 12px;
+
+    overflow: hidden;
+}
+
+
+.education-school-icon img {
+    width: 58px;
+    height: 58px;
+
+    object-fit: contain;
+}
+
+
+.education-school-icon-fallback {
+    position: absolute;
+
+    color:
+        var(--accent-light);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   SCHOOL HEADING
+   ========================================= */
+
+.education-school-heading {
+    min-width: 0;
+}
+
+
+.education-school-eyebrow {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color:
+        var(--accent-light);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size: 0.7rem;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.06em;
+}
+
+
+.education-school-heading h2 {
+    font-size:
+        clamp(
+            1.35rem,
+            2.4vw,
+            1.9rem
+        );
+
+    font-weight: 600;
+
+    line-height: 1.25;
+}
+
+
+/* =========================================
+   MAJOR
+   ========================================= */
+
+.education-major {
+    margin-bottom: 14px;
+
+    padding: 20px;
+
+    background:
+        #25242a;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 7px;
+}
+
+
+.education-major h3 {
+    margin-top: 6px;
+
+    color:
+        var(--text-primary);
+
+    font-size: 1.08rem;
+    font-weight: 600;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================
+   LABEL
+   ========================================= */
+
+.education-cell-label {
+    display: block;
+
+    color:
+        var(--text-muted);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size: 0.63rem;
+    font-weight: 600;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.08em;
+}
+
+
+/* =========================================
+   DETAIL GRID
+   ========================================= */
+
+.education-detail-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+    gap: 14px;
+
+    margin-bottom: 14px;
+}
+
+
+/* =========================================
+   DETAIL CELL
+   ========================================= */
+
+.education-detail-cell {
+    min-width: 0;
+
+    padding: 18px;
+
+    background:
+        #25242a;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 7px;
+
+    transition:
+        background 150ms ease,
+        border-color 150ms ease;
+}
+
+
+.education-detail-cell:hover {
+    background:
+        var(--surface-hover);
+
+    border-color:
+        #55545e;
+}
+
+
+.education-detail-cell strong {
+    display: block;
+
+    margin-top: 6px;
+
+    color:
+        var(--text-primary);
+
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+
+/* =========================================
+   DESCRIPTION
+   ========================================= */
+
+.education-description-cell {
+    padding: 20px;
+
+    background:
+        #25242a;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 7px;
+}
+
+
+.education-description-cell p {
+    margin-top: 8px;
+
+    max-width: 900px;
+
+    color:
+        var(--text-secondary);
+
+    font-size: 0.85rem;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 650px) {
+
+    .education-school-card {
+        padding: 20px;
+    }
+
+
+    .education-school-header {
+        align-items: flex-start;
+    }
+
+
+    .education-detail-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .education-school-header {
+        flex-direction: column;
+    }
+
+
+    .education-school-icon {
+        width: 64px;
+        height: 64px;
+    }
+
+
+    .education-school-icon img {
+        width: 48px;
+        height: 48px;
+    }
+
+}
 
 /* =========================================
    CERTIFICATIONS PANEL

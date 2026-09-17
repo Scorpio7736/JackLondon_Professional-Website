@@ -684,6 +684,7 @@ buildExperiences();
 
 buildProjects();
 
+buildEducation();
 
 buildCertifications();
 
