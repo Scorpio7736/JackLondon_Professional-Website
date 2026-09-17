@@ -103,7 +103,7 @@ const frameworks = [
     {
         name: ".NET",
         shortName: ".NET",
-        image: "Images/Frameworks/DotNet.png",
+        image: "Images/Icons/DotNet_ICON.png",
         comfort: 9,
 
         projects: [
@@ -116,7 +116,7 @@ const frameworks = [
     {
         name: "WPF",
         shortName: "WPF",
-        image: "Images/Frameworks/WPF.png",
+        image: "Images/Icons/WPF_ICON.png",
         comfort: 9,
 
         projects: [
@@ -129,7 +129,7 @@ const frameworks = [
     {
         name: "XAML",
         shortName: "XAML",
-        image: "Images/Frameworks/XAML.png",
+        image: "Images/Icons/XAML_ICON.png",
         comfort: 9,
 
         projects: [
@@ -142,7 +142,7 @@ const frameworks = [
     {
         name: "SwiftUI",
         shortName: "SUI",
-        image: "Images/Frameworks/SwiftUI.png",
+        image: "Images/Icons/SwiftUI_ICON.png",
         comfort: 7,
 
         projects: [
@@ -155,7 +155,7 @@ const frameworks = [
     {
         name: "Android",
         shortName: "AND",
-        image: "Images/Frameworks/Android.png",
+        image: "Images/Icons/Android_ICON.png",
         comfort: 8,
 
         projects: [
@@ -168,12 +168,197 @@ const frameworks = [
     {
         name: "JavaFX",
         shortName: "JFX",
-        image: "Images/Frameworks/JavaFX.png",
+        image: "Images/Icons/JavaFX_ICON.png",
         comfort: 7,
 
         projects: [
             "University Projects",
             "Java Desktop Interfaces"
+        ]
+    }
+
+];
+
+/* =========================================
+   DEVELOPMENT TOOLS
+   ========================================= */
+
+const developmentTools = [
+
+    {
+        name: "Visual Studio",
+        shortName: "VS",
+        image: "Images/Icons/VisualStudio_ICON.png",
+        comfort: 9,
+
+        projects: [
+            "Schedule Creator V2",
+            "C# Desktop Applications",
+            "Sun Life DentaQuest Development"
+        ]
+    },
+
+    {
+        name: "Visual Studio Code",
+        shortName: "VSC",
+        image: "Images/Icons/VisualStudioCode_ICON.png",
+        comfort: 9,
+
+        projects: [
+            "Professional Website",
+            "Knightfall Protocols",
+            "Web & TypeScript Projects"
+        ]
+    },
+
+    {
+        name: "Git",
+        shortName: "GIT",
+        image: "Images/Icons/Git_ICON.png",
+        comfort: 8,
+
+        projects: [
+            "Schedule Creator V2",
+            "The Ultimate Easter Egg Guide",
+            "Professional Website"
+        ]
+    },
+
+    {
+        name: "GitHub",
+        shortName: "GH",
+        image: "Images/Icons/GitHub_ICON.png",
+        comfort: 9,
+
+        projects: [
+            "Source Control",
+            "Project Collaboration",
+            "Portfolio Repositories"
+        ]
+    },
+
+    {
+        name: "SQL Server",
+        shortName: "SQL",
+        image: "Images/Icons/SSMS_ICON.png",
+        comfort: 8,
+
+        projects: [
+            "Schedule Creator V2",
+            "Scheduling Database",
+            "Reporting & Tracking Queries"
+        ]
+    },
+
+    {
+        name: "Android Studio",
+        shortName: "AS",
+        image: "Images/Icons/AndroidStudio_ICON.png",
+        comfort: 8,
+
+        projects: [
+            "The Ultimate Easter Egg Guide",
+            "Android Application Development",
+            "Mobile UI Testing"
+        ]
+    },
+
+    {
+        name: "Xcode",
+        shortName: "XC",
+        image: "Images/Icons/Xcode_ICON.png",
+        comfort: 7,
+
+        projects: [
+            "MTG Pack Opener",
+            "SwiftUI Development",
+            "iOS Application Testing"
+        ]
+    },
+
+    {
+        name: "AI Development Tools",
+        shortName: "AI",
+        image: "Images/Icons/AI_ICON.png",
+        comfort: 9,
+
+        projects: [
+            "ChatGPT & Codex",
+            "GitHub Copilot",
+            "Development & Debugging Workflows"
+        ]
+    }
+
+];
+
+/* =========================================
+   ADDITIONAL SKILLS
+   ========================================= */
+
+const additionalSkills = [
+
+    {
+        name: "Technical Documentation",
+        shortName: "DOC",
+        image: "Images/Icons/TechnicalDocumentation_ICON.png",
+        comfort: 9,
+
+        projects: [
+            "UREC Workflow Documentation",
+            "Application Documentation",
+            "Training & Process Materials"
+        ]
+    },
+
+    {
+        name: "Troubleshooting",
+        shortName: "FIX",
+        image: "Images/Icons/Troubleshooting_ICON.png",
+        comfort: 9,
+
+        projects: [
+            "Software Debugging",
+            "Technical Operations",
+            "Hardware & Application Issues"
+        ]
+    },
+
+    {
+        name: "Leadership",
+        shortName: "LEAD",
+        image: "Images/Icons/Leadership_ICON.png",
+        comfort: 9,
+
+        projects: [
+            "UREC Lead Supervisor",
+            "404 Network Vice President",
+            "Staff Training & Scheduling"
+        ]
+    },
+
+    {
+        name: "Problem Solving",
+        shortName: "PS",
+        image: "Images/Icons/ProblemSolving_ICON.png",
+        comfort: 9,
+
+        projects: [
+            "Software Development",
+            "Workflow Automation",
+            "Operational Challenges"
+        ]
+    },
+
+    {
+        name: "Microsoft Office",
+        shortName: "MS",
+        image: "Images/Icons/MicrosoftOffice_ICON.png",
+        comfort: 9,
+
+        projects: [
+            "Excel Data & Reporting",
+            "Technical Documentation",
+            "Professional Communication"
         ]
     }
 
@@ -190,7 +375,8 @@ const frameworks = [
 
 function buildSkillCards(
     containerId,
-    skillList
+    skillList,
+    listLabel = "Used in"
 ) {
 
     const container =
@@ -423,7 +609,7 @@ function buildSkillCards(
 
 
             projectLabel.textContent =
-                "Used in";
+                listLabel;
 
 
             const projectList =
@@ -519,6 +705,33 @@ function buildFrameworkCards() {
     buildSkillCards(
         "frameworkCardGrid",
         frameworks
+    );
+
+}
+
+/* =========================================
+   BUILD TOOL CARDS
+   ========================================= */
+
+function buildToolsCards() {
+
+    buildSkillCards(
+        "toolsCardGrid",
+        developmentTools
+    );
+
+}
+
+/* =========================================
+   BUILD ADDITIONAL SKILL CARDS
+   ========================================= */
+
+function buildAdditionalSkillsCards() {
+
+    buildSkillCards(
+        "additionalSkillsCardGrid",
+        additionalSkills,
+        "Demonstrated through"
     );
 
 }

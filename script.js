@@ -440,4 +440,8 @@ buildProgrammingLanguageCards();
 
 buildFrameworkCards();
 
+buildToolsCards();
+
+buildAdditionalSkillsCards();
+
 openPage("home");
