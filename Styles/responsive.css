@@ -1,0 +1,215 @@
+/* =========================================
+   1000PX
+   ========================================= */
+
+@media (max-width: 1000px) {
+
+    .quick-info-grid,
+    .featured-project-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .info-card {
+        min-height: auto;
+    }
+
+
+    .project-preview {
+        min-height: 220px;
+    }
+
+}
+
+
+/* =========================================
+   900PX
+   ========================================= */
+
+@media (max-width: 900px) {
+
+    :root {
+        --sidebar-width: 215px;
+    }
+
+
+    .top-bar {
+        grid-template-columns:
+            1fr
+            minmax(250px, 1.5fr)
+            auto;
+    }
+
+
+    .status-text {
+        display: none;
+    }
+
+}
+
+
+/* =========================================
+   800PX
+   ========================================= */
+
+@media (max-width: 800px) {
+
+    .personality-card {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================
+   700PX
+   ========================================= */
+
+@media (max-width: 700px) {
+
+    :root {
+        --sidebar-width: 72px;
+    }
+
+
+    .top-bar {
+        grid-template-columns:
+            1fr auto;
+
+        padding: 0 12px;
+    }
+
+
+    .top-bar-center {
+        display: none;
+    }
+
+
+    .app-title-sub {
+        display: none;
+    }
+
+
+    .sidebar {
+        padding: 16px 8px;
+    }
+
+
+    .profile-section {
+        justify-content: center;
+
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+
+    .profile-info {
+        display: none;
+    }
+
+
+    .profile-image {
+        width: 42px;
+        height: 42px;
+    }
+
+
+    .nav-item {
+        justify-content: center;
+
+        padding: 12px 8px;
+    }
+
+
+    .nav-item span:last-child {
+        display: none;
+    }
+
+
+    .nav-icon {
+        width: auto;
+    }
+
+
+    .nav-item.active::before {
+        height: 28px;
+    }
+
+
+    .workspace-header {
+        padding: 16px 20px;
+    }
+
+
+    .workspace-tabs {
+        padding: 0 12px;
+    }
+
+
+    .workspace-content {
+        padding: 20px;
+    }
+
+
+    .sidebar-hover-card {
+        position: fixed;
+
+        top: 80px;
+        left: 84px;
+    }
+
+}
+
+
+/* =========================================
+   600PX
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .content-card {
+        padding: 20px;
+    }
+
+
+    .intro-card {
+        padding: 22px;
+    }
+
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
+
+    .profile-hover-card {
+        width: 300px;
+    }
+
+
+    .language-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .language-card {
+        min-height: auto;
+    }
+
+}
+
+
+/* =========================================
+   REDUCED MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .workspace-tab-indicator {
+        transition: none;
+    }
+
+}
