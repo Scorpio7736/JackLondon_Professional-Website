@@ -13,7 +13,7 @@ const certifications = [
             "Top Rope Belay",
 
         icon:
-            "Images/Icons/TopRopeBelay_ICON.png",
+            "Images/Icons/TopRopeCert_ICON.png",
 
         iconFallback:
             "TR",
