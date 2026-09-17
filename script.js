@@ -63,15 +63,20 @@ const workspaceContent =
     document.querySelector(".workspace-content");
 
 
-let activePageName = "home";
+let activePageName = null;
 let sectionObserver = null;
+
+let pageTransitionId = 0;
 
 
 /* =========================================
    OPEN PAGE
    ========================================= */
 
-function openPage(pageName) {
+function openPage(
+    pageName,
+    animate = false
+) {
 
     const selectedPage =
         document.querySelector(
@@ -84,28 +89,24 @@ function openPage(pageName) {
     }
 
 
-    activePageName = pageName;
+    /*
+        Ignore clicks on the page
+        already being displayed.
+    */
 
-
-    /* Hide all pages */
-
-    pages.forEach(page => {
-
-        page.classList.remove(
+    if (
+        pageName === activePageName &&
+        selectedPage.classList.contains(
             "active"
-        );
-
-    });
-
-
-    /* Show selected page */
-
-    selectedPage.classList.add(
-        "active"
-    );
+        )
+    ) {
+        return;
+    }
 
 
-    /* Update sidebar */
+    /*
+        Update sidebar immediately.
+    */
 
     pageNavigation.forEach(button => {
 
@@ -117,7 +118,9 @@ function openPage(pageName) {
     });
 
 
-    /* Update workspace header */
+    /*
+        Update workspace title.
+    */
 
     const config =
         pageConfig[pageName];
@@ -134,25 +137,124 @@ function openPage(pageName) {
     }
 
 
-    /* Reset scroll position */
+    /*
+        Create a new transition ID.
 
-    workspaceContent.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+        If the user clicks another page
+        quickly, old transitions are ignored.
+    */
+
+    pageTransitionId++;
+
+    const transitionId =
+        pageTransitionId;
 
 
-    /* Build page-specific tabs */
+    /* =====================================
+       SWITCH PAGE
+       ===================================== */
 
-    buildTabs(
-        selectedPage
+    const switchPage = () => {
+
+        if (
+            transitionId !==
+            pageTransitionId
+        ) {
+            return;
+        }
+
+
+        /*
+            Hide all pages.
+        */
+
+        pages.forEach(page => {
+
+            page.classList.remove(
+                "active"
+            );
+
+        });
+
+
+        /*
+            Show selected page.
+        */
+
+        selectedPage.classList.add(
+            "active"
+        );
+
+
+        activePageName =
+            pageName;
+
+
+        /*
+            Reset scroll position.
+        */
+
+        workspaceContent.scrollTop = 0;
+
+
+        /*
+            Build page-specific tabs.
+        */
+
+        buildTabs(
+            selectedPage
+        );
+
+
+        /*
+            Watch page sections.
+        */
+
+        setupSectionObserver(
+            selectedPage
+        );
+
+
+        /*
+            Fade workspace back in.
+        */
+
+        workspaceContent.classList.remove(
+            "workspace-switching"
+        );
+
+    };
+
+
+    /* =====================================
+       INITIAL LOAD
+       ===================================== */
+
+    if (!animate) {
+
+        switchPage();
+
+        return;
+    }
+
+
+    /* =====================================
+       FADE OUT WORKSPACE
+       ===================================== */
+
+    workspaceContent.classList.add(
+        "workspace-switching"
     );
 
 
-    /* Watch sections while scrolling */
+    /*
+        Wait for the short fade-out
+        before replacing the page.
+    */
 
-    setupSectionObserver(
-        selectedPage
+    setTimeout(
+        switchPage,
+        120
     );
 
 }
@@ -167,19 +269,29 @@ function buildTabs(page) {
     workspaceTabs.innerHTML = "";
 
 
-    /* Create sliding indicator */
+    /* =====================================
+       SLIDING INDICATOR
+       ===================================== */
 
     const indicator =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     indicator.classList.add(
         "workspace-tab-indicator"
     );
 
+
     workspaceTabs.appendChild(
         indicator
     );
 
+
+    /* =====================================
+       PAGE SECTIONS
+       ===================================== */
 
     const sections =
         page.querySelectorAll(
@@ -208,6 +320,10 @@ function buildTabs(page) {
             button.textContent =
                 section.dataset.tab;
 
+
+            /*
+                First section starts active.
+            */
 
             if (index === 0) {
 
@@ -238,7 +354,10 @@ function buildTabs(page) {
     );
 
 
-    /* Position indicator under first tab */
+    /*
+        Position indicator under
+        the first active tab.
+    */
 
     requestAnimationFrame(() => {
 
@@ -261,6 +380,7 @@ function buildTabs(page) {
 
 }
 
+
 /* =========================================
    MOVE TOP TAB INDICATOR
    ========================================= */
@@ -281,10 +401,6 @@ function moveTabIndicator(
     }
 
 
-    /*
-        Position relative to the tabs container.
-    */
-
     const containerRect =
         workspaceTabs.getBoundingClientRect();
 
@@ -298,11 +414,6 @@ function moveTabIndicator(
         containerRect.left +
         workspaceTabs.scrollLeft;
 
-
-    /*
-        Keep the underline slightly smaller
-        than the tab itself.
-    */
 
     const sidePadding = 12;
 
@@ -413,7 +524,7 @@ function setActiveTabBySection(
 
 
     /*
-        Slide indicator to new tab.
+        Slide indicator to active tab.
     */
 
     if (selectedTab) {
@@ -521,7 +632,8 @@ pageNavigation.forEach(
             () => {
 
                 openPage(
-                    button.dataset.page
+                    button.dataset.page,
+                    true
                 );
 
             }
@@ -543,7 +655,8 @@ internalPageLinks.forEach(
             () => {
 
                 openPage(
-                    button.dataset.page
+                    button.dataset.page,
+                    true
                 );
 
             }
@@ -558,7 +671,7 @@ internalPageLinks.forEach(
    ========================================= */
 
 /*
-    This function is defined
+    These functions are defined
     inside skills.js.
 */
 
@@ -570,4 +683,15 @@ buildToolsCards();
 
 buildAdditionalSkillsCards();
 
-openPage("home");
+
+/*
+    Start website on Home.
+
+    No animation is used during
+    initial page load.
+*/
+
+openPage(
+    "home",
+    false
+);

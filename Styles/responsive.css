@@ -212,4 +212,9 @@
         transition: none;
     }
 
+
+    .workspace-content {
+        transition: none;
+    }
+
 }

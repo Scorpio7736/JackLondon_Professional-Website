@@ -600,7 +600,8 @@ button.nav-item {
 
     background: var(--accent);
 
-    border-radius: 0 3px 3px 0;
+    border-radius:
+        0 3px 3px 0;
 }
 
 
@@ -631,7 +632,8 @@ button.nav-item {
 
     padding-top: 12px;
 
-    border-top: 1px solid var(--border);
+    border-top:
+        1px solid var(--border);
 }
 
 
@@ -667,7 +669,8 @@ button.nav-item {
 
     background: var(--surface);
 
-    border-bottom: 1px solid var(--border-soft);
+    border-bottom:
+        1px solid var(--border-soft);
 }
 
 
@@ -713,9 +716,18 @@ button.nav-item {
 
     background: var(--surface);
 
-    border-bottom: 1px solid var(--border);
+    border-bottom:
+        1px solid var(--border);
 
     overflow-x: auto;
+    overflow-y: hidden;
+
+    scrollbar-width: none;
+}
+
+
+.workspace-tabs::-webkit-scrollbar {
+    display: none;
 }
 
 
@@ -796,6 +808,29 @@ button.nav-item {
             var(--surface) 0%,
             #25242a 100%
         );
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+    transition:
+        opacity 120ms ease,
+        transform 120ms ease;
+}
+
+
+/* =========================================
+   WORKSPACE PAGE TRANSITION
+   ========================================= */
+
+.workspace-content.workspace-switching {
+    opacity: 0;
+
+    transform:
+        translateY(4px);
+
+    pointer-events: none;
 }
 
 
@@ -846,9 +881,11 @@ button.nav-item {
 .workspace-content::-webkit-scrollbar-thumb {
     background: #46454d;
 
-    border: 3px solid transparent;
+    border:
+        3px solid transparent;
 
-    background-clip: padding-box;
+    background-clip:
+        padding-box;
 
     border-radius: 10px;
 }
@@ -857,7 +894,9 @@ button.nav-item {
 .workspace-content::-webkit-scrollbar-thumb:hover {
     background: #56555e;
 
-    border: 3px solid transparent;
+    border:
+        3px solid transparent;
 
-    background-clip: padding-box;
+    background-clip:
+        padding-box;
 }
