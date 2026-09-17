@@ -1,552 +1,1319 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Jack London — Under Construction</title>
+    <title>Jack London | Software Engineer</title>
 
-    <meta
-        name="description"
-        content="Jack London's professional portfolio is currently under construction."
-    >
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="icon"
-        href="Images/Icons/ResumeWebsite_ICON.png"
-    >
-
-    <style>
-
-        /* =========================================================
-           VARIABLES
-           ========================================================= */
-
-        :root {
-            --bg: #0b1120;
-            --bg-soft: #0f172a;
-            --card: #111827;
-
-            --text: #e5e7eb;
-            --muted: #9ca3af;
-
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --accent-soft: rgba(59, 130, 246, 0.15);
-
-            --border: #1f2937;
-
-            --shadow:
-                0 22px 55px rgba(0, 0, 0, 0.45);
-        }
-
-
-        /* =========================================================
-           BASE
-           ========================================================= */
-
-        * {
-            box-sizing: border-box;
-        }
-
-
-        html,
-        body {
-            min-height: 100%;
-        }
-
-
-        body {
-            margin: 0;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            min-height: 100vh;
-
-            padding: 2rem;
-
-            font-family:
-                system-ui,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-
-            color: var(--text);
-
-            background:
-                radial-gradient(
-                    circle at top,
-                    rgba(59, 130, 246, 0.16),
-                    transparent 45%
-                ),
-                radial-gradient(
-                    circle at bottom,
-                    rgba(37, 99, 235, 0.08),
-                    transparent 45%
-                ),
-                var(--bg);
-        }
-
-
-        /* =========================================================
-           CARD
-           ========================================================= */
-
-        .construction-card {
-            width: min(100%, 760px);
-
-            padding: 3.5rem 3rem;
-
-            text-align: center;
-
-            background:
-                radial-gradient(
-                    circle at top,
-                    rgba(59, 130, 246, 0.10),
-                    transparent 55%
-                ),
-                var(--card);
-
-            border:
-                1px solid var(--border);
-
-            border-radius:
-                22px;
-
-            box-shadow:
-                var(--shadow);
-
-            animation:
-                fadeIn 0.6s ease;
-        }
-
-
-        /* =========================================================
-           LOGO
-           ========================================================= */
-
-        .logo {
-            width: 110px;
-            height: 110px;
-
-            margin-bottom: 1.75rem;
-
-            object-fit: contain;
-
-            border-radius: 50%;
-
-            box-shadow:
-                0 16px 35px rgba(0, 0, 0, 0.35);
-        }
-
-
-        /* =========================================================
-           TEXT
-           ========================================================= */
-
-        .eyebrow {
-            margin:
-                0 0 0.75rem;
-
-            color:
-                var(--accent);
-
-            font-family:
-                "Orbitron",
-                sans-serif;
-
-            font-size:
-                0.8rem;
-
-            font-weight:
-                700;
-
-            letter-spacing:
-                0.18em;
-
-            text-transform:
-                uppercase;
-        }
-
-
-        h1 {
-            margin:
-                0 0 1rem;
-
-            font-family:
-                "Orbitron",
-                sans-serif;
-
-            font-size:
-                clamp(2rem, 5vw, 3.4rem);
-
-            line-height:
-                1.15;
-        }
-
-
-        .accent {
-            color:
-                var(--accent);
-        }
-
-
-        .description {
-            max-width:
-                580px;
-
-            margin:
-                0 auto;
-
-            color:
-                var(--muted);
-
-            font-size:
-                1.05rem;
-
-            line-height:
-                1.75;
-        }
-
-
-        /* =========================================================
-           STATUS
-           ========================================================= */
-
-        .status {
-            display:
-                inline-flex;
-
-            align-items:
-                center;
-
-            gap:
-                0.65rem;
-
-            margin-top:
-                2rem;
-
-            padding:
-                0.65rem 1rem;
-
-            color:
-                var(--text);
-
-            background:
-                var(--accent-soft);
-
-            border:
-                1px solid rgba(59, 130, 246, 0.35);
-
-            border-radius:
-                999px;
-
-            font-size:
-                0.9rem;
-        }
-
-
-        .status-dot {
-            width:
-                9px;
-
-            height:
-                9px;
-
-            border-radius:
-                50%;
-
-            background:
-                var(--accent);
-
-            box-shadow:
-                0 0 12px var(--accent);
-
-            animation:
-                pulse 1.8s infinite;
-        }
-
-
-        /* =========================================================
-           LINKS
-           ========================================================= */
-
-        .links {
-            display:
-                flex;
-
-            flex-wrap:
-                wrap;
-
-            justify-content:
-                center;
-
-            gap:
-                0.8rem;
-
-            margin-top:
-                2.2rem;
-        }
-
-
-        .btn {
-            display:
-                inline-flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            padding:
-                0.8rem 1.25rem;
-
-            color:
-                var(--text);
-
-            text-decoration:
-                none;
-
-            font-weight:
-                600;
-
-            border:
-                1px solid #374151;
-
-            border-radius:
-                999px;
-
-            background:
-                var(--bg-soft);
-
-            transition:
-                transform 0.15s ease,
-                background 0.15s ease,
-                border-color 0.15s ease;
-        }
-
-
-        .btn:hover {
-            transform:
-                translateY(-2px);
-
-            border-color:
-                var(--accent);
-        }
-
-
-        .btn.primary {
-            color:
-                #ffffff;
-
-            background:
-                var(--accent);
-
-            border-color:
-                var(--accent);
-        }
-
-
-        .btn.primary:hover {
-            background:
-                var(--accent-hover);
-        }
-
-
-        /* =========================================================
-           FOOTER
-           ========================================================= */
-
-        .footer {
-            margin-top:
-                2.5rem;
-
-            color:
-                #6b7280;
-
-            font-size:
-                0.8rem;
-        }
-
-
-        /* =========================================================
-           ANIMATIONS
-           ========================================================= */
-
-        @keyframes fadeIn {
-
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-        }
-
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.4;
-            }
-
-        }
-
-
-        /* =========================================================
-           MOBILE
-           ========================================================= */
-
-        @media (max-width: 600px) {
-
-            body {
-                padding: 1rem;
-            }
-
-
-            .construction-card {
-                padding:
-                    2.5rem 1.5rem;
-            }
-
-
-            .logo {
-                width:
-                    90px;
-
-                height:
-                    90px;
-            }
-
-
-            .links {
-                flex-direction:
-                    column;
-            }
-
-
-            .btn {
-                width:
-                    100%;
-            }
-
-        }
-
-    </style>
-
+    <link rel="stylesheet" href="stylesheet.css">
 </head>
-
 
 <body>
 
-    <main class="construction-card">
+<div class="app-shell">
 
-        <img
-            class="logo"
-            src="Images/Icons/Headshot_ICON.png"
-            alt="Jack London Logo"
-        >
+    <!-- ======================================
+         TOP BAR
+         ====================================== -->
 
+    <header class="top-bar">
 
-        <p class="eyebrow">
-            Jack London
-        </p>
+        <div class="top-bar-left">
 
-
-        <h1>
-            Portfolio
-            <span class="accent">
-                Under Construction
-            </span>
-        </h1>
-
-
-        <p class="description">
-            My professional portfolio is currently being rebuilt and expanded.
-            New project pages, updated experience, and additional development
-            work are being added.
-        </p>
-
-
-        <div class="status">
-
-            <span class="status-dot"></span>
-
-            Website Update In Progress
+            <div class="app-title">
+                <span class="app-title-main">Jack London</span>
+                <span class="app-title-sub">Portfolio</span>
+            </div>
 
         </div>
 
 
-        <div class="links">
+        <div class="top-bar-center">
 
-            <a
-                class="btn primary"
-                href="Resume.pdf"
-                target="_blank"
-                rel="noopener"
-            >
-                View Résumé
-            </a>
+            <div class="search-box">
 
+                <span class="search-icon">⌕</span>
 
-            <a
-                class="btn"
-                href="https://github.com/Scorpio7736"
-                target="_blank"
-                rel="noopener"
-            >
-                GitHub ↗
-            </a>
+                <input
+                    type="text"
+                    placeholder="Search portfolio..."
+                    aria-label="Search portfolio"
+                >
 
-
-            <a
-                class="btn"
-                href="https://www.linkedin.com/in/jack-london-8a4001220"
-                target="_blank"
-                rel="noopener"
-            >
-                LinkedIn ↗
-            </a>
+            </div>
 
         </div>
 
 
-        <p class="footer">
-            © <span id="year"></span> Jack London. All rights reserved.
-        </p>
+        <div class="top-bar-right">
 
-    </main>
+            <div class="status">
+                <span class="status-dot"></span>
+                <span class="status-text">Available</span>
+            </div>
+
+        </div>
+
+    </header>
 
 
-    <script>
+    <!-- ======================================
+         APP BODY
+         ====================================== -->
 
-        document.getElementById("year").textContent =
-            new Date().getFullYear();
+    <div class="app-body">
 
-    </script>
+
+        <!-- ==================================
+             LEFT SIDEBAR
+             ================================== -->
+
+        <aside class="sidebar">
+
+
+            <!-- ==================================
+                 PROFILE
+                 ================================== -->
+
+            <div class="profile-section">
+
+
+                <div class="profile-hover-container sidebar-profile-hover">
+
+
+                    <div class="profile-image-wrapper">
+
+                        <img
+                            src="Images/Icons/Headshot_ICON.png"
+                            alt="Jack London"
+                            class="profile-image"
+                            tabindex="0"
+                        >
+
+                        <span class="profile-status"></span>
+
+                    </div>
+
+
+                    <!-- =========================
+                         PROFILE HOVER CARD
+                         ========================= -->
+
+                    <div class="profile-hover-card sidebar-hover-card">
+
+
+                        <div class="hover-card-header">
+
+                            <div class="hover-card-image-wrapper">
+
+                                <img
+                                    src="Images/Icons/Headshot_ICON.png"
+                                    alt="Jack London"
+                                    class="hover-card-image"
+                                >
+
+                                <span class="hover-card-status-dot"></span>
+
+                            </div>
+
+
+                            <div class="hover-card-identity">
+
+                                <h3>Jack London</h3>
+
+                                <p>Software Engineering</p>
+
+                                <div class="hover-status">
+                                    <span class="status-dot"></span>
+                                    Available
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="hover-card-divider"></div>
+
+
+                        <div class="hover-card-details">
+
+                            <div class="hover-detail">
+
+                                <span class="hover-detail-label">
+                                    University
+                                </span>
+
+                                <span>
+                                    University of Wisconsin–Green Bay
+                                </span>
+
+                            </div>
+
+
+                            <div class="hover-detail">
+
+                                <span class="hover-detail-label">
+                                    Major
+                                </span>
+
+                                <span>
+                                    Computer Science – Software Engineering
+                                </span>
+
+                            </div>
+
+
+                            <div class="hover-detail">
+
+                                <span class="hover-detail-label">
+                                    Location
+                                </span>
+
+                                <span>
+                                    Green Bay, Wisconsin
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="hover-card-divider"></div>
+
+
+                        <div class="hover-card-links">
+
+                            <a href="mailto:Jack@thelondons.com">
+                                Email
+                            </a>
+
+                            <a
+                                href="https://github.com/Scorpio7736/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                GitHub
+                            </a>
+
+                            <a
+                                href="https://linkedin.com/in/jack-london-8a4001220"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                LinkedIn
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-info">
+
+                    <h1>Jack London</h1>
+
+                    <p>Software Engineering</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="sidebar-divider"></div>
+
+
+            <!-- ==================================
+                 MAIN NAVIGATION
+                 ================================== -->
+
+            <nav class="sidebar-nav">
+
+                <button
+                    class="nav-item page-nav active"
+                    data-page="home"
+                    type="button"
+                >
+                    <span class="nav-icon">&lt;/&gt;</span>
+                    <span>Home</span>
+                </button>
+
+
+                <button
+                    class="nav-item page-nav"
+                    data-page="skills"
+                    type="button"
+                >
+                    <span class="nav-icon">{ }</span>
+                    <span>Skills</span>
+                </button>
+
+
+                <button
+                    class="nav-item page-nav"
+                    data-page="experience"
+                    type="button"
+                >
+                    <span class="nav-icon">▣</span>
+                    <span>Experience</span>
+                </button>
+
+
+                <button
+                    class="nav-item page-nav"
+                    data-page="projects"
+                    type="button"
+                >
+                    <span class="nav-icon">⌘</span>
+                    <span>Projects</span>
+                </button>
+
+
+                <button
+                    class="nav-item page-nav"
+                    data-page="education"
+                    type="button"
+                >
+                    <span class="nav-icon">▤</span>
+                    <span>Education</span>
+                </button>
+
+
+                <button
+                    class="nav-item page-nav"
+                    data-page="activities"
+                    type="button"
+                >
+                    <span class="nav-icon">◎</span>
+                    <span>Activities</span>
+                </button>
+
+            </nav>
+
+
+            <!-- ==================================
+                 BOTTOM LINKS
+                 ================================== -->
+
+            <div class="sidebar-bottom">
+
+                <a
+                    href="https://github.com/Scorpio7736/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">GH</span>
+                    <span>GitHub</span>
+                </a>
+
+
+                <a
+                    href="https://linkedin.com/in/jack-london-8a4001220"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">in</span>
+                    <span>LinkedIn</span>
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ==================================
+             MAIN WORKSPACE
+             ================================== -->
+
+        <main class="workspace">
+
+
+            <!-- ==================================
+                 WORKSPACE HEADER
+                 ================================== -->
+
+            <div class="workspace-header">
+
+                <div>
+
+                    <span
+                        class="workspace-path"
+                        id="workspacePath"
+                    >
+                        jack.london / portfolio / home
+                    </span>
+
+                    <h2 id="workspaceTitle">
+                        Home
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- ==================================
+                 DYNAMIC WORKSPACE TABS
+                 ================================== -->
+
+            <div
+                class="workspace-tabs"
+                id="workspaceTabs"
+            ></div>
+
+
+            <!-- ==================================
+                 WORKSPACE CONTENT
+                 ================================== -->
+
+            <section class="workspace-content">
+
+
+                <!-- =========================================
+                     HOME PAGE
+                     ========================================= -->
+
+                <section
+                    class="page-view active"
+                    id="page-home"
+                    data-page="home"
+                >
+
+
+                    <!-- ==================================
+                         HOME - OVERVIEW
+                         ================================== -->
+
+                    <section
+                        class="page-section"
+                        id="home-overview"
+                        data-tab="Overview"
+                    >
+
+                        <section class="content-card intro-card">
+
+                            <div class="card-header">
+
+                                <div class="card-avatar">
+
+                                    <img
+                                        src="Images/Icons/Headshot_ICON.png"
+                                        alt="Jack London"
+                                    >
+
+                                </div>
+
+                                <div>
+
+                                    <h3>Jack London</h3>
+
+                                    <p>
+                                        Software Engineering · UW–Green Bay
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="intro-content">
+
+                                <h1>
+                                    Building useful software,
+                                    automating repetitive work,
+                                    and occasionally making things
+                                    just because they're cool.
+                                </h1>
+
+                                <p>
+                                    I'm a Computer Science student at the
+                                    University of Wisconsin–Green Bay with an
+                                    emphasis in Software Engineering. I enjoy
+                                    designing practical applications,
+                                    solving real-world problems, and
+                                    experimenting with new technologies.
+                                </p>
+
+                                <p>
+                                    My experience ranges from C# desktop
+                                    applications and automation tools to
+                                    mobile development, databases, embedded
+                                    systems, and web development.
+                                </p>
+
+                            </div>
+
+
+                            <div class="intro-actions">
+
+                                <button
+                                    class="primary-button internal-page-link"
+                                    data-page="projects"
+                                    type="button"
+                                >
+                                    View Projects
+                                </button>
+
+                                <button
+                                    class="secondary-button internal-page-link"
+                                    data-page="experience"
+                                    type="button"
+                                >
+                                    Experience
+                                </button>
+
+                                <a
+                                    href="mailto:Jack@thelondons.com"
+                                    class="secondary-button"
+                                >
+                                    Contact Me
+                                </a>
+
+                            </div>
+
+                        </section>
+
+                    </section>
+
+
+                    <!-- ==================================
+                         HOME - HIGHLIGHTS
+                         ================================== -->
+
+                    <section
+                        class="page-section"
+                        id="home-highlights"
+                        data-tab="Highlights"
+                    >
+
+                        <div class="quick-info-grid">
+
+
+                            <article class="info-card">
+
+                                <span class="info-label">
+                                    CURRENT
+                                </span>
+
+                                <h3>UW–Green Bay</h3>
+
+                                <p>
+                                    Computer Science
+                                </p>
+
+                                <span class="info-subtext">
+                                    Software Engineering emphasis
+                                </span>
+
+                            </article>
+
+
+                            <article class="info-card">
+
+                                <span class="info-label">
+                                    EXPERIENCE
+                                </span>
+
+                                <h3>Sun Life DentaQuest</h3>
+
+                                <p>
+                                    IT Service & Delivery Intern
+                                </p>
+
+                                <span class="info-subtext">
+                                    C# automation · FHIR API · Internal tools
+                                </span>
+
+                            </article>
+
+
+                            <article class="info-card">
+
+                                <span class="info-label">
+                                    LEADERSHIP
+                                </span>
+
+                                <h3>UREC Climbing Tower</h3>
+
+                                <p>
+                                    Lead Supervisor
+                                </p>
+
+                                <span class="info-subtext">
+                                    Operations · Training · Scheduling · Safety
+                                </span>
+
+                            </article>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- ==================================
+                         HOME - TECHNOLOGIES
+                         ================================== -->
+
+                    <section
+                        class="page-section"
+                        id="home-technologies"
+                        data-tab="Technologies"
+                    >
+
+                        <section class="content-card">
+
+                            <div class="section-heading">
+
+                                <div>
+
+                                    <span class="section-eyebrow">
+                                        stack.config
+                                    </span>
+
+                                    <h2>
+                                        Technologies I Work With
+                                    </h2>
+
+                                </div>
+
+
+                                <button
+                                    class="section-link internal-page-link"
+                                    data-page="skills"
+                                    type="button"
+                                >
+                                    View all skills →
+                                </button>
+
+                            </div>
+
+
+                            <div class="technology-list">
+
+                                <span class="technology-tag">C#</span>
+                                <span class="technology-tag">Java</span>
+                                <span class="technology-tag">Python</span>
+                                <span class="technology-tag">SQL</span>
+                                <span class="technology-tag">Swift</span>
+
+                                <span class="technology-tag">.NET</span>
+                                <span class="technology-tag">XAML</span>
+                                <span class="technology-tag">SwiftUI</span>
+
+                                <span class="technology-tag">HTML</span>
+                                <span class="technology-tag">CSS</span>
+                                <span class="technology-tag">Git</span>
+
+                            </div>
+
+                        </section>
+
+                    </section>
+
+
+                    <!-- ==================================
+                         HOME - FEATURED PROJECTS
+                         ================================== -->
+
+                    <section
+                        class="page-section"
+                        id="home-projects"
+                        data-tab="Featured Projects"
+                    >
+
+                        <section class="content-card">
+
+                            <div class="section-heading">
+
+                                <div>
+
+                                    <span class="section-eyebrow">
+                                        ~/projects
+                                    </span>
+
+                                    <h2>
+                                        Featured Projects
+                                    </h2>
+
+                                </div>
+
+
+                                <button
+                                    class="section-link internal-page-link"
+                                    data-page="projects"
+                                    type="button"
+                                >
+                                    Browse projects →
+                                </button>
+
+                            </div>
+
+
+                            <div class="featured-project-grid">
+
+
+                                <article class="project-preview">
+
+                                    <div class="project-preview-header">
+
+                                        <span class="project-icon">
+                                            &lt;/&gt;
+                                        </span>
+
+                                        <span class="project-status">
+                                            Active
+                                        </span>
+
+                                    </div>
+
+                                    <h3>
+                                        Schedule Creator V2
+                                    </h3>
+
+                                    <p>
+                                        A scheduling and workforce management
+                                        application designed to handle employee
+                                        availability, schedules, days off, and
+                                        operational workflows.
+                                    </p>
+
+                                    <div class="project-technologies">
+
+                                        <span>C#</span>
+                                        <span>WPF</span>
+                                        <span>XAML</span>
+                                        <span>SQL</span>
+
+                                    </div>
+
+                                </article>
+
+
+                                <article class="project-preview">
+
+                                    <div class="project-preview-header">
+
+                                        <span class="project-icon">
+                                            AND
+                                        </span>
+
+                                        <span class="project-status">
+                                            Mobile
+                                        </span>
+
+                                    </div>
+
+                                    <h3>
+                                        The Ultimate Easter Egg Guide
+                                    </h3>
+
+                                    <p>
+                                        An Android application for exploring
+                                        Call of Duty Zombies maps, Easter Eggs,
+                                        strategies, rewards, and supporting
+                                        tools.
+                                    </p>
+
+                                    <div class="project-technologies">
+
+                                        <span>Java</span>
+                                        <span>Android</span>
+                                        <span>UI/UX</span>
+
+                                    </div>
+
+                                </article>
+
+
+                                <article class="project-preview">
+
+                                    <div class="project-preview-header">
+
+                                        <span class="project-icon">
+                                            iOS
+                                        </span>
+
+                                        <span class="project-status">
+                                            Swift
+                                        </span>
+
+                                    </div>
+
+                                    <h3>
+                                        MTG Pack Opener
+                                    </h3>
+
+                                    <p>
+                                        A SwiftUI application for opening
+                                        simulated Magic: The Gathering booster
+                                        packs and managing card collections
+                                        across multiple profiles.
+                                    </p>
+
+                                    <div class="project-technologies">
+
+                                        <span>Swift</span>
+                                        <span>SwiftUI</span>
+                                        <span>iOS</span>
+
+                                    </div>
+
+                                </article>
+
+                            </div>
+
+                        </section>
+
+                    </section>
+
+
+                    <!-- ==================================
+                         HOME - PERSONAL
+                         ================================== -->
+
+                    <section
+                        class="page-section"
+                        id="home-personal"
+                        data-tab="More Than Code"
+                    >
+
+                        <section class="content-card personality-card">
+
+                            <div>
+
+                                <span class="section-eyebrow">
+                                    jack.exe
+                                </span>
+
+                                <h2>
+                                    More Than Code
+                                </h2>
+
+                                <p>
+                                    Outside of software development, I enjoy
+                                    climbing, outdoor recreation,
+                                    blacksmithing, metalworking, hardware
+                                    projects, and finding new technologies
+                                    to experiment with.
+                                </p>
+
+                            </div>
+
+
+                            <div class="personality-code">
+
+                                <span class="code-comment">
+                                    // current interests
+                                </span>
+
+                                <span>
+                                    developer.climbing = true;
+                                </span>
+
+                                <span>
+                                    developer.blacksmithing = true;
+                                </span>
+
+                                <span>
+                                    developer.hardware = true;
+                                </span>
+
+                                <span>
+                                    developer.sideProjects = Infinity;
+                                </span>
+
+                            </div>
+
+                        </section>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =========================================
+                     SKILLS PAGE
+                     ========================================= -->
+
+                <section
+                    class="page-view"
+                    id="page-skills"
+                    data-page="skills"
+                >
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="skills-languages"
+                        data-tab="Languages"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                skills.languages
+                            </span>
+
+                            <h2>Programming Languages</h2>
+
+                            <p class="placeholder-text">
+                                Programming language details will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="skills-frameworks"
+                        data-tab="Frameworks"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                skills.frameworks
+                            </span>
+
+                            <h2>Frameworks & UI</h2>
+
+                            <p class="placeholder-text">
+                                Framework and UI development details will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="skills-tools"
+                        data-tab="Tools"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                skills.tools
+                            </span>
+
+                            <h2>Tools & Development Environment</h2>
+
+                            <p class="placeholder-text">
+                                Development tools and platforms will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="skills-other"
+                        data-tab="Other Skills"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                skills.other
+                            </span>
+
+                            <h2>Additional Skills</h2>
+
+                            <p class="placeholder-text">
+                                Leadership, documentation, troubleshooting,
+                                and additional professional skills will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =========================================
+                     EXPERIENCE PAGE
+                     ========================================= -->
+
+                <section
+                    class="page-view"
+                    id="page-experience"
+                    data-page="experience"
+                >
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="experience-dentaquest"
+                        data-tab="DentaQuest"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                experience.2026
+                            </span>
+
+                            <h2>Sun Life DentaQuest</h2>
+
+                            <p class="placeholder-text">
+                                IT Service & Delivery Internship details will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="experience-urec"
+                        data-tab="UREC"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                experience.current
+                            </span>
+
+                            <h2>UREC Climbing Tower</h2>
+
+                            <p class="placeholder-text">
+                                Lead Supervisor experience will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="experience-ashwaubenon"
+                        data-tab="Ashwaubenon"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                experience.current
+                            </span>
+
+                            <h2>Ashwaubenon Community Center</h2>
+
+                            <p class="placeholder-text">
+                                Building Supervisor experience will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="experience-scoop"
+                        data-tab="Scoop DeVille"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                experience.previous
+                            </span>
+
+                            <h2>Scoop DeVille</h2>
+
+                            <p class="placeholder-text">
+                                Shift Leader experience will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =========================================
+                     PROJECTS PAGE
+                     ========================================= -->
+
+                <section
+                    class="page-view"
+                    id="page-projects"
+                    data-page="projects"
+                >
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="projects-featured"
+                        data-tab="Featured"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                projects.featured
+                            </span>
+
+                            <h2>Featured Projects</h2>
+
+                            <p class="placeholder-text">
+                                Primary portfolio projects will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="projects-desktop"
+                        data-tab="Desktop"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                projects.desktop
+                            </span>
+
+                            <h2>Desktop Applications</h2>
+
+                            <p class="placeholder-text">
+                                C# and desktop application projects will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="projects-mobile"
+                        data-tab="Mobile"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                projects.mobile
+                            </span>
+
+                            <h2>Mobile Applications</h2>
+
+                            <p class="placeholder-text">
+                                Android and iOS projects will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="projects-hardware"
+                        data-tab="Hardware"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                projects.hardware
+                            </span>
+
+                            <h2>Hardware & Embedded Systems</h2>
+
+                            <p class="placeholder-text">
+                                ESP32 and hardware projects will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="projects-other"
+                        data-tab="Other"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                projects.experimental
+                            </span>
+
+                            <h2>Experiments & Side Projects</h2>
+
+                            <p class="placeholder-text">
+                                Experimental and smaller projects will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =========================================
+                     EDUCATION PAGE
+                     ========================================= -->
+
+                <section
+                    class="page-view"
+                    id="page-education"
+                    data-page="education"
+                >
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="education-uwgb"
+                        data-tab="UW–Green Bay"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                education.university
+                            </span>
+
+                            <h2>University of Wisconsin–Green Bay</h2>
+
+                            <p class="placeholder-text">
+                                Computer Science and Software Engineering
+                                education details will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="education-certifications"
+                        data-tab="Certifications"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                education.certifications
+                            </span>
+
+                            <h2>Certifications</h2>
+
+                            <p class="placeholder-text">
+                                Certification details will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="education-other"
+                        data-tab="Other Education"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                education.other
+                            </span>
+
+                            <h2>Additional Education</h2>
+
+                            <p class="placeholder-text">
+                                Apprenticeships and additional educational
+                                experience will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =========================================
+                     ACTIVITIES PAGE
+                     ========================================= -->
+
+                <section
+                    class="page-view"
+                    id="page-activities"
+                    data-page="activities"
+                >
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="activities-404"
+                        data-tab="404 Network"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                activities.404
+                            </span>
+
+                            <h2>404 Network (Club Not Found)</h2>
+
+                            <p class="placeholder-text">
+                                Computer Science club leadership and activities
+                                will go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="activities-outdoors"
+                        data-tab="Outdoors"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                activities.outdoors
+                            </span>
+
+                            <h2>Outdoor Recreation</h2>
+
+                            <p class="placeholder-text">
+                                Climbing and outdoor recreation interests will
+                                go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="page-section placeholder-section"
+                        id="activities-blacksmithing"
+                        data-tab="Blacksmithing"
+                    >
+
+                        <div class="content-card">
+                            <span class="section-eyebrow">
+                                activities.blacksmithing
+                            </span>
+
+                            <h2>Blacksmithing & Metalwork</h2>
+
+                            <p class="placeholder-text">
+                                Blacksmithing and metalworking experience will
+                                go here.
+                            </p>
+                        </div>
+
+                    </section>
+
+                </section>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     JAVASCRIPT
+     ========================================= -->
+
+<script src="script.js"></script>
 
 </body>
-
 </html>
