@@ -1,0 +1,507 @@
+/* =========================================
+   PROJECT PAGE
+   ========================================= */
+
+.project-list {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+
+/* =========================================
+   PROJECT CARD
+   ========================================= */
+
+.project-card {
+    width: 100%;
+
+    padding: 28px;
+
+    background:
+        var(--surface-secondary);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 2px 8px rgba(
+            0,
+            0,
+            0,
+            0.12
+        );
+
+    transition:
+        border-color 160ms ease,
+        background 160ms ease;
+}
+
+
+.project-card:hover {
+    border-color:
+        #4c4b55;
+}
+
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.project-card-header {
+    margin-bottom: 24px;
+}
+
+
+.project-card-eyebrow {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color:
+        var(--accent-light);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size: 0.7rem;
+}
+
+
+.project-card-header h2 {
+    margin-bottom: 10px;
+
+    font-size:
+        clamp(
+            1.4rem,
+            2.4vw,
+            2rem
+        );
+
+    font-weight: 600;
+
+    line-height: 1.2;
+
+    letter-spacing:
+        -0.025em;
+}
+
+
+.project-card-header p {
+    max-width: 850px;
+
+    color:
+        var(--text-secondary);
+
+    font-size: 0.9rem;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================
+   INNER GRID
+   ========================================= */
+
+.project-inner-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(250px, 0.8fr)
+        minmax(0, 1.5fr);
+
+    gap: 12px;
+}
+
+
+/* =========================================
+   INNER CELL
+   ========================================= */
+
+.project-inner-cell {
+    min-width: 0;
+
+    padding: 20px;
+
+    background:
+        #25242a;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 7px;
+
+    transition:
+        background 150ms ease,
+        border-color 150ms ease;
+}
+
+
+.project-inner-cell:hover {
+    background:
+        var(--surface-hover);
+
+    border-color:
+        #55545e;
+}
+
+
+.project-cell-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color:
+        var(--text-muted);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size: 0.63rem;
+    font-weight: 600;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.08em;
+}
+
+
+.project-inner-cell h3 {
+    margin-bottom: 17px;
+
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   STACK
+   ========================================= */
+
+.project-stack-tags {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 8px;
+}
+
+
+.project-stack-tags span {
+    padding:
+        7px 10px;
+
+    color:
+        var(--accent-light);
+
+    background:
+        var(--surface-secondary);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 5px;
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size: 0.73rem;
+}
+
+
+/* =========================================
+   WHAT I LEARNED
+   ========================================= */
+
+.project-learned-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    list-style: none;
+}
+
+
+.project-learned-list li {
+    position: relative;
+
+    padding-left: 17px;
+
+    color:
+        var(--text-secondary);
+
+    font-size: 0.84rem;
+
+    line-height: 1.55;
+}
+
+
+.project-learned-list li::before {
+    content: "›";
+
+    position: absolute;
+
+    left: 0;
+
+    color:
+        var(--accent-light);
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   GALLERY
+   ========================================= */
+
+.project-gallery-cell {
+    grid-column:
+        1 / -1;
+}
+
+
+.project-gallery {
+    display: grid;
+
+    gap: 10px;
+}
+
+
+.project-gallery-1 {
+    grid-template-columns:
+        minmax(0, 1fr);
+}
+
+
+.project-gallery-2 {
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+}
+
+
+.project-gallery-3 {
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0, 1fr)
+        );
+}
+
+
+.project-gallery-image {
+    width: 100%;
+
+    aspect-ratio:
+        16 / 9;
+
+    background:
+        var(--surface-secondary);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 6px;
+
+    overflow: hidden;
+}
+
+
+.project-gallery-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+        transform 180ms ease;
+}
+
+
+.project-gallery-image:hover img {
+    transform:
+        scale(1.025);
+}
+
+
+/* =========================================
+   LINKS
+   ========================================= */
+
+.project-links {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 16px;
+
+    padding-top: 16px;
+
+    border-top:
+        1px solid var(--border);
+}
+
+
+/* =========================================
+   RESPONSIVE - 800PX
+   ========================================= */
+
+@media (max-width: 800px) {
+
+    .project-inner-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .project-gallery-cell {
+        grid-column:
+            auto;
+    }
+
+}
+
+
+/* =========================================
+   RESPONSIVE - 650PX
+   ========================================= */
+
+@media (max-width: 650px) {
+
+    .project-gallery-2,
+    .project-gallery-3 {
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+
+/* =========================================
+   RESPONSIVE - 450PX
+   ========================================= */
+
+@media (max-width: 450px) {
+
+    .project-card {
+        padding: 20px;
+    }
+
+
+    .project-inner-cell {
+        padding: 17px;
+    }
+
+
+    .project-links {
+        justify-content:
+            stretch;
+    }
+
+
+    .project-links a {
+        width: 100%;
+    }
+
+}
+
+/* =========================================
+   PROJECT HEADER TOP
+   ========================================= */
+
+.project-card-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 6px;
+}
+
+
+.project-card-header-top
+.project-card-eyebrow {
+    margin-bottom: 0;
+}
+
+
+/* =========================================
+   FEATURED PROJECT
+   ========================================= */
+
+.project-featured {
+    border-color:
+        rgba(
+            123,
+            131,
+            235,
+            0.38
+        );
+}
+
+
+.project-featured-badge {
+    flex-shrink: 0;
+
+    padding:
+        5px 8px;
+
+    color:
+        var(--accent-light);
+
+    background:
+        rgba(
+            123,
+            131,
+            235,
+            0.08
+        );
+
+    border:
+        1px solid rgba(
+            123,
+            131,
+            235,
+            0.25
+        );
+
+    border-radius: 5px;
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size: 0.63rem;
+    font-weight: 600;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.05em;
+}
