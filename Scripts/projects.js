@@ -39,6 +39,9 @@ const projects = [
         section:
             "desktop",
 
+        icon:
+            "Images/Logos/ScheduleCreator_LOGO.jpg",
+
         featured:
             true,
 
@@ -55,11 +58,8 @@ const projects = [
 
         learned: [
             "Designing and organizing larger WPF applications with multiple views.",
-
             "Connecting desktop applications to SQL Server databases.",
-
             "Building reusable scheduling and employee-management workflows.",
-
             "Creating validation and data-handling systems for real-world operational use."
         ],
 
@@ -88,6 +88,9 @@ const projects = [
         section:
             "mobile",
 
+        icon:
+            "Images/Logos/TheUltimateEasterEggGuide_LOGO.png",
+
         featured:
             true,
 
@@ -103,11 +106,8 @@ const projects = [
 
         learned: [
             "Structuring a multi-screen Android application.",
-
             "Designing mobile interfaces around large amounts of reference information.",
-
             "Managing navigation between multiple maps, guides, and tools.",
-
             "Creating a practical interface intended for use alongside gameplay."
         ],
 
@@ -136,6 +136,9 @@ const projects = [
         section:
             "mobile",
 
+        icon:
+            "Images/Logos/MTGPackOpener_LOGO.png",
+
         featured:
             false,
 
@@ -151,11 +154,8 @@ const projects = [
 
         learned: [
             "Building reusable SwiftUI views and interface components.",
-
             "Managing application state across multiple screens.",
-
             "Creating profile-based workflows.",
-
             "Designing an interactive interface around randomized content and collections."
         ],
 
@@ -184,6 +184,9 @@ const projects = [
         section:
             "web",
 
+        icon:
+            "Images/Icons/Headshot_ICON.png",
+
         featured:
             true,
 
@@ -199,11 +202,8 @@ const projects = [
 
         learned: [
             "Designing a larger website using modular JavaScript and CSS files.",
-
             "Building reusable data-driven components with vanilla JavaScript.",
-
             "Creating responsive layouts that work across desktop and mobile devices.",
-
             "Developing a consistent visual system across multiple sections and page types."
         ],
 
@@ -222,9 +222,7 @@ const projects = [
 
 
     /* =====================================
-       EXAMPLE HARDWARE PROJECT
-
-       Replace this when ready.
+       ESP HARDWARE PROJECTS
        ===================================== */
 
     {
@@ -233,6 +231,9 @@ const projects = [
 
         section:
             "hardware",
+
+        icon:
+            null,
 
         featured:
             false,
@@ -248,11 +249,8 @@ const projects = [
 
         learned: [
             "Working with microcontrollers and embedded hardware.",
-
             "Connecting software logic to physical inputs and outputs.",
-
             "Debugging systems where both hardware and software can cause failures.",
-
             "Experimenting with networking and connected-device concepts."
         ],
 
@@ -272,10 +270,13 @@ const projects = [
 
     {
         title:
-            "English-Like Programming Language",
+            "Almost English Programming Language",
 
         section:
             "experiments",
+
+        icon:
+            "Images/Logos/AlmostEnglish_LOGO.png",
 
         featured:
             false,
@@ -293,11 +294,8 @@ const projects = [
 
         learned: [
             "How source code moves through lexical analysis, parsing, and execution.",
-
             "Designing grammar and syntax rules for a programming language.",
-
             "Representing source code using an abstract syntax tree.",
-
             "Building an interpreter that evaluates custom language constructs."
         ],
 
@@ -319,10 +317,6 @@ const projects = [
 
 function buildProjects() {
 
-    /*
-        Clear every section first.
-    */
-
     Object.values(
         projectSectionMap
     ).forEach(
@@ -336,18 +330,14 @@ function buildProjects() {
 
             if (container) {
 
-                container.innerHTML = "";
+                container.innerHTML =
+                    "";
 
             }
 
         }
     );
 
-
-    /*
-        Each project belongs to ONE
-        section only.
-    */
 
     projects.forEach(
         project => {
@@ -444,16 +434,130 @@ function createProjectCard(
     );
 
 
-    /* TOP LINE */
+    /* =====================================
+       HEADER MAIN ROW
+       ===================================== */
 
-    const headerTop =
+    const headerMain =
         document.createElement(
             "div"
         );
 
 
-    headerTop.classList.add(
-        "project-card-header-top"
+    headerMain.classList.add(
+        "project-card-header-main"
+    );
+
+
+    /* =====================================
+       HEADER LEFT
+       ===================================== */
+
+    const headerLeft =
+        document.createElement(
+            "div"
+        );
+
+
+    headerLeft.classList.add(
+        "project-card-header-left"
+    );
+
+
+    /* =====================================
+       ICON
+       ===================================== */
+
+    const iconWrapper =
+        document.createElement(
+            "div"
+        );
+
+
+    iconWrapper.classList.add(
+        "project-card-icon"
+    );
+
+
+    if (project.icon) {
+
+        const icon =
+            document.createElement(
+                "img"
+            );
+
+
+        icon.src =
+            project.icon;
+
+
+        icon.alt =
+            `${project.title} icon`;
+
+
+        icon.addEventListener(
+            "error",
+            () => {
+
+                icon.remove();
+
+                const placeholder =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                placeholder.textContent =
+                    "</>";
+
+
+                iconWrapper.appendChild(
+                    placeholder
+                );
+
+            },
+            {
+                once: true
+            }
+        );
+
+
+        iconWrapper.appendChild(
+            icon
+        );
+
+    }
+    else {
+
+        const placeholder =
+            document.createElement(
+                "span"
+            );
+
+
+        placeholder.textContent =
+            "</>";
+
+
+        iconWrapper.appendChild(
+            placeholder
+        );
+
+    }
+
+
+    /* =====================================
+       TITLE + LABEL
+       ===================================== */
+
+    const heading =
+        document.createElement(
+            "div"
+        );
+
+
+    heading.classList.add(
+        "project-card-heading"
     );
 
 
@@ -472,12 +576,50 @@ function createProjectCard(
         `project.${project.section}`;
 
 
-    headerTop.appendChild(
+    const title =
+        document.createElement(
+            "h2"
+        );
+
+
+    title.textContent =
+        project.title;
+
+
+    heading.appendChild(
         eyebrow
     );
 
 
-    /* FEATURED BADGE */
+    heading.appendChild(
+        title
+    );
+
+
+    headerLeft.appendChild(
+        iconWrapper
+    );
+
+
+    headerLeft.appendChild(
+        heading
+    );
+
+
+    /* =====================================
+       HEADER RIGHT
+       ===================================== */
+
+    const headerRight =
+        document.createElement(
+            "div"
+        );
+
+
+    headerRight.classList.add(
+        "project-card-header-right"
+    );
+
 
     if (project.featured) {
 
@@ -496,22 +638,30 @@ function createProjectCard(
             "Featured";
 
 
-        headerTop.appendChild(
+        headerRight.appendChild(
             featuredBadge
         );
 
     }
 
 
-    const title =
-        document.createElement(
-            "h2"
-        );
+    /* =====================================
+       BUILD MAIN HEADER
+       ===================================== */
+
+    headerMain.appendChild(
+        headerLeft
+    );
 
 
-    title.textContent =
-        project.title;
+    headerMain.appendChild(
+        headerRight
+    );
 
+
+    /* =====================================
+       DESCRIPTION
+       ===================================== */
 
     const description =
         document.createElement(
@@ -519,17 +669,17 @@ function createProjectCard(
         );
 
 
+    description.classList.add(
+        "project-description"
+    );
+
+
     description.textContent =
         project.description;
 
 
     header.appendChild(
-        headerTop
-    );
-
-
-    header.appendChild(
-        title
+        headerMain
     );
 
 
@@ -594,10 +744,6 @@ function createProjectCard(
     }
 
 
-    /* =====================================
-       BUILD CARD
-       ===================================== */
-
     card.appendChild(
         header
     );
@@ -609,7 +755,7 @@ function createProjectCard(
 
 
     /* =====================================
-       OPTIONAL LINKS
+       LINKS
        ===================================== */
 
     if (

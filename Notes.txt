@@ -15,10 +15,6 @@ Home:
         guitar building
         fishing
         etc...
-projects:
-    add slot for icon next to title
-    add link to page dedicated to talking about the projects
-    put each tab in major cell and project cells in the minor cells inside
 Education:
     fill in info
     add banner to UWGB
