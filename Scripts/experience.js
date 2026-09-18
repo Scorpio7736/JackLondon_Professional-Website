@@ -172,15 +172,12 @@ const experiences = [
 
         responsibilities: [
 
-            "Fill",
-
-            "In",
-
-            "with",
-
-            "actual",
-
-            "responsibilities"
+            "Plan and set climbing routes for specific difficulty grades and skill levels",
+            "Forerun and evaluate routes for movement, safety, flow, and appropriate grading",
+            "Assist other route setters with testing, feedback, and route refinement",
+            "Inspect climbing holds, hardware, and setting equipment for safe use",
+            "Stay current with route-setting standards, techniques, and climbing safety practices",
+            "Maintain current emergency-response and facility safety training",
 
         ],
 

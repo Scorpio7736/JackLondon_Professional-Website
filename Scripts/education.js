@@ -145,11 +145,108 @@ const certifications = [
 
 ];
 
+
 /* =========================================
    EDUCATION DATA
    ========================================= */
 
 const education = [
+
+    /* =====================================
+       BLACK OAK FORGE
+       ===================================== */
+
+    {
+        containerId:
+            "educationBlackOakForge",
+
+        school:
+            "Black Oak Forge",
+
+        headingLabel:
+            "Apprenticed At",
+
+        icon:
+            "Images/Icons/BlackOakForge_ICON.png",
+
+        iconFallback:
+            "BOF",
+
+        banner:
+            "Images/Banners/BlackOakForge_BANNER.png",
+
+        majorLabel:
+            "Program",
+
+        major:
+            "Blacksmithing Apprenticeship",
+
+        startLabel:
+            "Start Date",
+
+        startSemester:
+            "Summer 2020",
+
+        graduationLabel:
+            "Graduation Date",
+
+        graduation:
+            "Winter 2022",
+
+        description:
+            "Hands-on blacksmithing apprenticeship focused on traditional forging techniques, metalworking, tool use, material behavior, fabrication, and developing practical experience working with heated steel."
+    },
+
+
+    /* =====================================
+       HAMILTON HIGH SCHOOL
+       ===================================== */
+
+    {
+        containerId:
+            "educationHamilton",
+
+        school:
+            "Hamilton High School",
+
+        headingLabel:
+            "High School",
+
+        icon:
+            "Images/Icons/HamiltonHS_ICON.png",
+
+        iconFallback:
+            "HHS",
+
+        banner:
+            null,
+
+        majorLabel:
+            "Education",
+
+        major:
+            "High School Diploma",
+
+        startLabel:
+            "Start Date",
+
+        startSemester:
+            "Add Start Date",
+
+        graduationLabel:
+            "Graduation Date",
+
+        graduation:
+            "Add Graduation Date",
+
+        description:
+            "High school education with opportunities to develop academic, technical, leadership, and extracurricular experience prior to beginning undergraduate study."
+    },
+
+
+    /* =====================================
+       UW GREEN BAY
+       ===================================== */
 
     {
         containerId:
@@ -158,17 +255,32 @@ const education = [
         school:
             "University of Wisconsin–Green Bay",
 
+        headingLabel:
+            "University",
+
         icon:
             "Images/Icons/UWGB_ICON.png",
 
         iconFallback:
             "UWGB",
 
+        banner:
+            "Images/Banners/UWGB_BANNER.png",
+
+        majorLabel:
+            "Major",
+
         major:
             "Computer Science — Software Engineering Emphasis",
 
+        startLabel:
+            "Start Semester",
+
         startSemester:
             "Fall 2022",
+
+        graduationLabel:
+            "Expected Graduation",
 
         graduation:
             "May 2027",
@@ -178,6 +290,7 @@ const education = [
     }
 
 ];
+
 
 /* =========================================
    BUILD EDUCATION
@@ -240,6 +353,63 @@ function buildEducationSchool(
     card.classList.add(
         "education-school-card"
     );
+
+
+    /* =====================================
+       BANNER
+       ===================================== */
+
+    if (school.banner) {
+
+        const banner =
+            document.createElement(
+                "div"
+            );
+
+
+        banner.classList.add(
+            "education-school-banner"
+        );
+
+
+        const bannerImage =
+            document.createElement(
+                "img"
+            );
+
+
+        bannerImage.src =
+            school.banner;
+
+
+        bannerImage.alt =
+            `${school.school} banner`;
+
+
+        bannerImage.loading =
+            "lazy";
+
+
+        bannerImage.addEventListener(
+            "error",
+            () => {
+
+                banner.remove();
+
+            }
+        );
+
+
+        banner.appendChild(
+            bannerImage
+        );
+
+
+        card.appendChild(
+            banner
+        );
+
+    }
 
 
     /* =====================================
@@ -360,7 +530,8 @@ function buildEducationSchool(
 
 
     label.textContent =
-        "University";
+        school.headingLabel ||
+        "Education";
 
 
     const schoolName =
@@ -394,7 +565,7 @@ function buildEducationSchool(
 
 
     /* =====================================
-       MAJOR
+       MAJOR / PROGRAM
        ===================================== */
 
     const major =
@@ -420,6 +591,7 @@ function buildEducationSchool(
 
 
     majorLabel.textContent =
+        school.majorLabel ||
         "Major";
 
 
@@ -460,7 +632,8 @@ function buildEducationSchool(
 
     details.appendChild(
         createEducationDetailCell(
-            "Start Semester",
+            school.startLabel ||
+                "Start Date",
             school.startSemester
         )
     );
@@ -468,7 +641,8 @@ function buildEducationSchool(
 
     details.appendChild(
         createEducationDetailCell(
-            "Expected Graduation",
+            school.graduationLabel ||
+                "Graduation Date",
             school.graduation
         )
     );
@@ -983,7 +1157,8 @@ function createCertificationDate(
 
 
     valueElement.textContent =
-        value || fallback;
+        value ||
+        fallback;
 
 
     item.appendChild(

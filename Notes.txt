@@ -3,8 +3,6 @@ Page:
     change title text
     make light/dark mode
     work on animations and page transitions
-Hover Note Profile:
-    Add cover banner behind like in discord
 Home:
     add cover banner behind name and title
     update info on all
@@ -15,10 +13,6 @@ Home:
         guitar building
         fishing
         etc...
-Education:
-    fill in info
-    add banner to UWGB
-    add HS info
 Activities
     Add cell for each activity
     add link to whole page talking about activity
