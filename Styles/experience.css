@@ -61,7 +61,9 @@
    ========================================= */
 
 .experience-business {
-    padding: 26px;
+    padding: 0;
+
+    overflow: hidden;
 
     background:
         var(--surface-secondary);
@@ -69,17 +71,145 @@
 
 
 /* =========================================
-   BUSINESS TOP
+   EXPERIENCE BANNER
    ========================================= */
 
-.experience-business-top {
+.experience-banner {
+    position: relative;
+
+    width: 100%;
+    height: 150px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            125deg,
+            rgba(
+                123,
+                131,
+                235,
+                0.24
+            ),
+            rgba(
+                70,
+                76,
+                145,
+                0.14
+            ) 45%,
+            rgba(
+                37,
+                36,
+                42,
+                0.65
+            )
+        );
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+
+.experience-banner::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to right,
+            rgba(
+                27,
+                26,
+                31,
+                0.05
+            ),
+            rgba(
+                27,
+                26,
+                31,
+                0.18
+            )
+        );
+}
+
+
+.experience-banner::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 60%;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(
+                27,
+                26,
+                31,
+                0.35
+            )
+        );
+}
+
+
+.experience-banner img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* =========================================
+   EXPERIENCE HEADER
+   ========================================= */
+
+.experience-header {
     display: flex;
-    align-items: flex-start;
+
+    align-items: center;
     justify-content: space-between;
 
-    gap: 20px;
+    gap: 24px;
 
-    margin-bottom: 28px;
+    padding:
+        24px 26px 26px;
+}
+
+
+/* =========================================
+   EXPERIENCE IDENTITY
+   ========================================= */
+
+.experience-identity {
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    flex: 1;
 }
 
 
@@ -90,10 +220,11 @@
 .experience-icon {
     position: relative;
 
-    width: 76px;
-    height: 76px;
+    width: 72px;
+    height: 72px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -112,8 +243,8 @@
 
 
 .experience-icon img {
-    width: 56px;
-    height: 56px;
+    width: 53px;
+    height: 53px;
 
     object-fit: contain;
 }
@@ -132,7 +263,63 @@
         monospace;
 
     font-size: 0.85rem;
+
     font-weight: 600;
+}
+
+
+/* =========================================
+   BUSINESS TITLE
+   ========================================= */
+
+.experience-business-title {
+    min-width: 0;
+
+    margin: 0;
+}
+
+
+.experience-eyebrow {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color:
+        var(--accent-light);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size: 0.74rem;
+
+    line-height: 1.4;
+}
+
+
+.experience-business-title h2 {
+    max-width: 750px;
+
+    margin: 0;
+
+    color:
+        var(--text-primary);
+
+    font-size:
+        clamp(
+            1.35rem,
+            2.4vw,
+            2rem
+        );
+
+    font-weight: 600;
+
+    line-height: 1.2;
+
+    letter-spacing:
+        -0.025em;
 }
 
 
@@ -141,6 +328,10 @@
    ========================================= */
 
 .experience-type {
+    flex-shrink: 0;
+
+    align-self: flex-start;
+
     padding:
         6px 9px;
 
@@ -182,53 +373,7 @@
 
 
 /* =========================================
-   BUSINESS TITLE
-   ========================================= */
-
-.experience-business-title {
-    margin-bottom: 26px;
-}
-
-
-.experience-eyebrow {
-    display: block;
-
-    margin-bottom: 7px;
-
-    color:
-        var(--accent-light);
-
-    font-family:
-        "Cascadia Code",
-        "Fira Code",
-        Consolas,
-        monospace;
-
-    font-size: 0.74rem;
-}
-
-
-.experience-business-title h2 {
-    max-width: 750px;
-
-    font-size:
-        clamp(
-            1.4rem,
-            2.4vw,
-            2rem
-        );
-
-    font-weight: 600;
-
-    line-height: 1.2;
-
-    letter-spacing:
-        -0.025em;
-}
-
-
-/* =========================================
-   SMALL DETAIL CELLS
+   DETAIL GRID
    ========================================= */
 
 .experience-details {
@@ -237,12 +382,22 @@
     grid-template-columns:
         repeat(
             2,
-            minmax(0, 1fr)
+            minmax(
+                0,
+                1fr
+            )
         );
 
     gap: 12px;
+
+    padding:
+        0 26px;
 }
 
+
+/* =========================================
+   DETAIL CELLS
+   ========================================= */
 
 .experience-detail-cell {
     min-width: 0;
@@ -250,6 +405,7 @@
     min-height: 90px;
 
     display: flex;
+
     align-items: center;
 
     gap: 14px;
@@ -288,6 +444,7 @@
     height: 40px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -309,6 +466,8 @@
         "Fira Code",
         Consolas,
         monospace;
+
+    font-size: 0.85rem;
 }
 
 
@@ -320,6 +479,7 @@
     min-width: 0;
 
     display: flex;
+
     flex-direction: column;
 
     gap: 5px;
@@ -331,6 +491,7 @@
         var(--text-primary);
 
     font-size: 0.9rem;
+
     font-weight: 500;
 
     line-height: 1.4;
@@ -354,6 +515,7 @@
         monospace;
 
     font-size: 0.65rem;
+
     font-weight: 600;
 
     text-transform:
@@ -370,7 +532,9 @@
 
 .experience-inline-timeline {
     display: flex;
+
     align-items: center;
+
     flex-wrap: wrap;
 
     gap: 8px;
@@ -379,6 +543,7 @@
         var(--text-primary);
 
     font-size: 0.9rem;
+
     font-weight: 500;
 }
 
@@ -396,13 +561,16 @@
 
 
 /* =========================================
-   RESPONSIBILITIES INNER CELL
+   RESPONSIBILITIES
    ========================================= */
 
 .experience-responsibilities {
-    width: 100%;
+    width: auto;
 
-    margin-top: 12px;
+    min-height: 0;
+
+    margin:
+        12px 26px 0;
 
     align-items: flex-start;
 
@@ -417,9 +585,14 @@
 
 .experience-responsibilities h3 {
     margin-top: 5px;
+
     margin-bottom: 20px;
 
+    color:
+        var(--text-primary);
+
     font-size: 1.15rem;
+
     font-weight: 600;
 }
 
@@ -434,13 +607,21 @@
     grid-template-columns:
         repeat(
             2,
-            minmax(0, 1fr)
+            minmax(
+                0,
+                1fr
+            )
         );
 
     column-gap: 40px;
+
     row-gap: 13px;
 
     list-style: none;
+
+    margin: 0;
+
+    padding: 0;
 }
 
 
@@ -474,51 +655,198 @@
 
 
 /* =========================================
-   RESPONSIBILITY LIST
+   EXPERIENCE LINKS
    ========================================= */
 
-.experience-responsibility-list {
-    display: grid;
+.experience-links {
+    display: flex;
 
-    grid-template-columns:
-        repeat(
-            2,
-            minmax(0, 1fr)
-        );
+    align-items: center;
+    justify-content: space-between;
 
-    column-gap: 40px;
-    row-gap: 13px;
+    gap: 20px;
 
-    list-style: none;
+    margin:
+        12px 26px 26px;
+
+    padding:
+        17px 18px;
+
+    background:
+        #25242a;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        7px;
 }
 
 
-.experience-responsibility-list li {
-    position: relative;
+/* =========================================
+   LINKS LABEL
+   ========================================= */
 
-    padding-left: 18px;
+.experience-links-label {
+    flex-shrink: 0;
 
     color:
-        var(--text-secondary);
+        var(--text-muted);
 
-    font-size: 0.86rem;
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
 
-    line-height: 1.6;
+    font-size:
+        0.65rem;
+
+    font-weight:
+        600;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.08em;
 }
 
 
-.experience-responsibility-list li::before {
-    content: "›";
+/* =========================================
+   LINK BUTTON CONTAINER
+   ========================================= */
 
-    position: absolute;
+.experience-link-buttons {
+    display: flex;
 
-    left: 0;
-    top: 0;
+    align-items: center;
+    justify-content: flex-end;
 
+    flex-wrap: wrap;
+
+    gap: 9px;
+}
+
+
+/* =========================================
+   LINK BUTTON
+   ========================================= */
+
+.experience-link-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    min-height: 38px;
+
+    padding:
+        8px 13px;
+
+    color:
+        var(--text-primary);
+
+    background:
+        var(--surface-secondary);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        6px;
+
+    text-decoration:
+        none;
+
+    font-size:
+        0.8rem;
+
+    font-weight:
+        500;
+
+    transition:
+        color 150ms ease,
+        background 150ms ease,
+        border-color 150ms ease,
+        transform 150ms ease;
+}
+
+
+.experience-link-button:hover {
+    color:
+        #ffffff;
+
+    background:
+        var(--surface-hover);
+
+    border-color:
+        rgba(
+            123,
+            131,
+            235,
+            0.55
+        );
+
+    transform:
+        translateY(-1px);
+}
+
+
+.experience-link-button:focus-visible {
+    outline:
+        2px solid var(--accent);
+
+    outline-offset:
+        2px;
+}
+
+
+/* =========================================
+   LINK ARROW
+   ========================================= */
+
+.experience-link-arrow {
     color:
         var(--accent-light);
 
-    font-weight: 600;
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    transition:
+        transform 150ms ease;
+}
+
+
+.experience-link-button:hover
+.experience-link-arrow {
+    transform:
+        translateX(3px);
+}
+
+
+/* =========================================
+   RESPONSIVE - 800PX
+   ========================================= */
+
+@media (max-width: 800px) {
+
+    .experience-header {
+        align-items:
+            flex-start;
+    }
+
+
+    .experience-business-title h2 {
+        font-size:
+            1.35rem;
+    }
+
 }
 
 
@@ -527,6 +855,12 @@
    ========================================= */
 
 @media (max-width: 700px) {
+
+    .experience-banner {
+        height:
+            130px;
+    }
+
 
     .experience-details {
         grid-template-columns:
@@ -537,6 +871,116 @@
     .experience-responsibility-list {
         grid-template-columns:
             1fr;
+
+        row-gap:
+            12px;
+    }
+
+
+    .experience-links {
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+    }
+
+
+    .experience-link-buttons {
+        width:
+            100%;
+
+        justify-content:
+            flex-start;
+    }
+
+}
+
+
+/* =========================================
+   RESPONSIVE - 550PX
+   ========================================= */
+
+@media (max-width: 550px) {
+
+    .experience-banner {
+        height:
+            105px;
+    }
+
+
+    .experience-header {
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+
+        gap:
+            16px;
+
+        padding:
+            20px;
+    }
+
+
+    .experience-identity {
+        align-items:
+            center;
+
+        gap:
+            14px;
+    }
+
+
+    .experience-type {
+        align-self:
+            flex-start;
+    }
+
+
+    .experience-icon {
+        width:
+            60px;
+
+        height:
+            60px;
+    }
+
+
+    .experience-icon img {
+        width:
+            44px;
+
+        height:
+            44px;
+    }
+
+
+    .experience-business-title h2 {
+        font-size:
+            1.2rem;
+    }
+
+
+    .experience-details {
+        padding:
+            0 20px;
+    }
+
+
+    .experience-responsibilities {
+        margin:
+            12px 20px 0;
+
+        padding:
+            20px;
+    }
+
+
+    .experience-links {
+        margin:
+            12px 20px 20px;
     }
 
 }
@@ -548,36 +992,129 @@
 
 @media (max-width: 450px) {
 
-    .experience-business,
-    .experience-responsibilities {
-        padding: 20px;
+    .experience-banner {
+        height:
+            90px;
     }
 
 
-    .experience-business-top {
-        margin-bottom: 22px;
+    .experience-header {
+        padding:
+            18px;
+    }
+
+
+    .experience-identity {
+        align-items:
+            flex-start;
     }
 
 
     .experience-icon {
-        width: 64px;
-        height: 64px;
+        width:
+            54px;
+
+        height:
+            54px;
+
+        border-radius:
+            10px;
     }
 
 
     .experience-icon img {
-        width: 46px;
-        height: 46px;
+        width:
+            40px;
+
+        height:
+            40px;
+    }
+
+
+    .experience-eyebrow {
+        font-size:
+            0.68rem;
+    }
+
+
+    .experience-business-title h2 {
+        font-size:
+            1.1rem;
+    }
+
+
+    .experience-details {
+        padding:
+            0 18px;
     }
 
 
     .experience-detail-cell {
-        padding: 15px;
+        min-height:
+            82px;
+
+        padding:
+            15px;
+    }
+
+
+    .experience-info-icon {
+        width:
+            36px;
+
+        height:
+            36px;
     }
 
 
     .experience-inline-timeline {
-        font-size: 0.82rem;
+        font-size:
+            0.82rem;
+    }
+
+
+    .experience-responsibilities {
+        margin:
+            12px 18px 0;
+
+        padding:
+            18px;
+    }
+
+
+    .experience-responsibilities h3 {
+        margin-bottom:
+            16px;
+    }
+
+
+    .experience-links {
+        margin:
+            12px 18px 18px;
+
+        padding:
+            16px;
+    }
+
+
+    .experience-link-buttons {
+        display:
+            grid;
+
+        grid-template-columns:
+            1fr;
+
+        width:
+            100%;
+    }
+
+
+    .experience-link-button {
+        width:
+            100%;
+
+        justify-content:
+            space-between;
     }
 
 }

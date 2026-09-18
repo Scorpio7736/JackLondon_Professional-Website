@@ -1,0 +1,32 @@
+Page:
+    Change thumbnail icon
+    change title text
+    make light/dark mode
+    work on animations and page transitions
+Hover Note Profile:
+    Add cover banner behind like in discord
+Home:
+    add cover banner behind name and title
+    update info on all
+    add buttons to view experiences
+    update featured projects and add link
+    add buttons to go to pages more about me for more than code.
+        blacksmithing
+        guitar building
+        fishing
+        etc...
+Skills:
+    add confidence description to each cell
+    add html css js to lang
+projects:
+    add slot for icon next to title
+    add link to page dedicated to talking about the projects
+    put each tab in major cell and project cells in the minor cells inside
+Education:
+    fill in info
+    add banner to UWGB
+    add HS info
+Activities
+    Add cell for each activity
+    add link to whole page talking about activity
+    focus on the person who is Jack London to add character

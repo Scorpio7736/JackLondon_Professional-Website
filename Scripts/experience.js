@@ -4,16 +4,25 @@
 
 const experiences = [
 
-    {
-        containerId: "experienceDentaQuest",
+    /* =====================================
+       DENTAQUEST
+       ===================================== */
 
-        company: "Sun Life DentaQuest",
+    {
+        containerId:
+            "experienceDentaQuest",
+
+        company:
+            "Sun Life DentaQuest",
 
         position:
             "IT Service & Delivery Intern",
 
         icon:
             "Images/Icons/DQ_ICON.png",
+
+        banner:
+            "Images/Banners/DQ_BANNER.png",
 
         iconFallback:
             "DQ",
@@ -31,6 +40,7 @@ const experiences = [
             "Internship",
 
         responsibilities: [
+
             "Worked with the FHIR API and Papercut Avengers teams on internal technology initiatives.",
 
             "Developed C# automation tools to improve internal processes and reduce repetitive work.",
@@ -40,12 +50,27 @@ const experiences = [
             "Created training microsites and webpages for internal users.",
 
             "Improved FHIR API user interfaces and supporting application functionality."
+
+        ],
+
+        links: [
+
+            {
+                name: "View DentaQuest",
+                link: "https://www.dentaquest.com/"
+            }         
+
         ]
     },
 
 
+    /* =====================================
+       UREC CLIMBING TOWER
+       ===================================== */
+
     {
-        containerId: "experienceUREC",
+        containerId:
+            "experienceUREC",
 
         company:
             "UW–Green Bay UREC Outdoors",
@@ -55,6 +80,9 @@ const experiences = [
 
         icon:
             "Images/Icons/UREC_ICON.png",
+
+        banner:
+            "Images/Banners/UREC_Banner.png",
 
         iconFallback:
             "UR",
@@ -72,6 +100,7 @@ const experiences = [
             "Leadership",
 
         responsibilities: [
+
             "Oversee daily climbing tower operations, staff coverage, opening procedures, and closing procedures.",
 
             "Create staff schedules and coordinate employee availability and shift coverage.",
@@ -85,11 +114,34 @@ const experiences = [
             "Plan climbing events and support broader UREC Outdoors programming.",
 
             "Develop workflow documentation, training materials, and operational resources for staff."
+
+        ],
+
+        links: [
+
+            
+            {
+                name: "View UREC Outdoors",
+                link: "https://www.uwgb.edu/urec/adventure/"
+            },
+
+            {
+                name: "Climbing Tower",
+                link: "https://www.uwgb.edu/urec/adventure/climbing/"
+            }
+            
+
         ]
     },
 
+
+    /* =====================================
+       ROUTE SETTER TEAM
+       ===================================== */
+
     {
-        containerId: "experienceUREC",
+        containerId:
+            "experienceRouteSetter",
 
         company:
             "UW–Green Bay UREC Outdoors",
@@ -99,6 +151,9 @@ const experiences = [
 
         icon:
             "Images/Icons/RouteSetters_ICON.png",
+
+        banner:
+            "Images/Banners/RouteSetter_Banner.png",
 
         iconFallback:
             "RS",
@@ -116,59 +171,97 @@ const experiences = [
             "Team Member",
 
         responsibilities: [
+
             "Fill",
+
             "In",
+
             "with",
+
             "actual",
+
             "responsibilities"
+
+        ],
+
+        links: [
+
+            {
+                name: "Climbing Tower",
+                link: "https://www.uwgb.edu/urec/adventure/climbing/"
+            }
+
         ]
     },
 
+
+    /* =====================================
+       EMERGENCY RESPONSE TEAM
+       ===================================== */
+
     {
-    containerId:
-        "experienceERT",
+        containerId:
+            "experienceERT",
 
-    company:
-        "UW–Green Bay Emergency Response Team",
+        company:
+            "UW–Green Bay Emergency Response Team",
 
-    position:
-        "Emergency Response Team - Team Leader",
+        position:
+            "Emergency Response Team — Team Leader",
 
-    icon:
-        "Images/Icons/ERT_ICON.png",
+        icon:
+            "Images/Icons/ERT_ICON.png",
 
-    iconFallback:
-        "ERT",
+        banner:
+            "Images/Banners/ERT_Banner.png",
 
-    location:
-        "Green Bay, Wisconsin",
+        iconFallback:
+            "ERT",
 
-    startDate:
-        "February 2025",
+        location:
+            "Green Bay, Wisconsin",
 
-    endDate:
-        "Present",
+        startDate:
+            "February 2025",
 
-    type:
-        "Leadership",
+        endDate:
+            "Present",
 
-    responsibilities: [
-        "Oversee the readiness and effectiveness of staff responding to physical, medical, and environmental emergencies.",
+        type:
+            "Leadership",
 
-        "Conduct comprehensive staff testing using simulated physical, medical, and environmental emergency scenarios.",
+        responsibilities: [
 
-        "Evaluate staff readiness, decision-making, and response effectiveness during emergency simulations.",
+            "Oversee the readiness and effectiveness of staff responding to physical, medical, and environmental emergencies.",
 
-        "Plan, organize, and lead emergency response drills to prepare staff for real-world incidents.",
+            "Conduct comprehensive staff testing using simulated physical, medical, and environmental emergency scenarios.",
 
-        "Ensure emergency response procedures remain aligned with university safety standards and expectations.",
+            "Evaluate staff readiness, decision-making, and response effectiveness during emergency simulations.",
 
-        "Coordinate staff during emergency-response training and simulated incidents.",
+            "Plan, organize, and lead emergency response drills to prepare staff for real-world incidents.",
 
-        "Manage incident documentation and reports, maintaining accurate and organized records for review and continuous improvement."
-    ]
-},
+            "Ensure emergency response procedures remain aligned with university safety standards and expectations.",
 
+            "Coordinate staff during emergency-response training and simulated incidents.",
+
+            "Manage incident documentation and reports, maintaining accurate and organized records for review and continuous improvement."
+
+        ],
+
+        links: [
+            {
+                name: "Learn More",
+                link: "https://www.uwgb.edu/urec/"
+            }
+            
+
+        ]
+    },
+
+
+    /* =====================================
+       ASHWAUBENON COMMUNITY CENTER
+       ===================================== */
 
     {
         containerId:
@@ -182,6 +275,9 @@ const experiences = [
 
         icon:
             "Images/Icons/ACC_ICON.png",
+
+        banner:
+            "Images/Banners/ACC_Banner.png",
 
         iconFallback:
             "ACC",
@@ -199,6 +295,7 @@ const experiences = [
             "Operations",
 
         responsibilities: [
+
             "Supervise building operations during scheduled community events and facility rentals.",
 
             "Open and close the facility while ensuring building procedures are completed correctly.",
@@ -208,9 +305,25 @@ const experiences = [
             "Monitor building security and respond to issues that arise during events.",
 
             "Maintain supplies and help ensure rooms and shared spaces are prepared for use."
+
+        ],
+
+        links: [
+
+            
+            {
+                name: "View Community Center",
+                link: "https://ashwaubenon.gov/government/departments/parks-recreation-forestry/community-center/"
+            }
+            
+
         ]
     },
 
+
+    /* =====================================
+       SCOOP DEVILLE
+       ===================================== */
 
     {
         containerId:
@@ -224,6 +337,9 @@ const experiences = [
 
         icon:
             "Images/Icons/ScoopDeVille_ICON.png",
+
+        banner:
+            "Images/Banners/ScoopDeVille_Banner.png",
 
         iconFallback:
             "SD",
@@ -241,6 +357,7 @@ const experiences = [
             "Leadership",
 
         responsibilities: [
+
             "Led employees during scheduled shifts and helped coordinate daily store operations.",
 
             "Trained new employees on customer service, food preparation, and store procedures.",
@@ -250,6 +367,22 @@ const experiences = [
             "Handled cash management and register responsibilities.",
 
             "Completed closing procedures and helped prepare the store for the following day."
+
+        ],
+
+        links: [
+
+            
+            {
+                name: "View Scoop DeVille",
+                link: "https://www.scoopdevillehartford.com/"
+            },
+            {
+                name: "Facebook Page",
+                link: "https://www.facebook.com/Scoop.D.Ville/"
+            }
+            
+
         ]
     }
 
@@ -320,7 +453,7 @@ function buildExperience(
 
 
     /* =====================================
-       BUSINESS CELL
+       MAIN EXPERIENCE CARD
        ===================================== */
 
     const businessCell =
@@ -336,22 +469,89 @@ function buildExperience(
 
 
     /* =====================================
-       BUSINESS TOP
+       BANNER
        ===================================== */
 
-    const businessTop =
+    const banner =
         document.createElement(
             "div"
         );
 
 
-    businessTop.classList.add(
-        "experience-business-top"
+    banner.classList.add(
+        "experience-banner"
+    );
+
+
+    if (experience.banner) {
+
+        const bannerImage =
+            document.createElement(
+                "img"
+            );
+
+
+        bannerImage.src =
+            experience.banner;
+
+
+        bannerImage.alt =
+            `${experience.company} banner`;
+
+
+        bannerImage.loading =
+            "lazy";
+
+
+        bannerImage.addEventListener(
+            "error",
+            () => {
+
+                bannerImage.remove();
+
+            }
+        );
+
+
+        banner.appendChild(
+            bannerImage
+        );
+
+    }
+
+
+    /* =====================================
+       HEADER
+       ===================================== */
+
+    const header =
+        document.createElement(
+            "div"
+        );
+
+
+    header.classList.add(
+        "experience-header"
     );
 
 
     /* =====================================
-       ICON
+       IDENTITY
+       ===================================== */
+
+    const identity =
+        document.createElement(
+            "div"
+        );
+
+
+    identity.classList.add(
+        "experience-identity"
+    );
+
+
+    /* =====================================
+       COMPANY ICON
        ===================================== */
 
     const iconWrapper =
@@ -427,36 +627,7 @@ function buildExperience(
 
 
     /* =====================================
-       TYPE
-       ===================================== */
-
-    const typeBadge =
-        document.createElement(
-            "span"
-        );
-
-
-    typeBadge.classList.add(
-        "experience-type"
-    );
-
-
-    typeBadge.textContent =
-        experience.type;
-
-
-    businessTop.appendChild(
-        iconWrapper
-    );
-
-
-    businessTop.appendChild(
-        typeBadge
-    );
-
-
-    /* =====================================
-       TITLE
+       TITLE AREA
        ===================================== */
 
     const titleArea =
@@ -506,6 +677,53 @@ function buildExperience(
 
 
     /* =====================================
+       BUILD IDENTITY
+       ===================================== */
+
+    identity.appendChild(
+        iconWrapper
+    );
+
+
+    identity.appendChild(
+        titleArea
+    );
+
+
+    /* =====================================
+       TYPE BADGE
+       ===================================== */
+
+    const typeBadge =
+        document.createElement(
+            "span"
+        );
+
+
+    typeBadge.classList.add(
+        "experience-type"
+    );
+
+
+    typeBadge.textContent =
+        experience.type;
+
+
+    /* =====================================
+       BUILD HEADER
+       ===================================== */
+
+    header.appendChild(
+        identity
+    );
+
+
+    header.appendChild(
+        typeBadge
+    );
+
+
+    /* =====================================
        DETAIL CELLS
        ===================================== */
 
@@ -546,7 +764,7 @@ function buildExperience(
 
 
     /* =====================================
-       RESPONSIBILITIES INNER CELL
+       RESPONSIBILITIES
        ===================================== */
 
     const responsibilitiesCell =
@@ -650,16 +868,16 @@ function buildExperience(
 
 
     /* =====================================
-       BUILD BUSINESS CELL
+       BUILD MAIN CARD
        ===================================== */
 
     businessCell.appendChild(
-        businessTop
+        banner
     );
 
 
     businessCell.appendChild(
-        titleArea
+        header
     );
 
 
@@ -673,6 +891,34 @@ function buildExperience(
     );
 
 
+    /* =====================================
+       EXPERIENCE LINKS
+       ===================================== */
+
+    if (
+        Array.isArray(
+            experience.links
+        ) &&
+        experience.links.length > 0
+    ) {
+
+        const linkSection =
+            createExperienceLinks(
+                experience.links
+            );
+
+
+        businessCell.appendChild(
+            linkSection
+        );
+
+    }
+
+
+    /* =====================================
+       FINISH CARD
+       ===================================== */
+
     grid.appendChild(
         businessCell
     );
@@ -683,6 +929,168 @@ function buildExperience(
     );
 
 }
+
+
+/* =========================================
+   CREATE EXPERIENCE LINKS
+   ========================================= */
+
+function createExperienceLinks(
+    links
+) {
+
+    const section =
+        document.createElement(
+            "div"
+        );
+
+
+    section.classList.add(
+        "experience-links"
+    );
+
+
+    /* =====================================
+       LABEL
+       ===================================== */
+
+    const label =
+        document.createElement(
+            "span"
+        );
+
+
+    label.classList.add(
+        "experience-links-label"
+    );
+
+
+    label.textContent =
+        "View More";
+
+
+    /* =====================================
+       BUTTON CONTAINER
+       ===================================== */
+
+    const buttonContainer =
+        document.createElement(
+            "div"
+        );
+
+
+    buttonContainer.classList.add(
+        "experience-link-buttons"
+    );
+
+
+    /* =====================================
+       CREATE BUTTONS
+       ===================================== */
+
+    links.forEach(
+        linkItem => {
+
+            if (
+                !linkItem ||
+                !linkItem.name ||
+                !linkItem.link
+            ) {
+
+                return;
+
+            }
+
+
+            const button =
+                document.createElement(
+                    "a"
+                );
+
+
+            button.classList.add(
+                "experience-link-button"
+            );
+
+
+            button.href =
+                linkItem.link;
+
+
+            button.textContent =
+                linkItem.name;
+
+
+            /*
+                External links open in
+                a new browser tab.
+            */
+
+            if (
+                linkItem.link.startsWith(
+                    "http://"
+                ) ||
+                linkItem.link.startsWith(
+                    "https://"
+                )
+            ) {
+
+                button.target =
+                    "_blank";
+
+
+                button.rel =
+                    "noopener noreferrer";
+
+            }
+
+
+            /* =================================
+               ARROW
+               ================================= */
+
+            const arrow =
+                document.createElement(
+                    "span"
+                );
+
+
+            arrow.classList.add(
+                "experience-link-arrow"
+            );
+
+
+            arrow.textContent =
+                "→";
+
+
+            button.appendChild(
+                arrow
+            );
+
+
+            buttonContainer.appendChild(
+                button
+            );
+
+        }
+    );
+
+
+    section.appendChild(
+        label
+    );
+
+
+    section.appendChild(
+        buttonContainer
+    );
+
+
+    return section;
+
+}
+
 
 /* =========================================
    CREATE DETAIL CELL
@@ -705,7 +1113,9 @@ function createExperienceDetailCell(
     );
 
 
-    /* ICON */
+    /* =====================================
+       ICON
+       ===================================== */
 
     const icon =
         document.createElement(
@@ -722,7 +1132,9 @@ function createExperienceDetailCell(
         symbol;
 
 
-    /* CONTENT */
+    /* =====================================
+       CONTENT
+       ===================================== */
 
     const content =
         document.createElement(
@@ -806,7 +1218,9 @@ function createExperienceTimelineCell(
     );
 
 
-    /* ICON */
+    /* =====================================
+       ICON
+       ===================================== */
 
     const icon =
         document.createElement(
@@ -823,7 +1237,9 @@ function createExperienceTimelineCell(
         "↔";
 
 
-    /* CONTENT */
+    /* =====================================
+       CONTENT
+       ===================================== */
 
     const content =
         document.createElement(
