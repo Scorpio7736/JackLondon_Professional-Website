@@ -340,20 +340,106 @@
 }
 
 
+/* =========================================
+   PROFILE HOVER CARD HEADER / BANNER
+   ========================================= */
+
 .hover-card-header {
+    position: relative;
+
     display: flex;
     align-items: center;
 
     gap: 15px;
+
+    min-height: 112px;
+
+    margin:
+        -20px
+        -20px
+        0;
+
+    padding:
+        20px;
+
+    overflow: hidden;
+
+    border-radius:
+        8px
+        8px
+        0
+        0;
 }
 
+
+/* =========================================
+   HEADER BANNER IMAGE
+   ========================================= */
+
+.hover-card-header::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: 0;
+
+    background-image:
+        url("../Images/Banners/PFP_BANNER.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    filter:
+        brightness(1.12)
+        saturate(1.05);
+}
+
+
+/* =========================================
+   TRANSLUCENT BLACK MASK
+   ========================================= */
+
+.hover-card-header::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.05) 0%,
+            rgba(0, 0, 0, 0.10) 20%,
+            rgba(0, 0, 0, 0.18) 40%,
+            rgba(0, 0, 0, 0.30) 60%,
+            rgba(0, 0, 0, 0.45) 80%,
+            rgba(0, 0, 0, 0.58) 100%
+        );
+}
+
+
+/* =========================================
+   PROFILE IMAGE WRAPPER
+   ========================================= */
 
 .hover-card-image-wrapper {
     position: relative;
 
     flex-shrink: 0;
+
+    z-index: 2;
 }
 
+
+/* =========================================
+   PROFILE IMAGE
+   ========================================= */
 
 .hover-card-image {
     width: 68px;
@@ -363,7 +449,138 @@
 
     border-radius: 50%;
 
-    border: 2px solid var(--border);
+    border:
+        2px solid rgba(
+            255,
+            255,
+            255,
+            0.35
+        );
+
+    box-shadow:
+        0 3px 12px rgba(
+            0,
+            0,
+            0,
+            0.45
+        );
+}
+
+
+/* =========================================
+   STATUS DOT
+   ========================================= */
+
+.hover-card-status-dot {
+    position: absolute;
+
+    right: 1px;
+    bottom: 4px;
+
+    width: 15px;
+    height: 15px;
+
+    border-radius: 50%;
+
+    background:
+        var(--success);
+
+    border:
+        3px solid rgba(
+            20,
+            20,
+            23,
+            0.92
+        );
+}
+
+
+/* =========================================
+   PROFILE IDENTITY
+   ========================================= */
+
+.hover-card-identity {
+    position: relative;
+
+    min-width: 0;
+
+    z-index: 2;
+}
+
+
+.hover-card-identity h3 {
+    margin-bottom: 4px;
+
+    color:
+        #ffffff;
+
+    font-size: 1.05rem;
+
+    font-weight: 600;
+
+    text-shadow:
+        0 1px 4px rgba(
+            0,
+            0,
+            0,
+            0.65
+        );
+}
+
+
+.hover-card-identity p {
+    margin-bottom: 7px;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.82
+        );
+
+    font-size: 0.84rem;
+
+    text-shadow:
+        0 1px 4px rgba(
+            0,
+            0,
+            0,
+            0.6
+        );
+}
+
+
+.hover-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.72
+        );
+
+    font-size: 0.78rem;
+
+    text-shadow:
+        0 1px 4px rgba(
+            0,
+            0,
+            0,
+            0.6
+        );
+}
+
+
+.hover-status .status-dot {
+    width: 7px;
+    height: 7px;
 }
 
 
@@ -378,31 +595,67 @@
 
     border-radius: 50%;
 
-    background: var(--success);
+    background:
+        var(--success);
 
-    border: 3px solid #2c2b31;
+    border:
+        3px solid rgba(
+            20,
+            20,
+            23,
+            0.92
+        );
 }
 
 
 .hover-card-identity {
+    position: relative;
+
     min-width: 0;
+
+    z-index: 1;
 }
 
 
 .hover-card-identity h3 {
     margin-bottom: 4px;
 
+    color:
+        #ffffff;
+
     font-size: 1.05rem;
     font-weight: 600;
+
+    text-shadow:
+        0 1px 4px rgba(
+            0,
+            0,
+            0,
+            0.65
+        );
 }
 
 
 .hover-card-identity p {
     margin-bottom: 7px;
 
-    color: var(--text-secondary);
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.82
+        );
 
     font-size: 0.84rem;
+
+    text-shadow:
+        0 1px 4px rgba(
+            0,
+            0,
+            0,
+            0.6
+        );
 }
 
 
@@ -412,9 +665,23 @@
 
     gap: 7px;
 
-    color: var(--text-muted);
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.7
+        );
 
     font-size: 0.78rem;
+
+    text-shadow:
+        0 1px 4px rgba(
+            0,
+            0,
+            0,
+            0.6
+        );
 }
 
 
