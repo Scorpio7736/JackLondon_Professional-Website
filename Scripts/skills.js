@@ -90,9 +90,49 @@ const programmingLanguages = [
         projects: [
             "University Programming Projects"
         ]
+    },
+    {
+    name: "HTML",
+    shortName: "HTML",
+    image: "Images/Icons/HTML_ICON.png",
+    comfort: 9,
+
+    projects: [
+        "Professional Portfolio Website",
+        "Training Microsites",
+        "Web Development Projects"
+    ]
+    },
+
+    {
+        name: "CSS",
+        shortName: "CSS",
+        image: "Images/Icons/CSS_ICON.png",
+        comfort: 9,
+
+        projects: [
+            "Professional Portfolio Website",
+            "Responsive Interface Design",
+            "Training Microsites"
+        ]
+    },
+
+    {
+        name: "JavaScript",
+        shortName: "JS",
+        image: "Images/Icons/JS_ICON.png",
+        comfort: 8,
+
+        projects: [
+            "Professional Portfolio Website",
+            "Dynamic Web Interfaces",
+            "Web Development Projects"
+        ]
     }
 
+
 ];
+
 
 /* =========================================
    FRAMEWORKS & UI
@@ -178,6 +218,7 @@ const frameworks = [
     }
 
 ];
+
 
 /* =========================================
    DEVELOPMENT TOOLS
@@ -291,6 +332,7 @@ const developmentTools = [
 
 ];
 
+
 /* =========================================
    ADDITIONAL SKILLS
    ========================================= */
@@ -366,10 +408,6 @@ const additionalSkills = [
 
 
 /* =========================================
-   BUILD PROGRAMMING LANGUAGE CARDS
-   ========================================= */
-
-/* =========================================
    BUILD SKILL CARDS
    ========================================= */
 
@@ -392,6 +430,11 @@ function buildSkillCards(
 
     container.innerHTML = "";
 
+
+    
+    /* =====================================
+       BUILD EACH SKILL
+       ===================================== */
 
     skillList.forEach(
         skill => {
@@ -512,6 +555,41 @@ function buildSkillCards(
                 skill.name;
 
 
+            header.appendChild(
+                title
+            );
+
+
+            /* =================================
+               CONFIDENCE RATING HEADER
+               ================================= */
+
+            const confidenceHeader =
+                document.createElement(
+                    "div"
+                );
+
+
+            confidenceHeader.classList.add(
+                "confidence-rating-header"
+            );
+
+
+            const confidenceLabel =
+                document.createElement(
+                    "span"
+                );
+
+
+            confidenceLabel.classList.add(
+                "confidence-rating-label"
+            );
+
+
+            confidenceLabel.textContent =
+                "Confidence Rating";
+
+
             const comfort =
                 document.createElement(
                     "span"
@@ -527,18 +605,18 @@ function buildSkillCards(
                 `<strong>${skill.comfort}</strong> / 10`;
 
 
-            header.appendChild(
-                title
+            confidenceHeader.appendChild(
+                confidenceLabel
             );
 
 
-            header.appendChild(
+            confidenceHeader.appendChild(
                 comfort
             );
 
 
             /* =================================
-               COMFORT BAR
+               CONFIDENCE BAR
                ================================= */
 
             const comfortBar =
@@ -664,6 +742,11 @@ function buildSkillCards(
 
 
             card.appendChild(
+                confidenceHeader
+            );
+
+
+            card.appendChild(
                 comfortBar
             );
 
@@ -681,6 +764,7 @@ function buildSkillCards(
     );
 
 }
+
 
 /* =========================================
    BUILD LANGUAGE CARDS
@@ -709,6 +793,7 @@ function buildFrameworkCards() {
 
 }
 
+
 /* =========================================
    BUILD TOOL CARDS
    ========================================= */
@@ -721,6 +806,7 @@ function buildToolsCards() {
     );
 
 }
+
 
 /* =========================================
    BUILD ADDITIONAL SKILL CARDS

@@ -6,10 +6,20 @@
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fit, minmax(240px, 1fr));
+        repeat(
+            auto-fit,
+            minmax(
+                240px,
+                1fr
+            )
+        );
 
     gap: 16px;
 }
+
+
+
+
 
 
 /* =========================================
@@ -18,16 +28,23 @@
 
 .language-card {
     display: flex;
+
     flex-direction: column;
 
-    min-height: 330px;
+    min-height:
+        350px;
 
-    padding: 18px;
+    padding:
+        18px;
 
-    background: #25242a;
+    background:
+        #25242a;
 
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        8px;
 
     transition:
         transform 0.15s ease,
@@ -37,11 +54,14 @@
 
 
 .language-card:hover {
-    transform: translateY(-3px);
+    transform:
+        translateY(-3px);
 
-    background: var(--surface-hover);
+    background:
+        var(--surface-hover);
 
-    border-color: #55545e;
+    border-color:
+        #55545e;
 }
 
 
@@ -56,17 +76,24 @@
     height: 72px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    margin-bottom: 18px;
+    margin-bottom:
+        18px;
 
-    background: var(--surface-secondary);
+    background:
+        var(--surface-secondary);
 
-    border: 1px solid var(--border);
-    border-radius: 10px;
+    border:
+        1px solid var(--border);
 
-    overflow: hidden;
+    border-radius:
+        10px;
+
+    overflow:
+        hidden;
 }
 
 
@@ -74,14 +101,16 @@
     width: 52px;
     height: 52px;
 
-    object-fit: contain;
+    object-fit:
+        contain;
 }
 
 
 .language-image-fallback {
     position: absolute;
 
-    color: var(--accent-light);
+    color:
+        var(--accent-light);
 
     font-family:
         "Cascadia Code",
@@ -89,8 +118,11 @@
         Consolas,
         monospace;
 
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size:
+        0.8rem;
+
+    font-weight:
+        600;
 }
 
 
@@ -100,29 +132,55 @@
 
 .language-card-header {
     display: flex;
+
+    align-items: center;
+
+    min-height:
+        30px;
+
+    margin-bottom:
+        14px;
+}
+
+
+.language-card-header h3 {
+    color:
+        var(--text-primary);
+
+    font-size:
+        1.05rem;
+
+    font-weight:
+        600;
+}
+
+
+/* =========================================
+   CONFIDENCE RATING HEADER
+   ========================================= */
+
+.confidence-rating-header {
+    width: 100%;
+
+    display: flex;
+
     align-items: center;
     justify-content: space-between;
 
     gap: 12px;
 
-    margin-bottom: 12px;
-}
-
-
-.language-card-header h3 {
-    font-size: 1.05rem;
-    font-weight: 600;
+    margin-bottom:
+        7px;
 }
 
 
 /* =========================================
-   COMFORT LEVEL
+   CONFIDENCE RATING LABEL
    ========================================= */
 
-.language-comfort {
-    flex-shrink: 0;
-
-    color: var(--text-muted);
+.confidence-rating-label {
+    color:
+        var(--text-muted);
 
     font-family:
         "Cascadia Code",
@@ -130,41 +188,93 @@
         Consolas,
         monospace;
 
-    font-size: 0.72rem;
-}
+    font-size:
+        0.63rem;
 
+    font-weight:
+        600;
 
-.language-comfort strong {
-    color: var(--accent-light);
+    text-transform:
+        uppercase;
 
-    font-size: 0.9rem;
+    letter-spacing:
+        0.08em;
 }
 
 
 /* =========================================
-   COMFORT BAR
+   CONFIDENCE SCORE
+   ========================================= */
+
+.language-comfort {
+    flex-shrink: 0;
+
+    color:
+        var(--text-muted);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size:
+        0.72rem;
+}
+
+
+.language-comfort strong {
+    color:
+        var(--accent-light);
+
+    font-size:
+        0.9rem;
+}
+
+
+/* =========================================
+   CONFIDENCE BAR
    ========================================= */
 
 .comfort-bar {
+    position: relative;
+
     width: 100%;
-    height: 5px;
+    height: 6px;
 
-    margin-bottom: 20px;
+    margin-bottom:
+        22px;
 
-    background: #1e1d22;
+    background:
+        #1e1d22;
 
-    border-radius: 10px;
+    border:
+        1px solid rgba(
+            255,
+            255,
+            255,
+            0.025
+        );
 
-    overflow: hidden;
+    border-radius:
+        10px;
+
+    overflow:
+        hidden;
 }
 
 
 .comfort-bar-fill {
     height: 100%;
 
-    background: var(--accent);
+    background:
+        var(--accent);
 
-    border-radius: 10px;
+    border-radius:
+        10px;
+
+    transition:
+        width 300ms ease;
 }
 
 
@@ -173,16 +283,19 @@
    ========================================= */
 
 .language-projects {
-    margin-top: auto;
+    margin-top:
+        auto;
 }
 
 
 .language-project-label {
     display: block;
 
-    margin-bottom: 9px;
+    margin-bottom:
+        9px;
 
-    color: var(--text-muted);
+    color:
+        var(--text-muted);
 
     font-family:
         "Cascadia Code",
@@ -190,43 +303,90 @@
         Consolas,
         monospace;
 
-    font-size: 0.67rem;
+    font-size:
+        0.67rem;
 
-    text-transform: uppercase;
+    text-transform:
+        uppercase;
 
-    letter-spacing: 0.08em;
+    letter-spacing:
+        0.08em;
 }
 
 
 .language-projects ul {
     display: flex;
+
     flex-direction: column;
 
     gap: 7px;
 
-    list-style: none;
+    list-style:
+        none;
+
+    margin: 0;
+
+    padding: 0;
 }
 
 
 .language-projects li {
     position: relative;
 
-    padding-left: 13px;
+    padding-left:
+        13px;
 
-    color: var(--text-secondary);
+    color:
+        var(--text-secondary);
 
-    font-size: 0.78rem;
+    font-size:
+        0.78rem;
 
-    line-height: 1.4;
+    line-height:
+        1.4;
 }
 
 
 .language-projects li::before {
-    content: "›";
+    content:
+        "›";
 
     position: absolute;
 
     left: 0;
 
-    color: var(--accent-light);
+    color:
+        var(--accent-light);
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 550px) {
+
+    .language-card-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .confidence-explainer {
+        padding:
+            15px;
+    }
+
+
+    .confidence-explainer-content p {
+        font-size:
+            0.75rem;
+    }
+
+
+    .language-card {
+        min-height:
+            0;
+    }
+
 }

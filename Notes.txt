@@ -15,9 +15,6 @@ Home:
         guitar building
         fishing
         etc...
-Skills:
-    add confidence description to each cell
-    add html css js to lang
 projects:
     add slot for icon next to title
     add link to page dedicated to talking about the projects
