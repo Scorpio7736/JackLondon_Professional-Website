@@ -89,6 +89,42 @@ const experiences = [
     },
 
     {
+        containerId: "experienceUREC",
+
+        company:
+            "UW–Green Bay UREC Outdoors",
+
+        position:
+            "Route Setter — Climbing Tower",
+
+        icon:
+            "Images/Icons/RouteSetters_ICON.png",
+
+        iconFallback:
+            "RS",
+
+        location:
+            "Green Bay, Wisconsin",
+
+        startDate:
+            "Fall 2024",
+
+        endDate:
+            "Present",
+
+        type:
+            "Team Member",
+
+        responsibilities: [
+            "Fill",
+            "In",
+            "with",
+            "actual",
+            "responsibilities"
+        ]
+    },
+
+    {
     containerId:
         "experienceERT",
 
