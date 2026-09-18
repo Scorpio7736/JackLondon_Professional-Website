@@ -1080,24 +1080,56 @@ button.nav-item {
 
     transform:
         translateY(0);
-
-    transition:
-        opacity 120ms ease,
-        transform 120ms ease;
 }
 
 
 /* =========================================
-   WORKSPACE PAGE TRANSITION
+   PAGE FADE OUT
    ========================================= */
 
 .workspace-content.workspace-switching {
     opacity: 0;
 
     transform:
-        translateY(4px);
+        translateY(6px);
+
+    transition:
+        opacity 275ms ease,
+        transform 275ms ease;
 
     pointer-events: none;
+}
+
+
+/* =========================================
+   PAGE FADE IN - START
+   ========================================= */
+
+.workspace-content.workspace-entering {
+    opacity: 0;
+
+    transform:
+        translateY(8px);
+
+    transition: none;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   PAGE FADE IN - ACTIVE
+   ========================================= */
+
+.workspace-content.workspace-entering.workspace-entering-active {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+    transition:
+        opacity 400ms ease,
+        transform 400ms ease;
 }
 
 

@@ -89,10 +89,9 @@ function openPage(
     }
 
 
-    /*
-        Ignore clicks on the page
-        already being displayed.
-    */
+    /* =====================================
+       IGNORE CURRENT PAGE
+       ===================================== */
 
     if (
         pageName === activePageName &&
@@ -104,23 +103,25 @@ function openPage(
     }
 
 
-    /*
-        Update sidebar immediately.
-    */
+    /* =====================================
+       UPDATE SIDEBAR
+       ===================================== */
 
-    pageNavigation.forEach(button => {
+    pageNavigation.forEach(
+        button => {
 
-        button.classList.toggle(
-            "active",
-            button.dataset.page === pageName
-        );
+            button.classList.toggle(
+                "active",
+                button.dataset.page === pageName
+            );
 
-    });
+        }
+    );
 
 
-    /*
-        Update workspace title.
-    */
+    /* =====================================
+       UPDATE WORKSPACE TITLE
+       ===================================== */
 
     const config =
         pageConfig[pageName];
@@ -137,14 +138,12 @@ function openPage(
     }
 
 
-    /*
-        Create a new transition ID.
-
-        If the user clicks another page
-        quickly, old transitions are ignored.
-    */
+    /* =====================================
+       TRANSITION ID
+       ===================================== */
 
     pageTransitionId++;
+
 
     const transitionId =
         pageTransitionId;
@@ -164,22 +163,24 @@ function openPage(
         }
 
 
-        /*
-            Hide all pages.
-        */
+        /* =================================
+           HIDE OLD PAGES
+           ================================= */
 
-        pages.forEach(page => {
+        pages.forEach(
+            page => {
 
-            page.classList.remove(
-                "active"
-            );
+                page.classList.remove(
+                    "active"
+                );
 
-        });
+            }
+        );
 
 
-        /*
-            Show selected page.
-        */
+        /* =================================
+           SHOW NEW PAGE
+           ================================= */
 
         selectedPage.classList.add(
             "active"
@@ -190,44 +191,124 @@ function openPage(
             pageName;
 
 
-        /*
-            Reset scroll position.
-        */
+        /* =================================
+           RESET SCROLL
+           ================================= */
 
-        workspaceContent.scrollTop = 0;
+        workspaceContent.scrollTop =
+            0;
 
 
-        /*
-            Build page-specific tabs.
-        */
+        /* =================================
+           BUILD TABS
+           ================================= */
 
         buildTabs(
             selectedPage
         );
 
 
-        /*
-            Watch page sections.
-        */
+        /* =================================
+           OBSERVE SECTIONS
+           ================================= */
 
         setupSectionObserver(
             selectedPage
         );
 
 
-        /*
-            Fade workspace back in.
-        */
+        /* =================================
+           INITIAL LOAD
+           ================================= */
+
+        if (!animate) {
+
+            workspaceContent.classList.remove(
+                "workspace-switching",
+                "workspace-entering",
+                "workspace-entering-active"
+            );
+
+            return;
+
+        }
+
+
+        /* =================================
+           PREPARE FADE IN
+           ================================= */
 
         workspaceContent.classList.remove(
             "workspace-switching"
+        );
+
+
+        workspaceContent.classList.add(
+            "workspace-entering"
+        );
+
+
+        /*
+            Force the browser to render
+            opacity: 0 before starting
+            the fade-in.
+        */
+
+        void workspaceContent.offsetWidth;
+
+
+        /* =================================
+           START FADE IN
+           ================================= */
+
+        requestAnimationFrame(
+            () => {
+
+                if (
+                    transitionId !==
+                    pageTransitionId
+                ) {
+                    return;
+                }
+
+
+                workspaceContent.classList.add(
+                    "workspace-entering-active"
+                );
+
+
+                /* =========================
+                   CLEAN UP AFTER FADE
+                   ========================= */
+
+                setTimeout(
+                    () => {
+
+                        if (
+                            transitionId !==
+                            pageTransitionId
+                        ) {
+                            return;
+                        }
+
+
+                        workspaceContent.classList.remove(
+                            "workspace-entering",
+                            "workspace-entering-active"
+                        );
+
+                    },
+                    400
+                );
+
+            }
         );
 
     };
 
 
     /* =====================================
-       INITIAL LOAD
+       INITIAL PAGE LOAD
        ===================================== */
 
     if (!animate) {
@@ -235,11 +316,22 @@ function openPage(
         switchPage();
 
         return;
+
     }
 
 
     /* =====================================
-       FADE OUT WORKSPACE
+       CLEAN OLD TRANSITION CLASSES
+       ===================================== */
+
+    workspaceContent.classList.remove(
+        "workspace-entering",
+        "workspace-entering-active"
+    );
+
+
+    /* =====================================
+       FADE OUT
        ===================================== */
 
     workspaceContent.classList.add(
@@ -247,14 +339,13 @@ function openPage(
     );
 
 
-    /*
-        Wait for the short fade-out
-        before replacing the page.
-    */
+    /* =====================================
+       WAIT FOR FADE OUT
+       ===================================== */
 
     setTimeout(
         switchPage,
-        120
+        275
     );
 
 }

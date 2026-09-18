@@ -27,3 +27,7 @@ Activities
     Add cell for each activity
     add link to whole page talking about activity
     focus on the person who is Jack London to add character
+
+Animations:
+    add clean top bar fade animations on page switch
+    add slide scroll animation for left bar on page switch
