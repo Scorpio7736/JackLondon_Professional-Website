@@ -58,7 +58,7 @@ const experiences = [
             {
                 name: "View DentaQuest",
                 link: "https://www.dentaquest.com/"
-            }         
+            }
 
         ]
     },
@@ -81,7 +81,7 @@ const experiences = [
         icon:
             "Images/Icons/UREC_ICON.png",
 
-        BANNER:
+        banner:
             "Images/Banners/UREC_BANNER.png",
 
         iconFallback:
@@ -119,7 +119,6 @@ const experiences = [
 
         links: [
 
-            
             {
                 name: "View UREC Outdoors",
                 link: "https://www.uwgb.edu/urec/adventure/"
@@ -129,7 +128,6 @@ const experiences = [
                 name: "Climbing Tower",
                 link: "https://www.uwgb.edu/urec/adventure/climbing/"
             }
-            
 
         ]
     },
@@ -173,11 +171,16 @@ const experiences = [
         responsibilities: [
 
             "Plan and set climbing routes for specific difficulty grades and skill levels",
+
             "Forerun and evaluate routes for movement, safety, flow, and appropriate grading",
+
             "Assist other route setters with testing, feedback, and route refinement",
+
             "Inspect climbing holds, hardware, and setting equipment for safe use",
+
             "Stay current with route-setting standards, techniques, and climbing safety practices",
-            "Maintain current emergency-response and facility safety training",
+
+            "Maintain current emergency-response and facility safety training"
 
         ],
 
@@ -246,11 +249,11 @@ const experiences = [
         ],
 
         links: [
+
             {
                 name: "Learn More",
                 link: "https://www.uwgb.edu/urec/"
             }
-            
 
         ]
     },
@@ -307,12 +310,10 @@ const experiences = [
 
         links: [
 
-            
             {
                 name: "View Community Center",
                 link: "https://ashwaubenon.gov/government/departments/parks-recreation-forestry/community-center/"
             }
-            
 
         ]
     },
@@ -369,16 +370,15 @@ const experiences = [
 
         links: [
 
-            
             {
                 name: "View Scoop DeVille",
                 link: "https://www.scoopdevillehartford.com/"
             },
+
             {
                 name: "Facebook Page",
                 link: "https://www.facebook.com/Scoop.D.Ville/"
             }
-            
 
         ]
     }
@@ -475,7 +475,7 @@ function buildExperience(
         );
 
 
-    BANNER.classList.add(
+    banner.classList.add(
         "experience-banner"
     );
 
@@ -504,13 +504,18 @@ function buildExperience(
             "error",
             () => {
 
+                console.warn(
+                    "Banner failed to load:",
+                    experience.banner
+                );
+
                 bannerImage.remove();
 
             }
         );
 
 
-        BANNER.appendChild(
+        banner.appendChild(
             bannerImage
         );
 
@@ -605,6 +610,11 @@ function buildExperience(
     icon.addEventListener(
         "error",
         () => {
+
+            console.warn(
+                "Experience icon failed to load:",
+                experience.icon
+            );
 
             icon.style.display =
                 "none";
