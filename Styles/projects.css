@@ -548,6 +548,10 @@
 }
 
 
+/* =========================================
+   GALLERY COLUMN COUNTS
+   ========================================= */
+
 .project-gallery-1 {
     grid-template-columns:
         minmax(0, 1fr);
@@ -572,11 +576,16 @@
 }
 
 
+/* =========================================
+   GALLERY IMAGE
+   ========================================= */
+
 .project-gallery-image {
     width: 100%;
 
-    aspect-ratio:
-        16 / 9;
+    padding: 0;
+
+    appearance: none;
 
     background:
         var(--surface-secondary);
@@ -587,12 +596,51 @@
     border-radius: 6px;
 
     overflow: hidden;
+
+    cursor:
+        zoom-in;
+
+    font: inherit;
+
+    transition:
+        border-color 160ms ease,
+        transform 160ms ease,
+        box-shadow 160ms ease;
+}
+
+
+.project-gallery-image:hover {
+    border-color:
+        var(--accent-light);
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 6px 18px rgba(
+            0,
+            0,
+            0,
+            0.22
+        );
+}
+
+
+.project-gallery-image:focus-visible {
+    outline:
+        2px solid var(--accent-light);
+
+    outline-offset:
+        3px;
 }
 
 
 .project-gallery-image img {
     width: 100%;
-    height: 100%;
+    height: auto;
+
+    aspect-ratio:
+        16 / 9;
 
     display: block;
 
@@ -606,6 +654,211 @@
 .project-gallery-image:hover img {
     transform:
         scale(1.025);
+}
+
+
+/* =========================================
+   IMAGE VIEWER
+   ========================================= */
+
+.project-image-viewer {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 10000;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 32px;
+
+    background:
+        rgba(
+            10,
+            10,
+            14,
+            0.92
+        );
+
+    backdrop-filter:
+        blur(8px);
+
+    animation:
+        projectViewerFadeIn
+        160ms ease;
+}
+
+
+/* =========================================
+   IMAGE VIEWER CONTENT
+   ========================================= */
+
+.project-image-viewer-content {
+    position: relative;
+
+    width:
+        fit-content;
+
+    max-width:
+        95vw;
+
+    max-height:
+        92vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================
+   IMAGE VIEWER IMAGE
+   ========================================= */
+
+.project-image-viewer-image {
+    display: block;
+
+    max-width:
+        95vw;
+
+    max-height:
+        92vh;
+
+    width: auto;
+    height: auto;
+
+    object-fit: contain;
+
+    border:
+        1px solid rgba(
+            255,
+            255,
+            255,
+            0.14
+        );
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 20px 60px rgba(
+            0,
+            0,
+            0,
+            0.55
+        );
+
+    animation:
+        projectViewerImageIn
+        180ms ease;
+}
+
+
+/* =========================================
+   IMAGE VIEWER CLOSE BUTTON
+   ========================================= */
+
+.project-image-viewer-close {
+    position: absolute;
+
+    top: -18px;
+    right: -18px;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    color:
+        #ffffff;
+
+    background:
+        #302f35;
+
+    border:
+        1px solid #55545e;
+
+    border-radius:
+        50%;
+
+    cursor:
+        pointer;
+
+    font-size:
+        1.7rem;
+
+    line-height:
+        1;
+
+    transition:
+        background 150ms ease,
+        border-color 150ms ease,
+        transform 150ms ease;
+}
+
+
+.project-image-viewer-close:hover {
+    background:
+        #3a3940;
+
+    border-color:
+        var(--accent-light);
+
+    transform:
+        scale(1.05);
+}
+
+
+.project-image-viewer-close:focus-visible {
+    outline:
+        2px solid var(--accent-light);
+
+    outline-offset:
+        3px;
+}
+
+
+/* =========================================
+   IMAGE VIEWER ANIMATIONS
+   ========================================= */
+
+@keyframes projectViewerFadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+@keyframes projectViewerImageIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
+
 }
 
 
@@ -676,6 +929,29 @@
     .project-gallery-3 {
         grid-template-columns:
             1fr;
+    }
+
+
+    .project-image-viewer {
+        padding: 16px;
+    }
+
+
+    .project-image-viewer-image {
+        max-width:
+            calc(100vw - 32px);
+
+        max-height:
+            85vh;
+    }
+
+
+    .project-image-viewer-close {
+        top: -14px;
+        right: -8px;
+
+        width: 38px;
+        height: 38px;
     }
 
 }

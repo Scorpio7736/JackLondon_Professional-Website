@@ -113,9 +113,12 @@ const projects = [
         ],
 
         images: [
-            "Images/Projects/EasterEggGuide/EasterEggGuide_1.png",
-            "Images/Projects/EasterEggGuide/EasterEggGuide_2.png",
-            "Images/Projects/EasterEggGuide/EasterEggGuide_3.png"
+            "Images/ProjectScreenshots/TheUltimateEasterEggGuide/EasterEggGuide_1.png",
+            "Images/ProjectScreenshots/TheUltimateEasterEggGuide/EasterEggGuide_2.png",
+            "Images/ProjectScreenshots/TheUltimateEasterEggGuide/EasterEggGuide_3.png",
+            "Images/ProjectScreenshots/TheUltimateEasterEggGuide/EasterEggGuide_4.png",
+            "Images/ProjectScreenshots/TheUltimateEasterEggGuide/EasterEggGuide_5.png",
+            "Images/ProjectScreenshots/TheUltimateEasterEggGuide/EasterEggGuide_6.png"
         ],
 
         repoLink:
@@ -1026,32 +1029,61 @@ function createProjectGallery(
         );
 
 
-    const galleryImages =
-        images.slice(
-            0,
+    /*
+        Use every image.
+
+        The class is capped at 3 so
+        anything above 3 continues
+        onto another row.
+    */
+
+    const columnCount =
+        Math.min(
+            images.length,
             3
         );
 
 
     gallery.classList.add(
         "project-gallery",
-        `project-gallery-${galleryImages.length}`
+        `project-gallery-${columnCount}`
     );
 
 
-    galleryImages.forEach(
+    images.forEach(
         (imagePath, index) => {
+
+            /*
+                BUTTON WRAPPER
+
+                Using a button makes each
+                image keyboard accessible.
+            */
 
             const wrapper =
                 document.createElement(
-                    "div"
+                    "button"
                 );
+
+
+            wrapper.type =
+                "button";
 
 
             wrapper.classList.add(
                 "project-gallery-image"
             );
 
+
+            wrapper.setAttribute(
+                "aria-label",
+                `View ${projectTitle} screenshot ${index + 1}`
+            );
+
+
+            /*
+                IMAGE
+            */
 
             const image =
                 document.createElement(
@@ -1071,12 +1103,33 @@ function createProjectGallery(
                 "lazy";
 
 
+            /*
+                IMAGE LOAD ERROR
+            */
+
             image.addEventListener(
                 "error",
                 () => {
 
                     wrapper.style.display =
                         "none";
+
+                }
+            );
+
+
+            /*
+                OPEN IMAGE VIEWER
+            */
+
+            wrapper.addEventListener(
+                "click",
+                () => {
+
+                    openProjectImageViewer(
+                        imagePath,
+                        image.alt
+                    );
 
                 }
             );
@@ -1111,6 +1164,260 @@ function createProjectGallery(
 
 
     return cell;
+
+}
+
+
+/* =========================================
+   PROJECT IMAGE VIEWER
+   ========================================= */
+
+function openProjectImageViewer(
+    imagePath,
+    altText
+) {
+
+    /*
+        Remove an existing viewer
+        if one somehow already exists.
+    */
+
+    const existingViewer =
+        document.querySelector(
+            ".project-image-viewer"
+        );
+
+
+    if (existingViewer) {
+
+        existingViewer.remove();
+
+    }
+
+
+    /*
+        SAVE CURRENT BODY OVERFLOW
+    */
+
+    const previousOverflow =
+        document.body.style.overflow;
+
+
+    document.body.style.overflow =
+        "hidden";
+
+
+    /*
+        VIEWER BACKDROP
+    */
+
+    const viewer =
+        document.createElement(
+            "div"
+        );
+
+
+    viewer.classList.add(
+        "project-image-viewer"
+    );
+
+
+    viewer.setAttribute(
+        "role",
+        "dialog"
+    );
+
+
+    viewer.setAttribute(
+        "aria-modal",
+        "true"
+    );
+
+
+    viewer.setAttribute(
+        "aria-label",
+        altText
+    );
+
+
+    /*
+        IMAGE CONTAINER
+    */
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+
+    content.classList.add(
+        "project-image-viewer-content"
+    );
+
+
+    /*
+        EXPANDED IMAGE
+    */
+
+    const image =
+        document.createElement(
+            "img"
+        );
+
+
+    image.src =
+        imagePath;
+
+
+    image.alt =
+        altText;
+
+
+    image.classList.add(
+        "project-image-viewer-image"
+    );
+
+
+    /*
+        CLOSE BUTTON
+    */
+
+    const closeButton =
+        document.createElement(
+            "button"
+        );
+
+
+    closeButton.type =
+        "button";
+
+
+    closeButton.classList.add(
+        "project-image-viewer-close"
+    );
+
+
+    closeButton.setAttribute(
+        "aria-label",
+        "Close image viewer"
+    );
+
+
+    closeButton.textContent =
+        "×";
+
+
+    /*
+        CLOSE VIEWER
+    */
+
+    const closeViewer = () => {
+
+        document.removeEventListener(
+            "keydown",
+            handleKeyDown
+        );
+
+
+        viewer.remove();
+
+
+        document.body.style.overflow =
+            previousOverflow;
+
+    };
+
+
+    /*
+        ESCAPE KEY
+    */
+
+    const handleKeyDown =
+        event => {
+
+            if (
+                event.key ===
+                "Escape"
+            ) {
+
+                closeViewer();
+
+            }
+
+        };
+
+
+    /*
+        CLOSE BUTTON
+    */
+
+    closeButton.addEventListener(
+        "click",
+        closeViewer
+    );
+
+
+    /*
+        CLICK BACKDROP TO CLOSE
+    */
+
+    viewer.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                viewer
+            ) {
+
+                closeViewer();
+
+            }
+
+        }
+    );
+
+
+    /*
+        ESCAPE LISTENER
+    */
+
+    document.addEventListener(
+        "keydown",
+        handleKeyDown
+    );
+
+
+    /*
+        BUILD VIEWER
+    */
+
+    content.appendChild(
+        image
+    );
+
+
+    content.appendChild(
+        closeButton
+    );
+
+
+    viewer.appendChild(
+        content
+    );
+
+
+    document.body.appendChild(
+        viewer
+    );
+
+
+    /*
+        MOVE KEYBOARD FOCUS
+        TO CLOSE BUTTON
+    */
+
+    closeButton.focus();
 
 }
 
