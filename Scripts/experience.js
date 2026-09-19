@@ -81,8 +81,8 @@ const experiences = [
         icon:
             "Images/Icons/UREC_ICON.png",
 
-        banner:
-            "Images/Banners/UREC_Banner.png",
+        BANNER:
+            "Images/Banners/UREC_BANNER.png",
 
         iconFallback:
             "UR",
@@ -153,7 +153,7 @@ const experiences = [
             "Images/Icons/RouteSetters_ICON.png",
 
         banner:
-            "Images/Banners/RouteSetter_Banner.png",
+            "Images/Banners/RouteSetter_BANNER.png",
 
         iconFallback:
             "RS",
@@ -210,7 +210,7 @@ const experiences = [
             "Images/Icons/ERT_ICON.png",
 
         banner:
-            "Images/Banners/ERT_Banner.png",
+            "Images/Banners/ERT_BANNER.png",
 
         iconFallback:
             "ERT",
@@ -274,7 +274,7 @@ const experiences = [
             "Images/Icons/ACC_ICON.png",
 
         banner:
-            "Images/Banners/ACC_Banner.png",
+            "Images/Banners/ACC_BANNER.png",
 
         iconFallback:
             "ACC",
@@ -336,7 +336,7 @@ const experiences = [
             "Images/Icons/ScoopDeVille_ICON.png",
 
         banner:
-            "Images/Banners/ScoopDeVille_Banner.png",
+            "Images/Banners/ScoopDeVille_BANNER.png",
 
         iconFallback:
             "SD",
@@ -475,7 +475,7 @@ function buildExperience(
         );
 
 
-    banner.classList.add(
+    BANNER.classList.add(
         "experience-banner"
     );
 
@@ -510,7 +510,7 @@ function buildExperience(
         );
 
 
-        banner.appendChild(
+        BANNER.appendChild(
             bannerImage
         );
 
