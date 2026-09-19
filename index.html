@@ -1,12 +1,13 @@
 <!--
     PROJECT: Jack London Portfolio
-    VERSION: 1.0.1
+    VERSION: 1.1.0
     VERSION DATE: 9/18/2026
-    VERSION NAME: [Hello World]
+    VERSION NAME: [Jebediah Kerman]
     OVERALL CHANGES:
         - Removed MTG Pack Opener Web
         - Fixed Scrolling issue on web
-        - 
+        - Added Activities page
+        - Added KSP Activity
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +22,7 @@
      ========================================= -->
 
 <link rel="stylesheet" href="stylesheet.css">
-
+<link rel="stylesheet" href="Styles/Activities/KSP/ksp.css">
 <link rel="stylesheet" href="Styles/layout.css">
 <link rel="stylesheet" href="Styles/components.css">
 
@@ -1370,6 +1371,23 @@
 
                     </section>
 
+                    <!-- =====================================
+                        KERBAL SPACE PROGRAM
+                        ===================================== -->
+
+                    <section
+                        class="page-section"
+                        id="activities-ksp"
+                        data-tab="Kerbal Space Program"
+                    >
+
+                        <div
+                            class="ksp-activity"
+                            id="kspActivity"
+                        ></div>
+
+                    </section>
+
                 </section>
 
             </section>
@@ -1389,6 +1407,11 @@
 <script src="Scripts/experience.js"></script>
 <script src="Scripts/projects.js"></script>
 <script src="Scripts/education.js"></script>
+
+<!-- ACTIVITIES -->
+<script src="Scripts/Activities/KSP/ksp.js"></script>
+
+<!-- MAIN -->
 <script src="script.js"></script>
 
 </body>

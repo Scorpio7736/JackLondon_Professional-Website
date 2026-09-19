@@ -1,0 +1,1103 @@
+/* =========================================
+   KERBAL SPACE PROGRAM ACTIVITY
+   ========================================= */
+
+.ksp-activity {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+/* =========================================
+   HERO
+   ========================================= */
+
+.ksp-hero {
+    overflow: hidden;
+
+    background:
+        #29282e;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        10px;
+
+    box-shadow:
+        0 4px 16px
+        rgba(0, 0, 0, 0.16);
+}
+
+
+/* =========================================
+   BANNER
+   ========================================= */
+
+.ksp-banner {
+    position: relative;
+
+    width: 100%;
+    height: 240px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1d1c21,
+            #302f36
+        );
+}
+
+
+.ksp-banner-image {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+    object-position: center;
+}
+
+
+.ksp-banner-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 38%,
+            rgba(26, 25, 30, 0.25) 65%,
+            rgba(26, 25, 30, 0.78) 100%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   HERO CONTENT
+   ========================================= */
+
+.ksp-hero-content {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding:
+        0 28px 26px;
+
+    margin-top:
+        -46px;
+}
+
+
+/* =========================================
+   ICON
+   ========================================= */
+
+.ksp-icon-wrapper {
+    position: relative;
+
+    width: 108px;
+    height: 108px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        #212026;
+
+    border:
+        5px solid #29282e;
+
+    border-radius:
+        18px;
+
+    box-shadow:
+        0 5px 16px
+        rgba(0, 0, 0, 0.35);
+}
+
+
+.ksp-icon {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+.ksp-icon-fallback {
+    position: absolute;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    color:
+        var(--accent-light);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size:
+        1.2rem;
+
+    font-weight:
+        700;
+}
+
+
+/* =========================================
+   TITLE
+   ========================================= */
+
+.ksp-title-area {
+    min-width: 0;
+
+    padding-top:
+        48px;
+}
+
+
+.ksp-title-area h2 {
+    margin:
+        3px 0 6px;
+
+    font-size:
+        clamp(
+            1.6rem,
+            3vw,
+            2.2rem
+        );
+
+    font-weight:
+        600;
+
+    letter-spacing:
+        -0.03em;
+}
+
+
+.ksp-title-area p {
+    margin: 0;
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        0.88rem;
+
+    line-height:
+        1.55;
+}
+
+
+/* =========================================
+   CONTENT LAYOUT
+   ========================================= */
+
+.ksp-content-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(220px, 290px);
+
+    gap: 18px;
+
+    align-items: stretch;
+}
+
+
+/* =========================================
+   GENERAL PANEL
+   ========================================= */
+
+.ksp-panel {
+    background:
+        #29282e;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        10px;
+
+    box-shadow:
+        0 4px 14px
+        rgba(0, 0, 0, 0.14);
+}
+
+
+.ksp-panel-heading {
+    padding:
+        22px 24px 18px;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+
+.ksp-panel-heading h3 {
+    margin:
+        4px 0 0;
+
+    font-size:
+        1.25rem;
+
+    font-weight:
+        600;
+
+    letter-spacing:
+        -0.02em;
+}
+
+
+.ksp-panel-heading p {
+    max-width:
+        680px;
+
+    margin:
+        8px 0 0;
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        0.82rem;
+
+    line-height:
+        1.55;
+}
+
+
+/* =========================================
+   DESCRIPTION
+   ========================================= */
+
+.ksp-about-panel {
+    min-width: 0;
+}
+
+
+.ksp-description {
+    padding:
+        21px 24px 24px;
+}
+
+
+.ksp-description p {
+    max-width:
+        800px;
+
+    margin:
+        0 0 16px;
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        0.88rem;
+
+    line-height:
+        1.75;
+}
+
+
+.ksp-description p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================
+   HOURS CARD
+   ========================================= */
+
+.ksp-hours-card {
+    display: flex;
+
+    flex-direction: column;
+
+    min-height:
+        100%;
+
+    padding:
+        24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(123, 131, 235, 0.09),
+            transparent 45%
+        ),
+        #29282e;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        10px;
+
+    box-shadow:
+        0 4px 14px
+        rgba(0, 0, 0, 0.14);
+}
+
+
+.ksp-hours-number {
+    margin-top:
+        24px;
+
+    color:
+        var(--text-primary);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size:
+        clamp(
+            2.8rem,
+            7vw,
+            4.25rem
+        );
+
+    font-weight:
+        700;
+
+    line-height:
+        0.95;
+
+    letter-spacing:
+        -0.07em;
+}
+
+
+.ksp-hours-label {
+    margin-top:
+        8px;
+
+    color:
+        var(--accent-light);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size:
+        0.68rem;
+
+    font-weight:
+        600;
+
+    letter-spacing:
+        0.15em;
+}
+
+
+.ksp-hours-card > p {
+    margin:
+        22px 0;
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        0.79rem;
+
+    line-height:
+        1.6;
+}
+
+
+.ksp-hours-terminal {
+    margin-top:
+        auto;
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    gap: 10px;
+
+    padding:
+        10px 11px;
+
+    color:
+        var(--text-muted);
+
+    background:
+        #211f25;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        5px;
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size:
+        0.67rem;
+}
+
+
+.ksp-hours-terminal span:last-child {
+    color:
+        var(--accent-light);
+}
+
+
+/* =========================================
+   CRAFT LIBRARY
+   ========================================= */
+
+.ksp-craft-library {
+    overflow: hidden;
+}
+
+
+.ksp-library-heading {
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    gap: 24px;
+}
+
+
+/* =========================================
+   CRAFT COUNT
+   ========================================= */
+
+.ksp-craft-count {
+    min-width:
+        120px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items:
+        flex-end;
+
+    padding-left:
+        20px;
+
+    border-left:
+        1px solid var(--border);
+}
+
+
+.ksp-craft-count strong {
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size:
+        1.5rem;
+
+    font-weight:
+        600;
+}
+
+
+.ksp-craft-count span {
+    margin-top:
+        3px;
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        0.65rem;
+}
+
+
+/* =========================================
+   CRAFT GRID
+   ========================================= */
+
+.ksp-craft-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+    gap: 13px;
+
+    padding:
+        18px;
+}
+
+
+/* =========================================
+   CRAFT CARD
+   ========================================= */
+
+.ksp-craft-card {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    padding:
+        18px;
+
+    background:
+        #25242a;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        8px;
+
+    transition:
+        background 150ms ease,
+        border-color 150ms ease,
+        transform 150ms ease;
+}
+
+
+.ksp-craft-card:hover {
+    background:
+        var(--surface-hover);
+
+    border-color:
+        #55545e;
+
+    transform:
+        translateY(-2px);
+}
+
+
+/* =========================================
+   CRAFT HEADER
+   ========================================= */
+
+.ksp-craft-card-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+}
+
+
+.ksp-craft-icon-wrapper {
+    position: relative;
+
+    width: 56px;
+    height: 56px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        #1f1e23;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        7px;
+}
+
+
+.ksp-craft-icon {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+.ksp-craft-icon-fallback {
+    position: absolute;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size:
+        1.3rem;
+}
+
+
+.ksp-craft-icon-placeholder {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    font-size:
+        1.3rem;
+}
+
+
+/* =========================================
+   CRAFT TITLE
+   ========================================= */
+
+.ksp-craft-title {
+    min-width: 0;
+}
+
+
+.ksp-craft-title > span {
+    display: block;
+
+    margin-bottom:
+        4px;
+
+    color:
+        var(--accent-light);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size:
+        0.58rem;
+
+    font-weight:
+        600;
+
+    letter-spacing:
+        0.08em;
+}
+
+
+.ksp-craft-title h4 {
+    overflow: hidden;
+
+    margin: 0;
+
+    font-size:
+        0.95rem;
+
+    font-weight:
+        600;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+}
+
+
+/* =========================================
+   CRAFT DESCRIPTION
+   ========================================= */
+
+.ksp-craft-description {
+    flex-grow: 1;
+
+    margin:
+        16px 0 18px;
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        0.79rem;
+
+    line-height:
+        1.6;
+}
+
+
+/* =========================================
+   CRAFT FOOTER
+   ========================================= */
+
+.ksp-craft-card-footer {
+    display: flex;
+
+    align-items: center;
+
+    justify-content:
+        space-between;
+
+    gap: 12px;
+
+    padding-top:
+        14px;
+
+    border-top:
+        1px solid var(--border);
+}
+
+
+.ksp-file-type {
+    color:
+        var(--text-muted);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size:
+        0.62rem;
+}
+
+
+/* =========================================
+   DOWNLOAD BUTTON
+   ========================================= */
+
+.ksp-craft-download {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding:
+        8px 11px;
+
+    color:
+        var(--text-primary);
+
+    background:
+        #323139;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        5px;
+
+    text-decoration: none;
+
+    font-family:
+        inherit;
+
+    font-size:
+        0.72rem;
+
+    cursor:
+        pointer;
+
+    transition:
+        background 150ms ease,
+        border-color 150ms ease,
+        transform 150ms ease;
+}
+
+
+.ksp-craft-download:hover {
+    background:
+        var(--surface-hover);
+
+    border-color:
+        var(--accent);
+
+    transform:
+        translateY(-1px);
+}
+
+
+.ksp-craft-download.disabled {
+    color:
+        var(--text-muted);
+
+    cursor:
+        default;
+
+    opacity:
+        0.65;
+}
+
+
+.ksp-craft-download.disabled:hover {
+    transform: none;
+
+    border-color:
+        var(--border);
+}
+
+
+/* =========================================
+   EMPTY HANGAR
+   ========================================= */
+
+.ksp-craft-empty {
+    min-height:
+        220px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        35px 24px;
+
+    text-align:
+        center;
+}
+
+
+.ksp-empty-icon {
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom:
+        14px;
+
+    background:
+        #25242a;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        8px;
+
+    font-size:
+        1.4rem;
+}
+
+
+.ksp-craft-empty h4 {
+    margin:
+        0 0 7px;
+
+    font-size:
+        1rem;
+
+    font-weight:
+        600;
+}
+
+
+.ksp-craft-empty p {
+    max-width:
+        420px;
+
+    margin:
+        0 0 14px;
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        0.8rem;
+
+    line-height:
+        1.55;
+}
+
+
+.ksp-craft-empty > span {
+    color:
+        var(--text-muted);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size:
+        0.65rem;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 850px) {
+
+    .ksp-content-layout {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .ksp-craft-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .ksp-hours-card {
+        min-height:
+            250px;
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .ksp-banner {
+        height:
+            180px;
+    }
+
+
+    .ksp-hero-content {
+        align-items:
+            flex-end;
+
+        gap:
+            14px;
+
+        padding:
+            0 18px 20px;
+
+        margin-top:
+            -35px;
+    }
+
+
+    .ksp-icon-wrapper {
+        width:
+            82px;
+
+        height:
+            82px;
+
+        border-width:
+            4px;
+
+        border-radius:
+            14px;
+    }
+
+
+    .ksp-title-area {
+        padding-top:
+            38px;
+    }
+
+
+    .ksp-title-area h2 {
+        font-size:
+            1.35rem;
+    }
+
+
+    .ksp-title-area p {
+        font-size:
+            0.76rem;
+    }
+
+
+    .ksp-library-heading {
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+    }
+
+
+    .ksp-craft-count {
+        width: 100%;
+
+        align-items:
+            flex-start;
+
+        padding:
+            12px 0 0;
+
+        border-left: 0;
+
+        border-top:
+            1px solid var(--border);
+    }
+
+
+    .ksp-craft-card-footer {
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+    }
+
+
+    .ksp-craft-download {
+        width: 100%;
+    }
+
+}
