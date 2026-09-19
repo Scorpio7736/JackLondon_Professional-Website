@@ -64,9 +64,10 @@ const projects = [
         ],
 
         images: [
-            "Images/Projects/ScheduleCreator/ScheduleCreator_1.png",
-            "Images/Projects/ScheduleCreator/ScheduleCreator_2.png",
-            "Images/Projects/ScheduleCreator/ScheduleCreator_3.png"
+            "Images/ProjectScreenshots/SCV2/Promo_SCV2_1.png",
+            "Images/ProjectScreenshots/SCV2/Promo_SCV2_2.png",
+            "Images/ProjectScreenshots/SCV2/Promo_SCV2_3.png",
+            "Images/ProjectScreenshots/SCV2/Promo_SCV2_4.png",
         ],
 
         repoLink:
@@ -299,7 +300,9 @@ const projects = [
             "Building an interpreter that evaluates custom language constructs."
         ],
 
-        images: [],
+        images: [
+            
+        ],
 
         repoLink:
             null,
