@@ -1138,6 +1138,83 @@ button.nav-item {
         width 180ms ease;
 }
 
+/* =========================================
+   WORKSPACE HEADER / TAB TRANSITIONS
+   ========================================= */
+
+.workspace-header,
+.workspace-tabs {
+    opacity: 1;
+
+    transform:
+        translateX(0);
+}
+
+
+/* =========================================
+   HEADER + TABS FADE OUT
+   ========================================= */
+
+.workspace-header.workspace-meta-switching,
+.workspace-tabs.workspace-meta-switching {
+    opacity: 0;
+
+    transform:
+        translateX(0);
+
+    transition:
+        opacity 275ms ease;
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================
+   HEADER + TABS FADE IN START
+   ========================================= */
+
+.workspace-header.workspace-meta-entering,
+.workspace-tabs.workspace-meta-entering {
+    opacity: 0;
+
+    transform:
+        translateX(-14px);
+
+    transition:
+        none;
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================
+   HEADER + TABS FADE IN ACTIVE
+   ========================================= */
+
+.workspace-header.workspace-meta-entering.workspace-meta-entering-active,
+.workspace-tabs.workspace-meta-entering.workspace-meta-entering-active {
+    opacity: 1;
+
+    transform:
+        translateX(0);
+
+    transition:
+        opacity 400ms ease,
+        transform 400ms ease;
+}
+
+
+/* =========================================
+   SLIGHT TAB DELAY
+   ========================================= */
+
+.workspace-tabs.workspace-meta-entering.workspace-meta-entering-active {
+    transition-delay:
+        45ms;
+}
+
 
 /* =========================================
    WORKSPACE CONTENT

@@ -58,6 +58,9 @@ const pages =
 const workspaceTabs =
     document.getElementById("workspaceTabs");
 
+const workspaceHeader =
+    document.querySelector(".workspace-header");
+
 const workspaceTitle =
     document.getElementById("workspaceTitle");
 
@@ -72,6 +75,7 @@ let activePageName = null;
 let sectionObserver = null;
 
 let pageTransitionId = 0;
+
 
 /* =========================================
    SETUP SIDEBAR INDICATOR
@@ -200,6 +204,7 @@ function moveSidebarIndicator(
 
 }
 
+
 /* =========================================
    OPEN PAGE
    ========================================= */
@@ -239,65 +244,54 @@ function openPage(
        ===================================== */
 
     let selectedNavigationButton =
-    null;
+        null;
 
 
-pageNavigation.forEach(
-    button => {
+    pageNavigation.forEach(
+        button => {
 
-        const isActive =
-            button.dataset.page ===
-            pageName;
-
-
-        button.classList.toggle(
-            "active",
-            isActive
-        );
+            const isActive =
+                button.dataset.page ===
+                pageName;
 
 
-        if (isActive) {
+            button.classList.toggle(
+                "active",
+                isActive
+            );
 
-            selectedNavigationButton =
-                button;
+
+            if (isActive) {
+
+                selectedNavigationButton =
+                    button;
+
+            }
 
         }
-
-    }
-);
-
-
-/* =====================================
-   MOVE SIDEBAR INDICATOR
-   ===================================== */
-
-if (selectedNavigationButton) {
-
-    moveSidebarIndicator(
-        selectedNavigationButton,
-        animate
     );
-
-}
 
 
     /* =====================================
-       UPDATE WORKSPACE TITLE
+       MOVE SIDEBAR INDICATOR
+       ===================================== */
+
+    if (selectedNavigationButton) {
+
+        moveSidebarIndicator(
+            selectedNavigationButton,
+            animate
+        );
+
+    }
+
+
+    /* =====================================
+       PAGE CONFIG
        ===================================== */
 
     const config =
         pageConfig[pageName];
-
-
-    if (config) {
-
-        workspaceTitle.textContent =
-            config.title;
-
-        workspacePath.textContent =
-            config.path;
-
-    }
 
 
     /* =====================================
@@ -354,6 +348,21 @@ if (selectedNavigationButton) {
 
 
         /* =================================
+           UPDATE WORKSPACE TITLE
+           ================================= */
+
+        if (config) {
+
+            workspaceTitle.textContent =
+                config.title;
+
+            workspacePath.textContent =
+                config.path;
+
+        }
+
+
+        /* =================================
            RESET SCROLL
            ================================= */
 
@@ -362,7 +371,7 @@ if (selectedNavigationButton) {
 
 
         /* =================================
-           BUILD TABS
+           BUILD NEW TABS
            ================================= */
 
         buildTabs(
@@ -391,13 +400,28 @@ if (selectedNavigationButton) {
                 "workspace-entering-active"
             );
 
+
+            workspaceHeader.classList.remove(
+                "workspace-meta-switching",
+                "workspace-meta-entering",
+                "workspace-meta-entering-active"
+            );
+
+
+            workspaceTabs.classList.remove(
+                "workspace-meta-switching",
+                "workspace-meta-entering",
+                "workspace-meta-entering-active"
+            );
+
+
             return;
 
         }
 
 
         /* =================================
-           PREPARE FADE IN
+           CONTENT - PREPARE FADE IN
            ================================= */
 
         workspaceContent.classList.remove(
@@ -410,13 +434,38 @@ if (selectedNavigationButton) {
         );
 
 
+        /* =================================
+           HEADER / TABS - PREPARE FADE IN
+           ================================= */
+
+        workspaceHeader.classList.remove(
+            "workspace-meta-switching"
+        );
+
+
+        workspaceTabs.classList.remove(
+            "workspace-meta-switching"
+        );
+
+
+        workspaceHeader.classList.add(
+            "workspace-meta-entering"
+        );
+
+
+        workspaceTabs.classList.add(
+            "workspace-meta-entering"
+        );
+
+
         /*
-            Force the browser to render
-            opacity: 0 before starting
-            the fade-in.
+            Force browser to render
+            the starting animation state.
         */
 
         void workspaceContent.offsetWidth;
+        void workspaceHeader.offsetWidth;
+        void workspaceTabs.offsetWidth;
 
 
         /* =================================
@@ -439,6 +488,16 @@ if (selectedNavigationButton) {
                 );
 
 
+                workspaceHeader.classList.add(
+                    "workspace-meta-entering-active"
+                );
+
+
+                workspaceTabs.classList.add(
+                    "workspace-meta-entering-active"
+                );
+
+
                 /* =========================
                    CLEAN UP AFTER FADE
                    ========================= */
@@ -457,6 +516,18 @@ if (selectedNavigationButton) {
                         workspaceContent.classList.remove(
                             "workspace-entering",
                             "workspace-entering-active"
+                        );
+
+
+                        workspaceHeader.classList.remove(
+                            "workspace-meta-entering",
+                            "workspace-meta-entering-active"
+                        );
+
+
+                        workspaceTabs.classList.remove(
+                            "workspace-meta-entering",
+                            "workspace-meta-entering-active"
                         );
 
                     },
@@ -492,12 +563,34 @@ if (selectedNavigationButton) {
     );
 
 
+    workspaceHeader.classList.remove(
+        "workspace-meta-entering",
+        "workspace-meta-entering-active"
+    );
+
+
+    workspaceTabs.classList.remove(
+        "workspace-meta-entering",
+        "workspace-meta-entering-active"
+    );
+
+
     /* =====================================
-       FADE OUT
+       FADE OUT OLD PAGE
        ===================================== */
 
     workspaceContent.classList.add(
         "workspace-switching"
+    );
+
+
+    workspaceHeader.classList.add(
+        "workspace-meta-switching"
+    );
+
+
+    workspaceTabs.classList.add(
+        "workspace-meta-switching"
     );
 
 
@@ -668,7 +761,8 @@ function moveTabIndicator(
         workspaceTabs.scrollLeft;
 
 
-    const sidePadding = 12;
+    const sidePadding =
+        12;
 
 
     indicator.style.transition =
@@ -691,7 +785,9 @@ function moveTabIndicator(
    SCROLL TO SECTION
    ========================================= */
 
-function scrollToSection(sectionId) {
+function scrollToSection(
+    sectionId
+) {
 
     const section =
         document.getElementById(
@@ -750,30 +846,33 @@ function setActiveTabBySection(
         );
 
 
-    let selectedTab = null;
+    let selectedTab =
+        null;
 
 
-    tabs.forEach(tab => {
+    tabs.forEach(
+        tab => {
 
-        const isActive =
-            tab.dataset.sectionId ===
-            sectionId;
-
-
-        tab.classList.toggle(
-            "active",
-            isActive
-        );
+            const isActive =
+                tab.dataset.sectionId ===
+                sectionId;
 
 
-        if (isActive) {
+            tab.classList.toggle(
+                "active",
+                isActive
+            );
 
-            selectedTab =
-                tab;
+
+            if (isActive) {
+
+                selectedTab =
+                    tab;
+
+            }
 
         }
-
-    });
+    );
 
 
     /*
@@ -795,7 +894,9 @@ function setActiveTabBySection(
    WATCH SECTIONS WHILE SCROLLING
    ========================================= */
 
-function setupSectionObserver(page) {
+function setupSectionObserver(
+    page
+) {
 
     if (sectionObserver) {
 
@@ -918,6 +1019,7 @@ internalPageLinks.forEach(
     }
 );
 
+
 /* =========================================
    SIDEBAR RESIZE POSITION
    ========================================= */
@@ -944,11 +1046,17 @@ window.addEventListener(
     }
 );
 
+
 /* =========================================
-   INITIALIZE SKILLS
+   INITIALIZE
    ========================================= */
 
 setupSidebarIndicator();
+
+
+/* =========================================
+   INITIALIZE SKILLS
+   ========================================= */
 
 buildProgrammingLanguageCards();
 
@@ -958,14 +1066,33 @@ buildToolsCards();
 
 buildAdditionalSkillsCards();
 
+
+/* =========================================
+   INITIALIZE EXPERIENCE
+   ========================================= */
+
 buildExperiences();
 
+
+/* =========================================
+   INITIALIZE PROJECTS
+   ========================================= */
+
 buildProjects();
+
+
+/* =========================================
+   INITIALIZE EDUCATION
+   ========================================= */
 
 buildEducation();
 
 buildCertifications();
 
+
+/* =========================================
+   OPEN INITIAL PAGE
+   ========================================= */
 
 openPage(
     "home",
