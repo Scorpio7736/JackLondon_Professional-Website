@@ -46,6 +46,9 @@ const pageConfig = {
 const pageNavigation =
     document.querySelectorAll(".page-nav");
 
+const sidebarNavigation =
+    document.querySelector(".sidebar-nav");
+
 const internalPageLinks =
     document.querySelectorAll(".internal-page-link");
 
@@ -70,6 +73,132 @@ let sectionObserver = null;
 
 let pageTransitionId = 0;
 
+/* =========================================
+   SETUP SIDEBAR INDICATOR
+   ========================================= */
+
+function setupSidebarIndicator() {
+
+    if (!sidebarNavigation) {
+        return;
+    }
+
+
+    let indicator =
+        sidebarNavigation.querySelector(
+            ".sidebar-nav-indicator"
+        );
+
+
+    /*
+        Create indicator if it
+        does not already exist.
+    */
+
+    if (!indicator) {
+
+        indicator =
+            document.createElement(
+                "div"
+            );
+
+
+        indicator.classList.add(
+            "sidebar-nav-indicator"
+        );
+
+
+        sidebarNavigation.prepend(
+            indicator
+        );
+
+    }
+
+
+    /*
+        Position under initial
+        active page without animation.
+    */
+
+    requestAnimationFrame(
+        () => {
+
+            const activeButton =
+                sidebarNavigation.querySelector(
+                    ".page-nav.active"
+                );
+
+
+            if (activeButton) {
+
+                moveSidebarIndicator(
+                    activeButton,
+                    false
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   MOVE SIDEBAR INDICATOR
+   ========================================= */
+
+function moveSidebarIndicator(
+    button,
+    animate = true
+) {
+
+    if (
+        !sidebarNavigation ||
+        !button
+    ) {
+        return;
+    }
+
+
+    const indicator =
+        sidebarNavigation.querySelector(
+            ".sidebar-nav-indicator"
+        );
+
+
+    if (!indicator) {
+        return;
+    }
+
+
+    /*
+        Allow instant positioning during
+        initial page load.
+    */
+
+    indicator.style.transition =
+        animate
+            ? "transform 220ms ease, height 220ms ease"
+            : "none";
+
+
+    /*
+        Match selected button height.
+    */
+
+    indicator.style.height =
+        `${button.offsetHeight}px`;
+
+
+    /*
+        Slide indicator vertically.
+    */
+
+    indicator.style.transform =
+        `translateY(${button.offsetTop}px)`;
+
+}
 
 /* =========================================
    OPEN PAGE
@@ -109,16 +238,47 @@ function openPage(
        UPDATE SIDEBAR
        ===================================== */
 
-    pageNavigation.forEach(
-        button => {
+    let selectedNavigationButton =
+    null;
 
-            button.classList.toggle(
-                "active",
-                button.dataset.page === pageName
-            );
+
+pageNavigation.forEach(
+    button => {
+
+        const isActive =
+            button.dataset.page ===
+            pageName;
+
+
+        button.classList.toggle(
+            "active",
+            isActive
+        );
+
+
+        if (isActive) {
+
+            selectedNavigationButton =
+                button;
 
         }
+
+    }
+);
+
+
+/* =====================================
+   MOVE SIDEBAR INDICATOR
+   ===================================== */
+
+if (selectedNavigationButton) {
+
+    moveSidebarIndicator(
+        selectedNavigationButton,
+        animate
     );
+
+}
 
 
     /* =====================================
@@ -758,10 +918,37 @@ internalPageLinks.forEach(
     }
 );
 
+/* =========================================
+   SIDEBAR RESIZE POSITION
+   ========================================= */
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        const activeButton =
+            sidebarNavigation?.querySelector(
+                ".page-nav.active"
+            );
+
+
+        if (activeButton) {
+
+            moveSidebarIndicator(
+                activeButton,
+                false
+            );
+
+        }
+
+    }
+);
 
 /* =========================================
    INITIALIZE SKILLS
    ========================================= */
+
+setupSidebarIndicator();
 
 buildProgrammingLanguageCards();
 
@@ -771,9 +958,7 @@ buildToolsCards();
 
 buildAdditionalSkillsCards();
 
-
 buildExperiences();
-
 
 buildProjects();
 
