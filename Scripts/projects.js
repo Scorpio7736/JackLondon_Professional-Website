@@ -164,9 +164,9 @@ const projects = [
         ],
 
         images: [
-            "Images/Projects/MTGPackOpener/MTG_1.png",
-            "Images/Projects/MTGPackOpener/MTG_2.png",
-            "Images/Projects/MTGPackOpener/MTG_3.png"
+            "Images/ProjectScreenshots/MTG/PROMO_MTG_1.png",
+            "Images/ProjectScreenshots/MTG/PROMO_MTG_2.png",
+            "Images/ProjectScreenshots/MTG/PROMO_MTG_3.png"
         ],
 
         repoLink:
