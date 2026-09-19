@@ -25,7 +25,10 @@
     <link rel="stylesheet" href="styles/experience.css">
     <link rel="stylesheet" href="styles/projects.css">
     <link rel="stylesheet" href="styles/education.css">
+
+    <!--
     <link rel="stylesheet" href="styles/activities.css">
+    -->
 
 
     <!-- =========================================
@@ -311,6 +314,9 @@
                 </button>
 
 
+                <!-- ==================================
+                     ACTIVITIES - CURRENTLY DISABLED
+
                 <button
                     class="nav-item page-nav"
                     data-page="activities"
@@ -319,6 +325,8 @@
                     <span class="nav-icon">◎</span>
                     <span>Activities</span>
                 </button>
+
+                ================================== -->
 
             </nav>
 
@@ -404,465 +412,298 @@
 
 
                 <!-- =========================================
-                     HOME PAGE
-                     ========================================= -->
+     HOME PAGE
+     ========================================= -->
 
-                <section
-                    class="page-view active"
-                    id="page-home"
-                    data-page="home"
+<section
+    class="page-view active"
+    id="page-home"
+    data-page="home"
+>
+
+
+    <!-- ==================================
+         HOME - HELLO
+         ================================== -->
+
+    <section
+        class="page-section"
+        id="home-hello"
+        data-tab="Hello"
+    >
+
+        <section class="home-hero">
+
+            <div class="home-hero-profile">
+
+                <div class="home-hero-avatar">
+
+                    <img
+                        src="Images/Icons/Headshot_ICON.png"
+                        alt="Jack London"
+                    >
+
+                    <span class="home-status-dot"></span>
+
+                </div>
+
+
+                <div>
+
+                    <span class="home-eyebrow">
+                        hello_world.exe
+                    </span>
+
+                    <h1>
+                        Hey, I'm Jack.
+                    </h1>
+
+                </div>
+
+            </div>
+
+
+            <div class="home-hero-copy">
+
+                <h2>
+                    I build useful software, solve weird problems,
+                    and make things just because it's fun!
+                </h2>
+
+                <p>
+                    I'm a Computer Science student focused on
+                    Software Engineering at UW–Green Bay.
+                    Most of my projects start with either
+                    “this would be useful” or
+                    “I wonder if I can build that.”
+                </p>
+
+            </div>
+
+
+            <div class="home-hero-actions">
+
+                <button
+                    class="primary-button internal-page-link"
+                    data-page="projects"
+                    type="button"
+                >
+                    See What I've Built
+                </button>
+
+                <button
+                    class="secondary-button internal-page-link"
+                    data-page="experience"
+                    type="button"
+                >
+                    Experience
+                </button>
+
+                <a
+                    href="Resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="secondary-button"
+                >
+                    Résumé ↗
+                </a>
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+    <!-- ==================================
+         HOME - RIGHT NOW
+         ================================== -->
+
+    <section
+        class="page-section"
+        id="home-now"
+        data-tab="Right Now"
+    >
+
+        <section class="home-panel">
+
+            <div class="home-section-heading">
+
+                <div>
+
+                    <span class="section-eyebrow">
+                        current_status
+                    </span>
+
+                    <h2>
+                        What I'm Up To
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="home-now-grid">
+
+
+                <button
+                    class="home-now-card internal-page-link"
+                    data-page="education"
+                    type="button"
                 >
 
+                    <span class="home-now-symbol">
+                        &lt;/&gt;
+                    </span>
 
-                    <!-- ==================================
-                         HOME - OVERVIEW
-                         ================================== -->
+                    <span class="home-now-label">
+                        LEARNING
+                    </span>
 
-                    <section
-                        class="page-section"
-                        id="home-overview"
-                        data-tab="Overview"
-                    >
+                    <h3>
+                        Software Engineering
+                    </h3>
 
-                        <section class="content-card intro-card">
+                    <p>
+                        Finishing my Computer Science degree
+                        at UW–Green Bay.
+                    </p>
 
-                            <div class="card-header">
+                </button>
 
-                                <div class="card-avatar">
 
-                                    <img
-                                        src="Images/Icons/Headshot_ICON.png"
-                                        alt="Jack London"
-                                    >
+                <button
+                    class="home-now-card internal-page-link"
+                    data-page="projects"
+                    type="button"
+                >
 
-                                </div>
+                    <span class="home-now-symbol">
+                        { }
+                    </span>
 
-                                <div>
+                    <span class="home-now-label">
+                        BUILDING
+                    </span>
 
-                                    <h3>Jack London</h3>
+                    <h3>
+                        Side Projects
+                    </h3>
 
-                                    <p>
-                                        Software Engineering · UW–Green Bay
-                                    </p>
+                    <p>
+                        Desktop apps, mobile tools,
+                        websites, and whatever seems
+                        interesting that week.
+                    </p>
 
-                                </div>
+                </button>
 
-                            </div>
 
+                <button
+                    class="home-now-card internal-page-link"
+                    data-page="experience"
+                    type="button"
+                >
 
-                            <div class="intro-content">
+                    <span class="home-now-symbol">
+                        ▲
+                    </span>
 
-                                <h1>
-                                    Building useful software,
-                                    automating repetitive work,
-                                    and occasionally making things
-                                    just because they're cool.
-                                </h1>
+                    <span class="home-now-label">
+                        LEADING
+                    </span>
 
-                                <p>
-                                    I'm a Computer Science student at the
-                                    University of Wisconsin–Green Bay with an
-                                    emphasis in Software Engineering. I enjoy
-                                    designing practical applications,
-                                    solving real-world problems, and
-                                    experimenting with new technologies.
-                                </p>
+                    <h3>
+                        UREC Outdoors
+                    </h3>
 
-                                <p>
-                                    My experience ranges from C# desktop
-                                    applications and automation tools to
-                                    mobile development, databases, embedded
-                                    systems, and web development.
-                                </p>
+                    <p>
+                        Leading climbing operations,
+                        training staff, and setting routes.
+                    </p>
 
-                            </div>
+                </button>
 
 
-                            <div class="intro-actions">
+            </div>
 
-                                <button
-                                    class="primary-button internal-page-link"
-                                    data-page="projects"
-                                    type="button"
-                                >
-                                    View Projects
-                                </button>
+        </section>
 
-                                <button
-                                    class="secondary-button internal-page-link"
-                                    data-page="experience"
-                                    type="button"
-                                >
-                                    Experience
-                                </button>
+    </section>
 
-                                <a
-                                    href="mailto:Jack@thelondons.com"
-                                    class="secondary-button"
-                                >
-                                    Contact Me
-                                </a>
 
-                            </div>
+    <!-- ==================================
+         HOME - BEYOND CODE
+         ================================== -->
 
-                        </section>
+    <section
+        class="page-section"
+        id="home-personal"
+        data-tab="Beyond Code"
+    >
 
-                    </section>
+        <section class="home-personal">
 
+            <div class="home-personal-copy">
 
-                    <!-- ==================================
-                         HOME - HIGHLIGHTS
-                         ================================== -->
+                <span class="section-eyebrow">
+                    jack.exe / off_the_clock
+                </span>
 
-                    <section
-                        class="page-section"
-                        id="home-highlights"
-                        data-tab="Highlights"
-                    >
+                <h2>
+                    I do occasionally leave the computer.
+                </h2>
 
-                        <div class="quick-info-grid">
+                <p>
+                    When I'm not programming, you'll usually
+                    find me climbing, route setting,
+                    blacksmithing, messing with hardware,
+                    or starting another project that was
+                    definitely supposed to stay small.
+                </p>
 
+            </div>
 
-                            <article class="info-card">
 
-                                <span class="info-label">
-                                    CURRENT
-                                </span>
+            <div class="home-interest-list">
 
-                                <h3>UW–Green Bay</h3>
+                <span>
+                    ▲ Climbing
+                </span>
 
-                                <p>
-                                    Computer Science
-                                </p>
+                <span>
+                    ⚒ Blacksmithing
+                </span>
 
-                                <span class="info-subtext">
-                                    Software Engineering emphasis
-                                </span>
+                <span>
+                    ⚡ Hardware
+                </span>
 
-                            </article>
+                <span>
+                    &lt;/&gt; Side Projects
+                </span>
 
+            </div>
 
-                            <article class="info-card">
 
-                                <span class="info-label">
-                                    EXPERIENCE
-                                </span>
+            <div class="home-terminal-line">
 
-                                <h3>Sun Life DentaQuest</h3>
+                <span>
+                    jack@portfolio:~$
+                </span>
 
-                                <p>
-                                    IT Service & Delivery Intern
-                                </p>
+                <span>
+                    click around_
+                </span>
 
-                                <span class="info-subtext">
-                                    C# automation · FHIR API · Internal tools
-                                </span>
+            </div>
 
-                            </article>
+        </section>
 
+    </section>
 
-                            <article class="info-card">
-
-                                <span class="info-label">
-                                    LEADERSHIP
-                                </span>
-
-                                <h3>UREC Climbing Tower</h3>
-
-                                <p>
-                                    Lead Supervisor
-                                </p>
-
-                                <span class="info-subtext">
-                                    Operations · Training · Scheduling · Safety
-                                </span>
-
-                            </article>
-
-                        </div>
-
-                    </section>
-
-
-                    <!-- ==================================
-                         HOME - TECHNOLOGIES
-                         ================================== -->
-
-                    <section
-                        class="page-section"
-                        id="home-technologies"
-                        data-tab="Technologies"
-                    >
-
-                        <section class="content-card">
-
-                            <div class="section-heading">
-
-                                <div>
-
-                                    <span class="section-eyebrow">
-                                        stack.config
-                                    </span>
-
-                                    <h2>
-                                        Technologies I Work With
-                                    </h2>
-
-                                </div>
-
-
-                                <button
-                                    class="section-link internal-page-link"
-                                    data-page="skills"
-                                    type="button"
-                                >
-                                    View all skills →
-                                </button>
-
-                            </div>
-
-
-                            <div class="technology-list">
-
-                                <span class="technology-tag">C#</span>
-                                <span class="technology-tag">Java</span>
-                                <span class="technology-tag">Python</span>
-                                <span class="technology-tag">SQL</span>
-                                <span class="technology-tag">Swift</span>
-
-                                <span class="technology-tag">.NET</span>
-                                <span class="technology-tag">XAML</span>
-                                <span class="technology-tag">SwiftUI</span>
-
-                                <span class="technology-tag">HTML</span>
-                                <span class="technology-tag">CSS</span>
-                                <span class="technology-tag">Git</span>
-
-                            </div>
-
-                        </section>
-
-                    </section>
-
-
-                    <!-- ==================================
-                         HOME - FEATURED PROJECTS
-                         ================================== -->
-
-                    <section
-                        class="page-section"
-                        id="home-projects"
-                        data-tab="Featured Projects"
-                    >
-
-                        <section class="content-card">
-
-                            <div class="section-heading">
-
-                                <div>
-
-                                    <span class="section-eyebrow">
-                                        ~/projects
-                                    </span>
-
-                                    <h2>
-                                        Featured Projects
-                                    </h2>
-
-                                </div>
-
-
-                                <button
-                                    class="section-link internal-page-link"
-                                    data-page="projects"
-                                    type="button"
-                                >
-                                    Browse projects →
-                                </button>
-
-                            </div>
-
-
-                            <div class="featured-project-grid">
-
-
-                                <article class="project-preview">
-
-                                    <div class="project-preview-header">
-
-                                        <span class="project-icon">
-                                            &lt;/&gt;
-                                        </span>
-
-                                        <span class="project-status">
-                                            Active
-                                        </span>
-
-                                    </div>
-
-                                    <h3>
-                                        Schedule Creator V2
-                                    </h3>
-
-                                    <p>
-                                        A scheduling and workforce management
-                                        application designed to handle employee
-                                        availability, schedules, days off, and
-                                        operational workflows.
-                                    </p>
-
-                                    <div class="project-technologies">
-
-                                        <span>C#</span>
-                                        <span>WPF</span>
-                                        <span>XAML</span>
-                                        <span>SQL</span>
-
-                                    </div>
-
-                                </article>
-
-
-                                <article class="project-preview">
-
-                                    <div class="project-preview-header">
-
-                                        <span class="project-icon">
-                                            AND
-                                        </span>
-
-                                        <span class="project-status">
-                                            Mobile
-                                        </span>
-
-                                    </div>
-
-                                    <h3>
-                                        The Ultimate Easter Egg Guide
-                                    </h3>
-
-                                    <p>
-                                        An Android application for exploring
-                                        Call of Duty Zombies maps, Easter Eggs,
-                                        strategies, rewards, and supporting
-                                        tools.
-                                    </p>
-
-                                    <div class="project-technologies">
-
-                                        <span>Java</span>
-                                        <span>Android</span>
-                                        <span>UI/UX</span>
-
-                                    </div>
-
-                                </article>
-
-
-                                <article class="project-preview">
-
-                                    <div class="project-preview-header">
-
-                                        <span class="project-icon">
-                                            iOS
-                                        </span>
-
-                                        <span class="project-status">
-                                            Swift
-                                        </span>
-
-                                    </div>
-
-                                    <h3>
-                                        MTG Pack Opener
-                                    </h3>
-
-                                    <p>
-                                        A SwiftUI application for opening
-                                        simulated Magic: The Gathering booster
-                                        packs and managing card collections
-                                        across multiple profiles.
-                                    </p>
-
-                                    <div class="project-technologies">
-
-                                        <span>Swift</span>
-                                        <span>SwiftUI</span>
-                                        <span>iOS</span>
-
-                                    </div>
-
-                                </article>
-
-                            </div>
-
-                        </section>
-
-                    </section>
-
-
-                    <!-- ==================================
-                         HOME - PERSONAL
-                         ================================== -->
-
-                    <section
-                        class="page-section"
-                        id="home-personal"
-                        data-tab="More Than Code"
-                    >
-
-                        <section class="content-card personality-card">
-
-                            <div>
-
-                                <span class="section-eyebrow">
-                                    jack.exe
-                                </span>
-
-                                <h2>
-                                    More Than Code
-                                </h2>
-
-                                <p>
-                                    Outside of software development, I enjoy
-                                    climbing, outdoor recreation,
-                                    blacksmithing, metalworking, hardware
-                                    projects, and finding new technologies
-                                    to experiment with.
-                                </p>
-
-                            </div>
-
-
-                            <div class="personality-code">
-
-                                <span class="code-comment">
-                                    // current interests
-                                </span>
-
-                                <span>
-                                    developer.climbing = true;
-                                </span>
-
-                                <span>
-                                    developer.blacksmithing = true;
-                                </span>
-
-                                <span>
-                                    developer.hardware = true;
-                                </span>
-
-                                <span>
-                                    developer.sideProjects = Infinity;
-                                </span>
-
-                            </div>
-
-                        </section>
-
-                    </section>
-
-                </section>
+</section>
 
 
                 <!-- =========================================
@@ -999,8 +840,9 @@
                         </div>
 
                     </section>
-                    
+
                 </section>
+
 
                 <!-- =========================================
                     EXPERIENCE PAGE
@@ -1047,6 +889,7 @@
 
                     </section>
 
+
                     <!-- =====================================
                         Route Setter Team
                         ===================================== -->
@@ -1064,22 +907,23 @@
 
                     </section>
 
+
                     <!-- =====================================
-                    EMERGENCY RESPONSE TEAM
-                    ===================================== -->
+                        EMERGENCY RESPONSE TEAM
+                        ===================================== -->
 
-                <section
-                    class="page-section"
-                    id="experience-ert"
-                    data-tab="ERT"
-                >
+                    <section
+                        class="page-section"
+                        id="experience-ert"
+                        data-tab="ERT"
+                    >
 
-                    <div
-                        class="experience-container"
-                        id="experienceERT"
-                    ></div>
+                        <div
+                            class="experience-container"
+                            id="experienceERT"
+                        ></div>
 
-                </section>
+                    </section>
 
 
                     <!-- =====================================
@@ -1118,6 +962,7 @@
                     </section>
 
                 </section>
+
 
                 <!-- =========================================
                     PROJECTS PAGE
@@ -1357,6 +1202,7 @@
 
                 </section>
 
+
                 <!-- =========================================
                      EDUCATION PAGE
                      ========================================= -->
@@ -1384,8 +1230,9 @@
 
                     </section>
 
+
                     <!-- =====================================
-                        EDUCATION - Black Oak Forge
+                        EDUCATION - BLACK OAK FORGE
                         ===================================== -->
 
                     <section
@@ -1415,6 +1262,7 @@
                         <section class="certifications-panel">
 
                             <div class="certifications-panel-header">
+
                                 <span class="section-eyebrow">
                                     education.certifications
                                 </span>
@@ -1422,6 +1270,7 @@
                                 <h2>
                                     Certifications
                                 </h2>
+
                             </div>
 
                             <div
@@ -1437,8 +1286,7 @@
 
 
                 <!-- =========================================
-                     ACTIVITIES PAGE
-                     ========================================= -->
+                     ACTIVITIES PAGE - CURRENTLY DISABLED
 
                 <section
                     class="page-view"
@@ -1453,16 +1301,20 @@
                     >
 
                         <div class="content-card">
+
                             <span class="section-eyebrow">
                                 activities.404
                             </span>
 
-                            <h2>404 Network (Club Not Found)</h2>
+                            <h2>
+                                404 Network (Club Not Found)
+                            </h2>
 
                             <p class="placeholder-text">
                                 Computer Science club leadership and activities
                                 will go here.
                             </p>
+
                         </div>
 
                     </section>
@@ -1475,16 +1327,20 @@
                     >
 
                         <div class="content-card">
+
                             <span class="section-eyebrow">
                                 activities.outdoors
                             </span>
 
-                            <h2>Outdoor Recreation</h2>
+                            <h2>
+                                Outdoor Recreation
+                            </h2>
 
                             <p class="placeholder-text">
                                 Climbing and outdoor recreation interests will
                                 go here.
                             </p>
+
                         </div>
 
                     </section>
@@ -1497,21 +1353,27 @@
                     >
 
                         <div class="content-card">
+
                             <span class="section-eyebrow">
                                 activities.blacksmithing
                             </span>
 
-                            <h2>Blacksmithing & Metalwork</h2>
+                            <h2>
+                                Blacksmithing & Metalwork
+                            </h2>
 
                             <p class="placeholder-text">
                                 Blacksmithing and metalworking experience will
                                 go here.
                             </p>
+
                         </div>
 
                     </section>
 
                 </section>
+
+                ========================================= -->
 
             </section>
 
