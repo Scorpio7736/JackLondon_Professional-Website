@@ -76,6 +76,10 @@ let sectionObserver = null;
 
 let pageTransitionId = 0;
 
+let workspaceScrollAnimation = null;
+
+let isProgrammaticScroll = false;
+
 
 /* =========================================
    SETUP SIDEBAR INDICATOR
@@ -93,11 +97,6 @@ function setupSidebarIndicator() {
             ".sidebar-nav-indicator"
         );
 
-
-    /*
-        Create indicator if it
-        does not already exist.
-    */
 
     if (!indicator) {
 
@@ -118,11 +117,6 @@ function setupSidebarIndicator() {
 
     }
 
-
-    /*
-        Position under initial
-        active page without animation.
-    */
 
     requestAnimationFrame(
         () => {
@@ -176,28 +170,15 @@ function moveSidebarIndicator(
     }
 
 
-    /*
-        Allow instant positioning during
-        initial page load.
-    */
-
     indicator.style.transition =
         animate
             ? "transform 220ms ease, height 220ms ease"
             : "none";
 
 
-    /*
-        Match selected button height.
-    */
-
     indicator.style.height =
         `${button.offsetHeight}px`;
 
-
-    /*
-        Slide indicator vertically.
-    */
 
     indicator.style.transform =
         `translateY(${button.offsetTop}px)`;
@@ -225,10 +206,6 @@ function openPage(
     }
 
 
-    /* =====================================
-       IGNORE CURRENT PAGE
-       ===================================== */
-
     if (
         pageName === activePageName &&
         selectedPage.classList.contains(
@@ -238,10 +215,6 @@ function openPage(
         return;
     }
 
-
-    /* =====================================
-       UPDATE SIDEBAR
-       ===================================== */
 
     let selectedNavigationButton =
         null;
@@ -272,10 +245,6 @@ function openPage(
     );
 
 
-    /* =====================================
-       MOVE SIDEBAR INDICATOR
-       ===================================== */
-
     if (selectedNavigationButton) {
 
         moveSidebarIndicator(
@@ -286,17 +255,9 @@ function openPage(
     }
 
 
-    /* =====================================
-       PAGE CONFIG
-       ===================================== */
-
     const config =
         pageConfig[pageName];
 
-
-    /* =====================================
-       TRANSITION ID
-       ===================================== */
 
     pageTransitionId++;
 
@@ -304,10 +265,6 @@ function openPage(
     const transitionId =
         pageTransitionId;
 
-
-    /* =====================================
-       SWITCH PAGE
-       ===================================== */
 
     const switchPage = () => {
 
@@ -318,10 +275,6 @@ function openPage(
             return;
         }
 
-
-        /* =================================
-           HIDE OLD PAGES
-           ================================= */
 
         pages.forEach(
             page => {
@@ -334,10 +287,6 @@ function openPage(
         );
 
 
-        /* =================================
-           SHOW NEW PAGE
-           ================================= */
-
         selectedPage.classList.add(
             "active"
         );
@@ -346,10 +295,6 @@ function openPage(
         activePageName =
             pageName;
 
-
-        /* =================================
-           UPDATE WORKSPACE TITLE
-           ================================= */
 
         if (config) {
 
@@ -362,35 +307,19 @@ function openPage(
         }
 
 
-        /* =================================
-           RESET SCROLL
-           ================================= */
-
         workspaceContent.scrollTop =
             0;
 
-
-        /* =================================
-           BUILD NEW TABS
-           ================================= */
 
         buildTabs(
             selectedPage
         );
 
 
-        /* =================================
-           OBSERVE SECTIONS
-           ================================= */
-
         setupSectionObserver(
             selectedPage
         );
 
-
-        /* =================================
-           INITIAL LOAD
-           ================================= */
 
         if (!animate) {
 
@@ -420,10 +349,6 @@ function openPage(
         }
 
 
-        /* =================================
-           CONTENT - PREPARE FADE IN
-           ================================= */
-
         workspaceContent.classList.remove(
             "workspace-switching"
         );
@@ -433,10 +358,6 @@ function openPage(
             "workspace-entering"
         );
 
-
-        /* =================================
-           HEADER / TABS - PREPARE FADE IN
-           ================================= */
 
         workspaceHeader.classList.remove(
             "workspace-meta-switching"
@@ -458,19 +379,10 @@ function openPage(
         );
 
 
-        /*
-            Force browser to render
-            the starting animation state.
-        */
-
         void workspaceContent.offsetWidth;
         void workspaceHeader.offsetWidth;
         void workspaceTabs.offsetWidth;
 
-
-        /* =================================
-           START FADE IN
-           ================================= */
 
         requestAnimationFrame(
             () => {
@@ -497,10 +409,6 @@ function openPage(
                     "workspace-meta-entering-active"
                 );
 
-
-                /* =========================
-                   CLEAN UP AFTER FADE
-                   ========================= */
 
                 setTimeout(
                     () => {
@@ -540,10 +448,6 @@ function openPage(
     };
 
 
-    /* =====================================
-       INITIAL PAGE LOAD
-       ===================================== */
-
     if (!animate) {
 
         switchPage();
@@ -552,10 +456,6 @@ function openPage(
 
     }
 
-
-    /* =====================================
-       CLEAN OLD TRANSITION CLASSES
-       ===================================== */
 
     workspaceContent.classList.remove(
         "workspace-entering",
@@ -575,10 +475,6 @@ function openPage(
     );
 
 
-    /* =====================================
-       FADE OUT OLD PAGE
-       ===================================== */
-
     workspaceContent.classList.add(
         "workspace-switching"
     );
@@ -593,10 +489,6 @@ function openPage(
         "workspace-meta-switching"
     );
 
-
-    /* =====================================
-       WAIT FOR FADE OUT
-       ===================================== */
 
     setTimeout(
         switchPage,
@@ -615,10 +507,6 @@ function buildTabs(page) {
     workspaceTabs.innerHTML = "";
 
 
-    /* =====================================
-       SLIDING INDICATOR
-       ===================================== */
-
     const indicator =
         document.createElement(
             "div"
@@ -634,10 +522,6 @@ function buildTabs(page) {
         indicator
     );
 
-
-    /* =====================================
-       PAGE SECTIONS
-       ===================================== */
 
     const sections =
         page.querySelectorAll(
@@ -666,10 +550,6 @@ function buildTabs(page) {
             button.textContent =
                 section.dataset.tab;
 
-
-            /*
-                First section starts active.
-            */
 
             if (index === 0) {
 
@@ -700,29 +580,26 @@ function buildTabs(page) {
     );
 
 
-    /*
-        Position indicator under
-        the first active tab.
-    */
+    requestAnimationFrame(
+        () => {
 
-    requestAnimationFrame(() => {
-
-        const activeTab =
-            workspaceTabs.querySelector(
-                ".workspace-tab.active"
-            );
+            const activeTab =
+                workspaceTabs.querySelector(
+                    ".workspace-tab.active"
+                );
 
 
-        if (activeTab) {
+            if (activeTab) {
 
-            moveTabIndicator(
-                activeTab,
-                false
-            );
+                moveTabIndicator(
+                    activeTab,
+                    false
+                );
+
+            }
 
         }
-
-    });
+    );
 
 }
 
@@ -795,39 +672,199 @@ function scrollToSection(
         );
 
 
-    if (!section) {
+    if (
+        !section ||
+        !workspaceContent
+    ) {
         return;
     }
 
 
-    const contentTop =
-        workspaceContent
-            .getBoundingClientRect()
-            .top;
-
-
-    const sectionTop =
-        section
-            .getBoundingClientRect()
-            .top;
-
-
-    const scrollPosition =
-        workspaceContent.scrollTop +
-        sectionTop -
-        contentTop -
-        18;
-
-
-    workspaceContent.scrollTo({
-        top: scrollPosition,
-        behavior: "smooth"
-    });
+    isProgrammaticScroll =
+        true;
 
 
     setActiveTabBySection(
         sectionId
     );
+
+
+    const contentRect =
+        workspaceContent
+            .getBoundingClientRect();
+
+
+    const sectionRect =
+        section
+            .getBoundingClientRect();
+
+
+    const startScroll =
+        workspaceContent.scrollTop;
+
+
+    const targetScroll =
+        startScroll +
+        sectionRect.top -
+        contentRect.top -
+        18;
+
+
+    const maxScroll =
+        workspaceContent.scrollHeight -
+        workspaceContent.clientHeight;
+
+
+    const finalTarget =
+        Math.max(
+            0,
+            Math.min(
+                targetScroll,
+                maxScroll
+            )
+        );
+
+
+    animateWorkspaceScroll(
+        startScroll,
+        finalTarget,
+        500,
+        sectionId
+    );
+
+}
+
+
+/* =========================================
+   ANIMATE WORKSPACE SCROLL
+   ========================================= */
+
+function animateWorkspaceScroll(
+    start,
+    target,
+    duration,
+    sectionId
+) {
+
+    if (
+        workspaceScrollAnimation
+    ) {
+
+        cancelAnimationFrame(
+            workspaceScrollAnimation
+        );
+
+
+        workspaceScrollAnimation =
+            null;
+
+    }
+
+
+    const distance =
+        target - start;
+
+
+    if (
+        Math.abs(distance) < 1
+    ) {
+
+        workspaceContent.scrollTop =
+            target;
+
+
+        setActiveTabBySection(
+            sectionId
+        );
+
+
+        isProgrammaticScroll =
+            false;
+
+
+        return;
+
+    }
+
+
+    const startTime =
+        performance.now();
+
+
+    function animationStep(
+        currentTime
+    ) {
+
+        const elapsed =
+            currentTime -
+            startTime;
+
+
+        const progress =
+            Math.min(
+                elapsed / duration,
+                1
+            );
+
+
+        const easedProgress =
+            progress < 0.5
+
+                ? 4 *
+                  progress *
+                  progress *
+                  progress
+
+                : 1 -
+                  Math.pow(
+                      -2 * progress + 2,
+                      3
+                  ) / 2;
+
+
+        workspaceContent.scrollTop =
+            start +
+            distance *
+            easedProgress;
+
+
+        if (
+            progress < 1
+        ) {
+
+            workspaceScrollAnimation =
+                requestAnimationFrame(
+                    animationStep
+                );
+
+        }
+        else {
+
+            workspaceContent.scrollTop =
+                target;
+
+
+            workspaceScrollAnimation =
+                null;
+
+
+            setActiveTabBySection(
+                sectionId
+            );
+
+
+            isProgrammaticScroll =
+                false;
+
+        }
+
+    }
+
+
+    workspaceScrollAnimation =
+        requestAnimationFrame(
+            animationStep
+        );
 
 }
 
@@ -875,10 +912,6 @@ function setActiveTabBySection(
     );
 
 
-    /*
-        Slide indicator to active tab.
-    */
-
     if (selectedTab) {
 
         moveTabIndicator(
@@ -898,7 +931,9 @@ function setupSectionObserver(
     page
 ) {
 
-    if (sectionObserver) {
+    if (
+        sectionObserver
+    ) {
 
         sectionObserver.disconnect();
 
@@ -916,6 +951,13 @@ function setupSectionObserver(
 
             entries => {
 
+                if (
+                    isProgrammaticScroll
+                ) {
+                    return;
+                }
+
+
                 const visibleEntries =
                     entries
                         .filter(
@@ -930,7 +972,8 @@ function setupSectionObserver(
 
 
                 if (
-                    visibleEntries.length > 0
+                    visibleEntries.length >
+                    0
                 ) {
 
                     setActiveTabBySection(
@@ -944,6 +987,7 @@ function setupSectionObserver(
             },
 
             {
+
                 root:
                     workspaceContent,
 
@@ -956,6 +1000,7 @@ function setupSectionObserver(
                     0.25,
                     0.5
                 ]
+
             }
 
         );
