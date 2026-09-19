@@ -27,14 +27,12 @@ const pageConfig = {
     education: {
         title: "Education",
         path: "jack.london / portfolio / education"
-    }
+    },
 
-    /*
     activities: {
         title: "Activities",
         path: "jack.london / portfolio / activities"
     }
-    */
 
 };
 
