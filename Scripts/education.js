@@ -197,53 +197,6 @@ const education = [
             "Hands-on blacksmithing apprenticeship focused on traditional forging techniques, metalworking, tool use, material behavior, fabrication, and developing practical experience working with heated steel."
     },
 
-
-    /* =====================================
-       HAMILTON HIGH SCHOOL
-       ===================================== */
-
-    {
-        containerId:
-            "educationHamilton",
-
-        school:
-            "Hamilton High School",
-
-        headingLabel:
-            "High School",
-
-        icon:
-            "Images/Icons/HamiltonHS_ICON.png",
-
-        iconFallback:
-            "HHS",
-
-        banner:
-            null,
-
-        majorLabel:
-            "Education",
-
-        major:
-            "High School Diploma",
-
-        startLabel:
-            "Start Date",
-
-        startSemester:
-            "Add Start Date",
-
-        graduationLabel:
-            "Graduation Date",
-
-        graduation:
-            "Add Graduation Date",
-
-        description:
-            "High school education with opportunities to develop academic, technical, leadership, and extracurricular experience prior to beginning undergraduate study."
-    },
-
-
     /* =====================================
        UW GREEN BAY
        ===================================== */
