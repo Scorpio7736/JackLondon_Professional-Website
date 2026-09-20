@@ -143,7 +143,7 @@ const frameworks = [
     {
         name: ".NET",
         shortName: ".NET",
-        image: "Images/Icons/DotNet_ICON.png",
+        image: "Images/Icons/DotNET_ICON.png",
         comfort: 9,
 
         projects: [
@@ -307,7 +307,7 @@ const developmentTools = [
     {
         name: "Xcode",
         shortName: "XC",
-        image: "Images/Icons/Xcode_ICON.png",
+        image: "Images/Icons/XCode_ICON.png",
         comfort: 7,
 
         projects: [
