@@ -140,7 +140,9 @@ const network404ActivityData = {
                 "GH",
 
             url:
-                ""
+                "",
+            icon:
+                "Images/Activities/404/404_GitHub.png"
         },
 
         {
@@ -151,7 +153,9 @@ const network404ActivityData = {
                 "TT",
 
             url:
-                ""
+                "https://www.tiktok.com/@404.network.club?_r=1&_t=ZT-99sVLIlLhuA",
+            icon:
+                "Images/Activities/404/404_TikTok.png"
         },
 
         {
@@ -162,7 +166,9 @@ const network404ActivityData = {
                 "IN",
 
             url:
-                ""
+                "https://www.linkedin.com/company/404network/posts/?feedView=all",
+            icon:
+                "Images/Activities/404/404_LinkedIn.png"
         },
 
         {
@@ -173,7 +179,9 @@ const network404ActivityData = {
                 "IG",
 
             url:
-                ""
+                "https://www.instagram.com/404network_cnf/",
+            icon:
+                "Images/Activities/404/404_Instagram.png"
         },
 
         {
@@ -184,7 +192,9 @@ const network404ActivityData = {
                 "DC",
 
             url:
-                ""
+                "https://discord.gg/CH5kWjxCKB",
+            icon:
+                "Images/Activities/404/404_Discord.png"
         }
 
     ]
@@ -766,83 +776,134 @@ class Network404Activity {
 
     }
 
-
     /* =====================================
-       LINK BUTTON
-       ===================================== */
+   LINK ICON
+   ===================================== */
 
-    renderLinkButton(
-        link
+renderLinkIcon(
+    link
+) {
+
+    if (
+        link.icon &&
+        link.icon.trim()
     ) {
-
-        const hasUrl =
-            Boolean(
-                link.url &&
-                link.url.trim()
-            );
-
-
-        if (!hasUrl) {
-
-            return `
-
-                <button
-                    class="
-                        network404-link-button
-                        disabled
-                    "
-                    type="button"
-                    disabled
-                >
-
-                    <span class="network404-link-icon">
-
-                        ${link.shortName || "404"}
-
-                    </span>
-
-
-                    <span>
-                        ${link.name}
-                    </span>
-
-                </button>
-
-            `;
-
-        }
-
 
         return `
 
-            <a
-                href="${link.url}"
-                class="network404-link-button"
-                target="_blank"
-                rel="noopener noreferrer"
+            <span class="network404-link-icon">
+
+                <img
+                    src="${link.icon}"
+                    alt=""
+                    class="network404-link-icon-image"
+                >
+
+                <span class="network404-link-icon-fallback">
+                    ${link.shortName || "404"}
+                </span>
+
+            </span>
+
+        `;
+
+    }
+
+
+    return `
+
+        <span class="network404-link-icon">
+
+            <span
+                class="
+                    network404-link-icon-fallback
+                    visible
+                "
+            >
+                ${link.shortName || "404"}
+            </span>
+
+        </span>
+
+    `;
+
+}
+
+
+    /* =====================================
+   LINK BUTTON
+   ===================================== */
+
+renderLinkButton(
+    link
+) {
+
+    const hasUrl =
+        Boolean(
+            link.url &&
+            link.url.trim()
+        );
+
+
+    const iconMarkup =
+        this.renderLinkIcon(
+            link
+        );
+
+
+    if (!hasUrl) {
+
+        return `
+
+            <button
+                class="
+                    network404-link-button
+                    disabled
+                "
+                type="button"
+                disabled
             >
 
-                <span class="network404-link-icon">
-
-                    ${link.shortName || "404"}
-
-                </span>
+                ${iconMarkup}
 
 
                 <span>
                     ${link.name}
                 </span>
 
-
-                <span class="network404-link-arrow">
-                    ↗
-                </span>
-
-            </a>
+            </button>
 
         `;
 
     }
+
+
+    return `
+
+        <a
+            href="${link.url}"
+            class="network404-link-button"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+
+            ${iconMarkup}
+
+
+            <span>
+                ${link.name}
+            </span>
+
+
+            <span class="network404-link-arrow">
+                ↗
+            </span>
+
+        </a>
+
+    `;
+
+}
 
 
     /* =====================================
@@ -944,6 +1005,43 @@ class Network404Activity {
             this.container.querySelectorAll(
                 ".network404-officer-image"
             );
+
+        const linkImages =
+    this.container.querySelectorAll(
+        ".network404-link-icon-image"
+    );
+
+
+        linkImages.forEach(
+            image => {
+
+                image.addEventListener(
+                    "error",
+                    () => {
+
+                        image.style.display =
+                            "none";
+
+
+                        const fallback =
+                            image.parentElement
+                                .querySelector(
+                                    ".network404-link-icon-fallback"
+                                );
+
+
+                        if (fallback) {
+
+                            fallback.style.display =
+                                "flex";
+
+                        }
+
+                    }
+                );
+
+            }
+        );
 
 
         officerImages.forEach(
