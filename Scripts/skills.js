@@ -84,7 +84,7 @@ const programmingLanguages = [
     {
         name: "C++",
         shortName: "C++",
-        image: "Images/Icons/CPP_ICON.png",
+        image: "Images/Icons/Cpp_ICON.png",
         comfort: 6,
 
         projects: [
