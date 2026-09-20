@@ -39,18 +39,12 @@ const kspActivityData = {
 
     description: [
 
-        `Kerbal Space Program is one of the games that helped turn
-        my interest in engineering, spaceflight, and problem solving
-        into something I could experiment with.`,
+        `Kerbal Space Program is my all-time favorite game, and I've been playing it for years. I'm a huge space nerd, so KSP has always been one of my favorite ways to experiment with spacecraft design, mission planning, and orbital mechanics.`,
 
-        `I've spent my time designing spacecraft, planning missions,
-        testing ridiculous ideas, learning orbital mechanics, and
-        discovering exactly how many boosters can be attached to a
-        rocket before the answer becomes "too many."`,
+        `One of my favorite parts of the game is recreating real-world spacecraft and then putting my own spin on them. I'm currently working through an alternate-history playthrough inspired by For All Mankind, where the space race continues well beyond the Moon landing and develops into a much larger era of exploration.`,
 
-        `This section is a collection of some of the spacecraft,
-        aircraft, stations, and other creations I've built throughout
-        my time playing Kerbal Space Program.`
+        `Below are some of the spacecraft, launch vehicles, aircraft, stations, and other craft I use most often in that playthrough. I've included the craft files so you can download them, try them yourself, and see how they were built.`
+
 
     ],
 
@@ -79,7 +73,7 @@ const kspActivityData = {
                 "Images/Activities/KSP/Crafts/CreativeMode_VAB_SLS - A2 ORION.png",
 
             file:
-                "Downloads/KSP_Crafts/SLS_A2_ORION.craft"
+                "Downloads/KSP_Crafts/SLS - A2 ORION.craft"
         },
         {
             title:
@@ -152,6 +146,10 @@ function renderKspActivity(
 
 
     setupKspImageFallbacks(
+    container
+    );
+
+    setupKspCraftDownloads(
         container
     );
 
@@ -490,32 +488,33 @@ function renderKspCraftCard(
 
 
     const downloadMarkup =
-        hasFile
+    hasFile
 
-            ? `
+        ? `
 
-                <a
-                    href="${craft.file}"
-                    class="ksp-craft-download"
-                    download
-                >
-                    Download Craft
-                    <span>↓</span>
-                </a>
+            <button
+                class="ksp-craft-download"
+                type="button"
+                data-craft-file="${craft.file}"
+                data-craft-name="${craft.title}.craft"
+            >
+                Download Craft
+                <span>↓</span>
+            </button>
 
-            `
+        `
 
-            : `
+        : `
 
-                <button
-                    class="ksp-craft-download disabled"
-                    type="button"
-                    disabled
-                >
-                    File Coming Soon
-                </button>
+            <button
+                class="ksp-craft-download disabled"
+                type="button"
+                disabled
+            >
+                File Coming Soon
+            </button>
 
-            `;
+        `;
 
 
     return `
@@ -567,7 +566,6 @@ function renderKspCraftCard(
 
 }
 
-
 /* =========================================
    IMAGE FALLBACKS
    ========================================= */
@@ -590,6 +588,7 @@ function setupKspImageFallbacks(
 
                 icon.style.display =
                     "none";
+
 
                 const fallback =
                     icon.parentElement
@@ -660,6 +659,145 @@ function setupKspImageFallbacks(
 
                         fallback.style.display =
                             "flex";
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   CRAFT DOWNLOADS
+   ========================================= */
+
+function setupKspCraftDownloads(
+    container
+) {
+
+    const downloadButtons =
+        container.querySelectorAll(
+            ".ksp-craft-download[data-craft-file]"
+        );
+
+
+    downloadButtons.forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                async () => {
+
+                    if (window.location.protocol === "file:") {
+
+                        alert(
+                            "Craft downloads will not work when the website is opened directly from the file system.\n\n" +
+                            "Start the localhost server in powershell first:\n\n" +
+                            "cd \"<path_to_project>\"\n\n" +
+                            "py -m http.server 5500\n\n" +
+                            "Then open:\n" +
+                            "http://localhost:5500"
+                        );
+
+                        return;
+                    }
+
+
+                    const filePath =
+                        button.dataset.craftFile;
+
+                    const fileName =
+                        button.dataset.craftName ||
+                        "KSP-Craft.craft";
+
+
+                    console.log(
+                        "Downloading craft:",
+                        filePath
+                    );
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                filePath
+                            );
+
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                `Craft file returned ${response.status}`
+                            );
+
+                        }
+
+
+                        const blob =
+                            await response.blob();
+
+
+                        const url =
+                            URL.createObjectURL(
+                                blob
+                            );
+
+
+                        const link =
+                            document.createElement(
+                                "a"
+                            );
+
+
+                        link.href =
+                            url;
+
+                        link.download =
+                            fileName;
+
+                        link.style.display =
+                            "none";
+
+
+                        document.body.appendChild(
+                            link
+                        );
+
+
+                        link.click();
+
+
+                        link.remove();
+
+
+                        setTimeout(
+                            () => {
+
+                                URL.revokeObjectURL(
+                                    url
+                                );
+
+                            },
+                            1000
+                        );
+
+                    }
+                    catch (error) {
+
+                        console.error(
+                            "Craft download failed:",
+                            error
+                        );
+
+
+                        alert(
+                            "The craft file could not be downloaded."
+                        );
 
                     }
 
