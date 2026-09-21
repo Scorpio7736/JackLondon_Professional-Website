@@ -148,7 +148,7 @@ const experiences = [
             "Route Setter — Climbing Tower",
 
         icon:
-            "Images/Icons/RouteSetters_ICON.png",
+            "Images/Icons/UREC_ICON.png",
 
         banner:
             "Images/Banners/RouteSetter_BANNER.png",
@@ -204,10 +204,10 @@ const experiences = [
             "experienceERT",
 
         company:
-            "UW–Green Bay Emergency Response Team",
+            "UW–Green Bay UREC",
 
         position:
-            "Emergency Response Team — Team Leader",
+            "Team Leader - Emergency Response Team",
 
         icon:
             "Images/Icons/ERT_ICON.png",
