@@ -19,10 +19,10 @@ const certifications = [
             "TR",
 
         certificationDate:
-            "",
+            "8/25/2026",
 
         expirationDate:
-            "",
+            "8/25/2027",
 
         status:
             "active",
@@ -47,10 +47,10 @@ const certifications = [
             "BI",
 
         certificationDate:
-            "",
+            "8/25/2026",
 
         expirationDate:
-            "",
+            "8/25/2027",
 
         status:
             "active",
@@ -75,10 +75,10 @@ const certifications = [
             "CPR",
 
         certificationDate:
-            "",
+            "2/26/25",
 
         expirationDate:
-            "",
+            "2/26/27",
 
         status:
             "active",
