@@ -30,8 +30,8 @@ const blacksmithingActivityData = {
     endDate:
         "Winter 2022",
 
-    featureImage:
-        "Images/Banners/PFP_BANNER.png",
+    banner:
+        "Images/Banners/Blacksmithing_BANNER.png",
 
     icon:
         "Images/Icons/Blacksmithing_ICON.png",
@@ -46,88 +46,67 @@ const blacksmithingActivityData = {
     ],
 
     skills: [
-
         "Traditional Forging",
-        "7 Blacksmithing Fundamentals",
-        "Wleding",
+        "Metal Shaping",
+        "Fabrication",
         "Heat Management",
-        "Tool Use and Maintenance",
+        "Tool Use",
         "Material Behavior"
-
     ],
 
     projects: [
         {
             title: "Forged Rose",
-
-            image:
-                "Images/Activities/Blacksmithing/ForgedRose.png",
-
-            material:
-                "Mild Steel",
-
+            image: "Images/Activities/Blacksmithing/ForgedRose.png",
+            material: "Mild Steel",
             techniques: [
                 "Drawing",
-                "Rolling",
-                "Hot-Cutting"
+                "Bending",
+                "Scrolling",
+                "Finishing"
             ],
-
             description:
-                "Hand-forged Rose made from mild steel."
+                "A hand-forged rose made from mild steel, focused on shaping organic forms and clean decorative detail."
         },
+
         {
             title: "Fredrichs Cross",
-
-            image:
-                "Images/Activities/Blacksmithing/ForgedCross.png",
-
-            material:
-                "Mild Steel",
-
+            image: "Images/Activities/Blacksmithing/ForgedCross.png",
+            material: "Mild Steel / Brass Accenting",
             techniques: [
-                "Drawing",
-                "Hot-Cutting",
-                "Brass Accenting"
+                "Forge Shaping",
+                "Joinery",
+                "Decorative Work"
             ],
-
             description:
-                "Hand-forged Cross made from mild steel and brushed with brass."
+                "Decorative forged cross featuring steel construction with brass accenting and detail work."
         },
+
         {
             title: "Feather Hook",
-
-            image:
-                "Images/Activities/Blacksmithing/FeatherHook.png",
-
-            material:
-                "1/2 Inch Angle Iron",
-
+            image: "Images/Activities/Blacksmithing/FeatherHook.png",
+            material: "1/2-inch Angle Iron",
             techniques: [
-                "Brass Accenting",
-                "Forge Welding",
-                "Hot Punching"
+                "Tapering",
+                "Texturing",
+                "Forging"
             ],
-
             description:
-                "A hand forged wall hook in the shape of an eagles feather."
+                "A forged utility hook shaped with feather-inspired detailing, combining function with decorative metalwork."
         },
+
         {
             title: "Kindling Splitter",
-
-            image:
-                "Images/Activities/Blacksmithing/KindlingSplitter.png",
-
-            material:
-                "1080 Tool Steel",
-
+            image: "Images/Activities/Blacksmithing/KindlingSplitter.png",
+            material: "1080 Tool Steel",
             techniques: [
-                "Hardening & Tempering",
-                "Fabrication"
+                "Forging",
+                "Blade Shaping",
+                "Heat Treatment"
             ],
-
             description:
-                "A wall mounted kindling splitter made with 1080 tool steel."
-        },
+                "A functional kindling splitter forged from 1080 tool steel with emphasis on durability and practical use."
+        }
     ]
 
 };
@@ -185,14 +164,17 @@ class BlacksmithingActivity {
 
         <article class="blacksmithing-shell">
 
-            <div class="blacksmithing-split">
+            ${this.renderHero()}
 
-                ${this.renderVisual()}
+            <div class="blacksmithing-content">
 
-                ${this.renderContent()}
+                ${this.renderExperience()}
+
+                ${this.renderDescription()}
+
+                ${this.renderSkills()}
 
             </div>
-
 
             ${this.renderProjects()}
 
@@ -259,6 +241,68 @@ class BlacksmithingActivity {
         `;
 
     }
+
+    renderHero() {
+
+    return `
+
+        <header class="blacksmithing-hero">
+
+            <div class="blacksmithing-banner">
+
+                <img
+                    src="${this.data.banner}"
+                    alt="${this.data.title} banner"
+                    class="blacksmithing-banner-image"
+                >
+
+                <div
+                    class="blacksmithing-banner-overlay"
+                ></div>
+
+            </div>
+
+
+            <div class="blacksmithing-hero-content">
+
+                <div class="blacksmithing-icon-wrapper">
+
+                    <img
+                        src="${this.data.icon}"
+                        alt="${this.data.organization}"
+                        class="blacksmithing-icon"
+                    >
+
+                    <div class="blacksmithing-icon-fallback">
+                        ${this.data.iconFallback}
+                    </div>
+
+                </div>
+
+
+                <div class="blacksmithing-title-area">
+
+                    <span class="section-eyebrow">
+                        ${this.data.eyebrow}
+                    </span>
+
+                    <h2>
+                        ${this.data.title}
+                    </h2>
+
+                    <p>
+                        ${this.data.subtitle}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </header>
+
+    `;
+
+}
 
 
     /* =====================================
@@ -645,106 +689,96 @@ class BlacksmithingActivity {
 
     setupImageFallbacks() {
 
-        const logo =
-            this.container.querySelector(
-                ".blacksmithing-logo"
-            );
+    const icon =
+        this.container.querySelector(
+            ".blacksmithing-icon"
+        );
 
+    if (icon) {
 
-        if (logo) {
+        icon.addEventListener(
+            "error",
+            () => {
 
-            logo.addEventListener(
-                "error",
-                () => {
+                icon.style.display =
+                    "none";
 
-                    logo.style.display =
-                        "none";
+                const fallback =
+                    icon.parentElement.querySelector(
+                        ".blacksmithing-icon-fallback"
+                    );
 
+                if (fallback) {
 
-                    const fallback =
-                        logo.parentElement
-                            .querySelector(
-                                ".blacksmithing-logo-fallback"
-                            );
-
-
-                    if (fallback) {
-
-                        fallback.style.display =
-                            "flex";
-
-                    }
+                    fallback.style.display =
+                        "flex";
 
                 }
-            );
-
-        }
-
-
-        const featureImage =
-            this.container.querySelector(
-                ".blacksmithing-feature-image"
-            );
-
-
-        if (featureImage) {
-
-            featureImage.addEventListener(
-                "error",
-                () => {
-
-                    featureImage.style.display =
-                        "none";
-
-                }
-            );
-
-        }
-
-
-        const projectImages =
-            this.container.querySelectorAll(
-                ".blacksmithing-project-image"
-            );
-
-
-        projectImages.forEach(
-            image => {
-
-                image.addEventListener(
-                    "error",
-                    () => {
-
-                        image.style.display =
-                            "none";
-
-
-                        const placeholder =
-                            document.createElement(
-                                "div"
-                            );
-
-
-                        placeholder.classList.add(
-                            "blacksmithing-project-placeholder"
-                        );
-
-
-                        placeholder.textContent =
-                            "⚒";
-
-
-                        image.parentElement.appendChild(
-                            placeholder
-                        );
-
-                    }
-                );
 
             }
         );
 
     }
+
+
+    const banner =
+        this.container.querySelector(
+            ".blacksmithing-banner-image"
+        );
+
+    if (banner) {
+
+        banner.addEventListener(
+            "error",
+            () => {
+
+                banner.style.display =
+                    "none";
+
+            }
+        );
+
+    }
+
+
+    const projectImages =
+        this.container.querySelectorAll(
+            ".blacksmithing-project-image"
+        );
+
+    projectImages.forEach(
+        image => {
+
+            image.addEventListener(
+                "error",
+                () => {
+
+                    image.style.display =
+                        "none";
+
+                    const placeholder =
+                        document.createElement(
+                            "div"
+                        );
+
+                    placeholder.classList.add(
+                        "blacksmithing-project-placeholder"
+                    );
+
+                    placeholder.textContent =
+                        "⚒";
+
+                    image.parentElement.appendChild(
+                        placeholder
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
 
 }
 
