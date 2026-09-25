@@ -24,3 +24,4 @@ Activities
 Animations:
     add clean top bar fade animations on page switch
     add slide scroll animation for left bar on page switch
+    for cells like in activities Add when full screen the banner image turns into a full image to the left of the cell. Blacksmithing is commented out for an example.

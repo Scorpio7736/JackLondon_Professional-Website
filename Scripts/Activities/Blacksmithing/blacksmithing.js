@@ -31,7 +31,7 @@ const blacksmithingActivityData = {
         "Winter 2022",
 
     featureImage:
-        "Images/Banners/Blacksmithing_BANNER.png",
+        "Images/Banners/PFP_BANNER.png",
 
     icon:
         "Images/Icons/Blacksmithing_ICON.png",
@@ -181,26 +181,26 @@ class BlacksmithingActivity {
 
     render() {
 
-        this.container.innerHTML = `
+    this.container.innerHTML = `
 
-            <article class="blacksmithing-shell">
+        <article class="blacksmithing-shell">
 
-                <div class="blacksmithing-split">
+            <div class="blacksmithing-split">
 
-                    ${this.renderVisual()}
+                ${this.renderVisual()}
 
-                    ${this.renderContent()}
+                ${this.renderContent()}
 
-                </div>
+            </div>
 
 
-                ${this.renderProjects()}
+            ${this.renderProjects()}
 
-            </article>
+        </article>
 
-        `;
+    `;
 
-    }
+}
 
 
     /* =====================================
