@@ -1,0 +1,530 @@
+/* =========================================
+   OUTDOORS
+   ========================================= */
+
+.outdoors-activity {
+    width: 100%;
+}
+
+
+/* =========================================
+   OUTER SHELL
+   ========================================= */
+
+.outdoors-shell {
+    width: 100%;
+
+    overflow: hidden;
+
+    background:
+        #29282e;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        10px;
+
+    box-shadow:
+        0 4px 16px
+        rgba(0, 0, 0, 0.16);
+}
+
+
+/* =========================================
+   HERO
+   ========================================= */
+
+.outdoors-hero {
+    position: relative;
+
+    width: 100%;
+    height: 360px;
+
+    overflow: hidden;
+
+    background:
+        #1d1c21;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+
+.outdoors-hero-image {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+}
+
+
+.outdoors-hero-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.08) 20%,
+            rgba(0, 0, 0, 0.72) 100%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   HERO TEXT
+   ========================================= */
+
+.outdoors-hero-copy {
+    position: absolute;
+
+    left: 30px;
+    right: 30px;
+    bottom: 28px;
+
+    z-index: 2;
+}
+
+
+.outdoors-hero-copy h2 {
+    margin:
+        5px 0 6px;
+
+    color:
+        #ffffff;
+
+    font-size:
+        clamp(
+            1.8rem,
+            4vw,
+            2.6rem
+        );
+
+    font-weight:
+        600;
+
+    letter-spacing:
+        -0.035em;
+}
+
+
+.outdoors-hero-copy p {
+    margin: 0;
+
+    color:
+        rgba(255, 255, 255, 0.78);
+
+    font-size:
+        0.9rem;
+}
+
+
+/* =========================================
+   CONTENT
+   ========================================= */
+
+.outdoors-content {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+    padding:
+        24px;
+}
+
+
+/* =========================================
+   INTRO
+   ========================================= */
+
+.outdoors-intro {
+    padding:
+        20px;
+
+    background:
+        #25242a;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        8px;
+}
+
+
+.outdoors-label {
+    display: block;
+
+    margin-bottom:
+        8px;
+
+    color:
+        var(--text-muted);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size:
+        0.63rem;
+
+    font-weight:
+        600;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.08em;
+}
+
+
+.outdoors-intro p {
+    margin: 0;
+
+    max-width:
+        900px;
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        0.84rem;
+
+    line-height:
+        1.7;
+}
+
+
+/* =========================================
+   STORY GRID
+   ========================================= */
+
+.outdoors-story-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+    gap:
+        16px;
+}
+
+
+/* =========================================
+   STORY CARD
+   ========================================= */
+
+.outdoors-story-card {
+    min-width: 0;
+
+    overflow: hidden;
+
+    background:
+        #25242a;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        8px;
+
+    transition:
+        transform 160ms ease,
+        border-color 160ms ease,
+        background 160ms ease;
+}
+
+
+.outdoors-story-card:hover {
+    transform:
+        translateY(-2px);
+
+    background:
+        var(--surface-hover);
+
+    border-color:
+        #55545e;
+}
+
+
+/* =========================================
+   WIDE STORY
+   ========================================= */
+
+.outdoors-story-wide {
+    grid-column:
+        1 / -1;
+}
+
+
+/* =========================================
+   STORY IMAGE
+   ========================================= */
+
+.outdoors-story-image-wrapper {
+    position: relative;
+
+    width: 100%;
+    height: 260px;
+
+    overflow: hidden;
+
+    background:
+        #1d1c21;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+
+.outdoors-story-wide
+.outdoors-story-image-wrapper {
+    height:
+        340px;
+}
+
+
+.outdoors-story-image {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    transition:
+        transform 300ms ease;
+}
+
+
+.outdoors-story-card:hover
+.outdoors-story-image {
+    transform:
+        scale(1.025);
+}
+
+
+/* =========================================
+   IMAGE OVERLAY
+   ========================================= */
+
+.outdoors-story-image-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 35%,
+            rgba(0, 0, 0, 0.75) 100%
+        );
+}
+
+
+/* =========================================
+   IMAGE TITLE
+   ========================================= */
+
+.outdoors-story-image-title {
+    position: absolute;
+
+    left: 20px;
+    right: 20px;
+    bottom: 18px;
+
+    z-index: 2;
+}
+
+
+.outdoors-story-image-title span {
+    color:
+        rgba(255, 255, 255, 0.67);
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size:
+        0.62rem;
+
+    letter-spacing:
+        0.06em;
+}
+
+
+.outdoors-story-image-title h3 {
+    margin:
+        4px 0 0;
+
+    color:
+        #ffffff;
+
+    font-size:
+        1.15rem;
+
+    font-weight:
+        600;
+}
+
+
+/* =========================================
+   STORY BODY
+   ========================================= */
+
+.outdoors-story-body {
+    padding:
+        18px;
+}
+
+
+.outdoors-story-body p {
+    margin:
+        0;
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        0.8rem;
+
+    line-height:
+        1.7;
+}
+
+
+/* =========================================
+   TAGS
+   ========================================= */
+
+.outdoors-tag-list {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap:
+        7px;
+
+    margin-top:
+        15px;
+}
+
+
+.outdoors-tag {
+    padding:
+        6px 9px;
+
+    color:
+        var(--text-muted);
+
+    background:
+        #212026;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        6px;
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size:
+        0.63rem;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 850px) {
+
+    .outdoors-story-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .outdoors-story-wide {
+        grid-column:
+            auto;
+    }
+
+
+    .outdoors-story-wide
+    .outdoors-story-image-wrapper {
+        height:
+            280px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .outdoors-hero {
+        height:
+            300px;
+    }
+
+
+    .outdoors-content {
+        padding:
+            18px;
+    }
+
+
+    .outdoors-story-image-wrapper,
+    .outdoors-story-wide
+    .outdoors-story-image-wrapper {
+        height:
+            240px;
+    }
+
+
+    .outdoors-hero-copy {
+        left:
+            20px;
+
+        right:
+            20px;
+
+        bottom:
+            20px;
+    }
+
+}
