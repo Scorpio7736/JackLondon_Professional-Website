@@ -88,29 +88,6 @@ const network404ActivityData = {
             image:
                 "Images/Activities/404/Ethan_Onesti.png"
         },
-
-        {
-            name:
-                "",
-
-            position:
-                "Club Secretary",
-
-            image:
-                "Images/Activities/404/NO_PFP.png"
-        },
-        
-        {
-            name:
-                "",
-
-            position:
-                "Head of Club Marketing",
-
-            image:
-                "Images/Activities/404/NO_PFP.png"
-        },
-
         {
             name:
                 "Omar Meqdadi",
