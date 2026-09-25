@@ -24,70 +24,14 @@ const kspActivityData = {
     banner:
         "Images/Banners/KSP_BANNER.png",
 
-
-    /* =====================================
-       TOTAL HOURS
-       ===================================== */
-
     totalHours:
         2750,
-
-
-    /* =====================================
-       DESCRIPTION
-       ===================================== */
 
     description: [
 
         `Kerbal Space Program is my all-time favorite game, and I've been playing it for years. I'm a huge space nerd, so KSP has always been one of my favorite ways to experiment with spacecraft design, mission planning, and orbital mechanics.`,
 
-        `One of my favorite parts of the game is recreating real-world spacecraft and then putting my own spin on them. I'm currently working through an alternate-history playthrough inspired by For All Mankind, where the space race continues well beyond the Moon landing and develops into a much larger era of exploration.`,
-
-        `Below are some of the spacecraft, launch vehicles, aircraft, stations, and other craft I use most often in that playthrough. I've included the craft files so you can download them, try them yourself, and see how they were built.`
-
-
-    ],
-
-    crafts: [
-        {
-            title:
-                "Armstrong Mun Rocket",
-
-            description:
-                "DESCRIPTION",
-
-            icon:
-                "Images/Activities/KSP/Crafts/CreativeMode_VAB_Armstrong Mun Rocket.png",
-
-            file:
-                "Downloads/KSP_Crafts/Armstrong Mun Rocket.craft"
-        },
-        {
-            title:
-                "SLS - A2 ORION",
-
-            description:
-                "DESCRIPTION",
-
-            icon:
-                "Images/Activities/KSP/Crafts/CreativeMode_VAB_SLS - A2 ORION.png",
-
-            file:
-                "Downloads/KSP_Crafts/SLS - A2 ORION.craft"
-        },
-        {
-            title:
-                "Welding Shuttle",
-
-            description:
-                "DESCRIPTION",
-
-            icon:
-                "Images/Activities/KSP/Crafts/CreativeMode_VAB_Welding Shuttle.png",
-
-            file:
-                "Downloads/KSP_Crafts/Welding Shuttle.craft"
-        },
+        `One of my favorite parts of the game is recreating real-world spacecraft and then putting my own spin on them. I'm currently working through an alternate-history playthrough inspired by For All Mankind, where the space race continues well beyond the Moon landing and develops into a much larger era of exploration.`
 
     ]
 
@@ -107,7 +51,9 @@ function initializeKspActivity() {
 
 
     if (!container) {
+
         return;
+
     }
 
 
@@ -130,26 +76,24 @@ function renderKspActivity(
 
     container.innerHTML = `
 
-        ${renderKspHero(data)}
+        <article class="ksp-master-cell">
 
-        <div class="ksp-content-layout">
+            ${renderKspHero(data)}
 
-            ${renderKspDescription(data)}
+            <div class="ksp-master-content">
 
-            ${renderKspHours(data)}
+                ${renderKspDescription(data)}
 
-        </div>
+                ${renderKspHours(data)}
 
-        ${renderKspCraftLibrary(data)}
+            </div>
+
+        </article>
 
     `;
 
 
     setupKspImageFallbacks(
-    container
-    );
-
-    setupKspCraftDownloads(
         container
     );
 
@@ -160,11 +104,13 @@ function renderKspActivity(
    HERO
    ========================================= */
 
-function renderKspHero(data) {
+function renderKspHero(
+    data
+) {
 
     return `
 
-        <section class="ksp-hero">
+        <header class="ksp-hero">
 
             <div class="ksp-banner">
 
@@ -174,7 +120,9 @@ function renderKspHero(data) {
                     class="ksp-banner-image"
                 >
 
-                <div class="ksp-banner-overlay"></div>
+                <div
+                    class="ksp-banner-overlay"
+                ></div>
 
             </div>
 
@@ -214,7 +162,7 @@ function renderKspHero(data) {
 
             </div>
 
-        </section>
+        </header>
 
     `;
 
@@ -225,15 +173,19 @@ function renderKspHero(data) {
    DESCRIPTION
    ========================================= */
 
-function renderKspDescription(data) {
+function renderKspDescription(
+    data
+) {
 
     const paragraphs =
         data.description
             .map(
                 paragraph => `
+
                     <p>
                         ${paragraph}
                     </p>
+
                 `
             )
             .join("");
@@ -241,23 +193,15 @@ function renderKspDescription(data) {
 
     return `
 
-        <section class="ksp-panel ksp-about-panel">
+        <section class="ksp-inner-cell ksp-about">
 
-            <div class="ksp-panel-heading">
+            <span class="section-eyebrow">
+                ksp.about
+            </span>
 
-                <div>
-
-                    <span class="section-eyebrow">
-                        ksp.about
-                    </span>
-
-                    <h3>
-                        Why Kerbal Space Program?
-                    </h3>
-
-                </div>
-
-            </div>
+            <h3>
+                Why Kerbal Space Program?
+            </h3>
 
 
             <div class="ksp-description">
@@ -277,7 +221,9 @@ function renderKspDescription(data) {
    HOURS
    ========================================= */
 
-function renderKspHours(data) {
+function renderKspHours(
+    data
+) {
 
     const hours =
         Number(
@@ -295,7 +241,7 @@ function renderKspHours(data) {
 
     return `
 
-        <section class="ksp-hours-card">
+        <section class="ksp-inner-cell ksp-hours-card">
 
             <span class="section-eyebrow">
                 ksp.total_runtime
@@ -337,234 +283,6 @@ function renderKspHours(data) {
 
 }
 
-
-/* =========================================
-   CRAFT LIBRARY
-   ========================================= */
-
-function renderKspCraftLibrary(data) {
-
-    const craftCount =
-        data.crafts.length;
-
-
-    let content;
-
-
-    if (craftCount === 0) {
-
-        content = `
-
-            <div class="ksp-craft-empty">
-
-                <div class="ksp-empty-icon">
-                    🚀
-                </div>
-
-                <h4>
-                    Craft Hangar Empty
-                </h4>
-
-                <p>
-                    Craft files will appear here as
-                    they are added to the portfolio.
-                </p>
-
-                <span>
-                    awaiting_craft_files...
-                </span>
-
-            </div>
-
-        `;
-
-    }
-    else {
-
-        content = `
-
-            <div class="ksp-craft-grid">
-
-                ${data.crafts
-                    .map(
-                        renderKspCraftCard
-                    )
-                    .join("")}
-
-            </div>
-
-        `;
-
-    }
-
-
-    return `
-
-        <section class="ksp-panel ksp-craft-library">
-
-            <div class="ksp-panel-heading ksp-library-heading">
-
-                <div>
-
-                    <span class="section-eyebrow">
-                        ksp.craft_library
-                    </span>
-
-                    <h3>
-                        Craft Hangar
-                    </h3>
-
-                    <p>
-                        Downloadable spacecraft and vehicles
-                        I've built in Kerbal Space Program.
-                    </p>
-
-                </div>
-
-
-                <div class="ksp-craft-count">
-
-                    <strong>
-                        ${craftCount}
-                    </strong>
-
-                    <span>
-                        Published Crafts
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            ${content}
-
-        </section>
-
-    `;
-
-}
-
-
-/* =========================================
-   CRAFT CARD
-   ========================================= */
-
-function renderKspCraftCard(
-    craft
-) {
-
-    const hasFile =
-        Boolean(
-            craft.file &&
-            craft.file.trim()
-        );
-
-
-    const iconMarkup =
-        craft.icon
-
-            ? `
-
-                <img
-                    src="${craft.icon}"
-                    alt="${craft.title}"
-                    class="ksp-craft-icon"
-                >
-
-                <div class="ksp-craft-icon-fallback">
-                    🚀
-                </div>
-
-            `
-
-            : `
-
-                <div class="ksp-craft-icon-placeholder">
-                    🚀
-                </div>
-
-            `;
-
-
-    const downloadMarkup =
-    hasFile
-
-        ? `
-
-            <button
-                class="ksp-craft-download"
-                type="button"
-                data-craft-file="${craft.file}"
-                data-craft-name="${craft.title}.craft"
-            >
-                Download Craft
-                <span>↓</span>
-            </button>
-
-        `
-
-        : `
-
-            <button
-                class="ksp-craft-download disabled"
-                type="button"
-                disabled
-            >
-                File Coming Soon
-            </button>
-
-        `;
-
-
-    return `
-
-        <article class="ksp-craft-card">
-
-            <div class="ksp-craft-card-header">
-
-                <div class="ksp-craft-icon-wrapper">
-
-                    ${iconMarkup}
-
-                </div>
-
-
-                <div class="ksp-craft-title">
-
-                    <span>
-                        .CRAFT FILE
-                    </span>
-
-                    <h4>
-                        ${craft.title}
-                    </h4>
-
-                </div>
-
-            </div>
-
-
-            <p class="ksp-craft-description">
-                ${craft.description}
-            </p>
-
-
-            <div class="ksp-craft-card-footer">
-
-                <span class="ksp-file-type">
-                    KSP / .craft
-                </span>
-
-                ${downloadMarkup}
-
-            </div>
-
-        </article>
-
-    `;
-
-}
 
 /* =========================================
    IMAGE FALLBACKS
@@ -629,183 +347,6 @@ function setupKspImageFallbacks(
         );
 
     }
-
-
-    const craftIcons =
-        container.querySelectorAll(
-            ".ksp-craft-icon"
-        );
-
-
-    craftIcons.forEach(
-        image => {
-
-            image.addEventListener(
-                "error",
-                () => {
-
-                    image.style.display =
-                        "none";
-
-
-                    const fallback =
-                        image.parentElement
-                            .querySelector(
-                                ".ksp-craft-icon-fallback"
-                            );
-
-
-                    if (fallback) {
-
-                        fallback.style.display =
-                            "flex";
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================
-   CRAFT DOWNLOADS
-   ========================================= */
-
-function setupKspCraftDownloads(
-    container
-) {
-
-    const downloadButtons =
-        container.querySelectorAll(
-            ".ksp-craft-download[data-craft-file]"
-        );
-
-
-    downloadButtons.forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                async () => {
-
-                    if (window.location.protocol === "file:") {
-
-                        alert(
-                            "Craft downloads will not work when the website is opened directly from the file system.\n\n" +
-                            "Start the localhost server in powershell first:\n\n" +
-                            "cd \"<path_to_project>\"\n\n" +
-                            "py -m http.server 5500\n\n" +
-                            "Then open:\n" +
-                            "http://localhost:5500"
-                        );
-
-                        return;
-                    }
-
-
-                    const filePath =
-                        button.dataset.craftFile;
-
-                    const fileName =
-                        button.dataset.craftName ||
-                        "KSP-Craft.craft";
-
-
-                    console.log(
-                        "Downloading craft:",
-                        filePath
-                    );
-
-
-                    try {
-
-                        const response =
-                            await fetch(
-                                filePath
-                            );
-
-
-                        if (!response.ok) {
-
-                            throw new Error(
-                                `Craft file returned ${response.status}`
-                            );
-
-                        }
-
-
-                        const blob =
-                            await response.blob();
-
-
-                        const url =
-                            URL.createObjectURL(
-                                blob
-                            );
-
-
-                        const link =
-                            document.createElement(
-                                "a"
-                            );
-
-
-                        link.href =
-                            url;
-
-                        link.download =
-                            fileName;
-
-                        link.style.display =
-                            "none";
-
-
-                        document.body.appendChild(
-                            link
-                        );
-
-
-                        link.click();
-
-
-                        link.remove();
-
-
-                        setTimeout(
-                            () => {
-
-                                URL.revokeObjectURL(
-                                    url
-                                );
-
-                            },
-                            1000
-                        );
-
-                    }
-                    catch (error) {
-
-                        console.error(
-                            "Craft download failed:",
-                            error
-                        );
-
-
-                        alert(
-                            "The craft file could not be downloaded."
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-    );
 
 }
 
