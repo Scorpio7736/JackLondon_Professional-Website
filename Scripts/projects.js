@@ -212,9 +212,6 @@ const projects = [
         ],
 
         images: [
-            "Images/Projects/Portfolio/Portfolio_1.png",
-            "Images/Projects/Portfolio/Portfolio_2.png",
-            "Images/Projects/Portfolio/Portfolio_3.png"
         ],
 
         repoLink:
