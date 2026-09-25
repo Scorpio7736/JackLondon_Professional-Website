@@ -56,32 +56,79 @@ const blacksmithingActivityData = {
 
     ],
 
-    /*
-        Add real metalwork here as you document it.
-
-        Example:
-
+    projects: [
         {
-            title: "Forged Bottle Opener",
+            title: "Forged Rose",
 
             image:
-                "Images/Activities/Blacksmithing/BottleOpener.jpg",
+                "Images/Activities/Blacksmithing/ForgedRose.png",
 
             material:
                 "Mild Steel",
 
             techniques: [
                 "Drawing",
-                "Bending",
-                "Punching"
+                "Rolling",
+                "Hot-Cutting"
             ],
 
             description:
-                "Hand-forged bottle opener made from mild steel."
-        }
-    */
+                "Hand-forged Rose made from mild steel."
+        },
+        {
+            title: "Fredrichs Cross",
 
-    projects: []
+            image:
+                "Images/Activities/Blacksmithing/ForgedCross.png",
+
+            material:
+                "Mild Steel",
+
+            techniques: [
+                "Drawing",
+                "Hot-Cutting",
+                "Brass Accenting"
+            ],
+
+            description:
+                "Hand-forged Cross made from mild steel and brushed with brass."
+        },
+        {
+            title: "Feather Hook",
+
+            image:
+                "Images/Activities/Blacksmithing/FeatherHook.png",
+
+            material:
+                "1/2 Inch Angle Iron",
+
+            techniques: [
+                "Brass Accenting",
+                "Forge Welding",
+                "Hot Punching"
+            ],
+
+            description:
+                "A hand forged wall hook in the shape of an eagles feather."
+        },
+        {
+            title: "Kindling Splitter",
+
+            image:
+                "Images/Activities/Blacksmithing/KindlingSplitter.png",
+
+            material:
+                "1080 Tool Steel",
+
+            techniques: [
+                "Hardening & Tempering",
+                "Fabrication"
+            ],
+
+            description:
+                "A wall mounted kindling splitter made with 1080 tool steel."
+        },
+    ]
 
 };
 
