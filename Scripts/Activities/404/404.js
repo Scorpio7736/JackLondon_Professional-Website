@@ -31,9 +31,7 @@ const network404ActivityData = {
 
     description: [
 
-        `ADD CLUB DESCRIPTION HERE.`,
-
-        `ADD ANOTHER PARAGRAPH HERE IF NEEDED.`
+        "404 Network (Club Not Found) is a community for students interested in computer science and technology. This organization provides a space to collaborate on projects, network with peers, and promote technical education through peer led sessions."
 
     ],
 
