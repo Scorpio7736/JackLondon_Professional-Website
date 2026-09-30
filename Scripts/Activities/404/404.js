@@ -115,7 +115,7 @@ const network404ActivityData = {
                 "GH",
 
             url:
-                "",
+                "https://github.com/404network-cnf",
             icon:
                 "Images/Activities/404/404_GitHub.png"
         },
