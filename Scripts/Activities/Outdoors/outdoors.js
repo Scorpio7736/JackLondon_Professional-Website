@@ -21,6 +21,9 @@ const outdoorsActivityData = {
     heroImage:
         "Images/Activities/Outdoors/Boating.png",
 
+    heroImagePosition:
+        "center 55%",
+
     intro:
         "A lot of my time outside of school and software is spent around the water. Whether I'm working on the boat, fishing with my grandpa, or heading up north, it's one of my favorite ways to slow down, work with my hands, and get away from a screen for a while.",
 
@@ -37,15 +40,14 @@ const outdoorsActivityData = {
             image:
                 "Images/Activities/Outdoors/Boating_2.png",
 
+            imagePosition:
+                "center 50%",
+
+            imageLayout:
+                "portrait",
+
             description:
                 "I enjoy working on the boat almost as much as actually taking it out. Maintenance, repairs, upgrades, and figuring out why something isn't working give me another hands-on outlet for the same kind of problem solving I enjoy in software.",
-
-            tags: [
-                "Boating",
-                "Maintenance",
-                "Repair",
-                "Problem Solving"
-            ],
 
             wide:
                 false
@@ -62,15 +64,14 @@ const outdoorsActivityData = {
             image:
                 "Images/Activities/Outdoors/GPaw.png",
 
+            imagePosition:
+                "center 45%",
+
+            imageLayout:
+                "standard",
+
             description:
                 "Fishing has always been something I associate with time spent with my grandpa. More than catching fish, it's about being on the water together, sharing stories, and continuing something we've enjoyed doing for years.",
-
-            tags: [
-                "Fishing",
-                "Family",
-                "Tradition",
-                "Time on the Water"
-            ],
 
             wide:
                 false
@@ -87,15 +88,14 @@ const outdoorsActivityData = {
             image:
                 "Images/Activities/Outdoors/Fishing.png",
 
+            imagePosition:
+                "center 50%",
+
+            imageLayout:
+                "wide",
+
             description:
                 "Going up north is one of my favorite ways to get away for a while. Fishing, boating, being around the lake, and spending time outside make it a place where I can reset and enjoy a completely different pace from school and everyday life.",
-
-            tags: [
-                "Northern Wisconsin",
-                "Fishing",
-                "Boating",
-                "Outdoors"
-            ],
 
             wide:
                 true
@@ -189,6 +189,10 @@ class OutdoorsActivity {
                     src="${this.data.heroImage}"
                     alt="Outdoor recreation"
                     class="outdoors-hero-image"
+                    style="
+                        object-position:
+                        ${this.data.heroImagePosition || "center"};
+                    "
                 >
 
 
@@ -283,63 +287,87 @@ class OutdoorsActivity {
        ===================================== */
 
     renderStoryCard(
-    story
-) {
+        story
+    ) {
 
-    const wideClass =
-        story.wide
-            ? " outdoors-story-wide"
-            : "";
+        const wideClass =
+            story.wide
+
+                ? " outdoors-story-wide"
+
+                : "";
 
 
-    return `
+        const imageLayout =
+            story.imageLayout ||
+            "standard";
 
-        <article
-            class="outdoors-story-card${wideClass}"
-        >
 
-            <div class="outdoors-story-image-wrapper">
+        const imageLayoutClass =
+            ` outdoors-story-image-${imageLayout}`;
 
-                <img
-                    src="${story.image}"
-                    alt="${story.title}"
-                    class="outdoors-story-image"
-                >
 
+        return `
+
+            <article
+                class="
+                    outdoors-story-card
+                    ${wideClass}
+                "
+            >
 
                 <div
-                    class="outdoors-story-image-overlay"
-                ></div>
+                    class="
+                        outdoors-story-image-wrapper
+                        ${imageLayoutClass}
+                    "
+                >
+
+                    <img
+                        src="${story.image}"
+                        alt="${story.title}"
+                        class="outdoors-story-image"
+                        style="
+                            object-position:
+                            ${story.imagePosition || "center"};
+                        "
+                    >
 
 
-                <div class="outdoors-story-image-title">
+                    <div
+                        class="outdoors-story-image-overlay"
+                    ></div>
 
-                    <span>
-                        ${story.eyebrow}
-                    </span>
 
-                    <h3>
-                        ${story.title}
-                    </h3>
+                    <div class="outdoors-story-image-title">
+
+                        <span>
+                            ${story.eyebrow}
+                        </span>
+
+
+                        <h3>
+                            ${story.title}
+                        </h3>
+
+                    </div>
 
                 </div>
 
-            </div>
 
+                <div class="outdoors-story-body">
 
-            <div class="outdoors-story-body">
+                    <p>
+                        ${story.description}
+                    </p>
 
-                <p>
-                    ${story.description}
-                </p>
+                </div>
 
-            </div>
+            </article>
 
-        </article>
+        `;
 
-    `;
-
-}
+    }
 
 
     /* =====================================

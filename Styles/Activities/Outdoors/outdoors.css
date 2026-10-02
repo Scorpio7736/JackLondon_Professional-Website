@@ -61,9 +61,21 @@
 
     display: block;
 
-    object-fit: cover;
+    object-fit:
+        cover;
 
-    object-position: center;
+    object-position:
+        center;
+
+    transition:
+        transform 500ms ease;
+}
+
+
+.outdoors-hero:hover
+.outdoors-hero-image {
+    transform:
+        scale(1.01);
 }
 
 
@@ -75,8 +87,9 @@
     background:
         linear-gradient(
             to bottom,
-            rgba(0, 0, 0, 0.08) 20%,
-            rgba(0, 0, 0, 0.72) 100%
+            rgba(0, 0, 0, 0.04) 15%,
+            rgba(0, 0, 0, 0.16) 48%,
+            rgba(0, 0, 0, 0.76) 100%
         );
 
     pointer-events: none;
@@ -124,7 +137,12 @@
     margin: 0;
 
     color:
-        rgba(255, 255, 255, 0.78);
+        rgba(
+            255,
+            255,
+            255,
+            0.78
+        );
 
     font-size:
         0.9rem;
@@ -140,7 +158,8 @@
 
     flex-direction: column;
 
-    gap: 18px;
+    gap:
+        18px;
 
     padding:
         24px;
@@ -225,6 +244,9 @@
             minmax(0, 1fr)
         );
 
+    align-items:
+        start;
+
     gap:
         16px;
 }
@@ -278,14 +300,13 @@
 
 
 /* =========================================
-   STORY IMAGE
+   STORY IMAGE WRAPPER
    ========================================= */
 
 .outdoors-story-image-wrapper {
     position: relative;
 
     width: 100%;
-    height: 260px;
 
     overflow: hidden;
 
@@ -297,12 +318,49 @@
 }
 
 
-.outdoors-story-wide
-.outdoors-story-image-wrapper {
-    height:
-        340px;
+/* =========================================
+   STANDARD IMAGE FRAME
+   ========================================= */
+
+.outdoors-story-image-standard {
+    aspect-ratio:
+        4 / 3;
 }
 
+
+/* =========================================
+   PORTRAIT IMAGE FRAME
+   ========================================= */
+
+.outdoors-story-image-portrait {
+    aspect-ratio:
+        4 / 3;
+}
+
+
+/* =========================================
+   WIDE IMAGE FRAME
+   ========================================= */
+
+.outdoors-story-image-wide {
+    aspect-ratio:
+        16 / 7;
+}
+
+
+.outdoors-story-wide
+.outdoors-story-image-wrapper {
+    min-height:
+        320px;
+
+    max-height:
+        430px;
+}
+
+
+/* =========================================
+   STORY IMAGE
+   ========================================= */
 
 .outdoors-story-image {
     position: absolute;
@@ -314,19 +372,24 @@
 
     display: block;
 
-    object-fit: cover;
+    object-fit:
+        cover;
 
-    object-position: center;
+    object-position:
+        center;
 
     transition:
-        transform 300ms ease;
+        transform 350ms ease;
+
+    will-change:
+        transform;
 }
 
 
 .outdoors-story-card:hover
 .outdoors-story-image {
     transform:
-        scale(1.025);
+        scale(1.015);
 }
 
 
@@ -344,8 +407,9 @@
     background:
         linear-gradient(
             to bottom,
-            transparent 35%,
-            rgba(0, 0, 0, 0.75) 100%
+            rgba(0, 0, 0, 0.01) 30%,
+            rgba(0, 0, 0, 0.12) 56%,
+            rgba(0, 0, 0, 0.78) 100%
         );
 }
 
@@ -367,7 +431,12 @@
 
 .outdoors-story-image-title span {
     color:
-        rgba(255, 255, 255, 0.67);
+        rgba(
+            255,
+            255,
+            255,
+            0.67
+        );
 
     font-family:
         "Cascadia Code",
@@ -424,51 +493,7 @@
 
 
 /* =========================================
-   TAGS
-   ========================================= */
-
-.outdoors-tag-list {
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap:
-        7px;
-
-    margin-top:
-        15px;
-}
-
-
-.outdoors-tag {
-    padding:
-        6px 9px;
-
-    color:
-        var(--text-muted);
-
-    background:
-        #212026;
-
-    border:
-        1px solid var(--border);
-
-    border-radius:
-        6px;
-
-    font-family:
-        "Cascadia Code",
-        "Fira Code",
-        Consolas,
-        monospace;
-
-    font-size:
-        0.63rem;
-}
-
-
-/* =========================================
-   RESPONSIVE
+   RESPONSIVE - TABLET
    ========================================= */
 
 @media (max-width: 850px) {
@@ -485,20 +510,33 @@
     }
 
 
+    .outdoors-story-image-wide {
+        aspect-ratio:
+            4 / 3;
+    }
+
+
     .outdoors-story-wide
     .outdoors-story-image-wrapper {
-        height:
-            280px;
+        min-height:
+            0;
+
+        max-height:
+            none;
     }
 
 }
 
 
+/* =========================================
+   RESPONSIVE - MOBILE
+   ========================================= */
+
 @media (max-width: 600px) {
 
     .outdoors-hero {
         height:
-            300px;
+            280px;
     }
 
 
@@ -508,11 +546,21 @@
     }
 
 
-    .outdoors-story-image-wrapper,
+    .outdoors-story-image-standard,
+    .outdoors-story-image-portrait,
+    .outdoors-story-image-wide {
+        aspect-ratio:
+            4 / 3;
+    }
+
+
     .outdoors-story-wide
     .outdoors-story-image-wrapper {
-        height:
-            240px;
+        min-height:
+            0;
+
+        max-height:
+            none;
     }
 
 
@@ -525,6 +573,67 @@
 
         bottom:
             20px;
+    }
+
+
+    .outdoors-story-image-title {
+        left:
+            16px;
+
+        right:
+            16px;
+
+        bottom:
+            15px;
+    }
+
+
+    .outdoors-story-body {
+        padding:
+            16px;
+    }
+
+}
+
+
+/* =========================================
+   RESPONSIVE - SMALL MOBILE
+   ========================================= */
+
+@media (max-width: 480px) {
+
+    .outdoors-hero {
+        height:
+            240px;
+    }
+
+
+    .outdoors-content {
+        gap:
+            14px;
+
+        padding:
+            15px;
+    }
+
+
+    .outdoors-intro {
+        padding:
+            16px;
+    }
+
+
+    .outdoors-story-image-standard,
+    .outdoors-story-image-portrait,
+    .outdoors-story-image-wide {
+        aspect-ratio:
+            1 / 1;
+    }
+
+
+    .outdoors-story-image-title h3 {
+        font-size:
+            1rem;
     }
 
 }
