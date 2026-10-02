@@ -72,6 +72,9 @@ const workspaceContent =
 let activePageName = null;
 let sectionObserver = null;
 
+let sectionScrollHandler = null;
+let sectionScrollFrame = null;
+
 let pageTransitionId = 0;
 
 let workspaceScrollAnimation = null;
@@ -929,93 +932,218 @@ function setupSectionObserver(
     page
 ) {
 
+    /* =====================================
+       REMOVE PREVIOUS LISTENER
+       ===================================== */
+
     if (
-        sectionObserver
+        sectionScrollHandler &&
+        workspaceContent
     ) {
 
-        sectionObserver.disconnect();
+        workspaceContent.removeEventListener(
+            "scroll",
+            sectionScrollHandler
+        );
 
     }
 
 
+    if (
+        sectionScrollFrame
+    ) {
+
+        cancelAnimationFrame(
+            sectionScrollFrame
+        );
+
+        sectionScrollFrame =
+            null;
+
+    }
+
+
+    /* =====================================
+       GET PAGE SECTIONS
+       ===================================== */
+
     const sections =
-        page.querySelectorAll(
-            ".page-section[data-tab]"
+        Array.from(
+            page.querySelectorAll(
+                ".page-section[data-tab]"
+            )
         );
 
 
-    sectionObserver =
-        new IntersectionObserver(
+    if (
+        sections.length === 0
+    ) {
 
-            entries => {
+        return;
 
-                if (
-                    isProgrammaticScroll
-                ) {
-                    return;
-                }
+    }
 
 
-                const visibleEntries =
-                    entries
-                        .filter(
-                            entry =>
-                                entry.isIntersecting
-                        )
-                        .sort(
-                            (a, b) =>
-                                b.intersectionRatio -
-                                a.intersectionRatio
-                        );
+    /* =====================================
+       FIND CURRENT SECTION
+       ===================================== */
 
+    const updateActiveSection =
+        () => {
 
-                if (
-                    visibleEntries.length >
-                    0
-                ) {
+            if (
+                isProgrammaticScroll
+            ) {
 
-                    setActiveTabBySection(
-                        visibleEntries[0]
-                            .target
-                            .id
-                    );
-
-                }
-
-            },
-
-            {
-
-                root:
-                    workspaceContent,
-
-                rootMargin:
-                    "-10% 0px -65% 0px",
-
-                threshold: [
-                    0,
-                    0.1,
-                    0.25,
-                    0.5
-                ]
+                return;
 
             }
 
-        );
+
+            const contentRect =
+                workspaceContent
+                    .getBoundingClientRect();
 
 
-    sections.forEach(
-        section => {
+            /*
+                Activation line inside the
+                scrolling workspace.
 
-            sectionObserver.observe(
-                section
+                A section becomes active once
+                it reaches roughly 20% from
+                the top of the viewport.
+            */
+
+            const activationPoint =
+                contentRect.top +
+                Math.min(
+                    120,
+                    contentRect.height * 0.20
+                );
+
+
+            let activeSection =
+                sections[0];
+
+
+            sections.forEach(
+                section => {
+
+                    const rect =
+                        section
+                            .getBoundingClientRect();
+
+
+                    /*
+                        Use the last section
+                        whose top has crossed
+                        the activation line.
+                    */
+
+                    if (
+                        rect.top <=
+                        activationPoint
+                    ) {
+
+                        activeSection =
+                            section;
+
+                    }
+
+                }
             );
 
+
+            /*
+                Handle the very bottom of
+                the page.
+
+                This guarantees the final
+                tab becomes active even if
+                its section cannot scroll
+                all the way to the
+                activation point.
+            */
+
+            const atBottom =
+                workspaceContent.scrollTop +
+                workspaceContent.clientHeight >=
+                workspaceContent.scrollHeight - 2;
+
+
+            if (
+                atBottom
+            ) {
+
+                activeSection =
+                    sections[
+                        sections.length - 1
+                    ];
+
+            }
+
+
+            if (
+                activeSection
+            ) {
+
+                setActiveTabBySection(
+                    activeSection.id
+                );
+
+            }
+
+        };
+
+
+    /* =====================================
+       SCROLL HANDLER
+       ===================================== */
+
+    sectionScrollHandler =
+        () => {
+
+            if (
+                sectionScrollFrame
+            ) {
+
+                return;
+
+            }
+
+
+            sectionScrollFrame =
+                requestAnimationFrame(
+                    () => {
+
+                        sectionScrollFrame =
+                            null;
+
+
+                        updateActiveSection();
+
+                    }
+                );
+
+        };
+
+
+    workspaceContent.addEventListener(
+        "scroll",
+        sectionScrollHandler,
+        {
+            passive: true
         }
     );
 
-}
 
+    /* =====================================
+       INITIAL STATE
+       ===================================== */
+
+    updateActiveSection();
+
+}
 
 /* =========================================
    SIDEBAR NAVIGATION
