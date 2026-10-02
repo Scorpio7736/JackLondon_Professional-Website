@@ -34,7 +34,7 @@ const blacksmithingActivityData = {
         "Images/Banners/Blacksmithing_BANNER1.jpg",
 
     icon:
-        "Images/Icons/Blacksmithing_ICON.png",
+        "Images/Icons/JLBlacksmithing_ICON.png",
 
     iconFallback:
         "BOF",
