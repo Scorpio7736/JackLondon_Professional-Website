@@ -90,6 +90,16 @@ const network404ActivityData = {
         },
         {
             name:
+                "Kasmir Siekierzynski",
+
+            position:
+                "Club Secretary",
+
+            image:
+                "Images/Activities/404/Kasmir_Siekierzynski.png"
+        },
+        {
+            name:
                 "Omar Meqdadi",
             position:
                 "Faculty Mentor",
