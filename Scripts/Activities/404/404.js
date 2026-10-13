@@ -100,6 +100,14 @@ const network404ActivityData = {
         },
         {
             name:
+                "Robert VorobcheviciCondria",
+            position:
+                "Conference & Travel Coordinator",
+            image:
+                "Images/Activities/404/Robert_VorobcheviciCondria.png"
+        },
+        {
+            name:
                 "Omar Meqdadi",
             position:
                 "Faculty Mentor",
