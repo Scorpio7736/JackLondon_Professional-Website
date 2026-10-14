@@ -100,6 +100,14 @@ const network404ActivityData = {
         },
         {
             name:
+                "Payton Schmidt",
+            position:
+                "Head of Club Marketing",
+            image:
+                "Images/Activities/404/Payton_Schmidt.png"
+        },
+        {
+            name:
                 "Robert VorobcheviciCondria",
             position:
                 "Conference & Travel Coordinator",
