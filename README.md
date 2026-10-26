@@ -183,6 +183,11 @@ As the portfolio evolves, useful areas to revisit include:
 - Additional project demos and technical write-ups
 - Search or filtering for larger project collections
 
+## Contributors
+
+- **Jack London** ([@Scorpio7736](https://github.com/Scorpio7736))
+- **@remecopilot** (https://github.com/remecopilot)
+
 ## Contact and links
 
 - **Website:** [jacklondon.site](https://jacklondon.site)
