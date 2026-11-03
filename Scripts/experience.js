@@ -105,6 +105,8 @@ const experiences = [
 
             "Create staff schedules and coordinate employee availability and shift coverage.",
 
+            "Set hiring goals, review applications, interview candidates, and hire new climbing tower attendants.",
+
             "Train climbing tower staff and lead staff development and in-service sessions.",
 
             "Inspect, maintain, and document climbing equipment and operational safety procedures.",
