@@ -107,7 +107,7 @@ const blacksmithingActivityData = {
             description:
                 "A functional kindling splitter forged from 1080 tool steel with emphasis on durability and practical use."
         },
-         {
+         { 
             title: "ReForged Axe",
             image: "Images/Activities/Blacksmithing/Axe.png",
             material: "1080 Tool Steel",
