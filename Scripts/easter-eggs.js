@@ -130,6 +130,67 @@
     let bandAudio = null;
     let bandCloseTimer = null;
     const bandTransitionMs = 600;
+    let celebrationTimer = null;
+    let celebrationOverlay = null;
+
+    function dismissBandCelebration() {
+        if (celebrationTimer !== null) {
+            clearTimeout(celebrationTimer);
+            celebrationTimer = null;
+        }
+        if (celebrationOverlay) {
+            celebrationOverlay.remove();
+            celebrationOverlay = null;
+        }
+    }
+
+    function showBandCelebration() {
+        dismissBandCelebration();
+
+        const overlay = document.createElement("div");
+        overlay.className = "band-celebration";
+        const confetti = document.createElement("div");
+        confetti.className = "band-confetti";
+        confetti.setAttribute("aria-hidden", "true");
+
+        // Small blue pixel squares fall behind the message, never over it.
+        for (let i = 0; i < 48; i++) {
+            const pixel = document.createElement("span");
+            pixel.style.setProperty("--x", `${(i * 37 + 11) % 100}%`);
+            pixel.style.setProperty("--delay", `${(i % 12) * 70}ms`);
+            pixel.style.setProperty("--duration", `${1800 + (i % 7) * 180}ms`);
+            pixel.style.setProperty("--drift", `${(i % 2 ? 1 : -1) * (20 + i % 50)}px`);
+            confetti.appendChild(pixel);
+        }
+
+        const dialog = document.createElement("div");
+        dialog.className = "band-celebration-dialog";
+        dialog.setAttribute("role", "alertdialog");
+        dialog.setAttribute("aria-modal", "true");
+        dialog.setAttribute("aria-labelledby", "band-celebration-title");
+
+        const heading = document.createElement("h2");
+        heading.id = "band-celebration-title";
+        heading.textContent = "Thanks for hunting for my Easter egg!";
+        const detail = document.createElement("p");
+        detail.textContent = "There are more waiting to be found. Keep exploring!";
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = "Keep exploring";
+        button.addEventListener("click", dismissBandCelebration);
+        dialog.append(heading, detail, button);
+        overlay.append(confetti, dialog);
+        overlay.addEventListener("click", event => {
+            if (event.target === overlay) dismissBandCelebration();
+        });
+        const onKeyDown = event => {
+            if (event.key === "Escape") dismissBandCelebration();
+        };
+        overlay.addEventListener("keydown", onKeyDown);
+        document.body.appendChild(overlay);
+        celebrationOverlay = overlay;
+        button.focus();
+    }
 
 
     /* =====================================
@@ -494,6 +555,8 @@
         options = {}
     ) {
 
+        dismissBandCelebration();
+
         /* CANCEL ANY PENDING OPENING / PLAYBACK */
 
         if (pendingPlaybackTimer !== null) {
@@ -535,7 +598,7 @@
            FINISH AND CLEANUP
            ================================= */
 
-        const finish = () => {
+        const finish = (completed = false) => {
 
             if (finished) {
                 return;
@@ -554,6 +617,14 @@
 
                 stopMarchingBand();
 
+                if (completed && options.visual === "marching-band") {
+                    // Let the bar finish retracting before celebrating.
+                    celebrationTimer = setTimeout(() => {
+                        celebrationTimer = null;
+                        showBandCelebration();
+                    }, bandTransitionMs + 80);
+                }
+
             }
 
         };
@@ -565,7 +636,7 @@
 
         audio.addEventListener(
             "ended",
-            finish
+            () => finish(true)
         );
 
 
