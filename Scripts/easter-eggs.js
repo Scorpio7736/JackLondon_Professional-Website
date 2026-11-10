@@ -36,7 +36,7 @@
             brass: "UW_Retro_Brass_A.png",
             woodwinds: "UW_Retro_Woodwinds_A.png"
         },
-        legs: ["UW_UniversalLegs_A.png", "UW_UniversalLegs_B.png"],
+        legs: ["UW_UniversalLegs_Step_A.png", "UW_UniversalLegs_Step_B.png"],
 
         // Animation frames per second
         // Estimated from the actual OnWisconsin.mp3 recording.
@@ -258,8 +258,8 @@
                 const hips = [50, 112, 178, 245, 317, 386];
                 for (const hip of hips) {
                     const legX = sectionX + (hip - 34) * torso.naturalWidth / 450 * scale;
-                    context.drawImage(leg, legX, 136 * scale,
-                        leg.naturalWidth * scale, leg.naturalHeight * scale);
+                    context.drawImage(leg, legX, 137 * scale,
+                        68 * scale, 48 * scale);
                 }
                 // Cover the hip seam. Percussion extends a little farther
                 // down because its drum shells overlap the trousers.
