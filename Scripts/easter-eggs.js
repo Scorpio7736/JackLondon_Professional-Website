@@ -39,7 +39,8 @@
         frameCount: 6,
 
         // Animation frames per second
-        framesPerSecond: 5,
+        // Estimated from the actual OnWisconsin.mp3 recording.
+        marchBpm: 136,
 
         // The supplied atlas has six animation columns and three
         // instrument rows (brass, low brass, percussion).
@@ -47,7 +48,7 @@
         // Index 3 is the dedicated woodwind artwork.
         sectionOrder: [2, 2, 2, 1, 1, 1, 0, 0, 0, 3, 3, 3],
         sectionGap: 16,
-        woodwindImage: "Images/EasterEggs/UW_Woodwinds_optimized.png",
+        woodwindImage: "Images/EasterEggs/UW_Woodwinds_v2.png",
 
         // The original PNG has large transparent margins, and its three
         // illustrated rows are NOT equal thirds of the image height.
@@ -221,9 +222,8 @@
         // Render the atlas's single instrument row at the full strip height.
         const scale = height / bandRowHeight;
         bandUnitWidth = bandCellWidth * scale;
-        bandFormationWidth = BAND_CONFIG.sectionOrder.reduce((total, section) =>
-            total + (section === 3 ? bandUnitWidth * 1.4 : bandUnitWidth) + BAND_CONFIG.sectionGap,
-            0);
+        bandFormationWidth = BAND_CONFIG.sectionOrder.length *
+            (bandUnitWidth + BAND_CONFIG.sectionGap);
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
         marchingBandCanvas.width = Math.round(marchingBandBar.clientWidth * dpr);
         marchingBandCanvas.height = Math.round(height * dpr);
@@ -262,7 +262,7 @@
         let sectionX = x;
         BAND_CONFIG.sectionOrder.forEach((sourceRow, sectionIndex) => {
             const isWoodwind = sourceRow === 3;
-            const unitWidth = isWoodwind ? bandUnitWidth * 1.4 : bandUnitWidth;
+            const unitWidth = bandUnitWidth;
             if (sectionX < width && sectionX + unitWidth > 0) {
                 const image = isWoodwind ? woodwindImage : bandImage;
                 if (image?.complete && image.naturalWidth) {
@@ -283,35 +283,35 @@
        previously stationary musicians at the front of each unit. */
     function drawStableMusicians(ctx, image, sx, sy, sw, sh,
                                  dx, dy, dw, dh, frame, sectionIndex) {
-        const legFraction = image === woodwindImage ? 0.66 : 0.66;
+        const legFraction = 0.66;
         const topHeight = Math.round(sh * legFraction);
         const destTopHeight = dh * topHeight / sh;
-        ctx.drawImage(image, sx, sy, sw, topHeight,
-            dx, dy, dw, destTopHeight);
 
         const memberSourceWidth = sw / 6;
         const memberWidth = dw / 6;
         for (let member = 0; member < 6; member++) {
             const sourceX = sx + member * memberSourceWidth;
             const memberX = dx + member * memberWidth;
-            const reverseStep = (frame + member + sectionIndex) % 2 === 1;
-            ctx.save();
-            ctx.beginPath();
-            ctx.rect(memberX, dy + destTopHeight, memberWidth, dh - destTopHeight);
-            ctx.clip();
-            if (reverseStep) {
-                ctx.translate(memberX + memberWidth, 0);
-                ctx.scale(-1, 1);
-                ctx.drawImage(image, sourceX, sy + topHeight,
-                    memberSourceWidth, sh - topHeight,
-                    0, dy + destTopHeight, memberWidth, dh - destTopHeight);
-            } else {
-                ctx.drawImage(image, sourceX, sy + topHeight,
-                    memberSourceWidth, sh - topHeight,
-                    memberX, dy + destTopHeight, memberWidth, dh - destTopHeight);
+            const direction = (frame + member + sectionIndex) % 2 ? 1 : -1;
+            const halfSource = memberSourceWidth / 2;
+            const halfDest = memberWidth / 2;
+            const legHeight = dh - destTopHeight;
+            // Rotate each leg around its hip, never flip the entire sprite.
+            // Original pixel colors and individual appearance are unchanged.
+            for (let leg = 0; leg < 2; leg++) {
+                ctx.save();
+                ctx.translate(memberX + halfDest, dy + destTopHeight);
+                ctx.rotate((leg === 0 ? direction : -direction) * 0.16);
+                ctx.drawImage(image,
+                    sourceX + leg * halfSource, sy + topHeight,
+                    halfSource, sh - topHeight,
+                    leg === 0 ? -halfDest : 0, 0, halfDest, legHeight);
+                ctx.restore();
             }
-            ctx.restore();
         }
+        // Cover the hip seam with the unchanged upper-body image.
+        ctx.drawImage(image, sx, sy, sw, topHeight,
+            dx, dy, dw, destTopHeight);
     }
 
 
@@ -325,35 +325,11 @@
             return;
         }
 
-        const frameInterval =
-            1000 /
-            BAND_CONFIG.framesPerSecond;
-
-        if (!bandLastFrameTime) {
-            bandLastFrameTime = timestamp;
-        }
-
-        const elapsed =
-            timestamp - bandLastFrameTime;
-
-        if (elapsed >= frameInterval) {
-
-            const framesToAdvance =
-                Math.floor(
-                    elapsed / frameInterval
-                );
-
-            bandCurrentFrame =
-                (
-                    bandCurrentFrame +
-                    framesToAdvance
-                ) % 3;
-
-            bandLastFrameTime +=
-                framesToAdvance *
-                frameInterval;
-
-        }
+        // One alternating left/right step on each musical beat, derived
+        // from audio.currentTime so pauses and playback stalls cannot drift.
+        bandCurrentFrame = Math.floor(
+            (bandAudio?.currentTime || 0) * BAND_CONFIG.marchBpm / 60
+        ) % 2;
 
         drawBandFrame(bandCurrentFrame);
         bandAnimationFrame =
