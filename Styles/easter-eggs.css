@@ -28,7 +28,7 @@
 .marching-band-sprite {
     position: absolute;
     left: 0;
-    top: 50%;
+    top: 6px;
     display: block;
     /* Preserve the full 6x3 unit's natural proportions. */
     height: 124px;
@@ -36,7 +36,6 @@
     max-width: none;
     image-rendering: pixelated;
     pointer-events: none;
-    transform: translateY(-50%);
 }
 @media (max-width: 700px) {
     .marching-band-bar.active { height: 106px; }
@@ -45,9 +44,5 @@
         width: auto;
     }
 }
-/* The user explicitly opts into this animation by typing ONWISCONSIN.
-   Keep the march running even on systems with reduced-motion enabled;
-   only remove the decorative bar-opening transition. */
-@media (prefers-reduced-motion: reduce) {
-    .marching-band-bar { transition: none; }
-}
+/* The bar grows downward from the top edge, then closes upward from
+   the bottom edge. The canvas remains anchored to its top padding. */
