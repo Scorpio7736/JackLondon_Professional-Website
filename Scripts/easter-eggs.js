@@ -671,10 +671,14 @@
         });
         if (!terminatorImagesPromise) {
             terminatorImagesPromise = Promise.all([
-                load("Jack_Run_Cycle_0.png"),
-                load("Jack_Run_Cycle_1.png"),
-                load("Jack_Run_Cycle_2.png"),
-                load("Jack_Run_Cycle_3.png"),
+                load("Jack_Run_Smooth_0.png"),
+                load("Jack_Run_Smooth_1.png"),
+                load("Jack_Run_Smooth_2.png"),
+                load("Jack_Run_Smooth_3.png"),
+                load("Jack_Run_Smooth_4.png"),
+                load("Jack_Run_Smooth_5.png"),
+                load("Jack_Run_Smooth_6.png"),
+                load("Jack_Run_Smooth_7.png"),
                 load("Terminator_ArmedWalk_Clean_0.png"),
                 load("Terminator_ArmedWalk_Clean_1.png"),
                 load("Terminator_ArmedWalk_Clean_2.png"),
@@ -715,8 +719,9 @@
                     ctx.clearRect(0, 0, width, height);
                     const charHeight = height * 0.88;
                     const groundY = height - charHeight;
-                    const jackBob = Math.sin(seconds * 17) * 2;
-                    const runFrame = Math.floor(seconds * 8) % 4;
+                    // Eight poses add transitional steps; keep Jack's torso level
+                    // so his stride reads as running rather than bouncing.
+                    const runFrame = Math.floor(seconds * 14) % 8;
                     // Four consistent poses per cycle, two grounded footfalls each second.
                     const walkFrame = Math.floor(seconds * 4.2) % 4;
                     const walkBob = Math.sin(seconds * Math.PI * 4.2) * 0.25;
@@ -728,13 +733,13 @@
                     // First Jack runs completely off-screen. Only THEN the
                     // Terminator emerges, walks to center and faces the viewer.
                     if (seconds < 5.5) {
-                        paint(images[runFrame], -120 + (width + 250) * (seconds / 5.5), groundY + jackBob);
+                        paint(images[runFrame], -120 + (width + 250) * (seconds / 5.5), groundY);
                     } else if (seconds < 9.1) {
                         const approach = (seconds - 5.5) / 3.6;
-                        paint(images[4 + walkFrame], -65 + (width / 2 + 35) * approach, groundY + walkBob);
+                        paint(images[8 + walkFrame], -65 + (width / 2 + 35) * approach, groundY + walkBob);
                     } else if (seconds < 11.3) {
-                        const centerW = images[8].naturalWidth / images[8].naturalHeight * charHeight;
-                        paint(images[8], (width - centerW) / 2);
+                        const centerW = images[12].naturalWidth / images[12].naturalHeight * charHeight;
+                        paint(images[12], (width - centerW) / 2);
                         const text = "I'LL BE BACK";
                         const fontSize = mobile ? 11 : 16;
                         ctx.font = `bold ${fontSize}px monospace`;
@@ -755,7 +760,7 @@
                         }
                     } else if (seconds < 16.8) {
                         const leaving = (seconds - 11.3) / 5.5;
-                        paint(images[4 + walkFrame], width / 2 - 30 + (width / 2 + 160) * leaving, groundY + walkBob);
+                        paint(images[8 + walkFrame], width / 2 - 30 + (width / 2 + 160) * leaving, groundY + walkBob);
                     } else {
                         stopTerminatorEgg({ keepStage: true });
                         stopMarchingBand();
