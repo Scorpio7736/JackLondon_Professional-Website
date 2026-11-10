@@ -160,16 +160,16 @@
         }
     }
 
-    function showBandCelebration() {
+    function showBandCelebration(theme = "blue") {
         dismissBandCelebration();
 
         const overlay = document.createElement("div");
-        overlay.className = "band-celebration";
+        overlay.className = `band-celebration band-celebration--${theme}`;
         const confetti = document.createElement("div");
         confetti.className = "band-confetti";
         confetti.setAttribute("aria-hidden", "true");
 
-        // Small blue pixel squares fall behind the message, never over it.
+        // Small theme-colored pixel squares fall behind the message.
         for (let i = 0; i < 48; i++) {
             const pixel = document.createElement("span");
             pixel.style.setProperty("--x", `${(i * 37 + 11) % 100}%`);
@@ -753,6 +753,12 @@
                     } else {
                         stopTerminatorEgg();
                         stopMarchingBand();
+                        // Celebrate only after a completed chase and the bar
+                        // has finished folding away, not on interruption.
+                        celebrationTimer = setTimeout(() => {
+                            celebrationTimer = null;
+                            showBandCelebration("red");
+                        }, bandTransitionMs + 80);
                         return;
                     }
                     terminatorFrame = requestAnimationFrame(draw);
