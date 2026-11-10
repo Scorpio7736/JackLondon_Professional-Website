@@ -140,6 +140,7 @@
     let terminatorFrame = null;
     let terminatorTimer = null;
     let terminatorAudio = null;
+    let terminatorVoiceAudio = null;
     let terminatorSoundContext = null;
     let terminatorBeatTimer = null;
     let terminatorImagesPromise = null;
@@ -575,6 +576,10 @@
             terminatorAudio.pause();
             terminatorAudio = null;
         }
+        if (terminatorVoiceAudio) {
+            terminatorVoiceAudio.pause();
+            terminatorVoiceAudio = null;
+        }
         if (terminatorBeatTimer !== null) clearInterval(terminatorBeatTimer);
         terminatorBeatTimer = null;
         if (terminatorSoundContext) {
@@ -618,6 +623,22 @@
         if (playback) playback.catch(playTerminatorFallback);
     }
 
+    function playTerminatorLine() {
+        const voice = new Audio("Audio/IllBeBack.mp3");
+        voice.volume = 1;
+        terminatorVoiceAudio = voice;
+        const fallback = () => {
+            if (!terminatorRunning || !("speechSynthesis" in window)) return;
+            const line = new SpeechSynthesisUtterance("I'll be back");
+            line.rate = 0.75;
+            line.pitch = 0.6;
+            window.speechSynthesis.speak(line);
+        };
+        voice.addEventListener("error", fallback, { once: true });
+        const playback = voice.play();
+        if (playback) playback.catch(fallback);
+    }
+
     function startTerminatorEgg() {
         dismissBandCelebration();
         if (pendingPlaybackTimer !== null) clearTimeout(pendingPlaybackTimer);
@@ -649,10 +670,10 @@
         if (!terminatorImagesPromise) {
             terminatorImagesPromise = Promise.all([
                 load("Jack_Run.png"),
-                load("Terminator_ArmedWalk_0_Aligned.png"),
-                load("Terminator_ArmedWalk_1_Aligned.png"),
-                load("Terminator_ArmedWalk_2_Aligned.png"),
-                load("Terminator_ArmedWalk_3_Aligned.png"),
+                load("Terminator_ArmedWalk_Clean_0.png"),
+                load("Terminator_ArmedWalk_Clean_1.png"),
+                load("Terminator_ArmedWalk_Clean_2.png"),
+                load("Terminator_ArmedWalk_Clean_3.png"),
                 load("Terminator_ArmedFront.png")
             ]).catch(error => {
                 terminatorImagesPromise = null;
@@ -672,7 +693,8 @@
                     if (!terminatorRunning) return;
                     const seconds = (now - start) / 1000;
                     // A three-second soundtrack fade accompanies the final walk-off.
-                    terminatorVolumeFactor = Math.max(0, Math.min(1, (13.5 - seconds) / 3));
+                    const fade = Math.max(0, Math.min(1, (15 - seconds) / 3));
+                    terminatorVolumeFactor = fade * (seconds >= 7.3 && seconds < 9.5 ? 0.35 : 1);
                     if (terminatorAudio) terminatorAudio.volume = 0.65 * terminatorVolumeFactor;
                     const mobile = window.matchMedia("(max-width: 700px)").matches;
                     const height = mobile ? 94 : 124;
@@ -697,38 +719,36 @@
                         ctx.drawImage(image, x, y, w, charHeight);
                     };
 
-                    // Jack sprints away; the Terminator walks steadily, never runs.
-                    if (seconds < 6) {
-                        if (seconds < 4) {
-                            paint(images[0], -120 + (width + 250) * (seconds / 4), groundY + jackBob);
-                        }
-                        paint(images[1 + walkFrame], -90 + (width / 2 + 60) * (seconds / 6), groundY + walkBob);
-                    } else if (seconds < 8) {
+                    // First Jack runs completely off-screen. Only THEN the
+                    // Terminator emerges, walks to center and faces the viewer.
+                    if (seconds < 3.7) {
+                        paint(images[0], -120 + (width + 250) * (seconds / 3.7), groundY + jackBob);
+                    } else if (seconds < 7.3) {
+                        const approach = (seconds - 3.7) / 3.6;
+                        paint(images[1 + walkFrame], -65 + (width / 2 + 35) * approach, groundY + walkBob);
+                    } else if (seconds < 9.5) {
                         const centerW = images[5].naturalWidth / images[5].naturalHeight * charHeight;
                         paint(images[5], (width - centerW) / 2);
                         const text = "I'LL BE BACK";
                         const fontSize = mobile ? 11 : 16;
                         ctx.font = `bold ${fontSize}px monospace`;
                         const textWidth = ctx.measureText(text).width;
-                        const textX = Math.max(4, Math.min(width - textWidth - 12, width / 2 - textWidth / 2));
+                        // Place the bubble to the RIGHT, never over his head.
+                        const textX = Math.max(4, Math.min(width - textWidth - 12, width / 2 + centerW / 2 + 16));
+                        const bubbleY = Math.round(height * 0.27);
                         ctx.fillStyle = "#12121a";
-                        ctx.fillRect(textX - 7, 3, textWidth + 14, fontSize + 10);
+                        ctx.fillRect(textX - 7, bubbleY, textWidth + 14, fontSize + 10);
                         ctx.strokeStyle = "#ff4646";
                         ctx.lineWidth = 2;
-                        ctx.strokeRect(textX - 7, 3, textWidth + 14, fontSize + 10);
+                        ctx.strokeRect(textX - 7, bubbleY, textWidth + 14, fontSize + 10);
                         ctx.fillStyle = "#fff";
-                        ctx.fillText(text, textX, fontSize + 5);
-                        if (!terminatorSpeechSpoken && seconds >= 6.25) {
+                        ctx.fillText(text, textX, bubbleY + fontSize + 2);
+                        if (!terminatorSpeechSpoken && seconds >= 7.55) {
                             terminatorSpeechSpoken = true;
-                            if ("speechSynthesis" in window) {
-                                const utterance = new SpeechSynthesisUtterance("I'll be back");
-                                utterance.rate = 0.75;
-                                utterance.pitch = 0.6;
-                                window.speechSynthesis.speak(utterance);
-                            }
+                            playTerminatorLine();
                         }
-                    } else if (seconds < 13.5) {
-                        const leaving = (seconds - 8) / 5.5;
+                    } else if (seconds < 15) {
+                        const leaving = (seconds - 9.5) / 5.5;
                         paint(images[1 + walkFrame], width / 2 - 30 + (width / 2 + 160) * leaving, groundY + walkBob);
                     } else {
                         stopTerminatorEgg();
