@@ -362,6 +362,10 @@
 
         bandRunning = true;
 
+        // Commit the collapsed state to layout before toggling active.
+        // A newly inserted element otherwise skips its height transition.
+        void bar.offsetHeight;
+
         // Open the strip before playback; the first drawn frame is empty.
         bar.classList.add("active");
         document.querySelector(".app-shell")?.classList.add("band-open");
