@@ -565,7 +565,7 @@
        I'LL BE BACK — 8-BIT CHASE
        ===================================== */
 
-    function stopTerminatorEgg() {
+    function stopTerminatorEgg({ keepStage = false } = {}) {
         terminatorRunning = false;
         terminatorVolumeFactor = 1;
         if (terminatorFrame !== null) cancelAnimationFrame(terminatorFrame);
@@ -587,7 +587,9 @@
             terminatorSoundContext = null;
         }
         if ("speechSynthesis" in window) window.speechSynthesis.cancel();
-        marchingBandBar?.classList.remove("terminator-mode");
+        // During a normal ending, keep battlefield terrain visible until
+        // the bar has fully retracted; otherwise the parade road flashes in.
+        if (!keepStage) marchingBandBar?.classList.remove("terminator-mode");
     }
 
     function playTerminatorFallback() {
@@ -751,12 +753,13 @@
                         const leaving = (seconds - 9.5) / 5.5;
                         paint(images[1 + walkFrame], width / 2 - 30 + (width / 2 + 160) * leaving, groundY + walkBob);
                     } else {
-                        stopTerminatorEgg();
+                        stopTerminatorEgg({ keepStage: true });
                         stopMarchingBand();
                         // Celebrate only after a completed chase and the bar
                         // has finished folding away, not on interruption.
                         celebrationTimer = setTimeout(() => {
                             celebrationTimer = null;
+                            bar.classList.remove("terminator-mode");
                             showBandCelebration("red");
                         }, bandTransitionMs + 80);
                         return;
