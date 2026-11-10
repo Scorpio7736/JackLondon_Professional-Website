@@ -87,6 +87,12 @@
             sequence: "ILLBEBACK",
             description: "I'll Be Back — 8-bit chase",
             action: () => startTerminatorEgg()
+        },
+        {
+            id: "jr-cash",
+            sequence: "JRCASH",
+            description: "JR Cash — 8-bit stage",
+            action: () => startStageEgg()
         }
 
         /* ADD FUTURE EASTER EGGS HERE */
@@ -148,6 +154,9 @@
     let terminatorVolumeFactor = 1;
     let celebrationTimer = null;
     let celebrationOverlay = null;
+    let stageTimer = null;
+    let stageRunning = false;
+    let stageArt = null;
 
     function dismissBandCelebration() {
         if (celebrationTimer !== null) {
@@ -412,6 +421,8 @@
 
     function startMarchingBand(audio) {
 
+        stopStageEgg();
+
         const bar =
             createMarchingBand();
 
@@ -642,6 +653,7 @@
     }
 
     function startTerminatorEgg() {
+        stopStageEgg();
         dismissBandCelebration();
         if (pendingPlaybackTimer !== null) clearTimeout(pendingPlaybackTimer);
         pendingPlaybackTimer = null;
@@ -784,6 +796,65 @@
         }, bandTransitionMs);
     }
 
+    /* =====================================
+       JR CASH — FIVE-SECOND STAGE SHOW
+       ===================================== */
+
+    function stopStageEgg({ keepStage = false } = {}) {
+        stageRunning = false;
+        if (stageTimer !== null) clearTimeout(stageTimer);
+        stageTimer = null;
+        if (!keepStage) {
+            marchingBandBar?.classList.remove("stage-mode");
+            stageArt?.remove();
+            stageArt = null;
+        }
+    }
+
+    function startStageEgg() {
+        dismissBandCelebration();
+        if (pendingPlaybackTimer !== null) clearTimeout(pendingPlaybackTimer);
+        pendingPlaybackTimer = null;
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            currentAudio = null;
+        }
+        stopTerminatorEgg();
+        stopMarchingBand();
+        stopStageEgg();
+
+        const bar = createMarchingBand();
+        if (!bar) return;
+        if (bandCloseTimer !== null) clearTimeout(bandCloseTimer);
+        bandCloseTimer = null;
+
+        stageArt = document.createElement("img");
+        stageArt.className = "marching-band-stage-art";
+        stageArt.src = "Images/EasterEggs/Jack_Stage_Band_8bit.png";
+        stageArt.alt = "An 8-bit stage with Jack on classical guitar, a drummer, three trumpeters, an upright bassist, and a rhythm guitarist.";
+        bar.appendChild(stageArt);
+        stageRunning = true;
+
+        void bar.offsetHeight;
+        bar.classList.add("active", "stage-mode");
+        document.querySelector(".app-shell")?.classList.add("band-open");
+
+        // Give the stage five full seconds after its opening animation.
+        stageTimer = setTimeout(() => {
+            if (!stageRunning) return;
+            stopStageEgg({ keepStage: true });
+            stopMarchingBand();
+            celebrationTimer = setTimeout(() => {
+                celebrationTimer = null;
+                bar.classList.remove("stage-mode");
+                stageArt?.remove();
+                stageArt = null;
+                showBandCelebration("green");
+            }, bandTransitionMs + 80);
+        }, bandTransitionMs + 5000);
+    }
+
 
     /* =====================================
        AUDIO PLAYER
@@ -794,6 +865,7 @@
         options = {}
     ) {
 
+        stopStageEgg();
         dismissBandCelebration();
         stopTerminatorEgg();
 
@@ -1150,6 +1222,8 @@
         /* STOP AUDIO AND EFFECTS */
 
         stopAudio: () => {
+
+            stopStageEgg();
 
             if (currentAudio) {
 

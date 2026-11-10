@@ -32,6 +32,24 @@
 .marching-band-bar.terminator-mode::after {
     display: none;
 }
+/* JR Cash shares the folding bar, but shows a still 8-bit stage for five seconds. */
+.marching-band-bar.stage-mode {
+    background: #11172b;
+    border-color: #39b66b;
+}
+.marching-band-bar.stage-mode.active { height: 260px; }
+.marching-band-bar.stage-mode::before,
+.marching-band-bar.stage-mode::after,
+.marching-band-bar.stage-mode .marching-band-sprite { display: none; }
+.marching-band-stage-art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    pointer-events: none;
+}
 /* A low, 8-bit roadway sits behind the marching feet and vehicle wheels. */
 .marching-band-bar::before {
     content: "";
@@ -82,6 +100,7 @@
 }
 @media (max-width: 700px) {
     .marching-band-bar.active { height: 106px; }
+    .marching-band-bar.stage-mode.active { height: 160px; }
     .marching-band-bar::before { height: 13px; border-top-width: 2px; }
     .marching-band-bar::after { bottom: 3px; height: 2px; }
     .marching-band-bar.terminator-mode::before {
@@ -181,6 +200,24 @@
 }
 .band-celebration--red .band-confetti span:nth-child(3n) { background: #ae202b; }
 .band-celebration--red .band-confetti span:nth-child(4n) { background: #ff7957; }
+/* JR Cash uses green confetti and a matching thank-you dialog. */
+.band-celebration--green .band-celebration-dialog {
+    background: #10291e;
+    border-color: #45d486;
+    box-shadow: 7px 7px 0 #08170f;
+}
+.band-celebration--green .band-celebration-dialog p { color: #d0f4df; }
+.band-celebration--green .band-celebration-dialog button { background: #238450; }
+.band-celebration--green .band-celebration-dialog button:hover,
+.band-celebration--green .band-celebration-dialog button:focus-visible {
+    background: #2ea664;
+}
+.band-celebration--green .band-confetti span {
+    background: #38ce75;
+    box-shadow: 3px 0 #b3f7c7;
+}
+.band-celebration--green .band-confetti span:nth-child(3n) { background: #188b46; }
+.band-celebration--green .band-confetti span:nth-child(4n) { background: #77ec9b; }
 @keyframes band-celebration-appear {
     from { opacity: 0; }
     to { opacity: 1; }
