@@ -283,7 +283,7 @@
         marchingBandCanvas.width = bandTileWidth * bandRepeatCount;
         marchingBandCanvas.height = bandCrop.height;
         marchingBandCanvas.style.setProperty(
-            "--band-step", displayTileWidth + "px"
+            "--band-shift", "-" + displayTileWidth + "px"
         );
 
         console.info("Marching band units:", bandRepeatCount);
