@@ -38,7 +38,7 @@
         },
         legs: ["UW_UniversalLegs_Step_A.png", "UW_UniversalLegs_Step_B.png"],
         drumMajorCar: ["UW_DrumMajorCar_A.png", "UW_DrumMajorCar_B.png"],
-        finaleCar: ["UW_JackFinaleCar_A.png", "UW_JackFinaleCar_B.png"],
+        finaleCar: ["UW_JackFinaleCar_Driver_A.png", "UW_JackFinaleCar_Driver_B.png"],
         leadGap: 24,
         finaleGap: 24,
 
