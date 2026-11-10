@@ -29,22 +29,26 @@
     left: 0;
     top: 50%;
     display: block;
-    /* This sprite sheet has tall full-band frames. Give the
-       formation its own display width so it stays legible. */
+    /* Preserve the full 6x3 unit's natural proportions. */
     height: 86px;
-    width: clamp(260px, 34vw, 390px);
+    width: auto;
     max-width: none;
     image-rendering: pixelated;
     pointer-events: none;
     transform: translateY(-50%);
 }
 .marching-band-bar.active .marching-band-sprite {
-    animation: uw-band-travel 16s linear infinite;
+    animation: uw-band-travel 2.8s linear infinite;
 }
 @keyframes uw-band-travel {
-    /* Start just outside the left edge and exit fully to the right. */
-    from { left: 0; transform: translate(-100%, -50%); }
-    to { left: 100%; transform: translate(0, -50%); }
+    /* One formation's distance per cycle. The repeated units
+       make the line continuous with no visible reset. */
+    from {
+        transform: translate(calc(-1 * var(--band-step, 60px)), -50%);
+    }
+    to {
+        transform: translate(0, -50%);
+    }
 }
 @media (max-width: 700px) {
     .marching-band-bar.active { height: 76px; }
@@ -53,7 +57,7 @@
     }
     .marching-band-sprite {
         height: 68px;
-        width: min(76vw, 280px);
+        width: auto;
     }
 }
 /* The user explicitly opts into this animation by typing ONWISCONSIN.
