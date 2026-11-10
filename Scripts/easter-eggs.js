@@ -188,7 +188,10 @@
         const count = BAND_CONFIG.frameCount;
         const cellWidth = Math.floor(bandImage.naturalWidth / count);
         const cellHeight = bandImage.naturalHeight;
-        if (cellWidth < 1 || cellHeight < 1) return false;
+        if (cellWidth < 1 || cellHeight < 1) {
+            console.error("Invalid band sprite size:", bandImage.naturalWidth, cellHeight);
+            return false;
+        }
 
         // Inspect transparent pixels in every cell. Use one shared
         // crop so the full formation does not jump between frames.
@@ -203,8 +206,13 @@
         try {
             pixels = context.getImageData(0, 0, scan.width, scan.height).data;
         } catch (error) {
-            console.error("Unable to inspect band sprite:", error);
-            return false;
+            // Safe fallback when reading pixel data is unavailable.
+            console.warn("Using full sprite cell:", error);
+            bandCellWidth = cellWidth;
+            bandCrop = { x: 0, y: 0, width: cellWidth, height: cellHeight };
+            marchingBandCanvas.width = cellWidth;
+            marchingBandCanvas.height = cellHeight;
+            return true;
         }
 
         let minX = cellWidth, minY = cellHeight;
@@ -225,8 +233,13 @@
         }
 
         if (maxX < minX || maxY < minY) {
-            console.error("Band sprite contains no visible pixels.");
-            return false;
+            // Never leave the strip blank if transparency
+            // analysis finds no pixels; show the full cell.
+            console.warn("Band crop was empty; using full sprite cell.");
+            minX = 0;
+            minY = 0;
+            maxX = cellWidth - 1;
+            maxY = cellHeight - 1;
         }
 
         bandCellWidth = cellWidth;
