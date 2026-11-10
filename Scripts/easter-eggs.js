@@ -104,6 +104,7 @@
        ===================================== */
 
     let currentAudio = null;
+    let pendingPlaybackTimer = null;
 
 
     /* =====================================
@@ -127,6 +128,8 @@
     let bandUnitWidth = 0;
     let bandFormationWidth = 0;
     let bandAudio = null;
+    let bandCloseTimer = null;
+    const bandTransitionMs = 600;
 
 
     /* =====================================
@@ -344,6 +347,13 @@
 
         stopMarchingBand();
 
+        // A previous closing animation must not remove the layout class
+        // after this new parade has opened.
+        if (bandCloseTimer !== null) {
+            clearTimeout(bandCloseTimer);
+            bandCloseTimer = null;
+        }
+
 
         /* RESET ANIMATION STATE */
 
@@ -352,8 +362,7 @@
 
         bandRunning = true;
 
-        // Expand the strip as soon as audio starts,
-        // even if the sprite needs time to load.
+        // Open the strip before playback; the first drawn frame is empty.
         bar.classList.add("active");
         document.querySelector(".app-shell")?.classList.add("band-open");
 
@@ -462,7 +471,12 @@
 
         }
 
-        document.querySelector(".app-shell")?.classList.remove("band-open");
+        // Keep the shell in its flex layout until the strip has folded away.
+        if (bandCloseTimer !== null) clearTimeout(bandCloseTimer);
+        bandCloseTimer = setTimeout(() => {
+            document.querySelector(".app-shell")?.classList.remove("band-open");
+            bandCloseTimer = null;
+        }, bandTransitionMs);
 
     }
 
@@ -475,6 +489,13 @@
         path,
         options = {}
     ) {
+
+        /* CANCEL ANY PENDING OPENING / PLAYBACK */
+
+        if (pendingPlaybackTimer !== null) {
+            clearTimeout(pendingPlaybackTimer);
+            pendingPlaybackTimer = null;
+        }
 
         /* STOP PREVIOUS AUDIO */
 
@@ -518,6 +539,11 @@
 
             finished = true;
 
+            if (pendingPlaybackTimer !== null) {
+                clearTimeout(pendingPlaybackTimer);
+                pendingPlaybackTimer = null;
+            }
+
             if (currentAudio === audio) {
 
                 currentAudio = null;
@@ -527,35 +553,6 @@
             }
 
         };
-
-
-        /* =================================
-           AUDIO STARTED
-           ================================= */
-
-        audio.addEventListener(
-            "playing",
-            () => {
-
-                if (
-                    currentAudio !== audio
-                ) {
-                    return;
-                }
-
-                /* START MATCHING VISUAL */
-
-                if (
-                    options.visual ===
-                    "marching-band"
-                ) {
-
-                    startMarchingBand(audio);
-
-                }
-
-            }
-        );
 
 
         /* =================================
@@ -591,22 +588,22 @@
            START PLAYBACK
            ================================= */
 
-        const playback =
-            audio.play();
-
-        if (playback) {
-
-            playback.catch(error => {
-
-                console.warn(
-                    "Easter egg audio playback failed:",
-                    error
-                );
-
+        const startPlayback = () => {
+            pendingPlaybackTimer = null;
+            if (finished || currentAudio !== audio) return;
+            const playback = audio.play();
+            if (playback) playback.catch(error => {
+                console.warn("Easter egg audio playback failed:", error);
                 finish();
-
             });
+        };
 
+        if (options.visual === "marching-band") {
+            startMarchingBand(audio);
+            // Allow the box to finish expanding before the song begins.
+            pendingPlaybackTimer = setTimeout(startPlayback, bandTransitionMs);
+        } else {
+            startPlayback();
         }
 
     }
