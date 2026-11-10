@@ -78,6 +78,56 @@ const projects = [
     },
 
 
+    
+    /* =====================================
+       TOWER MAINTENANCE MANAGER
+       ===================================== */
+
+    {
+        title:
+            "Tower Maintenance Manager",
+
+        section:
+            "desktop",
+
+        icon:
+            null,
+
+        featured:
+            true,
+
+        description:
+            "A JavaFX desktop application designed to simplify maintenance task management for climbing tower operations. Originally developed as a console application, the project evolved into an interactive graphical interface for organizing maintenance work, estimating required hours, monitoring progress, and tracking completed tasks. Features include customizable task quantities, setup and cleanup requirements, live productivity statistics, completion timestamps, and animated feedback.",
+
+        technologies: [
+            "Java",
+            "JavaFX",
+            "FXML",
+            "Maven",
+            "OOP",
+            "Java Streams"
+        ],
+
+        learned: [
+            "Transitioning a console-based Java application into an interactive desktop application using JavaFX and FXML.",
+            "Applying object-oriented programming principles to model maintenance tasks and work categories.",
+            "Implementing event-driven interfaces with observable collections, property bindings, and interactive tables.",
+            "Calculating live productivity statistics, including estimated remaining hours, completed work hours, and common task categories.",
+            "Building task completion workflows with timestamps, dynamic interface updates, and animated visual feedback.",
+            "Managing dependencies and application builds using Maven."
+        ],
+
+        images: [
+            "Images/ProjectScreenshots/MaintenanceTaskManager/Promo_MTM_1.png"
+        ],
+
+        repoLink:
+            "https://github.com/Scorpio7736/Task_Manager",
+
+        demoLink:
+            null
+    },
+
     /* =====================================
        EASTER EGG GUIDE
        ===================================== */
