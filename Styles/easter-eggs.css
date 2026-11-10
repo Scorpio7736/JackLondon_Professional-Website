@@ -15,6 +15,18 @@
     border-top-width: 1px;
     border-bottom-width: 1px;
 }
+/* Same expandable stage, but with a cinematic red glow for ILLBEBACK. */
+.marching-band-bar.terminator-mode {
+    background: linear-gradient(#111016, #29212a 70%, #18171d);
+    border-color: #b92f3c;
+}
+.marching-band-bar.terminator-mode::before {
+    background: #242126;
+    border-top-color: #75646a;
+}
+.marching-band-bar.terminator-mode::after {
+    background: repeating-linear-gradient(90deg, #ce4950 0 18px, transparent 18px 38px);
+}
 /* A low, 8-bit roadway sits behind the marching feet and vehicle wheels. */
 .marching-band-bar::before {
     content: "";
