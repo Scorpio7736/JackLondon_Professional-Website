@@ -157,6 +157,9 @@
     let stageTimer = null;
     let stageRunning = false;
     let stageArt = null;
+    let stagePerformer = null;
+    let stageFrame = null;
+    let stageImagesPromise = null;
 
     function dismissBandCelebration() {
         if (celebrationTimer !== null) {
@@ -804,10 +807,14 @@
         stageRunning = false;
         if (stageTimer !== null) clearTimeout(stageTimer);
         stageTimer = null;
+        if (stageFrame !== null) cancelAnimationFrame(stageFrame);
+        stageFrame = null;
         if (!keepStage) {
             marchingBandBar?.classList.remove("stage-mode");
             stageArt?.remove();
             stageArt = null;
+            stagePerformer?.remove();
+            stagePerformer = null;
         }
     }
 
@@ -836,12 +843,26 @@
         bar.appendChild(stageArt);
         stageRunning = true;
 
+        // Load the whole animation before the entrance so no frames flash blank.
+        if (!stageImagesPromise) {
+            stageImagesPromise = Promise.all(Array.from({ length: 8 }, (_, index) =>
+                new Promise((resolve, reject) => {
+                    const image = new Image();
+                    image.onload = () => resolve(image);
+                    image.onerror = () => reject(new Error("Missing JR Cash sprite: " + index));
+                    image.src = `Images/EasterEggs/JRCash_Jack_${index}.png`;
+                })
+            )).catch(error => {
+                stageImagesPromise = null;
+                throw error;
+            });
+        }
+
         void bar.offsetHeight;
         bar.classList.add("active", "stage-mode");
         document.querySelector(".app-shell")?.classList.add("band-open");
 
-        // Give the stage five full seconds after its opening animation.
-        stageTimer = setTimeout(() => {
+        const closeStage = () => {
             if (!stageRunning) return;
             stopStageEgg({ keepStage: true });
             stopMarchingBand();
@@ -850,9 +871,52 @@
                 bar.classList.remove("stage-mode");
                 stageArt?.remove();
                 stageArt = null;
+                stagePerformer?.remove();
+                stagePerformer = null;
                 showBandCelebration("green");
             }, bandTransitionMs + 80);
-        }, bandTransitionMs + 5000);
+        };
+
+        // Begin the entrance only after the bar has unfolded.
+        stageTimer = setTimeout(() => stageImagesPromise.then(images => {
+            if (!stageRunning) return;
+            stagePerformer = document.createElement("img");
+            stagePerformer.className = "marching-band-stage-performer";
+            stagePerformer.alt = "Jack plays his classical guitar and sings, then bows.";
+            stagePerformer.src = images[0].src;
+            bar.appendChild(stagePerformer);
+
+            // Walk in for 1.8s, perform silently for a full 5s, then bow.
+            const startTime = performance.now();
+            const draw = now => {
+                if (!stageRunning) return;
+                const elapsed = (now - startTime) / 1000;
+                const performerWidth = stagePerformer.getBoundingClientRect().width || 150;
+                const center = (bar.clientWidth - performerWidth) / 2;
+                let pose;
+                if (elapsed < 1.8) {
+                    pose = Math.floor(elapsed * 6) % 2;
+                    const progress = elapsed / 1.8;
+                    stagePerformer.style.left = `${-performerWidth + (center + performerWidth) * progress}px`;
+                } else {
+                    stagePerformer.style.left = `${center}px`;
+                    if (elapsed < 6.8) {
+                        pose = [3, 4, 5, 4][Math.floor((elapsed - 1.8) * 4) % 4];
+                    } else if (elapsed < 7.55) {
+                        pose = 6;
+                    } else {
+                        pose = 7;
+                    }
+                }
+                if (stagePerformer.src !== images[pose].src) stagePerformer.src = images[pose].src;
+                stageFrame = requestAnimationFrame(draw);
+            };
+            stageFrame = requestAnimationFrame(draw);
+            stageTimer = setTimeout(closeStage, 8500);
+        }).catch(error => {
+            console.warn("JR Cash performance sprites could not load:", error);
+            if (stageRunning) stageTimer = setTimeout(closeStage, 5000);
+        }), bandTransitionMs);
     }
 
 

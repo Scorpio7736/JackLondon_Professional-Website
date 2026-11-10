@@ -51,6 +51,16 @@
     image-rendering: pixelated;
     pointer-events: none;
 }
+.marching-band-stage-performer {
+    position: absolute;
+    z-index: 2;
+    bottom: 6px;
+    height: calc(100% - 18px);
+    width: auto;
+    max-width: none;
+    image-rendering: pixelated;
+    pointer-events: none;
+}
 /* A low, 8-bit roadway sits behind the marching feet and vehicle wheels. */
 .marching-band-bar::before {
     content: "";
