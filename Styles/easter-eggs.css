@@ -74,3 +74,80 @@
 }
 /* The bar grows downward from the top edge, then closes upward from
    the bottom edge. The canvas remains anchored to its top padding. */
+
+/* End-of-parade thank-you message and blue 8-bit confetti. */
+.band-celebration {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(8, 13, 30, .65);
+    animation: band-celebration-appear 250ms ease-out both;
+}
+.band-celebration-dialog {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 440px);
+    padding: 30px 28px;
+    color: #f8fbff;
+    text-align: center;
+    background: #18213e;
+    border: 3px solid #4392ff;
+    box-shadow: 7px 7px 0 #071329;
+}
+.band-celebration-dialog h2 {
+    margin: 0 0 14px;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    line-height: 1.3;
+}
+.band-celebration-dialog p {
+    margin: 0 0 24px;
+    line-height: 1.5;
+    color: #d0e4ff;
+}
+.band-celebration-dialog button {
+    padding: 10px 20px;
+    border: 2px solid #d6e9ff;
+    border-radius: 0;
+    color: #fff;
+    background: #2468d9;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+.band-celebration-dialog button:hover,
+.band-celebration-dialog button:focus-visible {
+    background: #3687f8;
+    outline-offset: 3px;
+}
+.band-confetti {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+.band-confetti span {
+    position: absolute;
+    top: -12px;
+    left: var(--x);
+    width: 8px;
+    height: 8px;
+    background: #348eff;
+    box-shadow: 3px 0 #a4d7ff;
+    opacity: 0;
+    animation: band-blue-confetti var(--duration) linear var(--delay) 2 both;
+}
+.band-confetti span:nth-child(3n) { background: #0d53ce; }
+.band-confetti span:nth-child(4n) { background: #65bdff; }
+@keyframes band-celebration-appear {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes band-blue-confetti {
+    0% { opacity: 0; transform: translate3d(0, -10px, 0) rotate(0); }
+    8% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: translate3d(var(--drift), 105vh, 0) rotate(90deg); }
+}
