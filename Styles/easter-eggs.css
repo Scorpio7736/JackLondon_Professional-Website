@@ -163,6 +163,24 @@
 }
 .band-confetti span:nth-child(3n) { background: #0d53ce; }
 .band-confetti span:nth-child(4n) { background: #65bdff; }
+/* The Terminator ending uses the same popup with fiery red accents. */
+.band-celebration--red .band-celebration-dialog {
+    background: #29171c;
+    border-color: #ef4b4b;
+    box-shadow: 7px 7px 0 #180a0d;
+}
+.band-celebration--red .band-celebration-dialog p { color: #ffd5d3; }
+.band-celebration--red .band-celebration-dialog button { background: #bc3038; }
+.band-celebration--red .band-celebration-dialog button:hover,
+.band-celebration--red .band-celebration-dialog button:focus-visible {
+    background: #e34a50;
+}
+.band-celebration--red .band-confetti span {
+    background: #f04747;
+    box-shadow: 3px 0 #ffb16f;
+}
+.band-celebration--red .band-confetti span:nth-child(3n) { background: #ae202b; }
+.band-celebration--red .band-confetti span:nth-child(4n) { background: #ff7957; }
 @keyframes band-celebration-appear {
     from { opacity: 0; }
     to { opacity: 1; }
