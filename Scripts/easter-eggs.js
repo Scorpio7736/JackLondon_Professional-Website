@@ -43,11 +43,11 @@
 
         // The supplied atlas has six animation columns and three
         // instrument rows (brass, low brass, percussion).
-        // Three six-member blocks per instrument section create one long row.
-        // The final section uses the brass art until a distinct woodwind
-        // atlas is provided.
-        sectionOrder: [2, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        // Three six-member blocks for each of the four sections.
+        // Index 3 is the dedicated woodwind artwork.
+        sectionOrder: [2, 2, 2, 1, 1, 1, 0, 0, 0, 3, 3, 3],
         sectionGap: 16,
+        woodwindImage: "Images/EasterEggs/UW_Woodwinds_optimized.png",
 
         // The original PNG has large transparent margins, and its three
         // illustrated rows are NOT equal thirds of the image height.
@@ -115,6 +115,7 @@
     let marchingBandCanvas = null;
 
     let bandImage = null;
+    let woodwindImage = null;
 
     let bandAnimationFrame = null;
 
@@ -220,8 +221,9 @@
         // Render the atlas's single instrument row at the full strip height.
         const scale = height / bandRowHeight;
         bandUnitWidth = bandCellWidth * scale;
-        bandFormationWidth = BAND_CONFIG.sectionOrder.length *
-            (bandUnitWidth + BAND_CONFIG.sectionGap);
+        bandFormationWidth = BAND_CONFIG.sectionOrder.reduce((total, section) =>
+            total + (section === 3 ? bandUnitWidth * 1.4 : bandUnitWidth) + BAND_CONFIG.sectionGap,
+            0);
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
         marchingBandCanvas.width = Math.round(marchingBandBar.clientWidth * dpr);
         marchingBandCanvas.height = Math.round(height * dpr);
@@ -257,14 +259,59 @@
         const x = startX + travelX * progress;
         const unitGap = BAND_CONFIG.sectionGap;
 
+        let sectionX = x;
         BAND_CONFIG.sectionOrder.forEach((sourceRow, sectionIndex) => {
-            const sectionX = x + sectionIndex * (bandUnitWidth + unitGap);
-            if (sectionX > width || sectionX + bandUnitWidth < 0) return;
-            context.drawImage(bandImage,
-                frame * bandCellWidth, BAND_CONFIG.rowTop[sourceRow],
-                bandCellWidth, bandRowHeight,
-                sectionX, 0, bandUnitWidth, height);
+            const isWoodwind = sourceRow === 3;
+            const unitWidth = isWoodwind ? bandUnitWidth * 1.4 : bandUnitWidth;
+            if (sectionX < width && sectionX + unitWidth > 0) {
+                const image = isWoodwind ? woodwindImage : bandImage;
+                if (image?.complete && image.naturalWidth) {
+                    drawStableMusicians(context, image,
+                        0, isWoodwind ? 0 : BAND_CONFIG.rowTop[sourceRow],
+                        isWoodwind ? image.naturalWidth : bandCellWidth,
+                        isWoodwind ? image.naturalHeight : bandRowHeight,
+                        sectionX, 0, unitWidth, height, frame, sectionIndex);
+                }
+            }
+            sectionX += unitWidth + unitGap;
         });
+    }
+
+
+    /* Keep the same face, hair, skin, and uniform in every frame.
+       Only the trousers/feet switch direction, including the three
+       previously stationary musicians at the front of each unit. */
+    function drawStableMusicians(ctx, image, sx, sy, sw, sh,
+                                 dx, dy, dw, dh, frame, sectionIndex) {
+        const legFraction = image === woodwindImage ? 0.66 : 0.66;
+        const topHeight = Math.round(sh * legFraction);
+        const destTopHeight = dh * topHeight / sh;
+        ctx.drawImage(image, sx, sy, sw, topHeight,
+            dx, dy, dw, destTopHeight);
+
+        const memberSourceWidth = sw / 6;
+        const memberWidth = dw / 6;
+        for (let member = 0; member < 6; member++) {
+            const sourceX = sx + member * memberSourceWidth;
+            const memberX = dx + member * memberWidth;
+            const reverseStep = (frame + member + sectionIndex) % 2 === 1;
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(memberX, dy + destTopHeight, memberWidth, dh - destTopHeight);
+            ctx.clip();
+            if (reverseStep) {
+                ctx.translate(memberX + memberWidth, 0);
+                ctx.scale(-1, 1);
+                ctx.drawImage(image, sourceX, sy + topHeight,
+                    memberSourceWidth, sh - topHeight,
+                    0, dy + destTopHeight, memberWidth, dh - destTopHeight);
+            } else {
+                ctx.drawImage(image, sourceX, sy + topHeight,
+                    memberSourceWidth, sh - topHeight,
+                    memberX, dy + destTopHeight, memberWidth, dh - destTopHeight);
+            }
+            ctx.restore();
+        }
     }
 
 
@@ -360,6 +407,12 @@
             bandImage.src =
                 BAND_CONFIG.image;
 
+        }
+
+        if (!woodwindImage) {
+            woodwindImage = new Image();
+            woodwindImage.src = BAND_CONFIG.woodwindImage;
+            woodwindImage.onerror = () => console.warn("Woodwind art failed to load.");
         }
 
 
