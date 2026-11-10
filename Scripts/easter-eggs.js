@@ -110,6 +110,8 @@
     let bandRunning = false;
     let bandCrop = null;
     let bandCellWidth = 0;
+    let bandTileWidth = 0;
+    let bandRepeatCount = 0;
 
 
     /* =====================================
@@ -210,8 +212,7 @@
             console.warn("Using full sprite cell:", error);
             bandCellWidth = cellWidth;
             bandCrop = { x: 0, y: 0, width: cellWidth, height: cellHeight };
-            marchingBandCanvas.width = cellWidth;
-            marchingBandCanvas.height = cellHeight;
+            configureBandCanvas();
             return true;
         }
 
@@ -250,8 +251,7 @@
             height: maxY - minY + 1
         };
 
-        marchingBandCanvas.width = bandCrop.width;
-        marchingBandCanvas.height = bandCrop.height;
+        configureBandCanvas();
         console.info("Marching-band crop:", bandCrop);
         return true;
     }
@@ -261,23 +261,62 @@
        DRAW SPRITE FRAME
        ===================================== */
 
+    function configureBandCanvas() {
+        if (!marchingBandCanvas || !bandCrop) return;
+
+        // Each frame already depicts a complete 6x3 unit.
+        // Repeat those units with a small visual gap until the
+        // entire browser width is covered (plus room to scroll).
+        const displayHeight = window.matchMedia("(max-width: 700px)").matches
+            ? 68 : 86;
+        const gapPx = 12;
+        const scale = displayHeight / bandCrop.height;
+        const gapSourcePx = Math.max(1, Math.round(gapPx / scale));
+
+        bandTileWidth = bandCrop.width + gapSourcePx;
+        const displayTileWidth = bandTileWidth * scale;
+        bandRepeatCount = Math.min(
+            100,
+            Math.ceil(window.innerWidth / displayTileWidth) + 3
+        );
+
+        marchingBandCanvas.width = bandTileWidth * bandRepeatCount;
+        marchingBandCanvas.height = bandCrop.height;
+        marchingBandCanvas.style.setProperty(
+            "--band-step", displayTileWidth + "px"
+        );
+
+        console.info("Marching band units:", bandRepeatCount);
+    }
+
+
+    /* =====================================
+       DRAW FULL BAND UNITS
+       ===================================== */
+
     function drawBandFrame(frame) {
         if (!bandImage || !marchingBandCanvas || !bandCrop) return;
+
         const context = marchingBandCanvas.getContext("2d");
         if (!context) return;
         context.imageSmoothingEnabled = false;
-        context.clearRect(0, 0, marchingBandCanvas.width, marchingBandCanvas.height);
-        context.drawImage(
-            bandImage,
-            frame * bandCellWidth + bandCrop.x,
-            bandCrop.y,
-            bandCrop.width,
-            bandCrop.height,
-            0,
-            0,
-            marchingBandCanvas.width,
-            marchingBandCanvas.height
+        context.clearRect(
+            0, 0, marchingBandCanvas.width, marchingBandCanvas.height
         );
+
+        for (let i = 0; i < bandRepeatCount; i++) {
+            context.drawImage(
+                bandImage,
+                frame * bandCellWidth + bandCrop.x,
+                bandCrop.y,
+                bandCrop.width,
+                bandCrop.height,
+                i * bandTileWidth,
+                0,
+                bandCrop.width,
+                bandCrop.height
+            );
+        }
     }
 
 
