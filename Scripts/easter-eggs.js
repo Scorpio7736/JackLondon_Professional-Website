@@ -39,7 +39,15 @@
         frameCount: 6,
 
         // Animation frames per second
-        framesPerSecond: 8
+        framesPerSecond: 5,
+
+        // The supplied atlas has six animation columns and three
+        // instrument rows (brass, low brass, percussion).
+        // Three 6x3 blocks per instrument section create one long band.
+        // The final section uses the brass art until a distinct woodwind
+        // atlas is provided.
+        sectionOrder: [2, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        sectionGap: 16
 
     };
 
@@ -108,10 +116,12 @@
     let bandCurrentFrame = 0;
 
     let bandRunning = false;
-    let bandCrop = null;
     let bandCellWidth = 0;
-    let bandTileWidth = 0;
-    let bandRepeatCount = 0;
+    let bandRowHeight = 0;
+    let bandUnitWidth = 0;
+    let bandFormationWidth = 0;
+    let bandStartTime = 0;
+    let bandAudio = null;
 
 
     /* =====================================
@@ -186,73 +196,10 @@
 
     function prepareBandCanvas() {
         if (!bandImage || !marchingBandCanvas) return false;
-
-        const count = BAND_CONFIG.frameCount;
-        const cellWidth = Math.floor(bandImage.naturalWidth / count);
-        const cellHeight = bandImage.naturalHeight;
-        if (cellWidth < 1 || cellHeight < 1) {
-            console.error("Invalid band sprite size:", bandImage.naturalWidth, cellHeight);
-            return false;
-        }
-
-        // Inspect transparent pixels in every cell. Use one shared
-        // crop so the full formation does not jump between frames.
-        const scan = document.createElement("canvas");
-        scan.width = bandImage.naturalWidth;
-        scan.height = cellHeight;
-        const context = scan.getContext("2d", { willReadFrequently: true });
-        if (!context) return false;
-        context.drawImage(bandImage, 0, 0);
-
-        let pixels;
-        try {
-            pixels = context.getImageData(0, 0, scan.width, scan.height).data;
-        } catch (error) {
-            // Safe fallback when reading pixel data is unavailable.
-            console.warn("Using full sprite cell:", error);
-            bandCellWidth = cellWidth;
-            bandCrop = { x: 0, y: 0, width: cellWidth, height: cellHeight };
-            configureBandCanvas();
-            return true;
-        }
-
-        let minX = cellWidth, minY = cellHeight;
-        let maxX = -1, maxY = -1;
-        for (let frame = 0; frame < count; frame++) {
-            for (let y = 0; y < cellHeight; y++) {
-                for (let x = 0; x < cellWidth; x++) {
-                    const offset = (y * scan.width + frame * cellWidth + x) * 4;
-                    const alpha = pixels[offset + 3];
-                    // Ignore transparent and nearly transparent pixels.
-                    if (alpha <= 24) continue;
-                    minX = Math.min(minX, x);
-                    maxX = Math.max(maxX, x);
-                    minY = Math.min(minY, y);
-                    maxY = Math.max(maxY, y);
-                }
-            }
-        }
-
-        if (maxX < minX || maxY < minY) {
-            // Never leave the strip blank if transparency
-            // analysis finds no pixels; show the full cell.
-            console.warn("Band crop was empty; using full sprite cell.");
-            minX = 0;
-            minY = 0;
-            maxX = cellWidth - 1;
-            maxY = cellHeight - 1;
-        }
-
-        bandCellWidth = cellWidth;
-        bandCrop = {
-            x: minX,
-            y: minY,
-            width: maxX - minX + 1,
-            height: maxY - minY + 1
-        };
-
+        bandCellWidth = Math.floor(bandImage.naturalWidth / BAND_CONFIG.frameCount);
+        bandRowHeight = Math.floor(bandImage.naturalHeight / 3);
+        if (!bandCellWidth || !bandRowHeight) return false;
         configureBandCanvas();
-        console.info("Marching-band crop:", bandCrop);
         return true;
     }
 
@@ -262,31 +209,17 @@
        ===================================== */
 
     function configureBandCanvas() {
-        if (!marchingBandCanvas || !bandCrop) return;
-
-        // Each frame already depicts a complete 6x3 unit.
-        // Repeat those units with a small visual gap until the
-        // entire browser width is covered (plus room to scroll).
-        const displayHeight = window.matchMedia("(max-width: 700px)").matches
-            ? 68 : 86;
-        const gapPx = 12;
-        const scale = displayHeight / bandCrop.height;
-        const gapSourcePx = Math.max(1, Math.round(gapPx / scale));
-
-        bandTileWidth = bandCrop.width + gapSourcePx;
-        const displayTileWidth = bandTileWidth * scale;
-        bandRepeatCount = Math.min(
-            100,
-            Math.ceil(window.innerWidth / displayTileWidth) + 3
-        );
-
-        marchingBandCanvas.width = bandTileWidth * bandRepeatCount;
-        marchingBandCanvas.height = bandCrop.height;
-        marchingBandCanvas.style.setProperty(
-            "--band-shift", "-" + displayTileWidth + "px"
-        );
-
-        console.info("Marching band units:", bandRepeatCount);
+        if (!marchingBandCanvas || !bandCellWidth) return;
+        const height = window.matchMedia("(max-width: 700px)").matches ? 68 : 86;
+        const scale = height / (bandRowHeight * 3);
+        bandUnitWidth = bandCellWidth * scale;
+        bandFormationWidth = BAND_CONFIG.sectionOrder.length *
+            (bandUnitWidth + BAND_CONFIG.sectionGap);
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        marchingBandCanvas.width = Math.round(marchingBandBar.clientWidth * dpr);
+        marchingBandCanvas.height = Math.round(height * dpr);
+        marchingBandCanvas.style.width = "100%";
+        marchingBandCanvas.style.height = height + "px";
     }
 
 
@@ -295,28 +228,42 @@
        ===================================== */
 
     function drawBandFrame(frame) {
-        if (!bandImage || !marchingBandCanvas || !bandCrop) return;
+        if (!bandImage || !marchingBandCanvas || !bandCellWidth) return;
 
         const context = marchingBandCanvas.getContext("2d");
         if (!context) return;
+        const dpr = marchingBandCanvas.height /
+            (window.matchMedia("(max-width: 700px)").matches ? 68 : 86);
+        context.setTransform(dpr, 0, 0, dpr, 0, 0);
         context.imageSmoothingEnabled = false;
-        context.clearRect(
-            0, 0, marchingBandCanvas.width, marchingBandCanvas.height
-        );
+        const width = marchingBandCanvas.width / dpr;
+        const height = marchingBandCanvas.height / dpr;
+        context.clearRect(0, 0, width, height);
 
-        for (let i = 0; i < bandRepeatCount; i++) {
-            context.drawImage(
-                bandImage,
-                frame * bandCellWidth + bandCrop.x,
-                bandCrop.y,
-                bandCrop.width,
-                bandCrop.height,
-                i * bandTileWidth,
-                0,
-                bandCrop.width,
-                bandCrop.height
-            );
-        }
+        // A single long band travels completely through the viewport.
+        // The first frame is empty; there is no looping/reset in the middle.
+        const duration = Number.isFinite(bandAudio?.duration) && bandAudio.duration > 0
+            ? bandAudio.duration : 75;
+        const progress = Math.min(1, Math.max(0, bandAudio?.currentTime / duration || 0));
+        const startX = -bandFormationWidth - 24;
+        const travelX = width + bandFormationWidth + 48;
+        const x = startX + travelX * progress;
+        const unitGap = BAND_CONFIG.sectionGap;
+        const rowHeight = height / 3;
+
+        BAND_CONFIG.sectionOrder.forEach((sourceRow, sectionIndex) => {
+            const sectionX = x + sectionIndex * (bandUnitWidth + unitGap);
+            if (sectionX > width || sectionX + bandUnitWidth < 0) return;
+            // Each section is a 6-column by 3-rank formation. Offsetting
+            // alternate ranks gives the marching block a natural depth.
+            for (let rank = 0; rank < 3; rank++) {
+                context.drawImage(bandImage,
+                    frame * bandCellWidth, sourceRow * bandRowHeight,
+                    bandCellWidth, bandRowHeight,
+                    sectionX + (rank % 2) * 3, rank * rowHeight,
+                    bandUnitWidth, rowHeight);
+            }
+        });
     }
 
 
@@ -352,11 +299,7 @@
                 (
                     bandCurrentFrame +
                     framesToAdvance
-                ) % BAND_CONFIG.frameCount;
-
-            drawBandFrame(
-                bandCurrentFrame
-            );
+                ) % 3;
 
             bandLastFrameTime +=
                 framesToAdvance *
@@ -364,6 +307,7 @@
 
         }
 
+        drawBandFrame(bandCurrentFrame);
         bandAnimationFrame =
             requestAnimationFrame(
                 animateBand
@@ -376,7 +320,7 @@
        START MARCHING BAND
        ===================================== */
 
-    function startMarchingBand() {
+    function startMarchingBand(audio) {
 
         const bar =
             createMarchingBand();
@@ -395,6 +339,7 @@
 
         bandCurrentFrame = 0;
         bandLastFrameTime = 0;
+        bandAudio = audio;
 
         bandRunning = true;
 
@@ -438,19 +383,6 @@
             /* DISPLAY FIRST FRAME */
 
             drawBandFrame(0);
-
-
-            /* RESTART TRAVEL ANIMATION */
-
-            bar.classList.remove(
-                "active"
-            );
-
-            void bar.offsetWidth;
-
-            bar.classList.add(
-                "active"
-            );
 
 
             /* START SPRITE FRAME LOOP */
@@ -499,6 +431,7 @@
     function stopMarchingBand() {
 
         bandRunning = false;
+        bandAudio = null;
 
 
         /* CANCEL FRAME ANIMATION */
@@ -612,7 +545,7 @@
                     "marching-band"
                 ) {
 
-                    startMarchingBand();
+                    startMarchingBand(audio);
 
                 }
 
