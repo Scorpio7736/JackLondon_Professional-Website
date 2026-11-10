@@ -646,7 +646,8 @@
         if (!terminatorImagesPromise) {
             terminatorImagesPromise = Promise.all([
                 load("Jack_Run.png"),
-                load("Terminator_Run.png"),
+                load("Terminator_Walk_A.png"),
+                load("Terminator_Walk_B.png"),
                 load("Terminator_Front.png")
             ]).catch(error => {
                 terminatorImagesPromise = null;
@@ -679,20 +680,24 @@
                     ctx.clearRect(0, 0, width, height);
                     const charHeight = height * 0.88;
                     const groundY = height - charHeight;
-                    const bob = Math.sin(seconds * 17) * 2;
+                    const jackBob = Math.sin(seconds * 17) * 2;
+                    // Heavy, measured steps: about two footfalls per second.
+                    const walkFrame = Math.floor(seconds * 2.1) % 2;
+                    const walkBob = Math.sin(seconds * Math.PI * 4.2) * 0.5;
                     const paint = (image, x, y = groundY) => {
                         const w = image.naturalWidth / image.naturalHeight * charHeight;
                         ctx.drawImage(image, x, y, w, charHeight);
                     };
 
-                    // Jack escapes first; the pursuing Terminator stops at center.
-                    if (seconds < 3.4) {
-                        const chase = Math.min(1, seconds / 3.4);
-                        paint(images[0], -120 + (width + 260) * chase, groundY + bob);
-                        paint(images[1], -230 + (width / 2 + 195) * chase, groundY - bob);
-                    } else if (seconds < 5.3) {
-                        const centerW = images[2].naturalWidth / images[2].naturalHeight * charHeight;
-                        paint(images[2], (width - centerW) / 2);
+                    // Jack sprints away; the Terminator walks steadily, never runs.
+                    if (seconds < 6) {
+                        if (seconds < 4) {
+                            paint(images[0], -120 + (width + 250) * (seconds / 4), groundY + jackBob);
+                        }
+                        paint(images[1 + walkFrame], -90 + (width / 2 + 60) * (seconds / 6), groundY + walkBob);
+                    } else if (seconds < 8) {
+                        const centerW = images[3].naturalWidth / images[3].naturalHeight * charHeight;
+                        paint(images[3], (width - centerW) / 2);
                         const text = "I'LL BE BACK";
                         const fontSize = mobile ? 11 : 16;
                         ctx.font = `bold ${fontSize}px monospace`;
@@ -705,7 +710,7 @@
                         ctx.strokeRect(textX - 7, 3, textWidth + 14, fontSize + 10);
                         ctx.fillStyle = "#fff";
                         ctx.fillText(text, textX, fontSize + 5);
-                        if (!terminatorSpeechSpoken && seconds >= 3.65) {
+                        if (!terminatorSpeechSpoken && seconds >= 6.25) {
                             terminatorSpeechSpoken = true;
                             if ("speechSynthesis" in window) {
                                 const utterance = new SpeechSynthesisUtterance("I'll be back");
@@ -714,9 +719,9 @@
                                 window.speechSynthesis.speak(utterance);
                             }
                         }
-                    } else if (seconds < 8) {
-                        const leaving = (seconds - 5.3) / 2.7;
-                        paint(images[1], width / 2 - 32 + (width / 2 + 160) * leaving, groundY + bob);
+                    } else if (seconds < 13.5) {
+                        const leaving = (seconds - 8) / 5.5;
+                        paint(images[1 + walkFrame], width / 2 - 30 + (width / 2 + 160) * leaving, groundY + walkBob);
                     } else {
                         stopTerminatorEgg();
                         stopMarchingBand();
