@@ -8,7 +8,7 @@
     background: var(--surface-secondary, #302f36);
     border-top: 0 solid var(--accent, #7b83eb);
     border-bottom: 0 solid var(--accent, #7b83eb);
-    transition: height 450ms ease, border-width 450ms ease;
+    transition: height 600ms ease-in-out, border-width 600ms ease-in-out;
 }
 .marching-band-bar.active {
     height: 136px;
@@ -21,7 +21,8 @@
     overflow: hidden;
 }
 .app-shell.band-open .app-body {
-    height: calc(100vh - var(--topbar-height, 60px) - 136px);
+    height: auto;
+    flex: 1 1 0;
     min-height: 0;
 }
 .marching-band-sprite {
@@ -39,9 +40,6 @@
 }
 @media (max-width: 700px) {
     .marching-band-bar.active { height: 106px; }
-    .app-shell.band-open .app-body {
-        height: calc(100vh - var(--topbar-height, 60px) - 106px);
-    }
     .marching-band-sprite {
         height: 94px;
         width: auto;
