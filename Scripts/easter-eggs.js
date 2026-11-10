@@ -47,7 +47,13 @@
         // The final section uses the brass art until a distinct woodwind
         // atlas is provided.
         sectionOrder: [2, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-        sectionGap: 16
+        sectionGap: 16,
+
+        // The original PNG has large transparent margins, and its three
+        // illustrated rows are NOT equal thirds of the image height.
+        // Crop only the complete musicians in each row (hat through shoe).
+        rowTop: [94, 275, 455],
+        rowHeight: 174
 
     };
 
@@ -197,7 +203,7 @@
     function prepareBandCanvas() {
         if (!bandImage || !marchingBandCanvas) return false;
         bandCellWidth = Math.floor(bandImage.naturalWidth / BAND_CONFIG.frameCount);
-        bandRowHeight = Math.floor(bandImage.naturalHeight / 3);
+        bandRowHeight = BAND_CONFIG.rowHeight;
         if (!bandCellWidth || !bandRowHeight) return false;
         configureBandCanvas();
         return true;
@@ -255,7 +261,7 @@
             const sectionX = x + sectionIndex * (bandUnitWidth + unitGap);
             if (sectionX > width || sectionX + bandUnitWidth < 0) return;
             context.drawImage(bandImage,
-                frame * bandCellWidth, sourceRow * bandRowHeight,
+                frame * bandCellWidth, BAND_CONFIG.rowTop[sourceRow],
                 bandCellWidth, bandRowHeight,
                 sectionX, 0, bandUnitWidth, height);
         });
