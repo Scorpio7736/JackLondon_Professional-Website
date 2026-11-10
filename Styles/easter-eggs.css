@@ -31,24 +31,11 @@
     display: block;
     /* Preserve the full 6x3 unit's natural proportions. */
     height: 86px;
-    width: auto;
+    width: 100%;
     max-width: none;
     image-rendering: pixelated;
     pointer-events: none;
     transform: translateY(-50%);
-}
-.marching-band-bar.active .marching-band-sprite {
-    animation: uw-band-travel 2.8s linear infinite;
-}
-@keyframes uw-band-travel {
-    /* One formation's distance per cycle. The repeated units
-       make the line continuous with no visible reset. */
-    from {
-        transform: translate(var(--band-shift, -60px), -50%);
-    }
-    to {
-        transform: translate(0, -50%);
-    }
 }
 @media (max-width: 700px) {
     .marching-band-bar.active { height: 76px; }
