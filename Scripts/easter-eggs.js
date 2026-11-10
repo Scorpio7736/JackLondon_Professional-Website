@@ -81,6 +81,12 @@
                 );
 
             }
+        },
+        {
+            id: "ill-be-back",
+            sequence: "ILLBEBACK",
+            description: "I'll Be Back — 8-bit chase",
+            action: () => startTerminatorEgg()
         }
 
         /* ADD FUTURE EASTER EGGS HERE */
@@ -130,6 +136,14 @@
     let bandAudio = null;
     let bandCloseTimer = null;
     const bandTransitionMs = 600;
+    let terminatorRunning = false;
+    let terminatorFrame = null;
+    let terminatorTimer = null;
+    let terminatorAudio = null;
+    let terminatorSoundContext = null;
+    let terminatorBeatTimer = null;
+    let terminatorImagesPromise = null;
+    let terminatorSpeechSpoken = false;
     let celebrationTimer = null;
     let celebrationOverlay = null;
 
@@ -545,6 +559,180 @@
 
     }
 
+    /* =====================================
+       I'LL BE BACK — 8-BIT CHASE
+       ===================================== */
+
+    function stopTerminatorEgg() {
+        terminatorRunning = false;
+        if (terminatorFrame !== null) cancelAnimationFrame(terminatorFrame);
+        terminatorFrame = null;
+        if (terminatorTimer !== null) clearTimeout(terminatorTimer);
+        terminatorTimer = null;
+        if (terminatorAudio) {
+            terminatorAudio.pause();
+            terminatorAudio = null;
+        }
+        if (terminatorBeatTimer !== null) clearInterval(terminatorBeatTimer);
+        terminatorBeatTimer = null;
+        if (terminatorSoundContext) {
+            terminatorSoundContext.close().catch(() => {});
+            terminatorSoundContext = null;
+        }
+        if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+        marchingBandBar?.classList.remove("terminator-mode");
+    }
+
+    function playTerminatorFallback() {
+        if (!terminatorRunning || terminatorSoundContext) return;
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        const context = new AudioContextClass();
+        terminatorSoundContext = context;
+        const notes = [110, 110, 146.83, 98];
+        let index = 0;
+        const pulse = () => {
+            if (!terminatorRunning || context.state === "closed") return;
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
+            oscillator.type = "square";
+            oscillator.frequency.value = notes[index++ % notes.length];
+            gain.gain.setValueAtTime(0.045, context.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.19);
+            oscillator.connect(gain).connect(context.destination);
+            oscillator.start();
+            oscillator.stop(context.currentTime + 0.2);
+        };
+        pulse();
+        terminatorBeatTimer = setInterval(pulse, 340);
+    }
+
+    function playTerminatorAudio() {
+        const audio = new Audio("Audio/TerminatorTheme.mp3");
+        audio.volume = 0.65;
+        terminatorAudio = audio;
+        audio.addEventListener("error", playTerminatorFallback, { once: true });
+        const playback = audio.play();
+        if (playback) playback.catch(playTerminatorFallback);
+    }
+
+    function startTerminatorEgg() {
+        dismissBandCelebration();
+        if (pendingPlaybackTimer !== null) clearTimeout(pendingPlaybackTimer);
+        pendingPlaybackTimer = null;
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+        }
+        stopTerminatorEgg();
+        stopMarchingBand();
+
+        const bar = createMarchingBand();
+        if (!bar) return;
+        if (bandCloseTimer !== null) clearTimeout(bandCloseTimer);
+        bandCloseTimer = null;
+        terminatorRunning = true;
+        terminatorSpeechSpoken = false;
+        void bar.offsetHeight;
+        bar.classList.add("active", "terminator-mode");
+        document.querySelector(".app-shell")?.classList.add("band-open");
+
+        const load = name => new Promise((resolve, reject) => {
+            const image = new Image();
+            image.onload = () => resolve(image);
+            image.onerror = () => reject(new Error("Missing Terminator sprite: " + name));
+            image.src = "Images/EasterEggs/" + name;
+        });
+        if (!terminatorImagesPromise) {
+            terminatorImagesPromise = Promise.all([
+                load("Jack_Run.png"),
+                load("Terminator_Run.png"),
+                load("Terminator_Front.png")
+            ]).catch(error => {
+                terminatorImagesPromise = null;
+                throw error;
+            });
+        }
+
+        terminatorTimer = setTimeout(() => {
+            terminatorTimer = null;
+            if (!terminatorRunning) return;
+            terminatorImagesPromise.then(images => {
+                if (!terminatorRunning) return;
+                playTerminatorAudio();
+                const start = performance.now();
+                const canvas = marchingBandCanvas;
+                const draw = now => {
+                    if (!terminatorRunning) return;
+                    const seconds = (now - start) / 1000;
+                    const mobile = window.matchMedia("(max-width: 700px)").matches;
+                    const height = mobile ? 94 : 124;
+                    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                    const width = bar.clientWidth;
+                    canvas.width = Math.round(width * dpr);
+                    canvas.height = Math.round(height * dpr);
+                    canvas.style.width = "100%";
+                    canvas.style.height = height + "px";
+                    const ctx = canvas.getContext("2d");
+                    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                    ctx.imageSmoothingEnabled = false;
+                    ctx.clearRect(0, 0, width, height);
+                    const charHeight = height * 0.88;
+                    const groundY = height - charHeight;
+                    const bob = Math.sin(seconds * 17) * 2;
+                    const paint = (image, x, y = groundY) => {
+                        const w = image.naturalWidth / image.naturalHeight * charHeight;
+                        ctx.drawImage(image, x, y, w, charHeight);
+                    };
+
+                    // Jack escapes first; the pursuing Terminator stops at center.
+                    if (seconds < 3.4) {
+                        const chase = Math.min(1, seconds / 3.4);
+                        paint(images[0], -120 + (width + 260) * chase, groundY + bob);
+                        paint(images[1], -230 + (width / 2 + 195) * chase, groundY - bob);
+                    } else if (seconds < 5.3) {
+                        const centerW = images[2].naturalWidth / images[2].naturalHeight * charHeight;
+                        paint(images[2], (width - centerW) / 2);
+                        const text = "I'LL BE BACK";
+                        const fontSize = mobile ? 11 : 16;
+                        ctx.font = `bold ${fontSize}px monospace`;
+                        const textWidth = ctx.measureText(text).width;
+                        const textX = Math.max(4, Math.min(width - textWidth - 12, width / 2 - textWidth / 2));
+                        ctx.fillStyle = "#12121a";
+                        ctx.fillRect(textX - 7, 3, textWidth + 14, fontSize + 10);
+                        ctx.strokeStyle = "#ff4646";
+                        ctx.lineWidth = 2;
+                        ctx.strokeRect(textX - 7, 3, textWidth + 14, fontSize + 10);
+                        ctx.fillStyle = "#fff";
+                        ctx.fillText(text, textX, fontSize + 5);
+                        if (!terminatorSpeechSpoken && seconds >= 3.65) {
+                            terminatorSpeechSpoken = true;
+                            if ("speechSynthesis" in window) {
+                                const utterance = new SpeechSynthesisUtterance("I'll be back");
+                                utterance.rate = 0.75;
+                                utterance.pitch = 0.6;
+                                window.speechSynthesis.speak(utterance);
+                            }
+                        }
+                    } else if (seconds < 8) {
+                        const leaving = (seconds - 5.3) / 2.7;
+                        paint(images[1], width / 2 - 32 + (width / 2 + 160) * leaving, groundY + bob);
+                    } else {
+                        stopTerminatorEgg();
+                        stopMarchingBand();
+                        return;
+                    }
+                    terminatorFrame = requestAnimationFrame(draw);
+                };
+                terminatorFrame = requestAnimationFrame(draw);
+            }).catch(error => {
+                console.warn("Terminator Easter egg could not load:", error);
+                stopTerminatorEgg();
+                stopMarchingBand();
+            });
+        }, bandTransitionMs);
+    }
+
 
     /* =====================================
        AUDIO PLAYER
@@ -556,6 +744,7 @@
     ) {
 
         dismissBandCelebration();
+        stopTerminatorEgg();
 
         /* CANCEL ANY PENDING OPENING / PLAYBACK */
 
