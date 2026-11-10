@@ -36,7 +36,7 @@
         // across the sprite sheet.
         // CHANGE THIS if your sheet
         // has a different frame count.
-        frameCount: 8,
+        frameCount: 6,
 
         // Animation frames per second
         framesPerSecond: 8
@@ -108,6 +108,8 @@
     let bandCurrentFrame = 0;
 
     let bandRunning = false;
+    let bandCrop = null;
+    let bandCellWidth = 0;
 
 
     /* =====================================
@@ -181,59 +183,64 @@
        ===================================== */
 
     function prepareBandCanvas() {
+        if (!bandImage || !marchingBandCanvas) return false;
 
-        if (
-            !bandImage ||
-            !marchingBandCanvas
-        ) {
+        const count = BAND_CONFIG.frameCount;
+        const cellWidth = Math.floor(bandImage.naturalWidth / count);
+        const cellHeight = bandImage.naturalHeight;
+        if (cellWidth < 1 || cellHeight < 1) return false;
+
+        // Inspect transparent pixels in every cell. Use one shared
+        // crop so the full formation does not jump between frames.
+        const scan = document.createElement("canvas");
+        scan.width = bandImage.naturalWidth;
+        scan.height = cellHeight;
+        const context = scan.getContext("2d", { willReadFrequently: true });
+        if (!context) return false;
+        context.drawImage(bandImage, 0, 0);
+
+        let pixels;
+        try {
+            pixels = context.getImageData(0, 0, scan.width, scan.height).data;
+        } catch (error) {
+            console.error("Unable to inspect band sprite:", error);
             return false;
         }
 
-        const frameWidth =
-            Math.floor(
-                bandImage.naturalWidth /
-                BAND_CONFIG.frameCount
-            );
-
-        const frameHeight =
-            bandImage.naturalHeight;
-
-        if (
-            frameWidth <= 0 ||
-            frameHeight <= 0
-        ) {
-
-            console.error(
-                "Invalid marching-band sprite dimensions.",
-                {
-                    width: bandImage.naturalWidth,
-                    height: bandImage.naturalHeight,
-                    frameCount: BAND_CONFIG.frameCount
+        let minX = cellWidth, minY = cellHeight;
+        let maxX = -1, maxY = -1;
+        for (let frame = 0; frame < count; frame++) {
+            for (let y = 0; y < cellHeight; y++) {
+                for (let x = 0; x < cellWidth; x++) {
+                    const offset = (y * scan.width + frame * cellWidth + x) * 4;
+                    const alpha = pixels[offset + 3];
+                    // Ignore transparent and nearly transparent pixels.
+                    if (alpha <= 24) continue;
+                    minX = Math.min(minX, x);
+                    maxX = Math.max(maxX, x);
+                    minY = Math.min(minY, y);
+                    maxY = Math.max(maxY, y);
                 }
-            );
-
-            return false;
-
+            }
         }
 
-        console.info(
-            "Marching-band sprite ready:",
-            {
-                width: bandImage.naturalWidth,
-                height: bandImage.naturalHeight,
-                frameCount: BAND_CONFIG.frameCount,
-                frameWidth
-            }
-        );
+        if (maxX < minX || maxY < minY) {
+            console.error("Band sprite contains no visible pixels.");
+            return false;
+        }
 
-        marchingBandCanvas.width =
-            frameWidth;
+        bandCellWidth = cellWidth;
+        bandCrop = {
+            x: minX,
+            y: minY,
+            width: maxX - minX + 1,
+            height: maxY - minY + 1
+        };
 
-        marchingBandCanvas.height =
-            frameHeight;
-
+        marchingBandCanvas.width = bandCrop.width;
+        marchingBandCanvas.height = bandCrop.height;
+        console.info("Marching-band crop:", bandCrop);
         return true;
-
     }
 
 
@@ -242,67 +249,22 @@
        ===================================== */
 
     function drawBandFrame(frame) {
-
-        if (
-            !bandImage ||
-            !marchingBandCanvas
-        ) {
-            return;
-        }
-
-        const canvas =
-            marchingBandCanvas;
-
-        const context =
-            canvas.getContext("2d");
-
-        if (!context) {
-            return;
-        }
-
-        const frameWidth =
-            canvas.width;
-
-        const frameHeight =
-            canvas.height;
-
-
-        /* DISABLE PIXEL SMOOTHING */
-
-        context.imageSmoothingEnabled =
-            false;
-
-
-        /* CLEAR PREVIOUS FRAME */
-
-        context.clearRect(
-            0,
-            0,
-            frameWidth,
-            frameHeight
-        );
-
-
-        /* DRAW SELECTED FRAME */
-
+        if (!bandImage || !marchingBandCanvas || !bandCrop) return;
+        const context = marchingBandCanvas.getContext("2d");
+        if (!context) return;
+        context.imageSmoothingEnabled = false;
+        context.clearRect(0, 0, marchingBandCanvas.width, marchingBandCanvas.height);
         context.drawImage(
-
             bandImage,
-
-            frame * frameWidth,
-            0,
-
-            frameWidth,
-            frameHeight,
-
+            frame * bandCellWidth + bandCrop.x,
+            bandCrop.y,
+            bandCrop.width,
+            bandCrop.height,
             0,
             0,
-
-            frameWidth,
-            frameHeight
-
+            marchingBandCanvas.width,
+            marchingBandCanvas.height
         );
-
     }
 
 
@@ -387,6 +349,7 @@
         // Expand the strip as soon as audio starts,
         // even if the sprite needs time to load.
         bar.classList.add("active");
+        document.querySelector(".app-shell")?.classList.add("band-open");
 
 
         /* LOAD SPRITE IMAGE */
@@ -508,6 +471,8 @@
             );
 
         }
+
+        document.querySelector(".app-shell")?.classList.remove("band-open");
 
     }
 
