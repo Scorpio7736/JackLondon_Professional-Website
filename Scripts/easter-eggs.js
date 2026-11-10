@@ -37,6 +37,8 @@
             woodwinds: "UW_Retro_Woodwinds_A.png"
         },
         legs: ["UW_UniversalLegs_Step_A.png", "UW_UniversalLegs_Step_B.png"],
+        drumMajorCar: ["UW_DrumMajorCar_A.png", "UW_DrumMajorCar_B.png"],
+        leadGap: 24,
 
         // Animation frames per second
         // Estimated from the actual OnWisconsin.mp3 recording.
@@ -111,6 +113,7 @@
 
     let bandImages = null;
     let bandLegs = null;
+    let bandCar = null;
     let bandImagesPromise = null;
 
     let bandAnimationFrame = null;
@@ -194,7 +197,7 @@
        ===================================== */
 
     function prepareBandCanvas() {
-        if (!bandImages || !bandLegs || !marchingBandCanvas) return false;
+        if (!bandImages || !bandLegs || !bandCar || !marchingBandCanvas) return false;
         configureBandCanvas();
         return true;
     }
@@ -241,8 +244,11 @@
         const duration = Number.isFinite(bandAudio?.duration) && bandAudio.duration > 0
             ? bandAudio.duration : 75;
         const progress = Math.min(1, Math.max(0, bandAudio?.currentTime / duration || 0));
-        const startX = -bandFormationWidth - 24;
-        const travelX = width + bandFormationWidth + 48;
+        const carHeight = height * 0.89;
+        const carWidth = carHeight * 1.55;
+        const processionWidth = bandFormationWidth + BAND_CONFIG.leadGap + carWidth;
+        const startX = -processionWidth - 24;
+        const travelX = width + processionWidth + 48;
         const x = startX + travelX * progress;
         const unitGap = BAND_CONFIG.sectionGap;
 
@@ -269,6 +275,14 @@
             }
             sectionX += bandUnitWidth + unitGap;
         });
+
+        // The lead vehicle drives right ahead of the band. The drum major
+        // stands in the rear facing left toward the following musicians.
+        const carX = x + bandFormationWidth + BAND_CONFIG.leadGap;
+        if (carX < width && carX + carWidth > 0) {
+            context.drawImage(bandCar[frame], carX,
+                (height - carHeight) / 2, carWidth, carHeight);
+        }
     }
 
 
@@ -346,6 +360,9 @@
                 return Promise.all(BAND_CONFIG.legs.map(load));
             }).then(legs => {
                 bandLegs = legs;
+                return Promise.all(BAND_CONFIG.drumMajorCar.map(load));
+            }).then(car => {
+                bandCar = car;
                 return bandImages;
             }).catch(error => {
                 bandImagesPromise = null;
