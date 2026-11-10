@@ -46,7 +46,8 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    /* Fill the entire bar at every viewport width without letterboxing or cropping. */
+    object-fit: fill;
     image-rendering: pixelated;
     pointer-events: none;
 }
