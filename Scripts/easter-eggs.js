@@ -38,7 +38,9 @@
         },
         legs: ["UW_UniversalLegs_Step_A.png", "UW_UniversalLegs_Step_B.png"],
         drumMajorCar: ["UW_DrumMajorCar_A.png", "UW_DrumMajorCar_B.png"],
+        finaleCar: ["UW_JackFinaleCar_A.png", "UW_JackFinaleCar_B.png"],
         leadGap: 24,
+        finaleGap: 24,
 
         // Animation frames per second
         // Estimated from the actual OnWisconsin.mp3 recording.
@@ -114,6 +116,7 @@
     let bandImages = null;
     let bandLegs = null;
     let bandCar = null;
+    let bandFinaleCar = null;
     let bandImagesPromise = null;
 
     let bandAnimationFrame = null;
@@ -197,7 +200,7 @@
        ===================================== */
 
     function prepareBandCanvas() {
-        if (!bandImages || !bandLegs || !bandCar || !marchingBandCanvas) return false;
+        if (!bandImages || !bandLegs || !bandCar || !bandFinaleCar || !marchingBandCanvas) return false;
         configureBandCanvas();
         return true;
     }
@@ -246,8 +249,13 @@
         const progress = Math.min(1, Math.max(0, bandAudio?.currentTime / duration || 0));
         const carHeight = height * 0.89;
         const carWidth = carHeight * 1.55;
-        const processionWidth = bandFormationWidth + BAND_CONFIG.leadGap + carWidth;
-        const startX = -processionWidth - 24;
+        const finaleHeight = height * 0.89;
+        const finaleWidth = finaleHeight * 1.65;
+        const leadingWidth = bandFormationWidth + BAND_CONFIG.leadGap + carWidth;
+        const processionWidth = leadingWidth + BAND_CONFIG.finaleGap + finaleWidth;
+        // Start with the lead car just outside the left edge. The finale
+        // car follows behind the last musician and leaves the screen last.
+        const startX = -leadingWidth - 24;
         const travelX = width + processionWidth + 48;
         const x = startX + travelX * progress;
         const unitGap = BAND_CONFIG.sectionGap;
@@ -282,6 +290,13 @@
         if (carX < width && carX + carWidth > 0) {
             context.drawImage(bandCar[frame], carX,
                 (height - carHeight) / 2, carWidth, carHeight);
+        }
+
+        // Jack's black car and Wisconsin flag close the parade.
+        const finaleX = x - BAND_CONFIG.finaleGap - finaleWidth;
+        if (finaleX < width && finaleX + finaleWidth > 0) {
+            context.drawImage(bandFinaleCar[frame], finaleX,
+                (height - finaleHeight) / 2, finaleWidth, finaleHeight);
         }
     }
 
@@ -363,6 +378,9 @@
                 return Promise.all(BAND_CONFIG.drumMajorCar.map(load));
             }).then(car => {
                 bandCar = car;
+                return Promise.all(BAND_CONFIG.finaleCar.map(load));
+            }).then(finale => {
+                bandFinaleCar = finale;
                 return bandImages;
             }).catch(error => {
                 bandImagesPromise = null;
