@@ -831,8 +831,8 @@
 
         stageArt = document.createElement("img");
         stageArt.className = "marching-band-stage-art";
-        stageArt.src = "Images/EasterEggs/Jack_Stage_Band_8bit.png";
-        stageArt.alt = "An 8-bit stage with Jack on classical guitar, a drummer, three trumpeters, an upright bassist, and a rhythm guitarist.";
+        stageArt.src = "Images/EasterEggs/JRCash_Empty_Stage.png";
+        stageArt.alt = "An empty 8-bit concert stage with blue and amber spotlights.";
         bar.appendChild(stageArt);
         stageRunning = true;
 
