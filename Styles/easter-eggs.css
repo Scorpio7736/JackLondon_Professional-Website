@@ -11,7 +11,7 @@
     transition: height 450ms ease, border-width 450ms ease;
 }
 .marching-band-bar.active {
-    height: 96px;
+    height: 136px;
     border-top-width: 1px;
     border-bottom-width: 1px;
 }
@@ -21,7 +21,7 @@
     overflow: hidden;
 }
 .app-shell.band-open .app-body {
-    height: calc(100vh - var(--topbar-height, 60px) - 96px);
+    height: calc(100vh - var(--topbar-height, 60px) - 136px);
     min-height: 0;
 }
 .marching-band-sprite {
@@ -30,7 +30,7 @@
     top: 50%;
     display: block;
     /* Preserve the full 6x3 unit's natural proportions. */
-    height: 86px;
+    height: 124px;
     width: 100%;
     max-width: none;
     image-rendering: pixelated;
@@ -38,12 +38,12 @@
     transform: translateY(-50%);
 }
 @media (max-width: 700px) {
-    .marching-band-bar.active { height: 76px; }
+    .marching-band-bar.active { height: 106px; }
     .app-shell.band-open .app-body {
-        height: calc(100vh - var(--topbar-height, 60px) - 76px);
+        height: calc(100vh - var(--topbar-height, 60px) - 106px);
     }
     .marching-band-sprite {
-        height: 68px;
+        height: 94px;
         width: auto;
     }
 }
