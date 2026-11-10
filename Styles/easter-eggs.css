@@ -44,7 +44,7 @@
     /* One formation's distance per cycle. The repeated units
        make the line continuous with no visible reset. */
     from {
-        transform: translate(calc(-1 * var(--band-step, 60px)), -50%);
+        transform: translate(var(--band-shift, -60px), -50%);
     }
     to {
         transform: translate(0, -50%);
