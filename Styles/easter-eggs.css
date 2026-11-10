@@ -15,6 +15,31 @@
     border-top-width: 1px;
     border-bottom-width: 1px;
 }
+/* A low, 8-bit roadway sits behind the marching feet and vehicle wheels. */
+.marching-band-bar::before {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 17px;
+    background: #24252d;
+    border-top: 3px solid #777b86;
+    box-shadow: inset 0 3px 0 #41444d;
+    pointer-events: none;
+}
+.marching-band-bar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 4px;
+    height: 3px;
+    background: repeating-linear-gradient(
+        90deg,
+        #e8d28b 0 20px,
+        transparent 20px 38px
+    );
+    pointer-events: none;
+}
 /* The primary layout is unchanged until an easter egg is active. */
 .app-shell.band-open {
     height: 100vh;
@@ -27,6 +52,7 @@
 }
 .marching-band-sprite {
     position: absolute;
+    z-index: 1;
     left: 0;
     top: 6px;
     display: block;
@@ -39,6 +65,8 @@
 }
 @media (max-width: 700px) {
     .marching-band-bar.active { height: 106px; }
+    .marching-band-bar::before { height: 13px; border-top-width: 2px; }
+    .marching-band-bar::after { bottom: 3px; height: 2px; }
     .marching-band-sprite {
         height: 94px;
         width: auto;
