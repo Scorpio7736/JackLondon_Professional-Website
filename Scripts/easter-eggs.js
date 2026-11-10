@@ -144,6 +144,7 @@
     let terminatorBeatTimer = null;
     let terminatorImagesPromise = null;
     let terminatorSpeechSpoken = false;
+    let terminatorVolumeFactor = 1;
     let celebrationTimer = null;
     let celebrationOverlay = null;
 
@@ -565,6 +566,7 @@
 
     function stopTerminatorEgg() {
         terminatorRunning = false;
+        terminatorVolumeFactor = 1;
         if (terminatorFrame !== null) cancelAnimationFrame(terminatorFrame);
         terminatorFrame = null;
         if (terminatorTimer !== null) clearTimeout(terminatorTimer);
@@ -597,7 +599,7 @@
             const gain = context.createGain();
             oscillator.type = "square";
             oscillator.frequency.value = notes[index++ % notes.length];
-            gain.gain.setValueAtTime(0.045, context.currentTime);
+            gain.gain.setValueAtTime(Math.max(0.0001, 0.045 * terminatorVolumeFactor), context.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.19);
             oscillator.connect(gain).connect(context.destination);
             oscillator.start();
@@ -633,6 +635,7 @@
         bandCloseTimer = null;
         terminatorRunning = true;
         terminatorSpeechSpoken = false;
+        terminatorVolumeFactor = 1;
         void bar.offsetHeight;
         bar.classList.add("active", "terminator-mode");
         document.querySelector(".app-shell")?.classList.add("band-open");
@@ -666,6 +669,9 @@
                 const draw = now => {
                     if (!terminatorRunning) return;
                     const seconds = (now - start) / 1000;
+                    // A three-second soundtrack fade accompanies the final walk-off.
+                    terminatorVolumeFactor = Math.max(0, Math.min(1, (13.5 - seconds) / 3));
+                    if (terminatorAudio) terminatorAudio.volume = 0.65 * terminatorVolumeFactor;
                     const mobile = window.matchMedia("(max-width: 700px)").matches;
                     const height = mobile ? 94 : 124;
                     const dpr = Math.min(window.devicePixelRatio || 1, 2);
