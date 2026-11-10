@@ -40,6 +40,10 @@
         // Estimated from the actual OnWisconsin.mp3 recording.
         marchBpm: 136,
 
+        // Each 6-person section is drawn from a tiny 8-bit-style canvas,
+        // then scaled up with nearest-neighbor pixels.
+        pixelHeight: 42,
+
         sectionOrder: [
             "percussion", "percussion", "percussion",
             "lowBrass", "lowBrass", "lowBrass",
@@ -108,6 +112,7 @@
     let marchingBandCanvas = null;
 
     let bandImages = null;
+    let bandPixelImages = null;
     let bandImagesPromise = null;
 
     let bandAnimationFrame = null;
@@ -192,8 +197,54 @@
 
     function prepareBandCanvas() {
         if (!bandImages || !marchingBandCanvas) return false;
+        if (!bandPixelImages) bandPixelImages = makePixelBandImages();
         configureBandCanvas();
         return true;
+    }
+
+    function makePixelBandImages() {
+        const result = {};
+        Object.entries(bandImages).forEach(([section, pair]) => {
+            result[section] = pair.map((pose, frame) => {
+                // Assemble the complete pose before pixelating. This keeps
+                // upper-body identities exactly the same in both frames.
+                const source = document.createElement("canvas");
+                source.width = pose.naturalWidth;
+                source.height = pose.naturalHeight;
+                const sourceContext = source.getContext("2d");
+                sourceContext.drawImage(pose, 0, 0);
+                if (frame === 1) {
+                    const fixed = pair[0];
+                    const cut = Math.floor(fixed.naturalHeight * 0.59);
+                    sourceContext.drawImage(fixed, 0, 0, fixed.naturalWidth, cut,
+                        0, 0, source.width, cut);
+                }
+
+                const pixels = document.createElement("canvas");
+                pixels.height = BAND_CONFIG.pixelHeight;
+                pixels.width = Math.round(source.width / source.height * pixels.height);
+                const ctx = pixels.getContext("2d", { willReadFrequently: true });
+                ctx.imageSmoothingEnabled = true;
+                ctx.drawImage(source, 0, 0, pixels.width, pixels.height);
+
+                // RGB332 is a classic 256-color (8-bit) palette.
+                const bitmap = ctx.getImageData(0, 0, pixels.width, pixels.height);
+                const data = bitmap.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    if (data[i + 3] < 90) {
+                        data[i + 3] = 0;
+                        continue;
+                    }
+                    data[i] = Math.round(data[i] / 255 * 7) * 255 / 7;
+                    data[i + 1] = Math.round(data[i + 1] / 255 * 7) * 255 / 7;
+                    data[i + 2] = Math.round(data[i + 2] / 255 * 3) * 255 / 3;
+                    data[i + 3] = 255;
+                }
+                ctx.putImageData(bitmap, 0, 0);
+                return pixels;
+            });
+        });
+        return result;
     }
 
 
@@ -246,19 +297,9 @@
         let sectionX = x;
         BAND_CONFIG.sectionOrder.forEach(section => {
             if (sectionX < width && sectionX + bandUnitWidth > 0) {
-                const pose = bandImages[section][frame];
-                const identity = bandImages[section][0];
-                // Draw a real second pose rather than cutting/rotating legs.
+                const pose = bandPixelImages[section][frame];
+                // A complete pre-rendered pixel-art pose; no limb warping.
                 context.drawImage(pose, sectionX, 0, bandUnitWidth, height);
-                if (frame === 1) {
-                    // Fix character identities and uniforms exactly to pose A:
-                    // only pants and shoes come from the alternate pose.
-                    const upperFraction = 0.59;
-                    const cut = Math.floor(identity.naturalHeight * upperFraction);
-                    context.drawImage(identity,
-                        0, 0, identity.naturalWidth, cut,
-                        sectionX, 0, bandUnitWidth, height * upperFraction);
-                }
             }
             sectionX += bandUnitWidth + unitGap;
         });
