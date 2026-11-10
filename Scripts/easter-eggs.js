@@ -28,33 +28,25 @@
 
     const BAND_CONFIG = {
 
-        // Horizontal sprite sheet
-        image:
-            "Images/EasterEggs/UW_MarchingBand.png",
-
-        // Number of equally sized frames
-        // across the sprite sheet.
-        // CHANGE THIS if your sheet
-        // has a different frame count.
-        frameCount: 6,
+        // Dedicated matching, full-body marching poses for each section.
+        images: {
+            percussion: ["UW_Percussion_A.png", "UW_Percussion_B.png"],
+            lowBrass: ["UW_LowBrass_A.png", "UW_LowBrass_B.png"],
+            brass: ["UW_Brass_A.png", "UW_Brass_B.png"],
+            woodwinds: ["UW_Woodwinds_A.png", "UW_Woodwinds_B.png"]
+        },
 
         // Animation frames per second
         // Estimated from the actual OnWisconsin.mp3 recording.
         marchBpm: 136,
 
-        // The supplied atlas has six animation columns and three
-        // instrument rows (brass, low brass, percussion).
-        // Three six-member blocks for each of the four sections.
-        // Index 3 is the dedicated woodwind artwork.
-        sectionOrder: [2, 2, 2, 1, 1, 1, 0, 0, 0, 3, 3, 3],
-        sectionGap: 16,
-        woodwindImage: "Images/EasterEggs/UW_Woodwinds_v2.png",
-
-        // The original PNG has large transparent margins, and its three
-        // illustrated rows are NOT equal thirds of the image height.
-        // Crop only the complete musicians in each row (hat through shoe).
-        rowTop: [94, 275, 455],
-        rowHeight: 174
+        sectionOrder: [
+            "percussion", "percussion", "percussion",
+            "lowBrass", "lowBrass", "lowBrass",
+            "brass", "brass", "brass",
+            "woodwinds", "woodwinds", "woodwinds"
+        ],
+        sectionGap: 16
 
     };
 
@@ -115,20 +107,16 @@
     let marchingBandBar = null;
     let marchingBandCanvas = null;
 
-    let bandImage = null;
-    let woodwindImage = null;
+    let bandImages = null;
+    let bandImagesPromise = null;
 
     let bandAnimationFrame = null;
 
-    let bandLastFrameTime = 0;
     let bandCurrentFrame = 0;
 
     let bandRunning = false;
-    let bandCellWidth = 0;
-    let bandRowHeight = 0;
     let bandUnitWidth = 0;
     let bandFormationWidth = 0;
-    let bandStartTime = 0;
     let bandAudio = null;
 
 
@@ -203,10 +191,7 @@
        ===================================== */
 
     function prepareBandCanvas() {
-        if (!bandImage || !marchingBandCanvas) return false;
-        bandCellWidth = Math.floor(bandImage.naturalWidth / BAND_CONFIG.frameCount);
-        bandRowHeight = BAND_CONFIG.rowHeight;
-        if (!bandCellWidth || !bandRowHeight) return false;
+        if (!bandImages || !marchingBandCanvas) return false;
         configureBandCanvas();
         return true;
     }
@@ -217,11 +202,10 @@
        ===================================== */
 
     function configureBandCanvas() {
-        if (!marchingBandCanvas || !bandCellWidth) return;
+        if (!marchingBandCanvas || !bandImages) return;
         const height = window.matchMedia("(max-width: 700px)").matches ? 94 : 124;
-        // Render the atlas's single instrument row at the full strip height.
-        const scale = height / bandRowHeight;
-        bandUnitWidth = bandCellWidth * scale;
+        const reference = bandImages.percussion[0];
+        bandUnitWidth = reference.naturalWidth / reference.naturalHeight * height;
         bandFormationWidth = BAND_CONFIG.sectionOrder.length *
             (bandUnitWidth + BAND_CONFIG.sectionGap);
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -237,7 +221,7 @@
        ===================================== */
 
     function drawBandFrame(frame) {
-        if (!bandImage || !marchingBandCanvas || !bandCellWidth) return;
+        if (!bandImages || !marchingBandCanvas) return;
 
         const context = marchingBandCanvas.getContext("2d");
         if (!context) return;
@@ -260,58 +244,24 @@
         const unitGap = BAND_CONFIG.sectionGap;
 
         let sectionX = x;
-        BAND_CONFIG.sectionOrder.forEach((sourceRow, sectionIndex) => {
-            const isWoodwind = sourceRow === 3;
-            const unitWidth = bandUnitWidth;
-            if (sectionX < width && sectionX + unitWidth > 0) {
-                const image = isWoodwind ? woodwindImage : bandImage;
-                if (image?.complete && image.naturalWidth) {
-                    drawStableMusicians(context, image,
-                        0, isWoodwind ? 0 : BAND_CONFIG.rowTop[sourceRow],
-                        isWoodwind ? image.naturalWidth : bandCellWidth,
-                        isWoodwind ? image.naturalHeight : bandRowHeight,
-                        sectionX, 0, unitWidth, height, frame, sectionIndex);
+        BAND_CONFIG.sectionOrder.forEach(section => {
+            if (sectionX < width && sectionX + bandUnitWidth > 0) {
+                const pose = bandImages[section][frame];
+                const identity = bandImages[section][0];
+                // Draw a real second pose rather than cutting/rotating legs.
+                context.drawImage(pose, sectionX, 0, bandUnitWidth, height);
+                if (frame === 1) {
+                    // Fix character identities and uniforms exactly to pose A:
+                    // only pants and shoes come from the alternate pose.
+                    const upperFraction = 0.59;
+                    const cut = Math.floor(identity.naturalHeight * upperFraction);
+                    context.drawImage(identity,
+                        0, 0, identity.naturalWidth, cut,
+                        sectionX, 0, bandUnitWidth, height * upperFraction);
                 }
             }
-            sectionX += unitWidth + unitGap;
+            sectionX += bandUnitWidth + unitGap;
         });
-    }
-
-
-    /* Keep the same face, hair, skin, and uniform in every frame.
-       Only the trousers/feet switch direction, including the three
-       previously stationary musicians at the front of each unit. */
-    function drawStableMusicians(ctx, image, sx, sy, sw, sh,
-                                 dx, dy, dw, dh, frame, sectionIndex) {
-        const legFraction = 0.66;
-        const topHeight = Math.round(sh * legFraction);
-        const destTopHeight = dh * topHeight / sh;
-
-        const memberSourceWidth = sw / 6;
-        const memberWidth = dw / 6;
-        for (let member = 0; member < 6; member++) {
-            const sourceX = sx + member * memberSourceWidth;
-            const memberX = dx + member * memberWidth;
-            const direction = (frame + member + sectionIndex) % 2 ? 1 : -1;
-            const halfSource = memberSourceWidth / 2;
-            const halfDest = memberWidth / 2;
-            const legHeight = dh - destTopHeight;
-            // Rotate each leg around its hip, never flip the entire sprite.
-            // Original pixel colors and individual appearance are unchanged.
-            for (let leg = 0; leg < 2; leg++) {
-                ctx.save();
-                ctx.translate(memberX + halfDest, dy + destTopHeight);
-                ctx.rotate((leg === 0 ? direction : -direction) * 0.16);
-                ctx.drawImage(image,
-                    sourceX + leg * halfSource, sy + topHeight,
-                    halfSource, sh - topHeight,
-                    leg === 0 ? -halfDest : 0, 0, halfDest, legHeight);
-                ctx.restore();
-            }
-        }
-        // Cover the hip seam with the unchanged upper-body image.
-        ctx.drawImage(image, sx, sy, sw, topHeight,
-            dx, dy, dw, destTopHeight);
     }
 
 
@@ -362,7 +312,6 @@
         /* RESET ANIMATION STATE */
 
         bandCurrentFrame = 0;
-        bandLastFrameTime = 0;
         bandAudio = audio;
 
         bandRunning = true;
@@ -373,22 +322,25 @@
         document.querySelector(".app-shell")?.classList.add("band-open");
 
 
-        /* LOAD SPRITE IMAGE */
+        /* LOAD ALL MATCHED POSE PAIRS ONCE */
 
-        if (!bandImage) {
-
-            bandImage =
-                new Image();
-
-            bandImage.src =
-                BAND_CONFIG.image;
-
-        }
-
-        if (!woodwindImage) {
-            woodwindImage = new Image();
-            woodwindImage.src = BAND_CONFIG.woodwindImage;
-            woodwindImage.onerror = () => console.warn("Woodwind art failed to load.");
+        if (!bandImagesPromise) {
+            const load = filename => new Promise((resolve, reject) => {
+                const image = new Image();
+                image.onload = () => resolve(image);
+                image.onerror = () => reject(new Error("Missing band sprite: " + filename));
+                image.src = "Images/EasterEggs/" + filename;
+            });
+            bandImagesPromise = Promise.all(
+                Object.entries(BAND_CONFIG.images).map(async ([section, files]) =>
+                    [section, await Promise.all(files.map(load))])
+            ).then(entries => {
+                bandImages = Object.fromEntries(entries);
+                return bandImages;
+            }).catch(error => {
+                bandImagesPromise = null;
+                throw error;
+            });
         }
 
 
@@ -425,31 +377,9 @@
         };
 
 
-        /* IMAGE ALREADY LOADED */
-
-        if (
-            bandImage.complete &&
-            bandImage.naturalWidth > 0
-        ) {
-
-            beginAnimation();
-
-        }
-        else {
-
-            bandImage.onload =
-                beginAnimation;
-
-            bandImage.onerror = () => {
-
-                console.error(
-                    "Marching band sprite failed to load:",
-                    BAND_CONFIG.image
-                );
-
-            };
-
-        }
+        bandImagesPromise.then(beginAnimation).catch(error => {
+            console.error("Marching band sprite failed to load:", error);
+        });
 
     }
 
