@@ -43,7 +43,7 @@
 
         // The supplied atlas has six animation columns and three
         // instrument rows (brass, low brass, percussion).
-        // Three 6x3 blocks per instrument section create one long band.
+        // Three six-member blocks per instrument section create one long row.
         // The final section uses the brass art until a distinct woodwind
         // atlas is provided.
         sectionOrder: [2, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0],
@@ -211,7 +211,8 @@
     function configureBandCanvas() {
         if (!marchingBandCanvas || !bandCellWidth) return;
         const height = window.matchMedia("(max-width: 700px)").matches ? 94 : 124;
-        const scale = height / (bandRowHeight * 3);
+        // Render the atlas's single instrument row at the full strip height.
+        const scale = height / bandRowHeight;
         bandUnitWidth = bandCellWidth * scale;
         bandFormationWidth = BAND_CONFIG.sectionOrder.length *
             (bandUnitWidth + BAND_CONFIG.sectionGap);
@@ -249,20 +250,14 @@
         const travelX = width + bandFormationWidth + 48;
         const x = startX + travelX * progress;
         const unitGap = BAND_CONFIG.sectionGap;
-        const rowHeight = height / 3;
 
         BAND_CONFIG.sectionOrder.forEach((sourceRow, sectionIndex) => {
             const sectionX = x + sectionIndex * (bandUnitWidth + unitGap);
             if (sectionX > width || sectionX + bandUnitWidth < 0) return;
-            // Each section is a 6-column by 3-rank formation. Offsetting
-            // alternate ranks gives the marching block a natural depth.
-            for (let rank = 0; rank < 3; rank++) {
-                context.drawImage(bandImage,
-                    frame * bandCellWidth, sourceRow * bandRowHeight,
-                    bandCellWidth, bandRowHeight,
-                    sectionX + (rank % 2) * 3, rank * rowHeight,
-                    bandUnitWidth, rowHeight);
-            }
+            context.drawImage(bandImage,
+                frame * bandCellWidth, sourceRow * bandRowHeight,
+                bandCellWidth, bandRowHeight,
+                sectionX, 0, bandUnitWidth, height);
         });
     }
 
