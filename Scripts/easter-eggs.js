@@ -649,9 +649,11 @@
         if (!terminatorImagesPromise) {
             terminatorImagesPromise = Promise.all([
                 load("Jack_Run.png"),
-                load("Terminator_Walk_A.png"),
-                load("Terminator_Walk_B.png"),
-                load("Terminator_Front.png")
+                load("Terminator_ArmedWalk_0_Aligned.png"),
+                load("Terminator_ArmedWalk_1_Aligned.png"),
+                load("Terminator_ArmedWalk_2_Aligned.png"),
+                load("Terminator_ArmedWalk_3_Aligned.png"),
+                load("Terminator_ArmedFront.png")
             ]).catch(error => {
                 terminatorImagesPromise = null;
                 throw error;
@@ -687,9 +689,9 @@
                     const charHeight = height * 0.88;
                     const groundY = height - charHeight;
                     const jackBob = Math.sin(seconds * 17) * 2;
-                    // Heavy, measured steps: about two footfalls per second.
-                    const walkFrame = Math.floor(seconds * 2.1) % 2;
-                    const walkBob = Math.sin(seconds * Math.PI * 4.2) * 0.5;
+                    // Four consistent poses per cycle, two grounded footfalls each second.
+                    const walkFrame = Math.floor(seconds * 4.2) % 4;
+                    const walkBob = Math.sin(seconds * Math.PI * 4.2) * 0.25;
                     const paint = (image, x, y = groundY) => {
                         const w = image.naturalWidth / image.naturalHeight * charHeight;
                         ctx.drawImage(image, x, y, w, charHeight);
@@ -702,8 +704,8 @@
                         }
                         paint(images[1 + walkFrame], -90 + (width / 2 + 60) * (seconds / 6), groundY + walkBob);
                     } else if (seconds < 8) {
-                        const centerW = images[3].naturalWidth / images[3].naturalHeight * charHeight;
-                        paint(images[3], (width - centerW) / 2);
+                        const centerW = images[5].naturalWidth / images[5].naturalHeight * charHeight;
+                        paint(images[5], (width - centerW) / 2);
                         const text = "I'LL BE BACK";
                         const fontSize = mobile ? 11 : 16;
                         ctx.font = `bold ${fontSize}px monospace`;
