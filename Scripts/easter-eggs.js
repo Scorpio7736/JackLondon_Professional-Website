@@ -30,10 +30,10 @@
 
         // Dedicated matching, full-body marching poses for each section.
         images: {
-            percussion: ["UW_Percussion_A_8bit.png", "UW_Percussion_B_8bit.png"],
-            lowBrass: ["UW_LowBrass_A_8bit.png", "UW_LowBrass_B_8bit.png"],
-            brass: ["UW_Brass_A_8bit.png", "UW_Brass_B_8bit.png"],
-            woodwinds: ["UW_Woodwinds_A_8bit.png", "UW_Woodwinds_B_8bit.png"]
+            percussion: ["UW_Retro_Percussion_A.png", "UW_Retro_Percussion_B.png"],
+            lowBrass: ["UW_Retro_LowBrass_A.png", "UW_Retro_LowBrass_B.png"],
+            brass: ["UW_Retro_Brass_A.png", "UW_Retro_Brass_B.png"],
+            woodwinds: ["UW_Retro_Woodwinds_A.png", "UW_Retro_Woodwinds_B.png"]
         },
 
         // Animation frames per second
