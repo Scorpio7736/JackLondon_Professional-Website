@@ -190,25 +190,41 @@
         }
 
         const frameWidth =
-            bandImage.naturalWidth /
-            BAND_CONFIG.frameCount;
+            Math.floor(
+                bandImage.naturalWidth /
+                BAND_CONFIG.frameCount
+            );
 
         const frameHeight =
             bandImage.naturalHeight;
 
         if (
-            !Number.isInteger(frameWidth) ||
             frameWidth <= 0 ||
             frameHeight <= 0
         ) {
 
-            console.warn(
-                "Invalid marching-band sprite dimensions."
+            console.error(
+                "Invalid marching-band sprite dimensions.",
+                {
+                    width: bandImage.naturalWidth,
+                    height: bandImage.naturalHeight,
+                    frameCount: BAND_CONFIG.frameCount
+                }
             );
 
             return false;
 
         }
+
+        console.info(
+            "Marching-band sprite ready:",
+            {
+                width: bandImage.naturalWidth,
+                height: bandImage.naturalHeight,
+                frameCount: BAND_CONFIG.frameCount,
+                frameWidth
+            }
+        );
 
         marchingBandCanvas.width =
             frameWidth;
@@ -368,6 +384,10 @@
 
         bandRunning = true;
 
+        // Expand the strip as soon as audio starts,
+        // even if the sprite needs time to load.
+        bar.classList.add("active");
+
 
         /* LOAD SPRITE IMAGE */
 
@@ -392,7 +412,9 @@
 
             if (!prepareBandCanvas()) {
 
-                stopMarchingBand();
+                console.error(
+                    "Marching-band canvas could not initialize."
+                );
 
                 return;
             }
@@ -443,11 +465,10 @@
 
             bandImage.onerror = () => {
 
-                console.warn(
-                    "Marching band sprite failed to load."
+                console.error(
+                    "Marching band sprite failed to load:",
+                    BAND_CONFIG.image
                 );
-
-                stopMarchingBand();
 
             };
 
