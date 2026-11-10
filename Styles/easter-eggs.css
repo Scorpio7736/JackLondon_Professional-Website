@@ -42,8 +42,9 @@
     animation: uw-band-travel 16s linear infinite;
 }
 @keyframes uw-band-travel {
-    from { left: 0; transform: translateY(-50%); }
-    to { left: 100%; transform: translateY(-50%); }
+    /* Start just outside the left edge and exit fully to the right. */
+    from { left: 0; transform: translate(-100%, -50%); }
+    to { left: 100%; transform: translate(0, -50%); }
 }
 @media (max-width: 700px) {
     .marching-band-bar.active { height: 76px; }
@@ -55,11 +56,9 @@
         width: min(76vw, 280px);
     }
 }
+/* The user explicitly opts into this animation by typing ONWISCONSIN.
+   Keep the march running even on systems with reduced-motion enabled;
+   only remove the decorative bar-opening transition. */
 @media (prefers-reduced-motion: reduce) {
     .marching-band-bar { transition: none; }
-    .marching-band-bar.active .marching-band-sprite {
-        animation: none;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
 }
