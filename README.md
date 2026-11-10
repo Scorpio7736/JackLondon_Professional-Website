@@ -186,7 +186,6 @@ As the portfolio evolves, useful areas to revisit include:
 ## Contributors
 
 - **Jack London** ([@Scorpio7736](https://github.com/Scorpio7736))
-- **remecopilot** ([@remecopilot](https://github.com/remecopilot))
 
 ## Contact and links
 
