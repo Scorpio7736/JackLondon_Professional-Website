@@ -28,13 +28,15 @@
 
     const BAND_CONFIG = {
 
-        // Dedicated matching, full-body marching poses for each section.
+        // One unchanged upper-body image per section. Every person uses
+        // the SAME universal pair of legs for a consistent marching step.
         images: {
-            percussion: ["UW_Retro_Percussion_A.png", "UW_Retro_Percussion_B.png"],
-            lowBrass: ["UW_Retro_LowBrass_A.png", "UW_Retro_LowBrass_B.png"],
-            brass: ["UW_Retro_Brass_A.png", "UW_Retro_Brass_B.png"],
-            woodwinds: ["UW_Retro_Woodwinds_A.png", "UW_Retro_Woodwinds_B.png"]
+            percussion: "UW_Retro_Percussion_A.png",
+            lowBrass: "UW_Retro_LowBrass_A.png",
+            brass: "UW_Retro_Brass_A.png",
+            woodwinds: "UW_Retro_Woodwinds_A.png"
         },
+        legs: ["UW_UniversalLegs_A.png", "UW_UniversalLegs_B.png"],
 
         // Animation frames per second
         // Estimated from the actual OnWisconsin.mp3 recording.
@@ -108,6 +110,7 @@
     let marchingBandCanvas = null;
 
     let bandImages = null;
+    let bandLegs = null;
     let bandImagesPromise = null;
 
     let bandAnimationFrame = null;
@@ -191,7 +194,7 @@
        ===================================== */
 
     function prepareBandCanvas() {
-        if (!bandImages || !marchingBandCanvas) return false;
+        if (!bandImages || !bandLegs || !marchingBandCanvas) return false;
         configureBandCanvas();
         return true;
     }
@@ -204,7 +207,7 @@
     function configureBandCanvas() {
         if (!marchingBandCanvas || !bandImages) return;
         const height = window.matchMedia("(max-width: 700px)").matches ? 94 : 124;
-        const reference = bandImages.percussion[0];
+        const reference = bandImages.percussion;
         bandUnitWidth = reference.naturalWidth / reference.naturalHeight * height;
         bandFormationWidth = BAND_CONFIG.sectionOrder.length *
             (bandUnitWidth + BAND_CONFIG.sectionGap);
@@ -246,9 +249,23 @@
         let sectionX = x;
         BAND_CONFIG.sectionOrder.forEach(section => {
             if (sectionX < width && sectionX + bandUnitWidth > 0) {
-                const pose = bandImages[section][frame];
-                // Pre-pixelated 8-bit art; draw directly without conversion.
-                context.drawImage(pose, sectionX, 0, bandUnitWidth, height);
+                const torso = bandImages[section];
+                const leg = bandLegs[frame];
+                const scale = height / torso.naturalHeight;
+                // The six hip positions are shared by all four sprite rows.
+                // Draw the universal full-leg pose six times, underneath the
+                // unchanged torso/instrument artwork.
+                const hips = [50, 112, 178, 245, 317, 386];
+                for (const hip of hips) {
+                    const legX = sectionX + (hip - 34) * torso.naturalWidth / 450 * scale;
+                    context.drawImage(leg, legX, 136 * scale,
+                        leg.naturalWidth * scale, leg.naturalHeight * scale);
+                }
+                // Cover the hip seam. Percussion extends a little farther
+                // down because its drum shells overlap the trousers.
+                const cutoff = section === "percussion" ? 151 : 144;
+                context.drawImage(torso, 0, 0, torso.naturalWidth, cutoff,
+                    sectionX, 0, bandUnitWidth, cutoff * scale);
             }
             sectionX += bandUnitWidth + unitGap;
         });
@@ -322,10 +339,13 @@
                 image.src = "Images/EasterEggs/" + filename;
             });
             bandImagesPromise = Promise.all(
-                Object.entries(BAND_CONFIG.images).map(async ([section, files]) =>
-                    [section, await Promise.all(files.map(load))])
+                Object.entries(BAND_CONFIG.images).map(async ([section, file]) =>
+                    [section, await load(file)])
             ).then(entries => {
                 bandImages = Object.fromEntries(entries);
+                return Promise.all(BAND_CONFIG.legs.map(load));
+            }).then(legs => {
+                bandLegs = legs;
                 return bandImages;
             }).catch(error => {
                 bandImagesPromise = null;
