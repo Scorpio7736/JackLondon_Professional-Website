@@ -29,8 +29,10 @@
     left: 0;
     top: 50%;
     display: block;
+    /* This sprite sheet has tall full-band frames. Give the
+       formation its own display width so it stays legible. */
     height: 86px;
-    width: auto;
+    width: clamp(260px, 34vw, 390px);
     max-width: none;
     image-rendering: pixelated;
     pointer-events: none;
@@ -48,7 +50,10 @@
     .app-shell.band-open .app-body {
         height: calc(100vh - var(--topbar-height, 60px) - 76px);
     }
-    .marching-band-sprite { height: 68px; }
+    .marching-band-sprite {
+        height: 68px;
+        width: min(76vw, 280px);
+    }
 }
 @media (prefers-reduced-motion: reduce) {
     .marching-band-bar { transition: none; }
