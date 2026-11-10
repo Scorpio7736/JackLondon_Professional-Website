@@ -210,7 +210,7 @@
 
     function configureBandCanvas() {
         if (!marchingBandCanvas || !bandCellWidth) return;
-        const height = window.matchMedia("(max-width: 700px)").matches ? 68 : 86;
+        const height = window.matchMedia("(max-width: 700px)").matches ? 94 : 124;
         const scale = height / (bandRowHeight * 3);
         bandUnitWidth = bandCellWidth * scale;
         bandFormationWidth = BAND_CONFIG.sectionOrder.length *
@@ -233,7 +233,7 @@
         const context = marchingBandCanvas.getContext("2d");
         if (!context) return;
         const dpr = marchingBandCanvas.height /
-            (window.matchMedia("(max-width: 700px)").matches ? 68 : 86);
+            (window.matchMedia("(max-width: 700px)").matches ? 94 : 124);
         context.setTransform(dpr, 0, 0, dpr, 0, 0);
         context.imageSmoothingEnabled = false;
         const width = marchingBandCanvas.width / dpr;
