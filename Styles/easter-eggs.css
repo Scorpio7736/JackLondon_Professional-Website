@@ -17,15 +17,33 @@
 }
 /* Same expandable stage, but with a cinematic red glow for ILLBEBACK. */
 .marching-band-bar.terminator-mode {
-    background: linear-gradient(#111016, #29212a 70%, #18171d);
+    background:
+        radial-gradient(ellipse at 50% 115%, rgba(185, 39, 24, .4), transparent 65%),
+        linear-gradient(#0b0d14, #292026 80%, #15151b);
     border-color: #b92f3c;
 }
 .marching-band-bar.terminator-mode::before {
-    background: #242126;
-    border-top-color: #75646a;
+    height: 24px;
+    border-top: 0;
+    box-shadow: none;
+    /* Jagged blocks suggest a ruined, ash-covered battlefield. */
+    background:
+        linear-gradient(135deg, transparent 50%, #514a4e 50%) 0 0 / 24px 10px repeat-x,
+        linear-gradient(225deg, transparent 50%, #34343d 50%) 10px 4px / 32px 11px repeat-x,
+        repeating-linear-gradient(90deg, #25252d 0 14px, #1a1b24 14px 30px, #303039 30px 38px);
 }
 .marching-band-bar.terminator-mode::after {
-    background: repeating-linear-gradient(90deg, #ce4950 0 18px, transparent 18px 38px);
+    bottom: 1px;
+    height: 4px;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent 0 11px,
+        #b73528 11px 14px,
+        transparent 14px 45px,
+        #ec693b 45px 49px,
+        transparent 49px 85px
+    );
+    filter: drop-shadow(0 -2px 2px rgba(255, 55, 28, .5));
 }
 /* A low, 8-bit roadway sits behind the marching feet and vehicle wheels. */
 .marching-band-bar::before {
@@ -79,6 +97,8 @@
     .marching-band-bar.active { height: 106px; }
     .marching-band-bar::before { height: 13px; border-top-width: 2px; }
     .marching-band-bar::after { bottom: 3px; height: 2px; }
+    .marching-band-bar.terminator-mode::before { height: 18px; border-top: 0; }
+    .marching-band-bar.terminator-mode::after { bottom: 1px; height: 3px; }
     .marching-band-sprite {
         height: 94px;
         width: auto;
