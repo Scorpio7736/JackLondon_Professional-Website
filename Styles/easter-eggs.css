@@ -7,7 +7,7 @@
     overflow: hidden;
     /* Madison's State Capitol sits behind the On Wisconsin parade. */
     background-color: #1686e7;
-    /* Trees fill the width; a separate feathered layer centers the Capitol. */
+    /* Trees fill the width; the Capitol is a transparent cutout above them. */
     background-image: url("../Images/EasterEggs/UW_MarchingBand_Trees.png");
     background-position: center center;
     background-size: auto 100%;
@@ -29,9 +29,6 @@
     transform: translateX(-50%);
     background: url("../Images/EasterEggs/UW_MarchingBand_Background.png") center / 100% 100% no-repeat;
     image-rendering: pixelated;
-    /* Blend the differing sky/tree pixels without shrinking or stretching the dome. */
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 13%, #000 87%, transparent);
-    mask-image: linear-gradient(to right, transparent, #000 13%, #000 87%, transparent);
     pointer-events: none;
 }
 /* Same expandable stage, but with a cinematic red glow for ILLBEBACK. */
