@@ -1,14 +1,12 @@
 /* On Wisconsin Easter egg only. Loaded after the main layout styles. */
-/* Both availability indicators stay busy through the end-of-egg dialog. */
+/* All availability dots stay busy through the end-of-egg dialog. */
 .easter-egg-busy .status .status-dot,
 .easter-egg-busy .hover-status .status-dot,
-.easter-egg-busy .hover-card-status-dot {
+.easter-egg-busy .hover-card-status-dot,
+.easter-egg-busy .profile-status,
+.easter-egg-busy .home-status-dot {
     background: #f04452;
     box-shadow: 0 0 0 3px rgba(240, 68, 82, 0.16);
-}
-.easter-egg-busy .status .status-text,
-.easter-egg-busy .hover-status-text {
-    color: #ff6b75;
 }
 .marching-band-bar {
     position: relative;
