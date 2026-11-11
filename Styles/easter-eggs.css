@@ -7,10 +7,13 @@
     overflow: hidden;
     /* Madison's State Capitol sits behind the On Wisconsin parade. */
     background-color: #1686e7;
-    background-image: url("../Images/EasterEggs/UW_MarchingBand_Background.png");
-    background-position: center center;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+    /* Keep the Capitol proportional; fill any extra width with trees and road. */
+    background-image:
+        url("../Images/EasterEggs/UW_MarchingBand_Background.png"),
+        url("../Images/EasterEggs/UW_MarchingBand_Trees.png");
+    background-position: center center, center center;
+    background-size: auto 100%, auto 100%;
+    background-repeat: no-repeat, repeat-x;
     border-top: 0 solid var(--accent, #7b83eb);
     border-bottom: 0 solid var(--accent, #7b83eb);
     transition: height 600ms ease-in-out, border-width 600ms ease-in-out;
