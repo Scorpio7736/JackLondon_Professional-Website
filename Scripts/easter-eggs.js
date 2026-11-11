@@ -149,7 +149,14 @@
     let celebrationTimer = null;
     let celebrationOverlay = null;
 
-    function dismissBandCelebration() {
+    function setEasterEggStatus(label = null) {
+        document.body.classList.toggle("easter-egg-busy", Boolean(label));
+        const text = label || "Available";
+        document.querySelectorAll(".status .status-text, .hover-status-text")
+            .forEach(element => { element.textContent = text; });
+    }
+
+    function dismissBandCelebration({ resetStatus = true } = {}) {
         if (celebrationTimer !== null) {
             clearTimeout(celebrationTimer);
             celebrationTimer = null;
@@ -158,10 +165,12 @@
             celebrationOverlay.remove();
             celebrationOverlay = null;
         }
+        if (resetStatus) setEasterEggStatus();
     }
 
     function showBandCelebration(theme = "blue") {
-        dismissBandCelebration();
+        // The busy status persists while the thank-you dialog is visible.
+        dismissBandCelebration({ resetStatus: false });
 
         const overlay = document.createElement("div");
         overlay.className = `band-celebration band-celebration--${theme}`;
@@ -196,13 +205,6 @@
         button.addEventListener("click", dismissBandCelebration);
         dialog.append(heading, detail, button);
         overlay.append(confetti, dialog);
-        overlay.addEventListener("click", event => {
-            if (event.target === overlay) dismissBandCelebration();
-        });
-        const onKeyDown = event => {
-            if (event.key === "Escape") dismissBandCelebration();
-        };
-        overlay.addEventListener("keydown", onKeyDown);
         document.body.appendChild(overlay);
         celebrationOverlay = overlay;
         button.focus();
@@ -443,6 +445,7 @@
         bandAudio = audio;
 
         bandRunning = true;
+        setEasterEggStatus("Marching");
 
         // Commit the collapsed state to layout before toggling active.
         // A newly inserted element otherwise skips its height transition.
@@ -662,6 +665,7 @@
         if (bandCloseTimer !== null) clearTimeout(bandCloseTimer);
         bandCloseTimer = null;
         terminatorRunning = true;
+        setEasterEggStatus("Running for my life");
         terminatorSpeechSpoken = false;
         terminatorVolumeFactor = 1;
         void bar.offsetHeight;
@@ -785,6 +789,7 @@
                 console.warn("Terminator Easter egg could not load:", error);
                 stopTerminatorEgg();
                 stopMarchingBand();
+                setEasterEggStatus();
             });
         }, bandTransitionMs);
     }
@@ -867,6 +872,8 @@
                         celebrationTimer = null;
                         showBandCelebration();
                     }, bandTransitionMs + 80);
+                } else if (!completed) {
+                    setEasterEggStatus();
                 }
 
             }
@@ -1167,6 +1174,7 @@
             }
 
             stopMarchingBand();
+            setEasterEggStatus();
 
         }
 
