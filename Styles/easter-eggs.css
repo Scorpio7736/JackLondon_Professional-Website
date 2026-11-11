@@ -7,13 +7,11 @@
     overflow: hidden;
     /* Madison's State Capitol sits behind the On Wisconsin parade. */
     background-color: #1686e7;
-    /* Keep the Capitol proportional; fill any extra width with trees and road. */
-    background-image:
-        url("../Images/EasterEggs/UW_MarchingBand_Background.png"),
-        url("../Images/EasterEggs/UW_MarchingBand_Trees.png");
-    background-position: center center, center center;
-    background-size: auto 100%, auto 100%;
-    background-repeat: no-repeat, repeat-x;
+    /* Trees fill the width; a separate feathered layer centers the Capitol. */
+    background-image: url("../Images/EasterEggs/UW_MarchingBand_Trees.png");
+    background-position: center center;
+    background-size: auto 100%;
+    background-repeat: repeat-x;
     border-top: 0 solid var(--accent, #7b83eb);
     border-bottom: 0 solid var(--accent, #7b83eb);
     transition: height 600ms ease-in-out, border-width 600ms ease-in-out;
@@ -23,12 +21,28 @@
     border-top-width: 1px;
     border-bottom-width: 1px;
 }
+.marching-band-capitol {
+    position: absolute;
+    inset: 0 auto 0 50%;
+    width: auto;
+    aspect-ratio: 2172 / 724;
+    transform: translateX(-50%);
+    background: url("../Images/EasterEggs/UW_MarchingBand_Background.png") center / 100% 100% no-repeat;
+    image-rendering: pixelated;
+    /* Blend the differing sky/tree pixels without shrinking or stretching the dome. */
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 13%, #000 87%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 13%, #000 87%, transparent);
+    pointer-events: none;
+}
 /* Same expandable stage, but with a cinematic red glow for ILLBEBACK. */
 .marching-band-bar.terminator-mode {
     background:
         radial-gradient(ellipse at 50% 115%, rgba(197, 72, 32, .42), transparent 70%),
         linear-gradient(#17151b, #3a3030 80%, #4a3c33);
     border-color: #b92f3c;
+}
+.marching-band-bar.terminator-mode .marching-band-capitol {
+    display: none;
 }
 .marching-band-bar.terminator-mode::before {
     height: 36px;

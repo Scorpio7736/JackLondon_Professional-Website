@@ -245,6 +245,10 @@
             "true"
         );
 
+        const capitolBackground = document.createElement("div");
+        capitolBackground.className = "marching-band-capitol";
+        bar.appendChild(capitolBackground);
+
 
         /* CREATE SPRITE CANVAS */
 
