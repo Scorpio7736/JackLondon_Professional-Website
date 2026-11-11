@@ -585,6 +585,14 @@
    RESPONSIVE - 750PX
    ========================================= */
 
+/* Give the shorter Home page room to settle on its final tab without
+   restoring the oversized scroll runway used on every portfolio page. */
+@media (min-width: 751px) {
+    .page-view[data-page="home"].active {
+        padding-bottom: clamp(120px, 22dvh, 220px);
+    }
+}
+
 @media (max-width: 750px) {
 
     .home-now-grid {
