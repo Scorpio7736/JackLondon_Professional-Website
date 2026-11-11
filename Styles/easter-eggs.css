@@ -108,6 +108,10 @@
     image-rendering: pixelated;
     pointer-events: none;
 }
+/* Place the parade feet and car tires on the road, not the sidewalk. */
+.marching-band-bar:not(.terminator-mode) .marching-band-sprite {
+    top: 12px;
+}
 @media (max-width: 700px) {
     .marching-band-bar.active { height: 106px; }
     .marching-band-bar::before { height: 13px; border-top-width: 2px; }
