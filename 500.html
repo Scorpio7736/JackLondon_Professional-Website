@@ -16,7 +16,7 @@
         }
     </script>
     <link rel="icon" href="Images/Icons/Headshot_ICON.png" type="image/png">
-    <link rel="stylesheet" href="Styles/error-pages.css?v=3">
+    <link rel="stylesheet" href="Styles/error-pages.css?v=4">
 </head>
 <body>
 <div class="app-shell">
@@ -25,23 +25,14 @@
         <div class="status"><span class="status-dot" aria-hidden="true"></span><span>Available</span></div>
     </header>
     <div class="app-body">
-        <aside class="sidebar" aria-label="Portfolio navigation">
-            <div class="profile-section">
-                <div class="profile-image-wrapper"><img class="profile-image" src="Images/Icons/Headshot_ICON.png" alt="" width="48" height="48"><span class="profile-status" aria-hidden="true"></span></div>
-                <div class="profile-info"><h2>Jack London</h2><p>Software Engineering</p></div>
-            </div>
+        <aside class="sidebar" aria-label="Error status">
+            <div class="error-sidebar-label">SYSTEM</div>
             <div class="sidebar-divider"></div>
-            <nav class="sidebar-nav" aria-label="Main sections">
-                <a class="nav-item" href="index.html"><span class="nav-icon">&lt;/&gt;</span><span>Home</span></a>
-                <a class="nav-item" href="index.html#skills"><span class="nav-icon">{ }</span><span>Skills</span></a>
-                <a class="nav-item" href="index.html#experience"><span class="nav-icon">▣</span><span>Experience</span></a>
-                <a class="nav-item" href="index.html#projects"><span class="nav-icon">⌘</span><span>Projects</span></a>
-                <a class="nav-item" href="index.html#education"><span class="nav-icon">▤</span><span>Education</span></a>
-                <a class="nav-item" href="index.html#activities"><span class="nav-icon">◎</span><span>Activities</span></a>
-            </nav>
-            <div class="sidebar-bottom">
-                <a class="nav-item" href="https://github.com/Scorpio7736/" target="_blank" rel="noopener noreferrer"><span class="nav-icon">GH</span><span>GitHub</span></a>
-                <a class="nav-item" href="https://linkedin.com/in/jack-london-8a4001220" target="_blank" rel="noopener noreferrer"><span class="nav-icon">in</span><span>LinkedIn</span></a>
+            <div class="sidebar-nav">
+                <div class="nav-item active" aria-current="page">
+                    <span class="nav-icon" aria-hidden="true">!</span>
+                    <span>Error 500</span>
+                </div>
             </div>
         </aside>
         <main class="workspace" aria-labelledby="error-title">
@@ -49,10 +40,9 @@
                 <div><span class="workspace-path">Portfolio / System / 500</span><h1>Server Error</h1></div>
                 <span class="workspace-tag">HTTP 500</span>
             </header>
-            <nav class="workspace-tabs" aria-label="Error page navigation">
-                <a class="workspace-tab active" href="500.html" aria-current="page">Error Details</a>
-                <a class="workspace-tab" href="index.html">Portfolio Home</a>
-            </nav>
+            <div class="workspace-tabs" aria-label="Current section">
+                <span class="workspace-tab active">Error Details</span>
+            </div>
             <div class="workspace-content">
                 <div class="error-grid">
                     <section class="content-card error-hero" aria-labelledby="error-title">
@@ -66,15 +56,7 @@
                             <button class="action" id="go-back" type="button">Go Back</button>
                         </div>
                     </section>
-                    <aside class="content-card info-card" aria-label="Helpful links">
-                        <span class="info-label">WHAT'S NEXT</span>
-                        <h3>Keep exploring</h3>
-                        <p>This page isn't where you meant to land, but the rest of my portfolio is just a click away.</p>
-                        <a class="info-link" href="index.html">⌂ &nbsp; Back to Home</a>
-                        <a class="info-link" href="index.html#projects">⌘ &nbsp; Explore Projects</a>
-                        <a class="info-link" href="index.html#experience">▣ &nbsp; View Experience</a>
-                        <p class="info-note">This is a custom error-page preview. Server-level errors depend on hosting support.</p>
-                    </aside>
+
                 </div>
             </div>
         </main>
