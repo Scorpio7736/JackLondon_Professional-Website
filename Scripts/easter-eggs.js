@@ -1067,6 +1067,7 @@
         stopTerminatorEgg();
         stopMarchingBand();
 
+        let run = null;
         // Do not open an empty dropdown while the first-load images arrive.
         // Only the most recently requested run can start after preloading.
         const requestId = ++bondRequestId;
@@ -1091,7 +1092,7 @@
             const canvas = document.createElement("canvas");
             canvas.className = "bond-strip-sprite";
             bar.appendChild(canvas);
-            const run = {
+            run = {
                 bar, canvas, frame: null, holdTimer: null,
                 started: 0, images
             };
