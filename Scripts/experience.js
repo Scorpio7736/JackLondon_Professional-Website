@@ -77,6 +77,8 @@ const experiences = [
         company:
             "UW–Green Bay UREC Outdoors",
 
+        glossaryTerms: ["top-rope belay"],
+
         position:
             "Lead Supervisor — Climbing Tower",
 
@@ -388,161 +390,6 @@ const experiences = [
     }
 
 ];
-
-
-/* =========================================
-   EXPERIENCE GLOSSARY
-   Reusable definitions for inline technical terms.
-   ========================================= */
-
-const experienceGlossary = {
-    "FHIR API": {
-        title: "FHIR API",
-        definition: "Fast Healthcare Interoperability Resources (FHIR) is an HL7 standard for exchanging healthcare information. A FHIR API lets applications request and share that information using standardized web interfaces."
-    },
-    "Papercut Avengers": {
-        title: "Papercut Avengers",
-        definition: "An internal Sun Life DentaQuest team focused on reducing repetitive work through automation, improving existing tools and applications, and making complex workflows more efficient so employees can focus on higher-value tasks."
-    },
-    "Utilization Management": {
-        title: "Utilization Management (UM)",
-        definition: "A healthcare process for reviewing whether services meet clinical and coverage requirements, including medical necessity and prior authorization."
-    },
-    "Provider Directory Explorer": {
-        title: "Provider Directory Explorer",
-        definition: "An internal FHIR tool used by QA testers to browse, search, and look up provider-related healthcare resources. I helped refactor its interface and add more targeted search capabilities."
-    }
-};
-
-let activeExperienceGlossary = null;
-
-function hideExperienceGlossary() {
-    if (!activeExperienceGlossary) {
-        return;
-    }
-
-    activeExperienceGlossary.trigger.setAttribute("aria-expanded", "false");
-    activeExperienceGlossary.trigger.removeAttribute("aria-describedby");
-    activeExperienceGlossary.tooltip.remove();
-    activeExperienceGlossary = null;
-}
-
-function showExperienceGlossary(trigger, entry) {
-    if (activeExperienceGlossary?.trigger === trigger) {
-        return;
-    }
-
-    hideExperienceGlossary();
-
-    const tooltip = document.createElement("div");
-    tooltip.className = "experience-glossary-tooltip";
-    tooltip.setAttribute("role", "tooltip");
-    tooltip.id = "experience-glossary-active";
-
-    const title = document.createElement("strong");
-    title.textContent = entry.title;
-    const definition = document.createElement("span");
-    definition.textContent = entry.definition;
-
-    tooltip.append(title, definition);
-    document.body.appendChild(tooltip);
-
-    trigger.setAttribute("aria-expanded", "true");
-    trigger.setAttribute("aria-describedby", tooltip.id);
-    activeExperienceGlossary = { trigger, tooltip };
-
-    const rect = trigger.getBoundingClientRect();
-    const width = tooltip.offsetWidth;
-    const height = tooltip.offsetHeight;
-    const margin = 12;
-    const left = Math.max(margin, Math.min(
-        rect.left + rect.width / 2 - width / 2,
-        window.innerWidth - width - margin
-    ));
-    const above = rect.top >= height + margin + 8;
-    tooltip.style.left = left + "px";
-    tooltip.style.top = (above
-        ? rect.top - height - 8
-        : Math.min(rect.bottom + 8, window.innerHeight - height - margin)
-    ) + "px";
-}
-
-function appendExperienceGlossaryText(container, text, terms) {
-    if (!terms.length) {
-        container.textContent = text;
-        return;
-    }
-
-    const fragments = [];
-    let remaining = text;
-
-    while (remaining.length) {
-        let nextIndex = -1;
-        let nextTerm = null;
-
-        terms.forEach(term => {
-            const index = remaining.indexOf(term);
-            if (index >= 0 && (nextIndex === -1 || index < nextIndex)) {
-                nextIndex = index;
-                nextTerm = term;
-            }
-        });
-
-        if (nextIndex === -1) {
-            fragments.push(remaining);
-            break;
-        }
-
-        if (nextIndex > 0) {
-            fragments.push(remaining.slice(0, nextIndex));
-        }
-
-        fragments.push(nextTerm);
-        remaining = remaining.slice(nextIndex + nextTerm.length);
-    }
-
-    fragments.forEach(fragment => {
-        const entry = experienceGlossary[fragment];
-        if (!entry || !terms.includes(fragment)) {
-            container.appendChild(document.createTextNode(fragment));
-            return;
-        }
-
-        const trigger = document.createElement("button");
-        trigger.type = "button";
-        trigger.className = "experience-glossary-trigger";
-        trigger.textContent = fragment;
-        trigger.setAttribute("aria-label", fragment + ": show definition");
-        trigger.setAttribute("aria-expanded", "false");
-        trigger.setAttribute("aria-haspopup", "true");
-
-        trigger.addEventListener("mouseenter", () => showExperienceGlossary(trigger, entry));
-        trigger.addEventListener("mouseleave", () => {
-            if (document.activeElement !== trigger) hideExperienceGlossary();
-        });
-        trigger.addEventListener("focus", () => showExperienceGlossary(trigger, entry));
-        trigger.addEventListener("blur", () => hideExperienceGlossary());
-        trigger.addEventListener("click", () => {
-            // Focus may already have opened it; keep it visible after a tap.
-            showExperienceGlossary(trigger, entry);
-        });
-
-        container.appendChild(trigger);
-    });
-}
-
-document.addEventListener("keydown", event => {
-    if (event.key === "Escape") hideExperienceGlossary();
-});
-document.addEventListener("pointerdown", event => {
-    if (activeExperienceGlossary &&
-        !activeExperienceGlossary.trigger.contains(event.target) &&
-        !activeExperienceGlossary.tooltip.contains(event.target)) {
-        hideExperienceGlossary();
-    }
-});
-window.addEventListener("resize", hideExperienceGlossary);
-window.addEventListener("scroll", hideExperienceGlossary, true);
 
 
 /* =========================================
@@ -1001,7 +848,7 @@ function buildExperience(
                 );
 
 
-            appendExperienceGlossaryText(
+            appendGlossaryText(
                 listItem,
                 responsibility,
                 experience.glossaryTerms || []
