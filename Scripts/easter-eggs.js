@@ -1366,6 +1366,35 @@
                     }
                     barrelCtx.restore();
                 }
+
+                // Reveal the thank-you over the completed blood curtain.
+                // Use the same cream as the gunbarrel's circular background.
+                const thanksProgress = Math.max(0, Math.min(1,
+                    (shotElapsed - BOND_RED_WASH_DURATION) / 900));
+                if (thanksProgress > 0) {
+                    barrelCtx.save();
+                    barrelCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                    const message = "Thanks for finding my Easter egg!";
+                    const maxTextWidth = Math.max(1, width - 32);
+                    let fontSize = Math.min(30, overlayHeight * 0.28);
+                    barrelCtx.font = "bold " + fontSize +
+                        "px Georgia, serif";
+                    while (barrelCtx.measureText(message).width > maxTextWidth &&
+                        fontSize > 12) {
+                        fontSize--;
+                        barrelCtx.font = "bold " + fontSize +
+                            "px Georgia, serif";
+                    }
+                    barrelCtx.globalAlpha = thanksProgress * thanksProgress *
+                        (3 - 2 * thanksProgress);
+                    barrelCtx.fillStyle = "#f5ebd5";
+                    barrelCtx.textAlign = "center";
+                    barrelCtx.textBaseline = "middle";
+                    barrelCtx.shadowColor = "rgba(20,0,0,0.65)";
+                    barrelCtx.shadowBlur = 7;
+                    barrelCtx.fillText(message, width / 2, overlayHeight / 2);
+                    barrelCtx.restore();
+                }
             }
 
             // Keep the last frame until the MP3's ended event.
