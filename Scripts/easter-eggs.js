@@ -980,26 +980,48 @@
     const BOND_HOLD_DURATION = 5000;
     const BOND_WALK_FRAME_DURATION = 150;
     let bondFramesPromise = null;
+    let bondRequestId = 0;
 
     function loadBondFrames() {
         if (!bondFramesPromise) {
-            bondFramesPromise = Promise.all(
-                BOND_FRAME_PATHS.map(src => new Promise((resolve, reject) => {
-                    const frame = new Image();
-                    frame.decoding = "async";
-                    frame.onload = () => resolve(frame);
-                    frame.onerror = () => reject(new Error("MI6 frame missing: " + src));
-                    frame.src = src;
-                }))
-            ).catch(error => {
-                bondFramesPromise = null;
-                throw error;
+            // Start loading early and retry a transient network/cache failure once.
+            const loadFrame = (src, attempt = 0) => new Promise((resolve, reject) => {
+                const frame = new Image();
+                frame.decoding = "async";
+                frame.onload = () => resolve(frame);
+                frame.onerror = () => {
+                    if (attempt < 1) {
+                        loadFrame(src + (src.includes("?") ? "&" : "?") +
+                            "retry=1", attempt + 1).then(resolve, reject);
+                    } else {
+                        reject(new Error("MI6 frame failed to load: " + src));
+                    }
+                };
+                frame.src = src;
             });
+            bondFramesPromise = Promise.all(BOND_FRAME_PATHS.map(src => loadFrame(src)))
+                .catch(error => {
+                    bondFramesPromise = null;
+                    throw error;
+                });
         }
         return bondFramesPromise;
     }
 
+    // Warm the small sprite assets before the first MI6 trigger.
+    // Failures are retried on the next activation rather than being cached.
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+            loadBondFrames().catch(error =>
+                console.warn("MI6 preload:", error.message));
+        }, { once: true });
+    } else {
+        loadBondFrames().catch(error =>
+            console.warn("MI6 preload:", error.message));
+    }
+
     function stopBondEgg({ closeStrip = true } = {}) {
+        ++bondRequestId;
         if (bondCloseTimer !== null) {
             clearTimeout(bondCloseTimer);
             bondCloseTimer = null;
@@ -1045,43 +1067,48 @@
         stopTerminatorEgg();
         stopMarchingBand();
 
-        const bar = createMarchingBand();
-        if (!bar) return;
-        if (bandCloseTimer !== null) {
-            clearTimeout(bandCloseTimer);
-            bandCloseTimer = null;
-        }
-
-        bar.classList.remove("terminator-mode");
-        bar.classList.add("bond-mode");
-        const canvas = document.createElement("canvas");
-        canvas.className = "bond-strip-sprite";
-        bar.appendChild(canvas);
-
-        const run = { bar, canvas, frame: null, holdTimer: null, started: 0, images: null };
-        bondRun = run;
-        setEasterEggStatus("Secret Agent");
-
-        // Use the exact same expanding top-bar strip as the other eggs.
-        void bar.offsetHeight;
-        bar.classList.add("active");
-        document.querySelector(".app-shell")?.classList.add("band-open");
-
+        // Do not open an empty dropdown while the first-load images arrive.
+        // Only the most recently requested run can start after preloading.
+        const requestId = ++bondRequestId;
         loadBondFrames().then(images => {
-            if (bondRun !== run) return;
-            run.images = images;
-            // Begin after the strip has expanded, not while it is opening.
+            if (requestId !== bondRequestId) return;
+            openBondStrip(images);
+        }).catch(error => {
+            if (requestId !== bondRequestId) return;
+            console.warn("MI6 could not initialize:", error);
+            setEasterEggStatus();
+        });
+
+        function openBondStrip(images) {
+            const bar = createMarchingBand();
+            if (!bar) return;
+            if (bandCloseTimer !== null) {
+                clearTimeout(bandCloseTimer);
+                bandCloseTimer = null;
+            }
+            bar.classList.remove("terminator-mode");
+            bar.classList.add("bond-mode");
+            const canvas = document.createElement("canvas");
+            canvas.className = "bond-strip-sprite";
+            bar.appendChild(canvas);
+            const run = {
+                bar, canvas, frame: null, holdTimer: null,
+                started: 0, images
+            };
+            bondRun = run;
+            setEasterEggStatus("Secret Agent");
+            void bar.offsetHeight;
+            bar.classList.add("active");
+            document.querySelector(".app-shell")?.classList.add("band-open");
+
+            // Opening and playback share a single clock after assets are ready.
             run.holdTimer = setTimeout(() => {
                 if (bondRun !== run) return;
                 run.holdTimer = null;
                 run.started = performance.now();
                 run.frame = requestAnimationFrame(draw);
             }, bandTransitionMs);
-        }).catch(error => {
-            if (bondRun !== run) return;
-            console.warn(error);
-            stopBondEgg();
-        });
+        }
 
         function draw(now) {
             if (bondRun !== run || !run.images) return;
