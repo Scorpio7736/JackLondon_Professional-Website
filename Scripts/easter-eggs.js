@@ -1273,8 +1273,19 @@
                     barrelCtx.clip("evenodd");
                     barrelCtx.rotate(rotation);
                     barrelCtx.imageSmoothingEnabled = false;
-                    barrelCtx.drawImage(run.barrelImage,
-                        -drawW * 0.50, -drawH * 0.50, drawW, drawH);
+                    // Build a truly symmetrical spiral from the existing
+                    // RIGHT HALF of the barrel asset. Mirror it onto the left.
+                    const source = run.barrelImage;
+                    const halfWidth = source.naturalWidth / 2;
+                    barrelCtx.drawImage(source,
+                        halfWidth, 0, halfWidth, source.naturalHeight,
+                        0, -drawH / 2, drawW / 2, drawH);
+                    barrelCtx.save();
+                    barrelCtx.scale(-1, 1);
+                    barrelCtx.drawImage(source,
+                        halfWidth, 0, halfWidth, source.naturalHeight,
+                        0, -drawH / 2, drawW / 2, drawH);
+                    barrelCtx.restore();
                     barrelCtx.restore();
                 }
             }
