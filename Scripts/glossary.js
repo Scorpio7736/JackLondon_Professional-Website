@@ -94,22 +94,9 @@ function openPortfolioGlossary(trigger, entry) {
     tooltip.style.left = x + "px";
     tooltip.style.top = y + "px";
 
-    // Animate after the tooltip has been measured and positioned.
-    // This starts a new animation on every open, including repeated hovers.
-    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (!reduceMotion && typeof tooltip.animate === "function") {
-        tooltip.animate(
-            [
-                { opacity: 0, transform: "translateY(12px) scale(0.94)" },
-                { opacity: 1, transform: "translateY(0) scale(1)" }
-            ],
-            {
-                duration: 280,
-                easing: "cubic-bezier(0.16, 1, 0.3, 1)",
-                fill: "both"
-            }
-        );
-    }
+    // The shared stylesheet animates each newly inserted tooltip.
+    // Keeping animation in CSS avoids competing Web Animations effects.
+
 }
 
 function appendGlossaryText(container, sourceText, termNames = []) {
