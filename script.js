@@ -1267,7 +1267,15 @@ buildCertifications();
    OPEN INITIAL PAGE
    ========================================= */
 
+const initialPage = window.location.hash.slice(1).toLowerCase();
 openPage(
-    "home",
+    Object.prototype.hasOwnProperty.call(pageConfig, initialPage) ? initialPage : "home",
     false
 );
+
+window.addEventListener("hashchange", () => {
+    const page = window.location.hash.slice(1).toLowerCase();
+    if (Object.prototype.hasOwnProperty.call(pageConfig, page)) {
+        openPage(page, false);
+    }
+});
