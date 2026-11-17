@@ -972,9 +972,12 @@
     const BOND_WALK_FRAME_COUNT = 7; // 01-07: profile walk
     // 08-14: turn to camera, raise arm and point. Last frame holds the aim.
     const BOND_TURN_FRAMES = [7, 8, 9, 10, 11, 12, 13];
-    const BOND_WALK_DURATION = 3600;
-    const BOND_TURN_DURATION = 1100;
+    // Gun-barrel-style pacing: measured reference video was not accessible,
+    // so these are adjustable estimates (milliseconds).
+    const BOND_WALK_DURATION = 2750;
+    const BOND_TURN_DURATION = 600;
     const BOND_HOLD_DURATION = 5000;
+    const BOND_WALK_FRAME_DURATION = 150;
     let bondFramesPromise = null;
 
     function loadBondFrames() {
@@ -1083,7 +1086,7 @@
             const walking = elapsed < BOND_WALK_DURATION;
             const turning = elapsed < BOND_WALK_DURATION + BOND_TURN_DURATION;
             const frameIndex = walking
-                ? Math.floor(elapsed / 125) % BOND_WALK_FRAME_COUNT
+                ? Math.floor(elapsed / BOND_WALK_FRAME_DURATION) % BOND_WALK_FRAME_COUNT
                 : turning
                     ? BOND_TURN_FRAMES[Math.min(
                         BOND_TURN_FRAMES.length - 1,
