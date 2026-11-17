@@ -175,7 +175,7 @@
         if (resetStatus) setEasterEggStatus();
     }
 
-    function showBandCelebration(theme = "blue") {
+    function showBandCelebration(theme = "blue", options = {}) {
         // The busy status persists while the thank-you dialog is visible.
         dismissBandCelebration({ resetStatus: false });
 
@@ -210,6 +210,18 @@
         button.type = "button";
         button.textContent = "Keep exploring";
         button.addEventListener("click", dismissBandCelebration);
+        // Optional photo: each Easter egg can supply its own image and alt text.
+        // A missing image does not interrupt the completion message.
+        if (options.image) {
+            const photo = document.createElement("img");
+            photo.className = "band-celebration-photo";
+            photo.src = options.image;
+            photo.alt = options.imageAlt || "";
+            photo.loading = "lazy";
+            photo.addEventListener("error", () => photo.remove(), { once: true });
+            dialog.appendChild(photo);
+        }
+
         dialog.append(heading, detail, button);
         overlay.append(confetti, dialog);
         document.body.appendChild(overlay);
@@ -877,7 +889,10 @@
                     // Let the bar finish retracting before celebrating.
                     celebrationTimer = setTimeout(() => {
                         celebrationTimer = null;
-                        showBandCelebration();
+                        showBandCelebration("blue", {
+                            image: "Images/EasterEggs/Jack_Trombone.png",
+                            imageAlt: "Jack playing trombone"
+                        });
                     }, bandTransitionMs + 80);
                 } else if (!completed) {
                     setEasterEggStatus();
