@@ -824,6 +824,7 @@
 
         dismissBandCelebration();
         stopTerminatorEgg();
+        stopBondEgg();
 
         /* CANCEL ANY PENDING OPENING / PLAYBACK */
 
@@ -962,65 +963,66 @@
        MI6-007 — DROP-DOWN SECRET AGENT
        ===================================== */
 
-    // Combined walk-and-turn sheet. Crop each character from its actual pixels.
+    // Fixed crop boxes for the combined 2048x682 pixel-art source.
+    // Unlike equal-width sheet slicing, each canvas contains one full pose.
     const BOND_SPRITE = "Images/EasterEggs/Bond_Sprite_Full.png";
+    const BOND_SOURCE_WIDTH = 2048;
+    const BOND_SOURCE_HEIGHT = 682;
+    const BOND_SOURCE_BOXES = [
+        [32, 120, 284, 547],
+        [331, 120, 496, 547],
+        [559, 120, 711, 547],
+        [773, 120, 923, 547],
+        [984, 120, 1145, 547],
+        [1194, 120, 1371, 547],
+        [1415, 120, 1595, 547],
+        [1627, 120, 1805, 547],
+        [1825, 120, 2035, 547]
+    ];
+    const BOND_WALK_FRAME_COUNT = 4;
+    const BOND_FINAL_FRAME_INDEX = 4;
+    let bondFramesPromise = null;
 
-    function detectBondFrames(image) {
-        // The uploaded combined sprite sheet has separate, non-uniform frames.
-        // Detect occupied columns; if this fails, use equal-width cells instead
-        // of cancelling the entire animation.
-        const width = image.naturalWidth, height = image.naturalHeight;
-        const fallback = () => Array.from({ length: 9 }, (_, i) => ({
-            x: Math.floor(i * width / 9),
-            y: 0,
-            width: Math.ceil((i + 1) * width / 9) -
-                Math.floor(i * width / 9),
-            height
-        }));
-        try {
-            const scan = document.createElement("canvas");
-            scan.width = width;
-            scan.height = height;
-            const ctx = scan.getContext("2d", { willReadFrequently: true });
-            if (!ctx) return fallback();
-            ctx.drawImage(image, 0, 0);
-            const rgba = ctx.getImageData(0, 0, width, height).data;
-            const occupied = new Uint8Array(width);
-            for (let y = 0; y < height; y += 3) {
-                for (let x = 0; x < width; x++) {
-                    const p = (y * width + x) * 4;
-                    if (rgba[p + 3] > 90 &&
-                        Math.max(rgba[p], rgba[p + 1], rgba[p + 2]) > 50) {
-                        occupied[x] = 1;
-                    }
+    function loadBondFrames() {
+        if (bondFramesPromise) return bondFramesPromise;
+        bondFramesPromise = new Promise((resolve, reject) => {
+            const sheet = new Image();
+            sheet.decoding = "async";
+            sheet.onload = () => {
+                try {
+                    const scaleX = sheet.naturalWidth / BOND_SOURCE_WIDTH;
+                    const scaleY = sheet.naturalHeight / BOND_SOURCE_HEIGHT;
+                    const frames = BOND_SOURCE_BOXES.map(([l, t, r, b]) => {
+                        const sw = Math.max(1, Math.round((r - l) * scaleX));
+                        const sh = Math.max(1, Math.round((b - t) * scaleY));
+                        const frame = document.createElement("canvas");
+                        // Same dimensions, feet baseline, and transparent padding
+                        // for every animation frame.
+                        frame.width = Math.round(264 * scaleX);
+                        frame.height = Math.round(438 * scaleY);
+                        const ctx = frame.getContext("2d");
+                        if (!ctx) throw new Error("Unable to create sprite canvas");
+                        ctx.imageSmoothingEnabled = false;
+                        ctx.drawImage(sheet,
+                            Math.round(l * scaleX), Math.round(t * scaleY),
+                            sw, sh,
+                            Math.round((frame.width - sw) / 2),
+                            frame.height - sh - Math.round(7 * scaleY),
+                            sw, sh);
+                        return frame;
+                    });
+                    resolve(frames);
+                } catch (error) {
+                    reject(error);
                 }
-            }
-            const intervals = [];
-            let left = -1, last = -1;
-            for (let x = 0; x <= width; x++) {
-                if (x < width && occupied[x]) {
-                    if (left < 0) left = x;
-                    last = x;
-                } else if (left >= 0 && (x === width || x - last > 12)) {
-                    if (last - left >= 24) intervals.push([left, last + 1]);
-                    left = -1;
-                }
-            }
-            if (intervals.length < 5 || intervals.length > 20) {
-                console.warn("MI6: using equal-cell sprite fallback",
-                    intervals.length);
-                return fallback();
-            }
-            return intervals.map(([start, end]) => ({
-                x: Math.max(0, start - 5),
-                y: 0,
-                width: Math.min(width, end + 5) - Math.max(0, start - 5),
-                height
-            }));
-        } catch (error) {
-            console.warn("MI6: sprite scan failed; using fallback", error);
-            return fallback();
-        }
+            };
+            sheet.onerror = () => reject(new Error("Missing MI6 sprite: " + BOND_SPRITE));
+            sheet.src = BOND_SPRITE;
+        }).catch(error => {
+            bondFramesPromise = null;
+            throw error;
+        });
+        return bondFramesPromise;
     }
 
     function stopBondEgg({ closeStrip = true } = {}) {
@@ -1070,22 +1072,16 @@
         bar.classList.add("active");
         document.querySelector(".app-shell")?.classList.add("band-open");
 
-        const image = new Image();
-        image.decoding = "async";
-        image.onload = () => {
+        loadBondFrames().then(frames => {
             if (bondRun !== run) return;
-            run.image = image;
-            run.frames = detectBondFrames(image);
-            if (!run.frames.length) { stopBondEgg(); return; }
+            run.images = frames;
             run.started = performance.now();
             run.frame = requestAnimationFrame(draw);
-        };
-        image.onerror = () => {
+        }).catch(error => {
             if (bondRun !== run) return;
-            console.warn("MI6 sprite missing: " + BOND_SPRITE);
+            console.warn(error);
             stopBondEgg();
-        };
-        image.src = BOND_SPRITE;
+        });
 
         function draw(now) {
             if (bondRun !== run) return;
@@ -1101,30 +1097,18 @@
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             ctx.imageSmoothingEnabled = false;
 
-            const walkSeconds = 3.5;
-            const turnSeconds = 0.9;
-            // The first half is left-facing walking; the next few frames
-            // turn to the camera. Stop BEFORE the pointing sequence.
-            const count = run.frames.length;
-            // Combined sheet begins with side-profile walking frames,
-            // then a front-facing neutral pose before the arm is raised.
-            const walkFrames = Math.max(2, Math.min(4, count - 2));
-            const facingFrame = Math.min(count - 1, walkFrames);
+            const walkSeconds = 3.2;
+            const turnSeconds = 0.45;
             const walkProgress = Math.min(1, elapsed / walkSeconds);
             const frameIndex = elapsed < walkSeconds
-                ? Math.floor(elapsed * 8) % walkFrames
-                : Math.min(facingFrame, walkFrames +
-                    Math.floor((elapsed - walkSeconds) / turnSeconds *
-                        (facingFrame - walkFrames + 1)));
-            const sprite = run.frames[frameIndex];
-            // Draw the entire cell (including padding) so no head, arms, or
-            // legs are cropped when the pose extends past its center.
-            const spriteHeight = height * 1.20;
+                ? Math.floor(elapsed * 7) % BOND_WALK_FRAME_COUNT
+                : BOND_FINAL_FRAME_INDEX;
+            const sprite = run.images[frameIndex];
+            const spriteHeight = height * 0.92;
             const spriteWidth = sprite.width / sprite.height * spriteHeight;
-            // Start fully off-screen at the right and finish exactly in center.
             const startX = width + spriteWidth / 2;
             const x = startX + (width / 2 - startX) * walkProgress;
-            ctx.drawImage(image, sprite.x, sprite.y, sprite.width, sprite.height,
+            ctx.drawImage(sprite,
                 Math.round(x - spriteWidth / 2),
                 Math.round((height - spriteHeight) / 2),
                 Math.round(spriteWidth), Math.round(spriteHeight));
