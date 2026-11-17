@@ -966,13 +966,14 @@
     /* =====================================
        MI6-007: separate transparent sprite files
        ===================================== */
-    const BOND_FRAME_PATHS = Array.from({ length: 9 }, (_, i) =>
+    const BOND_FRAME_PATHS = Array.from({ length: 14 }, (_, i) =>
         "Images/EasterEggs/Bond_Frame_" + String(i + 1).padStart(2, "0") + ".png"
     );
     const BOND_WALK_FRAME_COUNT = 7; // 01-07: profile walk
-    const BOND_TURN_FRAMES = [7, 8]; // 08-09: face camera
+    // 08-14: turn to camera, raise arm and point. Last frame holds the aim.
+    const BOND_TURN_FRAMES = [7, 8, 9, 10, 11, 12, 13];
     const BOND_WALK_DURATION = 3600;
-    const BOND_TURN_DURATION = 550;
+    const BOND_TURN_DURATION = 1100;
     const BOND_HOLD_DURATION = 5000;
     let bondFramesPromise = null;
 
@@ -1089,7 +1090,7 @@
                         Math.floor((elapsed - BOND_WALK_DURATION) /
                             (BOND_TURN_DURATION / BOND_TURN_FRAMES.length))
                     )]
-                    : BOND_TURN_FRAMES[BOND_TURN_FRAMES.length - 1];
+                    : BOND_TURN_FRAMES[BOND_TURN_FRAMES.length - 1]; // pointing pose
             const sprite = run.images[frameIndex];
             // All transparent PNGs share dimensions and a common baseline.
             const spriteHeight = height * 0.92;
