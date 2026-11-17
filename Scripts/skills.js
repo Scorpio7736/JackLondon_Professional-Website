@@ -646,7 +646,7 @@ function buildSkillCards(
             appendGlossaryText(
                 title,
                 skill.name,
-                ["WPF", "XAML", "JavaFX"]
+                ["WPF", "XAML"]
             );
 
 
