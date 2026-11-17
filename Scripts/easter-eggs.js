@@ -963,9 +963,23 @@
        MI6-007 — DROP-DOWN SECRET AGENT
        ===================================== */
 
-    /* MI6-007 renderer v4: isolate frames from the ACTUAL loaded asset.
-       Uses opaque/color pixels and preserves a uniform foot baseline. */
-    const BOND_SPRITE = "Images/EasterEggs/Bond_Sprite_Full.png?v=mi6-4";
+    /* MI6-007 renderer v5. No getImageData/readback: compatible with
+       cross-origin image URLs that are allowed to be drawn on a canvas. */
+    const BOND_SPRITE = "Images/EasterEggs/Bond_Sprite_Full.png?v=mi6-5";
+    const BOND_SOURCE_WIDTH = 2048;
+    const BOND_SOURCE_HEIGHT = 682;
+    // Measured on the provided nine-pose sprite sheet, not evenly sliced.
+    const BOND_SOURCE_FRAMES = [
+        [32, 120, 284, 547],
+        [331, 120, 496, 547],
+        [559, 120, 711, 547],
+        [773, 120, 923, 547],
+        [984, 120, 1145, 547],
+        [1194, 120, 1371, 547],
+        [1415, 120, 1595, 547],
+        [1627, 120, 1805, 547],
+        [1825, 120, 2035, 547]
+    ];
     let bondFramesPromise = null;
 
     function loadBondFrames() {
@@ -974,64 +988,22 @@
             const sheet = new Image();
             sheet.decoding = "async";
             sheet.onload = () => {
-                try {
-                    const w = sheet.naturalWidth, h = sheet.naturalHeight;
-                    const scan = document.createElement("canvas");
-                    scan.width = w; scan.height = h;
-                    const ctx = scan.getContext("2d", { willReadFrequently: true });
-                    if (!ctx) throw new Error("MI6: canvas context unavailable");
-                    ctx.drawImage(sheet, 0, 0);
-                    const pixels = ctx.getImageData(0, 0, w, h).data;
-                    const occupied = new Uint8Array(w);
-                    let top = h, bottom = 0;
-                    for (let y = 0; y < h; y += 2) {
-                        for (let x = 0; x < w; x++) {
-                            const n = 4 * (y * w + x);
-                            const lit = pixels[n + 3] > 80 &&
-                                Math.max(pixels[n], pixels[n + 1], pixels[n + 2]) > 40;
-                            if (lit) {
-                                occupied[x] = 1;
-                                top = Math.min(top, y);
-                                bottom = Math.max(bottom, y + 2);
-                            }
-                        }
-                    }
-                    const ranges = [];
-                    let first = -1, last = -1;
-                    // Join fragments separated by up to 10 blank columns.
-                    for (let x = 0; x <= w; x++) {
-                        if (x < w && occupied[x]) {
-                            if (first < 0) first = x;
-                            last = x;
-                        } else if (first >= 0 && (x === w || x - last > 10)) {
-                            if (last - first > 18) ranges.push([first, last + 1]);
-                            first = -1;
-                        }
-                    }
-                    console.info("MI6 renderer v4:", w, h, "frames:", ranges.length);
-                    if (ranges.length < 5 || ranges.length > 20 || top >= bottom) {
-                        throw new Error("MI6: unexpected sprite layout (" + ranges.length + " frames)");
-                    }
-                    const maxWidth = Math.max(...ranges.map(([l, r]) => r - l)) + 12;
-                    const frameHeight = bottom - top + 12;
-                    const frames = ranges.map(([l, r]) => {
-                        const frame = document.createElement("canvas");
-                        frame.width = maxWidth; frame.height = frameHeight;
-                        const fctx = frame.getContext("2d");
-                        if (!fctx) throw new Error("MI6: no frame context");
-                        fctx.imageSmoothingEnabled = false;
-                        const cropWidth = r - l;
-                        // Center every complete pose without cutting arms/legs.
-                        fctx.drawImage(sheet, l, Math.max(0, top - 4),
-                            cropWidth, Math.min(h - Math.max(0, top - 4), frameHeight - 4),
-                            Math.round((maxWidth - cropWidth) / 2), 4,
-                            cropWidth, Math.min(h - Math.max(0, top - 4), frameHeight - 4));
-                        return frame;
-                    });
-                    resolve(frames);
-                } catch (error) { reject(error); }
+                // Keep the source image and rectangles as descriptors.
+                // Even a tainted source can be drawn; only pixel readback fails.
+                const scaleX = sheet.naturalWidth / BOND_SOURCE_WIDTH;
+                const scaleY = sheet.naturalHeight / BOND_SOURCE_HEIGHT;
+                const frames = BOND_SOURCE_FRAMES.map(([l, t, r, b]) => ({
+                    image: sheet,
+                    sx: Math.round(l * scaleX),
+                    sy: Math.round(t * scaleY),
+                    sw: Math.max(1, Math.round((r - l) * scaleX)),
+                    sh: Math.max(1, Math.round((b - t) * scaleY))
+                }));
+                console.info("MI6 renderer v5 ready:", sheet.naturalWidth,
+                    sheet.naturalHeight, frames.length, "frames");
+                resolve(frames);
             };
-            sheet.onerror = () => reject(new Error("MI6 sprite image failed to load"));
+            sheet.onerror = () => reject(new Error("MI6 sprite could not load"));
             sheet.src = BOND_SPRITE;
         }).catch(error => { bondFramesPromise = null; throw error; });
         return bondFramesPromise;
@@ -1119,14 +1091,21 @@
                 ? Math.floor(elapsed * 7) % walkingCount
                 : finalFrame;
             const sprite = run.images[frameIndex];
+            // All poses occupy the same virtual 264x438 frame, centered,
+            // with feet at the same baseline. No sheet-width guessing.
             const spriteHeight = height * 0.90;
-            const spriteWidth = sprite.width / sprite.height * spriteHeight;
-            const startX = width + spriteWidth / 2;
+            const scale = spriteHeight / 438;
+            const poseWidth = sprite.sw / (sprite.image.naturalWidth / BOND_SOURCE_WIDTH) * scale;
+            const startX = width + 140 * scale;
             const x = startX + (width / 2 - startX) * walkProgress;
-            ctx.drawImage(sprite,
-                Math.round(x - spriteWidth / 2),
-                Math.round((height - spriteHeight) / 2),
-                Math.round(spriteWidth), Math.round(spriteHeight));
+            const y = (height - spriteHeight) / 2;
+            ctx.drawImage(sprite.image, sprite.sx, sprite.sy, sprite.sw, sprite.sh,
+                Math.round(x - poseWidth / 2),
+                Math.round(y + (438 - 7 - sprite.sh /
+                    (sprite.image.naturalHeight / BOND_SOURCE_HEIGHT)) * scale),
+                Math.round(poseWidth),
+                Math.round(sprite.sh / (sprite.image.naturalHeight /
+                    BOND_SOURCE_HEIGHT) * scale));
 
             if (elapsed >= walkSeconds + turnSeconds) {
                 // Hold the turned pose briefly, then fold the strip closed.
