@@ -204,7 +204,7 @@
 
         const heading = document.createElement("h2");
         heading.id = "band-celebration-title";
-        heading.textContent = "Thanks for hunting for my Easter egg!";
+        heading.textContent = options.heading || "Thanks for hunting for my Easter egg!";
         const detail = document.createElement("p");
         detail.textContent = "There are more waiting to be found. Keep exploring!";
         const button = document.createElement("button");
@@ -1042,7 +1042,7 @@
             console.warn("MI6 preload:", error.message));
     }
 
-    function stopBondEgg({ closeStrip = true } = {}) {
+    function stopBondEgg({ closeStrip = true, celebrate = false } = {}) {
         ++bondRequestId;
         if (bondCloseTimer !== null) {
             clearTimeout(bondCloseTimer);
@@ -1068,6 +1068,11 @@
                 run.barrelCanvas.remove();
                 run.bar.classList.remove("bond-mode");
                 bondCloseTimer = null;
+                if (celebrate) {
+                    showBandCelebration("bond", {
+                        heading: "Thanks for finding my Easter egg!"
+                    });
+                }
             }, bandTransitionMs);
         } else {
             run.canvas.remove();
@@ -1142,7 +1147,7 @@
             run.audio = audio;
             audio.addEventListener("ended", () => {
                 // Keep the last pointing pose until playback completes.
-                if (bondRun === run) stopBondEgg();
+                if (bondRun === run) stopBondEgg({ celebrate: true });
             }, { once: true });
             const begin = () => {
                 if (bondRun !== run) return;
@@ -1367,40 +1372,13 @@
                     barrelCtx.restore();
                 }
 
-                // Reveal the thank-you over the completed blood curtain.
-                // Use the same cream as the gunbarrel's circular background.
-                const thanksProgress = Math.max(0, Math.min(1,
-                    (shotElapsed - BOND_RED_WASH_DURATION) / 900));
-                if (thanksProgress > 0) {
-                    barrelCtx.save();
-                    barrelCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                    const message = "Thanks for finding my Easter egg!";
-                    const maxTextWidth = Math.max(1, width - 32);
-                    let fontSize = Math.min(30, overlayHeight * 0.28);
-                    barrelCtx.font = "bold " + fontSize +
-                        "px Georgia, serif";
-                    while (barrelCtx.measureText(message).width > maxTextWidth &&
-                        fontSize > 12) {
-                        fontSize--;
-                        barrelCtx.font = "bold " + fontSize +
-                            "px Georgia, serif";
-                    }
-                    barrelCtx.globalAlpha = thanksProgress * thanksProgress *
-                        (3 - 2 * thanksProgress);
-                    barrelCtx.fillStyle = "#f5ebd5";
-                    barrelCtx.textAlign = "center";
-                    barrelCtx.textBaseline = "middle";
-                    barrelCtx.shadowColor = "rgba(20,0,0,0.65)";
-                    barrelCtx.shadowBlur = 7;
-                    barrelCtx.fillText(message, width / 2, overlayHeight / 2);
-                    barrelCtx.restore();
-                }
+
             }
 
             // Keep the last frame until the MP3's ended event.
             // Do not close at 28s or interrupt the soundtrack.
             if (run.audio && run.audio.ended) {
-                stopBondEgg();
+                stopBondEgg({ celebrate: true });
                 return;
             }
             run.frame = requestAnimationFrame(draw);
