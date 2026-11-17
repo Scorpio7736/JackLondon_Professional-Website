@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#1b1a1f">
+    <meta name="description" content="A custom error page for Jack London's portfolio.">
+    <title>403 · Access restricted | Jack London</title>
+    <link rel="icon" href="/Images/Icons/Headshot_ICON.png" type="image/png">
+    <link rel="stylesheet" href="/Styles/error-pages.css?v=1">
+</head>
+<body>
+<div class="shell">
+    <header class="topbar">
+        <a class="brand" href="/" aria-label="Jack London portfolio home">Jack London <span>/ portfolio</span></a>
+        <span class="live">System message</span>
+    </header>
+    <main class="workspace">
+        <nav class="side" aria-label="Error page navigation">
+            <div class="avatar">
+                <img src="/Images/Icons/Headshot_ICON.png" alt="" width="42" height="42">
+                <div><strong>Jack London</strong><small>Software Engineer</small></div>
+            </div>
+            <span class="side-label">WORKSPACE</span>
+            <a class="side-link" href="/">⌂ &nbsp; Portfolio Home</a>
+            <a class="side-link active" href="/403.html" aria-current="page">! &nbsp; 403 Error</a>
+            <a class="side-link" href="https://github.com/Scorpio7736" target="_blank" rel="noopener noreferrer">↗ &nbsp; GitHub</a>
+        </nav>
+        <section class="panel" aria-labelledby="error-title">
+            <div class="panel-head"><strong>System / 403</strong><span class="path">jack.london / errors / 403</span></div>
+            <div class="content">
+                <div class="eyebrow">status.access_denied</div>
+                <div class="code" aria-hidden="true">403</div>
+                <h1 id="error-title">This directory is off limits.</h1>
+                <p>You don't have permission to access this resource. Head back to the portfolio, or contact me if you believe this page should be available.</p>
+                <div class="terminal"><span class="prompt">jack@portfolio:~$</span><span>ACCESS_CHECK → 403 FORBIDDEN</span></div>
+                <div class="actions">
+                    <a class="action primary" href="/">Return to Portfolio</a>
+                    <button class="action" type="button" id="go-back">Go Back</button>
+                </div>
+                <div class="hint">This page is available as a custom design preview unless the host routes forbidden requests here.</div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">Jack London · Software Engineering Portfolio</footer>
+</div>
+<script>
+    document.getElementById("go-back").addEventListener("click", function () {
+        if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) {
+            history.back();
+        } else {
+            location.assign("/");
+        }
+    });
+</script>
+</body>
+</html>
