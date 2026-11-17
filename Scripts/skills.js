@@ -326,15 +326,104 @@ const developmentTools = [
 
 const aiSkills = [
 
-    { name: "Codex", shortName: "CX" },
-    { name: "GPT", shortName: "GPT" },
-    { name: "Gemini", shortName: "GEM" },
-    { name: "Claude", shortName: "CL" },
-    { name: "Claude Code", shortName: "CC" },
-    { name: "Copilot", shortName: "CP" },
-    { name: "Ollama", shortName: "OLL" },
-    { name: "Llama3", shortName: "L3" },
-    { name: "deepseek", shortName: "DS" }
+    {
+        name: "Codex",
+        shortName: "CX",
+        comfort: 9,
+        projects: [
+            "Code generation & refactoring",
+            "Repository development",
+            "Debugging & testing"
+        ]
+    },
+
+    {
+        name: "GPT",
+        shortName: "GPT",
+        comfort: 9,
+        projects: [
+            "Technical problem solving",
+            "Programming assistance",
+            "Research & documentation"
+        ]
+    },
+
+    {
+        name: "Gemini",
+        shortName: "GEM",
+        comfort: 7,
+        projects: [
+            "Research & comparison",
+            "Multimodal analysis",
+            "Coding assistance"
+        ]
+    },
+
+    {
+        name: "Claude",
+        shortName: "CL",
+        comfort: 7,
+        projects: [
+            "Code explanation & review",
+            "Long-form analysis",
+            "Technical writing"
+        ]
+    },
+
+    {
+        name: "Claude Code",
+        shortName: "CC",
+        comfort: 7,
+        projects: [
+            "Agentic coding workflows",
+            "Repository navigation",
+            "Code changes & testing"
+        ]
+    },
+
+    {
+        name: "Copilot",
+        shortName: "CP",
+        comfort: 8,
+        projects: [
+            "Inline code suggestions",
+            "IDE productivity",
+            "Code completion"
+        ]
+    },
+
+    {
+        name: "Ollama",
+        shortName: "OLL",
+        comfort: 8,
+        projects: [
+            "Running local AI models",
+            "Offline model management",
+            "Local development experiments"
+        ]
+    },
+
+    {
+        name: "Llama3",
+        shortName: "L3",
+        comfort: 7,
+        projects: [
+            "Local model experimentation",
+            "Text generation & reasoning",
+            "Offline AI workflows"
+        ]
+    },
+
+    {
+        name: "deepseek",
+        shortName: "DS",
+        comfort: 6,
+        projects: [
+            "Coding & reasoning tasks",
+            "Model comparisons",
+            "AI workflow experimentation"
+        ]
+    }
 
 ];
 
@@ -747,8 +836,7 @@ function buildSkillCards(
             );
 
 
-            // New AI tools have individual cards without invented ratings
-            // or project histories; other skills retain their full details.
+            // Only render metadata that each skill explicitly provides.
             if (Number.isFinite(skill.comfort)) {
                 card.appendChild(confidenceHeader);
                 card.appendChild(comfortBar);
@@ -820,7 +908,7 @@ function buildAISkillsCards() {
     buildSkillCards(
         "aiSkillsCardGrid",
         aiSkills,
-        "Tools & models"
+        "Main usages"
     );
 
 }
