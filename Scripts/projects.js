@@ -36,7 +36,7 @@ const projects = [
         title:
             "Grid.AI",
 
-        glossaryTerms: ["Agentic Workflows","MCP","Local AI","Multi-Agent Orchestration"],
+        glossaryTerms: ["Agentic Workflows","MCP","Multi-Agent Orchestration"],
 
         section:
             "desktop",
@@ -145,7 +145,7 @@ const projects = [
         title:
             "Tower Maintenance Manager",
 
-        glossaryTerms: ["JavaFX","FXML","OOP"],
+        glossaryTerms: [],
 
         section:
             "desktop",
