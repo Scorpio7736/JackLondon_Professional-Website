@@ -698,20 +698,16 @@
             image.onerror = () => reject(new Error("Missing Terminator sprite: " + name));
             image.src = "Images/EasterEggs/" + name;
         });
+        const JACK_RUN_FRAME_COUNT = 14;
+        const TERMINATOR_WALK_OFFSET = JACK_RUN_FRAME_COUNT;
+        const TERMINATOR_FRONT_INDEX = TERMINATOR_WALK_OFFSET + 4;
         if (!terminatorImagesPromise) {
+            // Uploaded files are zero-padded 00 through 13, not 0 through 7.
+            const jackFiles = Array.from({ length: JACK_RUN_FRAME_COUNT }, (_, i) =>
+                "Jack_Run_Smooth_" + String(i).padStart(2, "0") + ".png");
             terminatorImagesPromise = Promise.all([
-                load("Jack_Run_Smooth_0.png"),
-                load("Jack_Run_Smooth_1.png"),
-                load("Jack_Run_Smooth_2.png"),
-                load("Jack_Run_Smooth_3.png"),
-                load("Jack_Run_Smooth_4.png"),
-                load("Jack_Run_Smooth_5.png"),
-                load("Jack_Run_Smooth_6.png"),
-                load("Jack_Run_Smooth_7.png"),
-                load("Terminator_ArmedWalk_Clean_0.png"),
-                load("Terminator_ArmedWalk_Clean_1.png"),
-                load("Terminator_ArmedWalk_Clean_2.png"),
-                load("Terminator_ArmedWalk_Clean_3.png"),
+                ...jackFiles.map(load),
+                ...[0, 1, 2, 3].map(i => load("Terminator_ArmedWalk_Clean_" + i + ".png")),
                 load("Terminator_ArmedFront.png")
             ]).catch(error => {
                 terminatorImagesPromise = null;
@@ -719,12 +715,49 @@
             });
         }
 
+        // The new PNGs have large transparent margins. Measure only the
+        // visible runner (exclude the translucent foot shadow) so every
+        // running pose is rendered at the same height and ground baseline.
+        const getRunnerBounds = image => {
+            const scratch = document.createElement("canvas");
+            scratch.width = image.naturalWidth;
+            scratch.height = image.naturalHeight;
+            const scan = scratch.getContext("2d", { willReadFrequently: true });
+            if (!scan) return { x: 0, y: 0, w: scratch.width, h: scratch.height };
+            try {
+                scan.drawImage(image, 0, 0);
+                const pixels = scan.getImageData(0, 0, scratch.width, scratch.height).data;
+                let left = scratch.width, top = scratch.height, right = -1, bottom = -1;
+                for (let y = 0; y < scratch.height; y++) {
+                    for (let x = 0; x < scratch.width; x++) {
+                        const p = (y * scratch.width + x) * 4;
+                        // The shadow is low-opacity, dark gray; the character
+                        // has stronger alpha and brighter colored pixels.
+                        const alpha = pixels[p + 3];
+                        const brightness = Math.max(pixels[p], pixels[p + 1], pixels[p + 2]);
+                        if (alpha < 180 || brightness < 65) continue;
+                        left = Math.min(left, x);
+                        top = Math.min(top, y);
+                        right = Math.max(right, x);
+                        bottom = Math.max(bottom, y);
+                    }
+                }
+                if (right >= left) {
+                    return { x: left, y: top, w: right - left + 1, h: bottom - top + 1 };
+                }
+            } catch (error) {
+                console.warn("Jack sprite bounds unavailable:", error);
+            }
+            return { x: 0, y: 0, w: scratch.width, h: scratch.height };
+        };
+
         terminatorTimer = setTimeout(() => {
             terminatorTimer = null;
             if (!terminatorRunning) return;
             terminatorImagesPromise.then(images => {
                 if (!terminatorRunning) return;
                 playTerminatorAudio();
+                const runnerBounds = images.slice(0, JACK_RUN_FRAME_COUNT).map(getRunnerBounds);
                 const start = performance.now();
                 const canvas = marchingBandCanvas;
                 const draw = now => {
@@ -748,27 +781,45 @@
                     ctx.clearRect(0, 0, width, height);
                     const charHeight = height * 0.88;
                     const groundY = height - charHeight;
-                    // Eight poses add transitional steps; keep Jack's torso level
-                    // so his stride reads as running rather than bouncing.
-                    const runFrame = Math.floor(seconds * 14) % 8;
-                    // Four consistent poses per cycle, two grounded footfalls each second.
+                    // All 14 run poses play in order at a steady 14 fps.
+                    const runFrame = Math.floor(seconds * 14) % JACK_RUN_FRAME_COUNT;
                     const walkFrame = Math.floor(seconds * 4.2) % 4;
                     const walkBob = Math.sin(seconds * Math.PI * 4.2) * 0.25;
                     const paint = (image, x, y = groundY) => {
                         const w = image.naturalWidth / image.naturalHeight * charHeight;
                         ctx.drawImage(image, x, y, w, charHeight);
                     };
+                    const paintJack = (image, bounds, x) => {
+                        // Use source crop to eliminate inconsistent empty borders.
+                        // No vertical bobbing: head stays steady through all poses.
+                        const visibleHeight = height * 0.78;
+                        const scale = visibleHeight / bounds.h;
+                        const visibleWidth = bounds.w * scale;
+                        const baseline = height * 0.94;
+                        // A fixed ground shadow makes airborne frames feel anchored.
+                        ctx.fillStyle = "rgba(0, 0, 0, 0.32)";
+                        ctx.beginPath();
+                        ctx.ellipse(x, baseline + 1, visibleWidth * 0.37,
+                            Math.max(1.5, height * 0.018), 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.drawImage(image, bounds.x, bounds.y, bounds.w, bounds.h,
+                            Math.round(x - visibleWidth / 2),
+                            Math.round(baseline - visibleHeight),
+                            Math.round(visibleWidth),
+                            Math.round(visibleHeight));
+                    };
 
                     // First Jack runs completely off-screen. Only THEN the
                     // Terminator emerges, walks to center and faces the viewer.
                     if (seconds < 5.5) {
-                        paint(images[runFrame], -120 + (width + 250) * (seconds / 5.5), groundY);
+                        paintJack(images[runFrame], runnerBounds[runFrame],
+                            -120 + (width + 250) * (seconds / 5.5));
                     } else if (seconds < 9.1) {
                         const approach = (seconds - 5.5) / 3.6;
-                        paint(images[8 + walkFrame], -65 + (width / 2 + 35) * approach, groundY + walkBob);
+                        paint(images[TERMINATOR_WALK_OFFSET + walkFrame], -65 + (width / 2 + 35) * approach, groundY + walkBob);
                     } else if (seconds < 11.3) {
-                        const centerW = images[12].naturalWidth / images[12].naturalHeight * charHeight;
-                        paint(images[12], (width - centerW) / 2);
+                        const centerW = images[TERMINATOR_FRONT_INDEX].naturalWidth / images[TERMINATOR_FRONT_INDEX].naturalHeight * charHeight;
+                        paint(images[TERMINATOR_FRONT_INDEX], (width - centerW) / 2);
                         const text = "I'LL BE BACK";
                         const fontSize = mobile ? 11 : 16;
                         ctx.font = `bold ${fontSize}px monospace`;
@@ -789,7 +840,7 @@
                         }
                     } else if (seconds < 16.8) {
                         const leaving = (seconds - 11.3) / 5.5;
-                        paint(images[8 + walkFrame], width / 2 - 30 + (width / 2 + 160) * leaving, groundY + walkBob);
+                        paint(images[TERMINATOR_WALK_OFFSET + walkFrame], width / 2 - 30 + (width / 2 + 160) * leaving, groundY + walkBob);
                     } else {
                         stopTerminatorEgg({ keepStage: true });
                         stopMarchingBand();
