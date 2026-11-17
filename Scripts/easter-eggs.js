@@ -150,6 +150,7 @@
     let terminatorSoundContext = null;
     let terminatorBeatTimer = null;
     let terminatorImagesPromise = null;
+    let terminatorRunId = 0;
     let terminatorSpeechSpoken = false;
     let terminatorVolumeFactor = 1;
     let celebrationTimer = null;
@@ -594,6 +595,7 @@
        ===================================== */
 
     function stopTerminatorEgg({ keepStage = false } = {}) {
+        ++terminatorRunId;
         terminatorRunning = false;
         terminatorVolumeFactor = 1;
         if (terminatorFrame !== null) cancelAnimationFrame(terminatorFrame);
@@ -669,6 +671,63 @@
         if (playback) playback.catch(fallback);
     }
 
+    // Preload the running sprites when the page is first opened rather than
+    // waiting for the first ILLBEBACK trigger. Only the first Jack and
+    // Terminator poses are required to start; all others replace fallbacks
+    // progressively as they arrive.
+    const JACK_RUN_FRAME_COUNT = 14;
+    const TERMINATOR_WALK_OFFSET = JACK_RUN_FRAME_COUNT;
+    const TERMINATOR_FRONT_INDEX = TERMINATOR_WALK_OFFSET + 4;
+    const terminatorAssetPaths = [
+        ...Array.from({ length: JACK_RUN_FRAME_COUNT }, (_, i) =>
+            "Jack_Run_Smooth_" + String(i).padStart(2, "0") + ".png"),
+        ...[0, 1, 2, 3].map(i => "Terminator_ArmedWalk_Clean_" + i + ".png"),
+        "Terminator_ArmedFront.png"
+    ];
+    let terminatorLoadedImages = null;
+    function ensureTerminatorImages() {
+        if (terminatorImagesPromise) return terminatorImagesPromise;
+        const images = new Array(terminatorAssetPaths.length).fill(null);
+        terminatorLoadedImages = images;
+        const loadAt = i => new Promise((resolve, reject) => {
+            const image = new Image();
+            image.decoding = "async";
+            image.onload = () => {
+                images[i] = image;
+                resolve(image);
+            };
+            image.onerror = () => reject(new Error(
+                "ILLBEBACK image unavailable: " + terminatorAssetPaths[i]));
+            image.src = "Images/EasterEggs/" + terminatorAssetPaths[i];
+        });
+        // Begin *all* requests immediately. Nonessential poses never block
+        // startup; missing images keep their nearest available fallback.
+        const requests = terminatorAssetPaths.map((_, i) => loadAt(i));
+        for (let i = 1; i < JACK_RUN_FRAME_COUNT; i++) {
+            requests[i].catch(error => console.warn(error.message));
+        }
+        for (let i = TERMINATOR_WALK_OFFSET + 1; i < images.length; i++) {
+            requests[i].catch(error => console.warn(error.message));
+        }
+        terminatorImagesPromise = Promise.all([
+            requests[0], requests[TERMINATOR_WALK_OFFSET]
+        ]).then(() => images).catch(error => {
+            terminatorImagesPromise = null;
+            console.warn("ILLBEBACK essential sprite failed:", error);
+            throw error;
+        });
+        return terminatorImagesPromise;
+    }
+    // Start fetching on initial page load. First keypress should not pay the
+    // 19-image download cost. No animation or sound is started by preload.
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+            ensureTerminatorImages().catch(() => {});
+        }, { once: true });
+    } else {
+        ensureTerminatorImages().catch(() => {});
+    }
+
     function startTerminatorEgg() {
         dismissBandCelebration();
         if (pendingPlaybackTimer !== null) clearTimeout(pendingPlaybackTimer);
@@ -692,54 +751,10 @@
         bar.classList.add("active", "terminator-mode");
         document.querySelector(".app-shell")?.classList.add("band-open");
 
-        const load = name => new Promise((resolve, reject) => {
-            const image = new Image();
-            image.onload = () => resolve(image);
-            image.onerror = () => reject(new Error("Missing Terminator sprite: " + name));
-            image.src = "Images/EasterEggs/" + name;
-        });
-        const JACK_RUN_FRAME_COUNT = 14;
-        const TERMINATOR_WALK_OFFSET = JACK_RUN_FRAME_COUNT;
-        const TERMINATOR_FRONT_INDEX = TERMINATOR_WALK_OFFSET + 4;
-        if (!terminatorImagesPromise) {
-            // Uploaded Jack sprites use zero-padded names: 00 through 13.
-            // A missing in-between frame must not stop the entire Easter egg.
-            const jackFiles = Array.from({ length: JACK_RUN_FRAME_COUNT }, (_, i) =>
-                "Jack_Run_Smooth_" + String(i).padStart(2, "0") + ".png");
-            const terminatorFiles = [
-                ...[0, 1, 2, 3].map(i => "Terminator_ArmedWalk_Clean_" + i + ".png"),
-                "Terminator_ArmedFront.png"
-            ];
-            terminatorImagesPromise = Promise.all(
-                [...jackFiles, ...terminatorFiles].map(name =>
-                    load(name).catch(error => {
-                        console.warn("ILLBEBACK optional sprite unavailable:", name, error);
-                        return null;
-                    })
-                )
-            ).then(images => {
-                // At least one actual Jack sprite is required. Once loaded,
-                // substitute it for any missing run pose, maintaining indices.
-                const firstRunner = images.slice(0, JACK_RUN_FRAME_COUNT).find(Boolean);
-                if (!firstRunner) {
-                    throw new Error("ILLBEBACK cannot load any Jack running frames");
-                }
-                for (let i = 0; i < JACK_RUN_FRAME_COUNT; i++) {
-                    if (!images[i]) images[i] = firstRunner;
-                }
-                // Keep the Terminator walking even when a single pose is missing.
-                const firstTerminator = images.slice(TERMINATOR_WALK_OFFSET).find(Boolean);
-                if (firstTerminator) {
-                    for (let i = TERMINATOR_WALK_OFFSET; i <= TERMINATOR_FRONT_INDEX; i++) {
-                        if (!images[i]) images[i] = firstTerminator;
-                    }
-                }
-                return images;
-            }).catch(error => {
-                terminatorImagesPromise = null;
-                throw error;
-            });
-        }
+        // If preload is still underway, retain this *first* trigger and
+        // start when the two essential sprites resolve. Do not require a
+        // second key sequence to start the animation.
+        const assetsReady = ensureTerminatorImages();
 
         // The new PNGs have large transparent margins. Measure only the
         // visible runner (exclude the translucent foot shadow) so every
@@ -777,12 +792,22 @@
             return { x: 0, y: 0, w: scratch.width, h: scratch.height };
         };
 
-        terminatorTimer = setTimeout(() => {
-            terminatorTimer = null;
-            if (!terminatorRunning) return;
-            terminatorImagesPromise.then(images => {
-                if (!terminatorRunning) return;
-                const runnerBounds = images.slice(0, JACK_RUN_FRAME_COUNT).map(getRunnerBounds);
+        // Every activation owns a token. A later activation/stop cancels
+        // stale first-load callbacks without losing the current request.
+        const runId = ++terminatorRunId;
+        const startWhenReady = () => {
+            if (!terminatorRunning || runId !== terminatorRunId) return;
+            assetsReady.then(images => {
+                if (!terminatorRunning || runId !== terminatorRunId) return;
+                // Later frames may still be loading. Use known poses until
+                // each requested image is ready, instead of waiting for all.
+                const runnerBounds = new Array(JACK_RUN_FRAME_COUNT).fill(null);
+                const getFrame = index => images[index] ||
+                    (index < JACK_RUN_FRAME_COUNT
+                        ? images[0]
+                        : images[TERMINATOR_WALK_OFFSET]);
+                const getBounds = index =>
+                    runnerBounds[index] || (runnerBounds[index] = getRunnerBounds(getFrame(index)));
                 const canvas = marchingBandCanvas;
                 if (!canvas) {
                     console.error("ILLBEBACK canvas not initialized");
@@ -857,17 +882,17 @@
                     // First Jack runs completely off-screen. Only THEN the
                     // Terminator emerges, walks to center and faces the viewer.
                     if (seconds < 5.5) {
-                        const runner = images[runFrame];
-                        const bounds = runnerBounds[runFrame];
+                        const runner = getFrame(runFrame);
+                        const bounds = getBounds(runFrame);
                         const initialX = -Math.max(20, height * 0.25);
                         paintJack(runner, bounds,
                             initialX + (width + height * 0.8) * (seconds / 5.5));
                     } else if (seconds < 9.1) {
                         const approach = (seconds - 5.5) / 3.6;
-                        paint(images[TERMINATOR_WALK_OFFSET + walkFrame], -65 + (width / 2 + 35) * approach, groundY + walkBob);
+                        paint(getFrame(TERMINATOR_WALK_OFFSET + walkFrame), -65 + (width / 2 + 35) * approach, groundY + walkBob);
                     } else if (seconds < 11.3) {
-                        const centerW = images[TERMINATOR_FRONT_INDEX].naturalWidth / images[TERMINATOR_FRONT_INDEX].naturalHeight * charHeight;
-                        paint(images[TERMINATOR_FRONT_INDEX], (width - centerW) / 2);
+                        const centerW = getFrame(TERMINATOR_FRONT_INDEX).naturalWidth / getFrame(TERMINATOR_FRONT_INDEX).naturalHeight * charHeight;
+                        paint(getFrame(TERMINATOR_FRONT_INDEX), (width - centerW) / 2);
                         const text = "I'LL BE BACK";
                         const fontSize = mobile ? 11 : 16;
                         ctx.font = `bold ${fontSize}px monospace`;
@@ -888,7 +913,7 @@
                         }
                     } else if (seconds < 16.8) {
                         const leaving = (seconds - 11.3) / 5.5;
-                        paint(images[TERMINATOR_WALK_OFFSET + walkFrame], width / 2 - 30 + (width / 2 + 160) * leaving, groundY + walkBob);
+                        paint(getFrame(TERMINATOR_WALK_OFFSET + walkFrame), width / 2 - 30 + (width / 2 + 160) * leaving, groundY + walkBob);
                     } else {
                         stopTerminatorEgg({ keepStage: true });
                         stopMarchingBand();
@@ -905,12 +930,17 @@
                 };
                 terminatorFrame = requestAnimationFrame(draw);
             }).catch(error => {
+                if (runId !== terminatorRunId) return;
                 console.warn("Terminator Easter egg could not load:", error);
                 stopTerminatorEgg();
                 stopMarchingBand();
                 setEasterEggStatus();
             });
-        }, bandTransitionMs);
+        };
+        // Open the stage while loading, then start on readiness. No fixed
+        // post-transition timeout is required: the animation is clipped by
+        // the expanding stage and is visible on the first activation.
+        startWhenReady();
     }
 
     /* =====================================
