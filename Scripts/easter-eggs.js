@@ -976,7 +976,7 @@
     // Timing is expressed in seconds on the original Gunbarrel.mp3 timeline.
     const BOND_BARREL_PATH = "Images/EasterEggs/Bond_Barrel.png";
     const BOND_SCAN_START = 12;
-    const BOND_RED_WASH_DURATION = 1200;
+    const BOND_RED_WASH_DURATION = 3000; // slower downward blood drips, milliseconds
     const BOND_AUDIO_PATH = "Audio/Gunbarrel.mp3";
     const BOND_AUDIO_START = 12;
     const BOND_WALK_START = 20;
