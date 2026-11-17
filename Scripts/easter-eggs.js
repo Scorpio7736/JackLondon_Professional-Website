@@ -1005,7 +1005,36 @@
     }
 
     let bondFramesPromise = null;
+    let bondFrameBounds = null;
     let bondRequestId = 0;
+
+    // Transparent padding differs between the original and added sprites.
+    // Measure the opaque character, not the PNG canvas, once at preload.
+    function measureBondSprite(image) {
+        const canvas = document.createElement("canvas");
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        if (!context) return { x: 0, y: 0,
+            width: image.naturalWidth, height: image.naturalHeight };
+        context.drawImage(image, 0, 0);
+        const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+        let left = canvas.width, top = canvas.height, right = -1, bottom = -1;
+        for (let y = 0; y < canvas.height; y++) {
+            for (let x = 0; x < canvas.width; x++) {
+                // Ignore the translucent floor shadow while measuring height.
+                if (pixels[(y * canvas.width + x) * 4 + 3] < 190) continue;
+                left = Math.min(left, x);
+                right = Math.max(right, x);
+                top = Math.min(top, y);
+                bottom = Math.max(bottom, y);
+            }
+        }
+        return right < left
+            ? { x: 0, y: 0, width: canvas.width, height: canvas.height }
+            : { x: left, y: top, width: right - left + 1,
+                height: bottom - top + 1 };
+    }
 
     function loadBondFrames() {
         if (!bondFramesPromise) {
@@ -1025,6 +1054,10 @@
                 frame.src = src;
             });
             bondFramesPromise = Promise.all(BOND_FRAME_PATHS.map(src => loadFrame(src)))
+                .then(images => {
+                    bondFrameBounds = images.map(measureBondSprite);
+                    return images;
+                })
                 .catch(error => {
                     bondFramesPromise = null;
                     throw error;
@@ -1223,9 +1256,13 @@
             const irisY = height / 2;
             const irisRadius = height * 0.53;
             const barrelVisible = mediaTime >= BOND_SCAN_START;
-            const walkingSprite = run.images[0];
-            const agentWidth = height * 0.92 *
-                walkingSprite.naturalWidth / walkingSprite.naturalHeight;
+            const referenceBounds = bondFrameBounds[0];
+            const referenceHeight = height * 0.92 *
+                referenceBounds.height / run.images[0].naturalHeight;
+            const agentWidth = Math.max(...BOND_WALK_FRAMES.map(index => {
+                const bounds = bondFrameBounds[index];
+                return referenceHeight * bounds.width / bounds.height;
+            }));
             const agentStartX = width + agentWidth / 2;
             const agentWalkDuration = (BOND_SHOT_TIME - BOND_WALK_START) *
                 1000 - BOND_TURN_DURATION;
@@ -1308,15 +1345,23 @@
                         (BOND_TURN_DURATION / BOND_TURN_FRAMES.length))
                 )];
             const sprite = run.images[frameIndex];
-            // All transparent PNGs share dimensions and a common baseline.
-            const spriteHeight = height * 0.92;
-            const spriteWidth = spriteHeight * sprite.naturalWidth / sprite.naturalHeight;
+            const bounds = bondFrameBounds[frameIndex];
+            // Every pose is scaled to frame 01's visible character height,
+            // with the soles resting on one shared baseline. This removes
+            // jumping/shrinking caused by different transparent PNG margins.
+            const spriteHeight = referenceHeight;
+            const spriteWidth = spriteHeight * bounds.width / bounds.height;
             const progress = Math.max(0, Math.min(1, walkElapsed / walkDuration));
-            const startX = width + spriteWidth / 2;
-            const characterX = startX + (width / 2 - startX) * progress;
+            const characterX = agentStartX +
+                (width / 2 - agentStartX) * progress;
+            const baselineY = (height + height * 0.92) / 2 -
+                (run.images[0].naturalHeight -
+                    referenceBounds.y - referenceBounds.height) *
+                (height * 0.92 / run.images[0].naturalHeight);
             if (mediaTime >= BOND_WALK_START) ctx.drawImage(sprite,
+                bounds.x, bounds.y, bounds.width, bounds.height,
                 Math.round(characterX - spriteWidth / 2),
-                Math.round((height - spriteHeight) / 2),
+                Math.round(baselineY - spriteHeight),
                 Math.round(spriteWidth), Math.round(spriteHeight));
 
             ctx.restore();
