@@ -702,14 +702,40 @@
         const TERMINATOR_WALK_OFFSET = JACK_RUN_FRAME_COUNT;
         const TERMINATOR_FRONT_INDEX = TERMINATOR_WALK_OFFSET + 4;
         if (!terminatorImagesPromise) {
-            // Uploaded files are zero-padded 00 through 13, not 0 through 7.
+            // Uploaded Jack sprites use zero-padded names: 00 through 13.
+            // A missing in-between frame must not stop the entire Easter egg.
             const jackFiles = Array.from({ length: JACK_RUN_FRAME_COUNT }, (_, i) =>
                 "Jack_Run_Smooth_" + String(i).padStart(2, "0") + ".png");
-            terminatorImagesPromise = Promise.all([
-                ...jackFiles.map(load),
-                ...[0, 1, 2, 3].map(i => load("Terminator_ArmedWalk_Clean_" + i + ".png")),
-                load("Terminator_ArmedFront.png")
-            ]).catch(error => {
+            const terminatorFiles = [
+                ...[0, 1, 2, 3].map(i => "Terminator_ArmedWalk_Clean_" + i + ".png"),
+                "Terminator_ArmedFront.png"
+            ];
+            terminatorImagesPromise = Promise.all(
+                [...jackFiles, ...terminatorFiles].map(name =>
+                    load(name).catch(error => {
+                        console.warn("ILLBEBACK optional sprite unavailable:", name, error);
+                        return null;
+                    })
+                )
+            ).then(images => {
+                // At least one actual Jack sprite is required. Once loaded,
+                // substitute it for any missing run pose, maintaining indices.
+                const firstRunner = images.slice(0, JACK_RUN_FRAME_COUNT).find(Boolean);
+                if (!firstRunner) {
+                    throw new Error("ILLBEBACK cannot load any Jack running frames");
+                }
+                for (let i = 0; i < JACK_RUN_FRAME_COUNT; i++) {
+                    if (!images[i]) images[i] = firstRunner;
+                }
+                // Keep the Terminator walking even when a single pose is missing.
+                const firstTerminator = images.slice(TERMINATOR_WALK_OFFSET).find(Boolean);
+                if (firstTerminator) {
+                    for (let i = TERMINATOR_WALK_OFFSET; i <= TERMINATOR_FRONT_INDEX; i++) {
+                        if (!images[i]) images[i] = firstTerminator;
+                    }
+                }
+                return images;
+            }).catch(error => {
                 terminatorImagesPromise = null;
                 throw error;
             });
@@ -756,10 +782,21 @@
             if (!terminatorRunning) return;
             terminatorImagesPromise.then(images => {
                 if (!terminatorRunning) return;
-                playTerminatorAudio();
                 const runnerBounds = images.slice(0, JACK_RUN_FRAME_COUNT).map(getRunnerBounds);
-                const start = performance.now();
                 const canvas = marchingBandCanvas;
+                if (!canvas) {
+                    console.error("ILLBEBACK canvas not initialized");
+                    stopTerminatorEgg();
+                    setEasterEggStatus();
+                    return;
+                }
+                // Start visuals even if audio playback is unavailable.
+                try {
+                    playTerminatorAudio();
+                } catch (error) {
+                    console.warn("ILLBEBACK music unavailable:", error);
+                }
+                const start = performance.now();
                 const draw = now => {
                     if (!terminatorRunning) return;
                     const seconds = (now - start) / 1000;
@@ -776,6 +813,12 @@
                     canvas.style.width = "100%";
                     canvas.style.height = height + "px";
                     const ctx = canvas.getContext("2d");
+                    if (!ctx) {
+                        console.error("ILLBEBACK could not initialize 2D canvas");
+                        stopTerminatorEgg();
+                        setEasterEggStatus();
+                        return;
+                    }
                     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
                     ctx.imageSmoothingEnabled = false;
                     ctx.clearRect(0, 0, width, height);
@@ -812,8 +855,11 @@
                     // First Jack runs completely off-screen. Only THEN the
                     // Terminator emerges, walks to center and faces the viewer.
                     if (seconds < 5.5) {
-                        paintJack(images[runFrame], runnerBounds[runFrame],
-                            -120 + (width + 250) * (seconds / 5.5));
+                        const runner = images[runFrame];
+                        const bounds = runnerBounds[runFrame];
+                        const initialX = -Math.max(20, height * 0.25);
+                        paintJack(runner, bounds,
+                            initialX + (width + height * 0.8) * (seconds / 5.5));
                     } else if (seconds < 9.1) {
                         const approach = (seconds - 5.5) / 3.6;
                         paint(images[TERMINATOR_WALK_OFFSET + walkFrame], -65 + (width / 2 + 35) * approach, groundY + walkBob);
