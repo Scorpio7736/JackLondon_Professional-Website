@@ -36,6 +36,8 @@ const projects = [
         title:
             "Grid.AI",
 
+        glossaryTerms: ["Agentic Workflows","MCP","Local AI","Multi-Agent Orchestration"],
+
         section:
             "desktop",
 
@@ -57,6 +59,7 @@ const projects = [
             "Agentic Workflows",
             "AI Agents",
             "Multi-Agent Orchestration",
+            "Local AI",
             "Portable / Offline"
         ],
 
@@ -141,6 +144,8 @@ const projects = [
     {
         title:
             "Tower Maintenance Manager",
+
+        glossaryTerms: ["JavaFX","FXML","OOP"],
 
         section:
             "desktop",
@@ -377,6 +382,8 @@ const projects = [
     {
         title:
             "Almost English Programming Language",
+
+        glossaryTerms: ["AST","Lexer","Parser"],
 
         section:
             "experiments",
@@ -782,8 +789,7 @@ function createProjectCard(
     );
 
 
-    description.textContent =
-        project.description;
+    appendGlossaryText(description, project.description, project.glossaryTerms || []);
 
 
     header.appendChild(
@@ -817,7 +823,8 @@ function createProjectCard(
 
     innerGrid.appendChild(
         createProjectTechnologyCell(
-            project.technologies
+            project.technologies,
+            project.glossaryTerms || []
         )
     );
 
@@ -828,7 +835,8 @@ function createProjectCard(
 
     innerGrid.appendChild(
         createProjectLearnedCell(
-            project.learned
+            project.learned,
+            project.glossaryTerms || []
         )
     );
 
@@ -890,7 +898,8 @@ function createProjectCard(
    ========================================= */
 
 function createProjectTechnologyCell(
-    technologies
+    technologies,
+    terms = []
 ) {
 
     const cell =
@@ -950,8 +959,7 @@ function createProjectTechnologyCell(
                 );
 
 
-            tag.textContent =
-                technology;
+            appendGlossaryText(tag, technology, terms);
 
 
             tags.appendChild(
@@ -987,7 +995,8 @@ function createProjectTechnologyCell(
    ========================================= */
 
 function createProjectLearnedCell(
-    learned
+    learned,
+    terms = []
 ) {
 
     const cell =
@@ -1047,8 +1056,7 @@ function createProjectLearnedCell(
                 );
 
 
-            listItem.textContent =
-                item;
+            appendGlossaryText(listItem, item, terms);
 
 
             list.appendChild(
