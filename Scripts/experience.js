@@ -402,7 +402,7 @@ const experienceGlossary = {
     },
     "Papercut Avengers": {
         title: "Papercut Avengers",
-        definition: "An internal technology team I collaborated with during my IT Service & Delivery internship at Sun Life DentaQuest."
+        definition: "An internal Sun Life DentaQuest team focused on reducing repetitive work through automation, improving existing tools and applications, and making complex workflows more efficient so employees can focus on higher-value tasks."
     }
 };
 
