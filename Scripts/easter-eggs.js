@@ -1344,25 +1344,10 @@
                         ctx.lineTo(x, y);
                     }
                     ctx.closePath();
-                    ctx.fillStyle = "rgba(145, 0, 9, 0.88)";
+                    // Solid opaque blood: no character show-through or
+                    // translucent vertical streaks. Keep the shaped drip edge.
+                    ctx.fillStyle = "#910009";
                     ctx.fill();
-
-                    // Darker narrow rivulets give the hanging blood depth.
-                    ctx.strokeStyle = "rgba(75, 0, 5, 0.32)";
-                    ctx.lineWidth = Math.max(2, height * 0.018);
-                    ctx.lineCap = "round";
-                    for (let i = 0; i < Math.ceil(span / dripSpacing); i++) {
-                        const x = left + (i + 0.55) * dripSpacing;
-                        const delay = (i % 3) * 0.08;
-                        const amount = Math.max(0, Math.min(1,
-                            (redProgress - delay) / 0.8));
-                        if (!amount) continue;
-                        ctx.beginPath();
-                        ctx.moveTo(x, top);
-                        ctx.lineTo(x + height * 0.018 * Math.sin(i),
-                            Math.min(bottom, top + span * amount));
-                        ctx.stroke();
-                    }
                 }
             }
             ctx.restore();
