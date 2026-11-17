@@ -1236,31 +1236,30 @@
                 barrelCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
                 barrelCtx.clearRect(0, 0, width, height);
 
-                // Like the reference intro: successive cream circular dots
-                // travel across the black strip before the spiral arrives.
-                // A new pulse replaces the previous dot, never a static row.
+                // Reference intro: one stationary cream dot at a time.
+                // It CUTS to four positions (left edge, thirds, right edge)
+                // instead of continuously sweeping across the screen.
                 if (mediaTime >= BOND_AUDIO_START &&
                     mediaTime < BOND_BARREL_ENTER) {
-                    const introLength = BOND_BARREL_ENTER - BOND_AUDIO_START;
-                    const dotCount = 3;
-                    const pulse = ((mediaTime - BOND_AUDIO_START) /
-                        introLength) * dotCount;
-                    const fraction = pulse - Math.floor(pulse);
-                    const dotRadius = height * (0.105 + 0.025 * fraction);
-                    const dotX = -dotRadius +
-                        (width + dotRadius * 2) * fraction;
+                    const introProgress = Math.max(0, Math.min(0.999,
+                        (mediaTime - BOND_AUDIO_START) /
+                        (BOND_BARREL_ENTER - BOND_AUDIO_START)));
+                    const dotStep = Math.floor(introProgress * 4);
+                    const positions = [0, 1 / 3, 2 / 3, 1];
+                    const dotRadius = height * (dotStep === 3 ? 0.16 : 0.12);
+                    const dotX = width * positions[dotStep];
                     barrelCtx.fillStyle = "#f5ebd5";
                     barrelCtx.beginPath();
                     barrelCtx.arc(dotX, height / 2, dotRadius,
                         0, Math.PI * 2);
                     barrelCtx.fill();
                     barrelCtx.strokeStyle = "#d6c9a7";
-                    barrelCtx.lineWidth = Math.max(1, height * 0.013);
+                    barrelCtx.lineWidth = Math.max(1, height * 0.012);
                     barrelCtx.stroke();
                 }
 
                 if (barrelVisible && run.barrelImage) {
-                    // Wider spiral extends farther to both sides of the iris.
+                    // Center the spiral image symmetrically around the iris.
                     const drawW = height * 6.4;
                     const drawH = drawW * run.barrelImage.naturalHeight /
                         run.barrelImage.naturalWidth;
@@ -1275,7 +1274,7 @@
                     barrelCtx.rotate(rotation);
                     barrelCtx.imageSmoothingEnabled = false;
                     barrelCtx.drawImage(run.barrelImage,
-                        -drawW * 0.43, -drawH * 0.50, drawW, drawH);
+                        -drawW * 0.50, -drawH * 0.50, drawW, drawH);
                     barrelCtx.restore();
                 }
             }
