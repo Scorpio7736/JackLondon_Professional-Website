@@ -39,7 +39,7 @@ const experiences = [
         type:
             "Internship",
 
-        glossaryTerms: ["FHIR API", "Papercut Avengers"],
+        glossaryTerms: ["FHIR API", "Papercut Avengers", "Utilization Management", "Provider Directory Explorer"],
 
         responsibilities: [
 
@@ -51,7 +51,7 @@ const experiences = [
 
             "Created training microsites and webpages for internal users.",
 
-            "Improved FHIR API user interfaces and supporting application functionality."
+            "Refactored the Provider Directory Explorer interface and added resource-specific search features to make FHIR API testing easier for QA users."
 
         ],
 
@@ -403,6 +403,14 @@ const experienceGlossary = {
     "Papercut Avengers": {
         title: "Papercut Avengers",
         definition: "An internal Sun Life DentaQuest team focused on reducing repetitive work through automation, improving existing tools and applications, and making complex workflows more efficient so employees can focus on higher-value tasks."
+    },
+    "Utilization Management": {
+        title: "Utilization Management (UM)",
+        definition: "A healthcare process for reviewing whether services meet clinical and coverage requirements, including medical necessity and prior authorization."
+    },
+    "Provider Directory Explorer": {
+        title: "Provider Directory Explorer",
+        definition: "An internal FHIR tool used by QA testers to browse, search, and look up provider-related healthcare resources. I helped refactor its interface and add more targeted search capabilities."
     }
 };
 
