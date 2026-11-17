@@ -1304,53 +1304,57 @@
                 Math.round((height - spriteHeight) / 2),
                 Math.round(spriteWidth), Math.round(spriteHeight));
 
-            if (mediaTime >= BOND_SHOT_TIME) {
-                // The gunshot triggers an uneven blood curtain, not a flat
-                // rectangle. Individual fingers spill down at different rates
-                // while the whole effect stays clipped to the moving iris.
-                const redProgress = Math.max(0, Math.min(1,
-                    (mediaTime - BOND_SHOT_TIME) * 1000 /
-                    BOND_RED_WASH_DURATION));
-                if (redProgress > 0) {
-                    const top = irisY - irisRadius;
-                    const bottom = irisY + irisRadius;
-                    const left = irisX - irisRadius;
-                    const right = irisX + irisRadius;
-                    const span = irisRadius * 2;
-                    const fall = Math.pow(redProgress, 0.8);
-                    const front = top + span * fall;
-                    const dripSpacing = height * 0.19;
-                    const dripWidth = height * 0.055;
-                    ctx.beginPath();
-                    ctx.moveTo(left - 2, top - 2);
-                    ctx.lineTo(right + 2, top - 2);
-                    // Uneven rounded tongues along the lower edge:
-                    // staggered lengths, smooth shoulders, no straight line.
-                    for (let x = right + 2; x >= left - 2; x -= 3) {
-                        const local = (x - left) / dripSpacing;
-                        const index = Math.round(local);
-                        const distance = (local - index) * dripSpacing;
-                        const pulse = Math.exp(-Math.pow(distance / dripWidth, 4));
-                        const variation = 0.6 + 0.4 *
-                            Math.sin(index * 2.47 + 0.8) ** 2;
-                        const stagger = Math.max(0, Math.min(1,
-                            (redProgress - (index % 4) * 0.065) / 0.55));
-                        const length = height * 0.27 * variation *
-                            Math.sin(Math.PI * 0.5 * stagger) * pulse;
-                        const ripples = height * 0.019 *
-                            Math.sin(x / (height * 0.045) + index * 1.6);
-                        const y = Math.min(bottom + height * 0.3,
-                            front + length + ripples);
-                        ctx.lineTo(x, y);
+            ctx.restore();
+
+            // Render blood on the FRONT barrel canvas, outside the iris clip,
+            // so the falling red curtain covers the ENTIRE dropdown.
+            if (barrelCtx && mediaTime >= BOND_SHOT_TIME) {
+                const shotElapsed = (mediaTime - BOND_SHOT_TIME) * 1000;
+                const dripProgress = Math.max(0, Math.min(1,
+                    shotElapsed / BOND_RED_WASH_DURATION));
+                // Start semi-transparent, then gradually become completely
+                // solid even after the drips have reached the bottom.
+                const fadeProgress = Math.max(0, Math.min(1,
+                    shotElapsed / 2800));
+                const opacity = 0.42 + 0.58 *
+                    (fadeProgress * fadeProgress * (3 - 2 * fadeProgress));
+                if (dripProgress > 0) {
+                    barrelCtx.save();
+                    barrelCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                    barrelCtx.fillStyle = "rgba(145, 0, 9, " +
+                        opacity.toFixed(3) + ")";
+                    if (dripProgress >= 1) {
+                        // Finish as a solid edge-to-edge red dropdown with
+                        // no gaps or translucent vertical lines.
+                        barrelCtx.fillRect(0, 0, width, height);
+                    } else {
+                        const front = height * Math.pow(dripProgress, 0.8);
+                        const spacing = height * 0.19;
+                        const dripWidth = height * 0.055;
+                        barrelCtx.beginPath();
+                        barrelCtx.moveTo(0, -2);
+                        barrelCtx.lineTo(width, -2);
+                        for (let x = width; x >= 0; x -= 3) {
+                            const local = x / spacing;
+                            const index = Math.round(local);
+                            const distance = (local - index) * spacing;
+                            const pulse = Math.exp(-Math.pow(distance / dripWidth, 4));
+                            const variation = 0.6 + 0.4 *
+                                Math.pow(Math.sin(index * 2.47 + 0.8), 2);
+                            const stagger = Math.max(0, Math.min(1,
+                                (dripProgress - (index % 4) * 0.065) / 0.55));
+                            const tongue = height * 0.27 * variation *
+                                Math.sin(Math.PI * 0.5 * stagger) * pulse;
+                            const ripple = height * 0.019 *
+                                Math.sin(x / (height * 0.045) + index * 1.6);
+                            barrelCtx.lineTo(x, front + tongue + ripple);
+                        }
+                        barrelCtx.closePath();
+                        barrelCtx.fill();
                     }
-                    ctx.closePath();
-                    // Solid opaque blood: no character show-through or
-                    // translucent vertical streaks. Keep the shaped drip edge.
-                    ctx.fillStyle = "#910009";
-                    ctx.fill();
+                    barrelCtx.restore();
                 }
             }
-            ctx.restore();
 
             // Keep the last frame until the MP3's ended event.
             // Do not close at 28s or interrupt the soundtrack.
