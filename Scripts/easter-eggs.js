@@ -983,6 +983,15 @@
     const BOND_WALK_FRAME_DURATION = 150;
     let bondFramesPromise = null;
     let bondRequestId = 0;
+    let bondOutroAudio = null;
+
+    function stopBondOutroAudio() {
+        if (!bondOutroAudio) return;
+        bondOutroAudio.pause();
+        bondOutroAudio.removeAttribute("src");
+        bondOutroAudio.load();
+        bondOutroAudio = null;
+    }
 
     function loadBondFrames() {
         if (!bondFramesPromise) {
@@ -1033,10 +1042,10 @@
         bondRun = null;
         if (run.frame !== null) cancelAnimationFrame(run.frame);
         if (run.holdTimer !== null) clearTimeout(run.holdTimer);
-        if (run.audio) {
-            run.audio.pause();
-            run.audio.src = "";
-            run.audio.load();
+        // Preserve audio through the visual close; cleanup is handled
+        // by the media ended event, or by an explicit new activation.
+        if (run.audio && !run.audio.ended) {
+            bondOutroAudio = run.audio;
         }
         if (closeStrip) {
             // Keep the MI6 background in place until the dropdown has
@@ -1055,6 +1064,7 @@
     }
 
     function startBondEgg() {
+        stopBondOutroAudio();
         dismissBandCelebration();
         stopBondEgg();
         if (bondCloseTimer !== null) {
@@ -1114,6 +1124,12 @@
             audio.preload = "auto";
             audio.volume = 0.7;
             run.audio = audio;
+            audio.addEventListener("ended", () => {
+                if (bondOutroAudio === audio) bondOutroAudio = null;
+                // The final pointing pose remains on screen until
+                // the actual MP3 reaches its end.
+                if (bondRun === run) stopBondEgg();
+            }, { once: true });
             const begin = () => {
                 if (bondRun !== run) return;
                 audio.currentTime = BOND_AUDIO_START;
@@ -1193,7 +1209,9 @@
                 Math.round((height - spriteHeight) / 2),
                 Math.round(spriteWidth), Math.round(spriteHeight));
 
-            if (mediaTime >= BOND_SHOT_TIME + BOND_HOLD_DURATION / 1000) {
+            // Keep the last frame until the MP3's ended event.
+            // Do not close at 28s or interrupt the soundtrack.
+            if (run.audio && run.audio.ended) {
                 stopBondEgg();
                 return;
             }
