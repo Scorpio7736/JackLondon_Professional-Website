@@ -151,6 +151,20 @@
     border: 3px solid #4392ff;
     box-shadow: 7px 7px 0 #071329;
 }
+.band-celebration-dialog {
+    box-sizing: border-box;
+    max-height: calc(100dvh - 40px);
+    overflow-y: auto;
+}
+.band-celebration-photo {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: min(40dvh, 300px);
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto 18px;
+}
 .band-celebration-dialog h2 {
     margin: 0 0 14px;
     font-size: clamp(1.2rem, 3vw, 1.6rem);
