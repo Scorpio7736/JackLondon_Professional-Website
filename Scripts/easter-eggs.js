@@ -967,11 +967,14 @@
     /* =====================================
        MI6-007: separate transparent sprite files
        ===================================== */
-    const BOND_FRAME_PATHS = Array.from({ length: 14 }, (_, i) =>
+    // Sprite files are numbered 01-21. Frames 15-21 contain the updated
+    // seven-pose walking cycle; 08-14 retain the cinematic turn and aim.
+    const BOND_FRAME_PATHS = Array.from({ length: 21 }, (_, i) =>
         "Images/EasterEggs/Bond_Frame_" + String(i + 1).padStart(2, "0") + ".png"
     );
-    const BOND_WALK_FRAME_COUNT = 7; // 01-07: profile walk
-    // 08-14: turn to camera, raise arm and point. Last frame holds the aim.
+    // Zero-based indices into the preloaded sprites.
+    const BOND_WALK_FRAMES = [14, 15, 16, 17, 18, 19, 20];
+    const BOND_WALK_FRAME_COUNT = BOND_WALK_FRAMES.length;
     const BOND_TURN_FRAMES = [7, 8, 9, 10, 11, 12, 13];
     // Timing is expressed in seconds on the original Gunbarrel.mp3 timeline.
     const BOND_BARREL_PATH = "Images/EasterEggs/Bond_Barrel.png";
@@ -1295,8 +1298,10 @@
                 - BOND_TURN_DURATION;
             const turning = walkElapsed >= walkDuration;
             const frameIndex = !turning
-                ? Math.floor(Math.max(0, walkElapsed) / BOND_WALK_FRAME_DURATION)
-                    % BOND_WALK_FRAME_COUNT
+                ? BOND_WALK_FRAMES[
+                    Math.floor(Math.max(0, walkElapsed) / BOND_WALK_FRAME_DURATION)
+                        % BOND_WALK_FRAME_COUNT
+                ]
                 : BOND_TURN_FRAMES[Math.min(
                     BOND_TURN_FRAMES.length - 1,
                     Math.floor((walkElapsed - walkDuration) /
