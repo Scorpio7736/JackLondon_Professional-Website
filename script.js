@@ -1235,6 +1235,8 @@ buildFrameworkCards();
 
 buildToolsCards();
 
+buildAISkillsCards();
+
 buildAdditionalSkillsCards();
 
 
