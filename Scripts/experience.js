@@ -39,7 +39,7 @@ const experiences = [
         type:
             "Internship",
 
-        glossaryTerms: ["FHIR API"],
+        glossaryTerms: ["FHIR API", "Papercut Avengers"],
 
         responsibilities: [
 
@@ -399,6 +399,10 @@ const experienceGlossary = {
     "FHIR API": {
         title: "FHIR API",
         definition: "Fast Healthcare Interoperability Resources (FHIR) is an HL7 standard for exchanging healthcare information. A FHIR API lets applications request and share that information using standardized web interfaces."
+    },
+    "Papercut Avengers": {
+        title: "Papercut Avengers",
+        definition: "An internal technology team I collaborated with during my IT Service & Delivery internship at Sun Life DentaQuest."
     }
 };
 
