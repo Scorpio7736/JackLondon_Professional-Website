@@ -29,6 +29,58 @@ const projectSectionMap = {
 const projects = [
 
     /* =====================================
+       GRID.AI
+       ===================================== */
+
+    {
+        title:
+            "Grid.AI",
+
+        section:
+            "desktop",
+
+        icon:
+            "Images/Icons/AI_ICON.png",
+
+        featured:
+            true,
+
+        description:
+            "An actively developed, local-first AI platform built in C# and .NET for offline-capable conversations, coordinated specialist agents, and controlled computer assistance. Grid.AI brings together a terminal-based interface, local model inference, persistent memory, and human-reviewed software development workflows without giving AI unrestricted access to the machine.",
+
+        technologies: [
+            "C#",
+            ".NET",
+            "SQLite",
+            "Ollama",
+            "Qwen3",
+            "Local AI",
+            "Multi-Agent Systems"
+        ],
+
+        learned: [
+            "Architecting a modular, terminal-first AI platform with separate inference, agent, simulation, and persistence components.",
+            "Integrating local language models and managing offline-capable inference workflows.",
+            "Designing specialist agents for software development, storage, security, resources, and communications.",
+            "Building persistent conversations, scoped memory, task records, and SQLite-backed application state.",
+            "Implementing human approval, bounded file access, and verification steps for local development assistance."
+        ],
+
+        images: [
+            "Images/ProjectScreenshots/GridAI/PROMO_GAI_1.png",
+            "Images/ProjectScreenshots/GridAI/PROMO_GAI_2.png",
+            "Images/ProjectScreenshots/GridAI/PROMO_GAI_3.png"
+        ],
+
+        repoLink:
+            "https://github.com/Scorpio7736/Grid.AI",
+
+        demoLink:
+            null
+    },
+
+
+    /* =====================================
        SCHEDULE CREATOR V2
        ===================================== */
 
