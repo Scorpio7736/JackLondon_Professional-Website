@@ -1305,12 +1305,65 @@
                 Math.round(spriteWidth), Math.round(spriteHeight));
 
             if (mediaTime >= BOND_SHOT_TIME) {
-                const redProgress = Math.min(1, Math.max(0,
+                // The gunshot triggers an uneven blood curtain, not a flat
+                // rectangle. Individual fingers spill down at different rates
+                // while the whole effect stays clipped to the moving iris.
+                const redProgress = Math.max(0, Math.min(1,
                     (mediaTime - BOND_SHOT_TIME) * 1000 /
                     BOND_RED_WASH_DURATION));
-                ctx.fillStyle = "rgba(125,0,0," +
-                    (0.58 * redProgress).toFixed(3) + ")";
-                ctx.fillRect(0, 0, width, height * redProgress);
+                if (redProgress > 0) {
+                    const top = irisY - irisRadius;
+                    const bottom = irisY + irisRadius;
+                    const left = irisX - irisRadius;
+                    const right = irisX + irisRadius;
+                    const span = irisRadius * 2;
+                    const fall = Math.pow(redProgress, 0.8);
+                    const front = top + span * fall;
+                    const dripSpacing = height * 0.19;
+                    const dripWidth = height * 0.055;
+                    ctx.beginPath();
+                    ctx.moveTo(left - 2, top - 2);
+                    ctx.lineTo(right + 2, top - 2);
+                    // Uneven rounded tongues along the lower edge:
+                    // staggered lengths, smooth shoulders, no straight line.
+                    for (let x = right + 2; x >= left - 2; x -= 3) {
+                        const local = (x - left) / dripSpacing;
+                        const index = Math.round(local);
+                        const distance = (local - index) * dripSpacing;
+                        const pulse = Math.exp(-Math.pow(distance / dripWidth, 4));
+                        const variation = 0.6 + 0.4 *
+                            Math.sin(index * 2.47 + 0.8) ** 2;
+                        const stagger = Math.max(0, Math.min(1,
+                            (redProgress - (index % 4) * 0.065) / 0.55));
+                        const length = height * 0.27 * variation *
+                            Math.sin(Math.PI * 0.5 * stagger) * pulse;
+                        const ripples = height * 0.019 *
+                            Math.sin(x / (height * 0.045) + index * 1.6);
+                        const y = Math.min(bottom + height * 0.3,
+                            front + length + ripples);
+                        ctx.lineTo(x, y);
+                    }
+                    ctx.closePath();
+                    ctx.fillStyle = "rgba(145, 0, 9, 0.88)";
+                    ctx.fill();
+
+                    // Darker narrow rivulets give the hanging blood depth.
+                    ctx.strokeStyle = "rgba(75, 0, 5, 0.32)";
+                    ctx.lineWidth = Math.max(2, height * 0.018);
+                    ctx.lineCap = "round";
+                    for (let i = 0; i < Math.ceil(span / dripSpacing); i++) {
+                        const x = left + (i + 0.55) * dripSpacing;
+                        const delay = (i % 3) * 0.08;
+                        const amount = Math.max(0, Math.min(1,
+                            (redProgress - delay) / 0.8));
+                        if (!amount) continue;
+                        ctx.beginPath();
+                        ctx.moveTo(x, top);
+                        ctx.lineTo(x + height * 0.018 * Math.sin(i),
+                            Math.min(bottom, top + span * amount));
+                        ctx.stroke();
+                    }
+                }
             }
             ctx.restore();
 
