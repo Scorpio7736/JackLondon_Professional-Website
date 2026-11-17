@@ -1181,6 +1181,9 @@
             const barrelCanvas = run.barrelCanvas;
             const width = bar.clientWidth;
             const height = window.matchMedia("(max-width: 700px)").matches ? 94 : 124;
+            // The dropdown is taller than the sprite stage (136px vs 124px
+            // desktop, 106px vs 94px mobile). The front overlay must span it.
+            const overlayHeight = bar.clientHeight || height;
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
             const desiredW = Math.round(width * dpr);
             const desiredH = Math.round(height * dpr);
@@ -1189,11 +1192,13 @@
                 canvas.height = desiredH;
             }
             canvas.style.height = height + "px";
-            if (barrelCanvas.width !== desiredW || barrelCanvas.height !== desiredH) {
+            const desiredOverlayH = Math.round(overlayHeight * dpr);
+            if (barrelCanvas.width !== desiredW ||
+                barrelCanvas.height !== desiredOverlayH) {
                 barrelCanvas.width = desiredW;
-                barrelCanvas.height = desiredH;
+                barrelCanvas.height = desiredOverlayH;
             }
-            barrelCanvas.style.height = height + "px";
+            barrelCanvas.style.height = overlayHeight + "px";
             const ctx = canvas.getContext("2d");
             if (!ctx) { stopBondEgg(); return; }
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1240,7 +1245,7 @@
             const barrelCtx = barrelCanvas.getContext("2d");
             if (barrelCtx) {
                 barrelCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                barrelCtx.clearRect(0, 0, width, height);
+                barrelCtx.clearRect(0, 0, width, overlayHeight);
 
                 if (barrelVisible && run.barrelImage) {
                     // Center the spiral image symmetrically around the iris.
@@ -1333,11 +1338,11 @@
                     if (dripProgress >= 1) {
                         // Finish as a solid edge-to-edge red dropdown with
                         // no gaps or translucent vertical lines.
-                        barrelCtx.fillRect(0, 0, width, height);
+                        barrelCtx.fillRect(0, 0, width, overlayHeight);
                     } else {
-                        const front = height * Math.pow(dripProgress, 0.8);
-                        const spacing = height * 0.19;
-                        const dripWidth = height * 0.055;
+                        const front = overlayHeight * Math.pow(dripProgress, 0.8);
+                        const spacing = overlayHeight * 0.19;
+                        const dripWidth = overlayHeight * 0.055;
                         barrelCtx.beginPath();
                         barrelCtx.moveTo(0, -2);
                         barrelCtx.lineTo(width, -2);
@@ -1350,10 +1355,10 @@
                                 Math.pow(Math.sin(index * 2.47 + 0.8), 2);
                             const stagger = Math.max(0, Math.min(1,
                                 (dripProgress - (index % 4) * 0.065) / 0.55));
-                            const tongue = height * 0.27 * variation *
+                            const tongue = overlayHeight * 0.27 * variation *
                                 Math.sin(Math.PI * 0.5 * stagger) * pulse;
-                            const ripple = height * 0.019 *
-                                Math.sin(x / (height * 0.045) + index * 1.6);
+                            const ripple = overlayHeight * 0.019 *
+                                Math.sin(x / (overlayHeight * 0.045) + index * 1.6);
                             barrelCtx.lineTo(x, front + tongue + ripple);
                         }
                         barrelCtx.closePath();
