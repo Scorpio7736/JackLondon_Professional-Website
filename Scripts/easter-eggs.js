@@ -944,10 +944,16 @@
                 setEasterEggStatus();
             });
         };
-        // Open the stage while loading, then start on readiness. No fixed
-        // post-transition timeout is required: the animation is clipped by
-        // the expanding stage and is visible on the first activation.
-        startWhenReady();
+        // The stage expands from height 0 to its final height. Starting
+        // Jack while that transition is still running makes him look like
+        // he is floating upward from the bottom as the clip reveals him.
+        // Preloading started at page load and the first trigger is retained;
+        // only the visible animation waits until the stage is fully open.
+        terminatorTimer = setTimeout(() => {
+            terminatorTimer = null;
+            if (!terminatorRunning || runId !== terminatorRunId) return;
+            startWhenReady();
+        }, bandTransitionMs + 30);
     }
 
     /* =====================================
