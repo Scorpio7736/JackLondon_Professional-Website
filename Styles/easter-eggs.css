@@ -245,6 +245,7 @@
 }
 .bond-strip-barrel {
     z-index: 3;
+    height: 100%;
     image-rendering: pixelated;
 }
 .bond-strip-sprite {
@@ -257,5 +258,6 @@
     pointer-events: none;
 }
 @media (max-width: 700px) {
-    .bond-strip-barrel, .bond-strip-sprite { height: 94px; }
+    .bond-strip-sprite { height: 94px; }
+    .bond-strip-barrel { height: 100%; }
 }
