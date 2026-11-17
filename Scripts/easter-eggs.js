@@ -1206,68 +1206,61 @@
             const mediaTime = run.audio && !run.audio.paused
                 ? run.audio.currentTime
                 : BOND_AUDIO_START + elapsed / 1000;
-            // Barrel enters from the left, meets the agent at the right edge,
-            // then tracks his horizontal position until he stops at center.
+            // The whole strip starts black; only the moving iris reveals color.
+            let irisX = -height * 2;
+            const irisY = height / 2;
+            const irisRadius = height * 0.53;
+            const barrelVisible = mediaTime >= BOND_BARREL_ENTER;
+            const enterProgress = Math.max(0, Math.min(1,
+                (mediaTime - BOND_BARREL_ENTER) /
+                (BOND_BARREL_SETTLED - BOND_BARREL_ENTER)));
+            const ease = 1 - Math.pow(1 - enterProgress, 3);
+            const walkingSprite = run.images[0];
+            const agentWidth = height * 0.92 *
+                walkingSprite.naturalWidth / walkingSprite.naturalHeight;
+            const agentStartX = width + agentWidth / 2;
+            const agentWalkDuration = (BOND_SHOT_TIME - BOND_WALK_START) *
+                1000 - BOND_TURN_DURATION;
+            const agentProgress = Math.max(0, Math.min(1,
+                ((mediaTime - BOND_WALK_START) * 1000) / agentWalkDuration));
+            const trackedX = agentStartX +
+                (width / 2 - agentStartX) * agentProgress;
+            if (barrelVisible) {
+                irisX = mediaTime < BOND_WALK_START
+                    ? -height * 1.8 + (agentStartX + height * 1.8) * ease
+                    : trackedX;
+            }
+            // Monochrome spiral surrounds (but never covers) the viewing hole.
             const barrelCtx = barrelCanvas.getContext("2d");
             if (barrelCtx) {
                 barrelCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
                 barrelCtx.clearRect(0, 0, width, height);
-                if (run.barrelImage && mediaTime >= BOND_BARREL_ENTER) {
-                    const enterProgress = Math.min(1, Math.max(0,
-                        (mediaTime - BOND_BARREL_ENTER) /
-                        (BOND_BARREL_SETTLED - BOND_BARREL_ENTER)));
-                    const ease = 1 - Math.pow(1 - enterProgress, 3);
-                    // During the walk, follow the agent's exact horizontal
-                    // position rather than leaving the barrel at center.
-                    const walkingSprite = run.images[0];
-                    const agentWidth = height * 0.92 *
-                        walkingSprite.naturalWidth / walkingSprite.naturalHeight;
-                    const agentStartX = width + agentWidth / 2;
-                    const agentWalkDuration = (BOND_SHOT_TIME - BOND_WALK_START) *
-                        1000 - BOND_TURN_DURATION;
-                    const agentProgress = Math.max(0, Math.min(1,
-                        ((mediaTime - BOND_WALK_START) * 1000) / agentWalkDuration));
-                    const trackedX = agentStartX +
-                        (width / 2 - agentStartX) * agentProgress;
-                    const cx = mediaTime < BOND_WALK_START
-                        ? -height * 1.8 + (agentStartX + height * 1.8) * ease
-                        : trackedX;
-                    const cy = height / 2;
+                if (barrelVisible && run.barrelImage) {
                     const drawW = height * 4.3;
                     const drawH = drawW * run.barrelImage.naturalHeight /
                         run.barrelImage.naturalWidth;
                     const rotation = (-0.25 + 0.25 * ease) +
                         Math.min(1, Math.max(0, (mediaTime - 20) / 3)) * 0.16;
                     barrelCtx.save();
-                    barrelCtx.translate(cx, cy);
+                    barrelCtx.translate(irisX, irisY);
+                    barrelCtx.beginPath();
+                    barrelCtx.arc(0, 0, height * 1.65, 0, Math.PI * 2);
+                    barrelCtx.arc(0, 0, irisRadius, 0, Math.PI * 2, true);
+                    barrelCtx.clip("evenodd");
                     barrelCtx.rotate(rotation);
                     barrelCtx.imageSmoothingEnabled = false;
                     barrelCtx.drawImage(run.barrelImage,
                         -drawW * 0.43, -drawH * 0.50, drawW, drawH);
-                    // Soften image edges rather than showing a black rectangle.
-                    barrelCtx.globalCompositeOperation = "destination-in";
-                    const edge = barrelCtx.createRadialGradient(0, 0,
-                        height * 0.65, 0, 0, height * 2.0);
-                    edge.addColorStop(0, "rgba(0,0,0,1)");
-                    edge.addColorStop(1, "rgba(0,0,0,0)");
-                    barrelCtx.fillStyle = edge;
-                    barrelCtx.fillRect(-drawW, -drawH, drawW * 2, drawH * 2);
-                    // Make the center transparent to retain the cream backdrop.
-                    barrelCtx.globalCompositeOperation = "destination-out";
-                    barrelCtx.beginPath();
-                    barrelCtx.arc(0, 0, height * 0.53, 0, Math.PI * 2);
-                    barrelCtx.fill();
                     barrelCtx.restore();
                 }
-                if (mediaTime >= BOND_SHOT_TIME) {
-                    const redProgress = Math.min(1, Math.max(0,
-                        (mediaTime - BOND_SHOT_TIME) * 1000 /
-                        BOND_RED_WASH_DURATION));
-                    barrelCtx.fillStyle = "rgba(125,0,0," +
-                        (0.58 * redProgress).toFixed(3) + ")";
-                    barrelCtx.fillRect(0, 0, width, height * redProgress);
-                }
             }
+            // The cream background and character exist only inside the iris.
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(irisX, irisY, irisRadius, 0, Math.PI * 2);
+            ctx.clip();
+            ctx.fillStyle = "#f5ebd5";
+            ctx.fillRect(0, 0, width, height);
             const walkElapsed = (mediaTime - BOND_WALK_START) * 1000;
             const walkDuration = (BOND_SHOT_TIME - BOND_WALK_START) * 1000
                 - BOND_TURN_DURATION;
@@ -1291,6 +1284,16 @@
                 Math.round(characterX - spriteWidth / 2),
                 Math.round((height - spriteHeight) / 2),
                 Math.round(spriteWidth), Math.round(spriteHeight));
+
+            if (mediaTime >= BOND_SHOT_TIME) {
+                const redProgress = Math.min(1, Math.max(0,
+                    (mediaTime - BOND_SHOT_TIME) * 1000 /
+                    BOND_RED_WASH_DURATION));
+                ctx.fillStyle = "rgba(125,0,0," +
+                    (0.58 * redProgress).toFixed(3) + ")";
+                ctx.fillRect(0, 0, width, height * redProgress);
+            }
+            ctx.restore();
 
             // Keep the last frame until the MP3's ended event.
             // Do not close at 28s or interrupt the soundtrack.
