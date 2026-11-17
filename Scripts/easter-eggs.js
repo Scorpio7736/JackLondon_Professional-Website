@@ -1017,8 +1017,21 @@
         const context = canvas.getContext("2d", { willReadFrequently: true });
         if (!context) return { x: 0, y: 0,
             width: image.naturalWidth, height: image.naturalHeight };
-        context.drawImage(image, 0, 0);
-        const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+        try {
+            context.drawImage(image, 0, 0);
+        } catch (error) {
+            console.warn("MI6 sprite could not be measured:", error);
+            return { x: 0, y: 0, width: canvas.width, height: canvas.height };
+        }
+        let pixels;
+        try {
+            pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+        } catch (error) {
+            // Canvas pixel reads can be blocked by hosting/security settings.
+            // Never let this disable the MI6 trigger.
+            console.warn("MI6 sprite pixel access unavailable:", error);
+            return { x: 0, y: 0, width: canvas.width, height: canvas.height };
+        }
         let left = canvas.width, top = canvas.height, right = -1, bottom = -1;
         for (let y = 0; y < canvas.height; y++) {
             for (let x = 0; x < canvas.width; x++) {
@@ -1053,15 +1066,28 @@
                 };
                 frame.src = src;
             });
-            bondFramesPromise = Promise.all(BOND_FRAME_PATHS.map(src => loadFrame(src)))
-                .then(images => {
-                    bondFrameBounds = images.map(measureBondSprite);
-                    return images;
-                })
-                .catch(error => {
-                    bondFramesPromise = null;
-                    throw error;
-                });
+            // Only the turn/aim sprites are mandatory. Added walking images
+            // may arrive in a different deployment; fall back to original
+            // walk sprites rather than preventing the Easter egg from opening.
+            bondFramesPromise = Promise.all(
+                BOND_FRAME_PATHS.slice(0, 14).map(src => loadFrame(src))
+            ).then(async originals => {
+                const additions = await Promise.all(
+                    BOND_FRAME_PATHS.slice(14).map((src, i) =>
+                        loadFrame(src).catch(error => {
+                            console.warn(error.message,
+                                "- using original walking frame instead");
+                            return originals[i];
+                        })
+                    )
+                );
+                const images = originals.concat(additions);
+                bondFrameBounds = images.map(measureBondSprite);
+                return images;
+            }).catch(error => {
+                bondFramesPromise = null;
+                throw error;
+            });
         }
         return bondFramesPromise;
     }
