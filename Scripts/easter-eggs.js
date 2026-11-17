@@ -801,13 +801,20 @@
                 if (!terminatorRunning || runId !== terminatorRunId) return;
                 // Later frames may still be loading. Use known poses until
                 // each requested image is ready, instead of waiting for all.
-                const runnerBounds = new Array(JACK_RUN_FRAME_COUNT).fill(null);
+                const runnerBounds = new WeakMap();
                 const getFrame = index => images[index] ||
                     (index < JACK_RUN_FRAME_COUNT
                         ? images[0]
                         : images[TERMINATOR_WALK_OFFSET]);
-                const getBounds = index =>
-                    runnerBounds[index] || (runnerBounds[index] = getRunnerBounds(getFrame(index)));
+                // Key by image rather than slot so later-loaded poses get
+                // their own correct crop, not the earlier fallback's crop.
+                const getBounds = index => {
+                    const frame = getFrame(index);
+                    if (!runnerBounds.has(frame)) {
+                        runnerBounds.set(frame, getRunnerBounds(frame));
+                    }
+                    return runnerBounds.get(frame);
+                };
                 const canvas = marchingBandCanvas;
                 if (!canvas) {
                     console.error("ILLBEBACK canvas not initialized");
