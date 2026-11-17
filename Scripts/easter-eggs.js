@@ -976,7 +976,6 @@
     // Timing is expressed in seconds on the original Gunbarrel.mp3 timeline.
     const BOND_BARREL_PATH = "Images/EasterEggs/Bond_Barrel.png";
     const BOND_SCAN_START = 12;
-    const BOND_SCAN_END = 21.4; // catch the agent while he is walking onscreen
     const BOND_RED_WASH_DURATION = 1200;
     const BOND_AUDIO_PATH = "Audio/Gunbarrel.mp3";
     const BOND_AUDIO_START = 12;
@@ -1206,8 +1205,8 @@
             const mediaTime = run.audio && !run.audio.paused
                 ? run.audio.currentTime
                 : BOND_AUDIO_START + elapsed / 1000;
-            // Scan slowly from the left. Catch the agent AFTER he has
-            // walked into view, instead of pursuing him off the right edge.
+            // Scan slowly from the left and catch the agent at the right
+            // boundary, without ever cropping the viewing circle there.
             const irisY = height / 2;
             const irisRadius = height * 0.53;
             const barrelVisible = mediaTime >= BOND_SCAN_START;
@@ -1221,18 +1220,20 @@
                 ((mediaTime - BOND_WALK_START) * 1000) / agentWalkDuration));
             const trackedX = agentStartX +
                 (width / 2 - agentStartX) * agentProgress;
-            // The catch point is the character's position at 21.4s:
-            // comfortably inside the viewport, while still walking.
+            // Catch him exactly when his center reaches the rightmost
+            // fully-visible iris position. Calculate the timing from the
+            // viewport so the handoff stays seamless on mobile and desktop.
+            const catchX = width - irisRadius;
             const catchProgress = Math.max(0, Math.min(1,
-                (BOND_SCAN_END - BOND_WALK_START) * 1000 /
-                agentWalkDuration));
-            const catchX = agentStartX + (width / 2 - agentStartX) * catchProgress;
+                (agentStartX - catchX) / (agentStartX - width / 2)));
+            const catchTime = BOND_WALK_START +
+                (agentWalkDuration / 1000) * catchProgress;
             const scanProgress = Math.max(0, Math.min(1,
                 (mediaTime - BOND_SCAN_START) /
-                (BOND_SCAN_END - BOND_SCAN_START)));
+                (catchTime - BOND_SCAN_START)));
             const scanEase = scanProgress * scanProgress *
                 (3 - 2 * scanProgress);
-            const irisX = mediaTime < BOND_SCAN_END
+            const irisX = mediaTime < catchTime
                 ? -irisRadius + (catchX + irisRadius) * scanEase
                 : trackedX;
             // Monochrome spiral surrounds (but never covers) the viewing hole.
