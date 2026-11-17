@@ -155,6 +155,7 @@
     let celebrationTimer = null;
     let celebrationOverlay = null;
     let bondRun = null;
+    let bondCloseTimer = null;
 
     function setEasterEggStatus(label = null) {
         document.body.classList.toggle("easter-egg-busy", Boolean(label));
@@ -999,22 +1000,40 @@
     }
 
     function stopBondEgg({ closeStrip = true } = {}) {
+        if (bondCloseTimer !== null) {
+            clearTimeout(bondCloseTimer);
+            bondCloseTimer = null;
+        }
         if (!bondRun) return;
         const run = bondRun;
         bondRun = null;
         if (run.frame !== null) cancelAnimationFrame(run.frame);
         if (run.holdTimer !== null) clearTimeout(run.holdTimer);
-        run.canvas.remove();
-        run.bar.classList.remove("bond-mode");
         if (closeStrip) {
+            // Keep the MI6 background in place until the dropdown has
+            // fully folded shut, so the Wisconsin scene never flashes.
             stopMarchingBand();
             setEasterEggStatus();
+            bondCloseTimer = setTimeout(() => {
+                run.canvas.remove();
+                run.bar.classList.remove("bond-mode");
+                bondCloseTimer = null;
+            }, bandTransitionMs);
+        } else {
+            run.canvas.remove();
+            run.bar.classList.remove("bond-mode");
         }
     }
 
     function startBondEgg() {
         dismissBandCelebration();
         stopBondEgg();
+        if (bondCloseTimer !== null) {
+            clearTimeout(bondCloseTimer);
+            bondCloseTimer = null;
+        }
+        // Reset any finishing strip before preparing the next run.
+        marchingBandBar?.querySelectorAll(".bond-strip-sprite").forEach(sprite => sprite.remove());
         if (currentAudio) {
             currentAudio.pause();
             currentAudio = null;
