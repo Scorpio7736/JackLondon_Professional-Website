@@ -268,7 +268,7 @@
 
     grid-template-columns:
         repeat(
-            3,
+            4,
             minmax(0, 1fr)
         );
 
@@ -590,6 +590,12 @@
 @media (min-width: 751px) {
     .page-view[data-page="home"].active {
         padding-bottom: clamp(120px, 22dvh, 220px);
+    }
+}
+
+@media (min-width: 751px) and (max-width: 1100px) {
+    .home-now-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
