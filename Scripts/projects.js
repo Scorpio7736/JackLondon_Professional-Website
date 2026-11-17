@@ -46,7 +46,7 @@ const projects = [
             true,
 
         description:
-            "An actively developed multi-agent AI platform focused on agentic workflows that turn conversations into coordinated, reviewable tasks. Six specialist agents work with MCP as their coordinator to plan and route work across software development, security, storage, system resources, and communications. Grid.AI supports agent-to-agent collaboration, persistent context, and human-approved tool execution, powered by local AI models through a terminal-first C# and .NET application.",
+            "Your AI agents, your workflows, your data. Grid.AI is an actively developed, local-first multi-agent platform that turns conversations into coordinated, reviewable tasks. MCP orchestrates six specialist agents for software development, security, storage, resources, and communications, with persistent context and human-approved actions. Designed to travel on a flash drive, its prepared self-contained Windows package carries the application, local models, and runtime together so compatible computers need no separate Grid.AI or AI-model installation. Run locally, work offline, and keep control of your tools and information.",
 
         technologies: [
             "C#",
@@ -56,7 +56,8 @@ const projects = [
             "Qwen3",
             "Agentic Workflows",
             "AI Agents",
-            "Multi-Agent Orchestration"
+            "Multi-Agent Orchestration",
+            "Portable / Offline"
         ],
 
         learned: [
@@ -64,7 +65,8 @@ const projects = [
             "Coordinating agentic workflows through MCP, including specialist delegation, task planning, human review, and saved execution results.",
             "Implementing multi-agent conversations and collaboration while maintaining boundaries between private and shared context.",
             "Connecting agents to controlled local tools for repository inspection, approved build and test operations, diagnostics, and reviewed source changes.",
-            "Building reliable orchestration with authorization checks, scoped memory, task persistence, and audit records across application restarts."
+            "Building reliable orchestration with authorization checks, scoped memory, task persistence, and audit records across application restarts.",
+            "Packaging the AI runtime, models, and saved state for self-contained flash-drive deployment without separate target-machine installation."
         ],
 
         images: [
