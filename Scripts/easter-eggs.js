@@ -1358,11 +1358,16 @@
                 (run.images[0].naturalHeight -
                     referenceBounds.y - referenceBounds.height) *
                 (height * 0.92 / run.images[0].naturalHeight);
+            // Draw the entire source image at the calibrated scale so that
+            // the translucent ground shadow is preserved below the shoes.
+            const spriteScale = spriteHeight / bounds.height;
             if (mediaTime >= BOND_WALK_START) ctx.drawImage(sprite,
-                bounds.x, bounds.y, bounds.width, bounds.height,
-                Math.round(characterX - spriteWidth / 2),
-                Math.round(baselineY - spriteHeight),
-                Math.round(spriteWidth), Math.round(spriteHeight));
+                Math.round(characterX -
+                    (bounds.x + bounds.width / 2) * spriteScale),
+                Math.round(baselineY -
+                    (bounds.y + bounds.height) * spriteScale),
+                Math.round(sprite.naturalWidth * spriteScale),
+                Math.round(sprite.naturalHeight * spriteScale));
 
             ctx.restore();
 
