@@ -226,7 +226,7 @@
 
 /* MI6-007 reuses the existing drop-down strip and layout transitions. */
 .marching-band-bar.bond-mode {
-    background: #f5ebd5;
+    background: #000;
     border-color: #d7c6a4;
 }
 .marching-band-bar.bond-mode .marching-band-capitol,
@@ -244,7 +244,7 @@
     pointer-events: none;
 }
 .bond-strip-barrel {
-    z-index: 1;
+    z-index: 3;
     image-rendering: pixelated;
 }
 .bond-strip-sprite {
