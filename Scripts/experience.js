@@ -410,6 +410,7 @@ function hideExperienceGlossary() {
     }
 
     activeExperienceGlossary.trigger.setAttribute("aria-expanded", "false");
+    activeExperienceGlossary.trigger.removeAttribute("aria-describedby");
     activeExperienceGlossary.tooltip.remove();
     activeExperienceGlossary = null;
 }
@@ -460,13 +461,33 @@ function appendExperienceGlossaryText(container, text, terms) {
         return;
     }
 
-    const pattern = new RegExp(
-        "(" + terms.map(term => term.replace(/[.*+?^${}()|[\]\\]/g, "\\/* =========================================
-   BUILD ALL EXPERIENCES
-   ========================================= */")).join("|") + ")",
-        "g"
-    );
-    const fragments = text.split(pattern);
+    const fragments = [];
+    let remaining = text;
+
+    while (remaining.length) {
+        let nextIndex = -1;
+        let nextTerm = null;
+
+        terms.forEach(term => {
+            const index = remaining.indexOf(term);
+            if (index >= 0 && (nextIndex === -1 || index < nextIndex)) {
+                nextIndex = index;
+                nextTerm = term;
+            }
+        });
+
+        if (nextIndex === -1) {
+            fragments.push(remaining);
+            break;
+        }
+
+        if (nextIndex > 0) {
+            fragments.push(remaining.slice(0, nextIndex));
+        }
+
+        fragments.push(nextTerm);
+        remaining = remaining.slice(nextIndex + nextTerm.length);
+    }
 
     fragments.forEach(fragment => {
         const entry = experienceGlossary[fragment];
@@ -490,11 +511,8 @@ function appendExperienceGlossaryText(container, text, terms) {
         trigger.addEventListener("focus", () => showExperienceGlossary(trigger, entry));
         trigger.addEventListener("blur", () => hideExperienceGlossary());
         trigger.addEventListener("click", () => {
-            if (activeExperienceGlossary?.trigger === trigger) {
-                hideExperienceGlossary();
-            } else {
-                showExperienceGlossary(trigger, entry);
-            }
+            // Focus may already have opened it; keep it visible after a tap.
+            showExperienceGlossary(trigger, entry);
         });
 
         container.appendChild(trigger);
