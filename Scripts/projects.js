@@ -46,7 +46,7 @@ const projects = [
             true,
 
         description:
-            "An actively developed, local-first AI platform built in C# and .NET for offline-capable conversations, coordinated specialist agents, and controlled computer assistance. Grid.AI brings together a terminal-based interface, local model inference, persistent memory, and human-reviewed software development workflows without giving AI unrestricted access to the machine.",
+            "An actively developed multi-agent AI platform focused on agentic workflows that turn conversations into coordinated, reviewable tasks. Six specialist agents work with MCP as their coordinator to plan and route work across software development, security, storage, system resources, and communications. Grid.AI supports agent-to-agent collaboration, persistent context, and human-approved tool execution, powered by local AI models through a terminal-first C# and .NET application.",
 
         technologies: [
             "C#",
@@ -54,16 +54,17 @@ const projects = [
             "SQLite",
             "Ollama",
             "Qwen3",
-            "Local AI",
-            "Multi-Agent Systems"
+            "Agentic Workflows",
+            "AI Agents",
+            "Multi-Agent Orchestration"
         ],
 
         learned: [
-            "Architecting a modular, terminal-first AI platform with separate inference, agent, simulation, and persistence components.",
-            "Integrating local language models and managing offline-capable inference workflows.",
-            "Designing specialist agents for software development, storage, security, resources, and communications.",
-            "Building persistent conversations, scoped memory, task records, and SQLite-backed application state.",
-            "Implementing human approval, bounded file access, and verification steps for local development assistance."
+            "Designing specialized AI agents with distinct responsibilities, identities, permissions, and persistent conversation context.",
+            "Coordinating agentic workflows through MCP, including specialist delegation, task planning, human review, and saved execution results.",
+            "Implementing multi-agent conversations and collaboration while maintaining boundaries between private and shared context.",
+            "Connecting agents to controlled local tools for repository inspection, approved build and test operations, diagnostics, and reviewed source changes.",
+            "Building reliable orchestration with authorization checks, scoped memory, task persistence, and audit records across application restarts."
         ],
 
         images: [
