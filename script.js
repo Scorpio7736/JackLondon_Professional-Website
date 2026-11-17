@@ -1229,13 +1229,13 @@ setupSidebarIndicator();
    INITIALIZE SKILLS
    ========================================= */
 
+buildAISkillsCards();
+
 buildProgrammingLanguageCards();
 
 buildFrameworkCards();
 
 buildToolsCards();
-
-buildAISkillsCards();
 
 buildAdditionalSkillsCards();
 
