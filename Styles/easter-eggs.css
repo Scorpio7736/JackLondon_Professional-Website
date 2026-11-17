@@ -223,3 +223,19 @@
     90% { opacity: 1; }
     100% { opacity: 0; transform: translate3d(var(--drift), 105vh, 0) rotate(90deg); }
 }
+
+/* Optional completion photo; only shown for eggs that configure one. */
+.band-celebration-photo {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: min(36vh, 280px);
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto 20px;
+    border: 2px solid rgba(214, 233, 255, 0.55);
+}
+.band-celebration-dialog:has(.band-celebration-photo) {
+    max-height: calc(100dvh - 40px);
+    overflow-y: auto;
+}
