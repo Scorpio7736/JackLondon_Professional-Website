@@ -962,11 +962,66 @@
        MI6-007 — DROP-DOWN SECRET AGENT
        ===================================== */
 
-    const BOND_SPRITE = "Images/EasterEggs/Bond_Sprite.png";
-    const BOND_FRAME_COUNT = 14;
-    const BOND_WALK_FRAMES = 7;
-    // Stop on the front-facing neutral pose, before pointing/aiming.
-    const BOND_TURN_END_FRAME = 8;
+    // Combined walk-and-turn sheet. Crop each character from its actual pixels.
+    const BOND_SPRITE = "Images/EasterEggs/Bond_Sprite_Full.png";
+
+    function detectBondFrames(image) {
+        const scan = document.createElement("canvas");
+        scan.width = image.naturalWidth;
+        scan.height = image.naturalHeight;
+        const context = scan.getContext("2d", { willReadFrequently: true });
+        if (!context) return [];
+        context.drawImage(image, 0, 0);
+        const pixels = context.getImageData(0, 0, scan.width, scan.height).data;
+        const width = scan.width, height = scan.height;
+        const used = new Uint8Array(width);
+        // Ignore the black backdrop, faint antialiasing, and isolated noise.
+        for (let y = 0; y < height; y += 2) {
+            for (let x = 0; x < width; x++) {
+                const p = (y * width + x) * 4;
+                if (pixels[p + 3] > 70 &&
+                    Math.max(pixels[p], pixels[p + 1], pixels[p + 2]) > 42) {
+                    used[x] = 1;
+                }
+            }
+        }
+        const ranges = [];
+        let left = -1, last = -1;
+        for (let x = 0; x <= width; x++) {
+            if (x < width && used[x]) {
+                if (left < 0) left = x;
+                last = x;
+            } else if (left >= 0 && (x === width || x - last > 9)) {
+                if (last - left > 18) ranges.push([left, last + 1]);
+                left = -1;
+            }
+        }
+        // A frame must include the entire character, including swinging arms
+        // and legs; compute a consistent shared vertical crop.
+        let top = height, bottom = 0;
+        for (const [a, b] of ranges) {
+            for (let y = 0; y < height; y++) {
+                for (let x = a; x < b; x += 2) {
+                    const p = (y * width + x) * 4;
+                    if (pixels[p + 3] > 70 &&
+                        Math.max(pixels[p], pixels[p + 1], pixels[p + 2]) > 42) {
+                        top = Math.min(top, y);
+                        bottom = Math.max(bottom, y + 1);
+                    }
+                }
+            }
+        }
+        if (ranges.length < 9 || ranges.length > 24 || top >= bottom) {
+            console.warn("MI6: sprite detection could not identify frames", ranges.length);
+            return [];
+        }
+        return ranges.map(([a, b]) => ({
+            x: Math.max(0, a - 3),
+            y: Math.max(0, top - 3),
+            width: Math.min(width, b + 3) - Math.max(0, a - 3),
+            height: Math.min(height, bottom + 3) - Math.max(0, top - 3)
+        }));
+    }
 
     function stopBondEgg({ closeStrip = true } = {}) {
         if (!bondRun) return;
@@ -1020,7 +1075,8 @@
         image.onload = () => {
             if (bondRun !== run) return;
             run.image = image;
-            run.frameWidth = image.naturalWidth / BOND_FRAME_COUNT;
+            run.frames = detectBondFrames(image);
+            if (!run.frames.length) { stopBondEgg(); return; }
             run.started = performance.now();
             run.frame = requestAnimationFrame(draw);
         };
@@ -1046,27 +1102,28 @@
             ctx.imageSmoothingEnabled = false;
 
             const walkSeconds = 3.5;
-            const turnSeconds = 0.8;
+            const turnSeconds = 0.9;
+            // The first half is left-facing walking; the next few frames
+            // turn to the camera. Stop BEFORE the pointing sequence.
+            const count = run.frames.length;
+            const walkFrames = Math.max(2, Math.min(7, Math.floor(count / 2)));
+            const facingFrame = Math.min(count - 1, walkFrames + 1);
             const walkProgress = Math.min(1, elapsed / walkSeconds);
-            const frame = elapsed < walkSeconds
-                ? Math.floor(elapsed * 8) % BOND_WALK_FRAMES
-                : Math.min(BOND_TURN_END_FRAME,
-                    BOND_WALK_FRAMES + Math.floor(
-                        (elapsed - walkSeconds) / turnSeconds *
-                        (BOND_TURN_END_FRAME - BOND_WALK_FRAMES + 1)));
-
-            // Ignore transparent/black margins of the provided sheet.
-            const sourceTop = image.naturalHeight * 0.17;
-            const sourceHeight = image.naturalHeight * 0.62;
-            const spriteHeight = height * 0.93;
-            const spriteWidth = spriteHeight * run.frameWidth / sourceHeight;
-            const centerX = width / 2;
-            const x = (width + spriteWidth / 2) * (1 - walkProgress)
-                + centerX * walkProgress;
-            ctx.drawImage(image, frame * run.frameWidth, sourceTop,
-                run.frameWidth, sourceHeight,
-                x - spriteWidth / 2, (height - spriteHeight) / 2,
-                spriteWidth, spriteHeight);
+            const frameIndex = elapsed < walkSeconds
+                ? Math.floor(elapsed * 8) % walkFrames
+                : Math.min(facingFrame, walkFrames +
+                    Math.floor((elapsed - walkSeconds) / turnSeconds *
+                        (facingFrame - walkFrames + 1)));
+            const sprite = run.frames[frameIndex];
+            const spriteHeight = height * 0.90;
+            const spriteWidth = sprite.width / sprite.height * spriteHeight;
+            // Start fully off-screen at the right and finish exactly in center.
+            const startX = width + spriteWidth / 2;
+            const x = startX + (width / 2 - startX) * walkProgress;
+            ctx.drawImage(image, sprite.x, sprite.y, sprite.width, sprite.height,
+                Math.round(x - spriteWidth / 2),
+                Math.round((height - spriteHeight) / 2),
+                Math.round(spriteWidth), Math.round(spriteHeight));
 
             if (elapsed >= walkSeconds + turnSeconds) {
                 // Hold the turned pose briefly, then fold the strip closed.
