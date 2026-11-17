@@ -1135,7 +1135,7 @@
                 started: 0, images, audio: null
             };
             bondRun = run;
-            setEasterEggStatus("Secret Agent");
+            setEasterEggStatus("Saving the world");
             void bar.offsetHeight;
             bar.classList.add("active");
             document.querySelector(".app-shell")?.classList.add("band-open");
