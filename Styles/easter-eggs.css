@@ -223,3 +223,60 @@
     90% { opacity: 1; }
     100% { opacity: 0; transform: translate3d(var(--drift), 105vh, 0) rotate(90deg); }
 }
+
+/* MI6-007 secret-agent animation. Isolated from existing parade layout. */
+.bond-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #000;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+}
+.bond-barrel {
+    position: absolute;
+    width: min(130vw, 140vh);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+        repeating-conic-gradient(from 25deg, #070707 0deg 14deg,
+            #c1b8a6 15deg 27deg, #070707 28deg 34deg);
+    -webkit-mask-image: radial-gradient(circle, transparent 0 22%, #000 23% 70%,
+        transparent 84%);
+    mask-image: radial-gradient(circle, transparent 0 22%, #000 23% 70%,
+        transparent 84%);
+    opacity: .85;
+    pointer-events: none;
+}
+.bond-aperture {
+    position: relative;
+    width: min(70vw, 65vh, 500px);
+    aspect-ratio: 1;
+    border: 12px solid #050505;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f4e8c7;
+    display: grid;
+    place-items: center;
+}
+.bond-agent-canvas {
+    width: 58%;
+    height: 85%;
+    image-rendering: pixelated;
+}
+.bond-close {
+    position: absolute;
+    right: 22px;
+    top: 20px;
+    border: 1px solid #ddd;
+    background: #161616;
+    color: #fff;
+    padding: 8px 14px;
+    cursor: pointer;
+    z-index: 2;
+}
+.bond-close:focus-visible { outline: 3px solid #fff; }
+@media (max-width: 600px) {
+    .bond-aperture { width: 86vw; border-width: 7px; }
+}
