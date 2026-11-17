@@ -328,6 +328,7 @@ const aiSkills = [
 
     {
         name: "Codex",
+        image: "Images/Icons/Codex_ICON.png",
         shortName: "CX",
         comfort: 9,
         projects: [
@@ -339,6 +340,7 @@ const aiSkills = [
 
     {
         name: "GPT",
+        image: "Images/Icons/ChatGPT_ICON.png",
         shortName: "GPT",
         comfort: 9,
         projects: [
@@ -350,6 +352,7 @@ const aiSkills = [
 
     {
         name: "Gemini",
+        image: "Images/Icons/Gemini_ICON.png",
         shortName: "GEM",
         comfort: 7,
         projects: [
@@ -361,6 +364,7 @@ const aiSkills = [
 
     {
         name: "Claude",
+        image: "Images/Icons/Claude_ICON.png",
         shortName: "CL",
         comfort: 7,
         projects: [
@@ -372,6 +376,7 @@ const aiSkills = [
 
     {
         name: "Claude Code",
+        image: "Images/Icons/ClaudeCode_ICON.png",
         shortName: "CC",
         comfort: 7,
         projects: [
@@ -383,6 +388,7 @@ const aiSkills = [
 
     {
         name: "Copilot",
+        image: "Images/Icons/copilot_ICON.png",
         shortName: "CP",
         comfort: 8,
         projects: [
@@ -394,6 +400,7 @@ const aiSkills = [
 
     {
         name: "Ollama",
+        image: "Images/Icons/Ollama_ICON.png",
         shortName: "OLL",
         comfort: 8,
         projects: [
@@ -416,6 +423,7 @@ const aiSkills = [
 
     {
         name: "deepseek",
+        image: "Images/Icons/Deepseek_ICON.png",
         shortName: "DS",
         comfort: 6,
         projects: [
