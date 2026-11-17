@@ -1114,6 +1114,8 @@
         function draw(now) {
             if (bondRun !== run || !run.images) return;
             const elapsed = now - run.started;
+            const bar = run.bar;
+            const canvas = run.canvas;
             const width = bar.clientWidth;
             const height = window.matchMedia("(max-width: 700px)").matches ? 94 : 124;
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
