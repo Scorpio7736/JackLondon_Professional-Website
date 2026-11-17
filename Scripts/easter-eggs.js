@@ -1312,16 +1312,23 @@
                 const shotElapsed = (mediaTime - BOND_SHOT_TIME) * 1000;
                 const dripProgress = Math.max(0, Math.min(1,
                     shotElapsed / BOND_RED_WASH_DURATION));
-                // Start semi-transparent, then gradually become completely
-                // solid even after the drips have reached the bottom.
+                // Remain semi-transparent through most of the soundtrack,
+                // turning fully opaque only as the MP3 reaches its ending.
+                // Audio metadata supplies the actual end time across devices.
+                const audioEnd = run.audio &&
+                    Number.isFinite(run.audio.duration) &&
+                    run.audio.duration > BOND_SHOT_TIME
+                    ? run.audio.duration : BOND_SHOT_TIME + 12;
+                const fadeEnd = Math.max(BOND_SHOT_TIME + 0.5, audioEnd - 0.12);
                 const fadeProgress = Math.max(0, Math.min(1,
-                    shotElapsed / 2800));
-                const opacity = 0.42 + 0.58 *
-                    (fadeProgress * fadeProgress * (3 - 2 * fadeProgress));
+                    (mediaTime - BOND_SHOT_TIME) /
+                    (fadeEnd - BOND_SHOT_TIME)));
+                // Ease-in holds translucency longer; end reaches 100%.
+                const opacity = 0.38 + 0.62 * Math.pow(fadeProgress, 2.2);
                 if (dripProgress > 0) {
                     barrelCtx.save();
                     barrelCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                    barrelCtx.fillStyle = "rgba(145, 0, 9, " +
+                    barrelCtx.fillStyle = "rgba(96, 0, 6, " +
                         opacity.toFixed(3) + ")";
                     if (dripProgress >= 1) {
                         // Finish as a solid edge-to-edge red dropdown with
