@@ -315,18 +315,33 @@ const developmentTools = [
             "SwiftUI Development",
             "iOS Application Testing"
         ]
-    },
+    }
+
+];
+
+
+/* =========================================
+   AI
+   ========================================= */
+
+const aiSkills = [
 
     {
-        name: "AI Development Tools",
+        name: "AI",
         shortName: "AI",
-        image: "Images/Icons/AI_ICON.png",
+        // Image intentionally omitted until the AI icon is added.
         comfort: 9,
 
         projects: [
-            "ChatGPT & Codex",
-            "GitHub Copilot",
-            "Development & Debugging Workflows"
+            "Codex",
+            "GPT",
+            "Gemini",
+            "Claude",
+            "Claude Code",
+            "Copilot",
+            "Ollama",
+            "Llama3",
+            "deepseek"
         ]
     }
 
@@ -490,8 +505,9 @@ function buildSkillCards(
                 );
 
 
-            image.src =
-                skill.image;
+            if (skill.image) {
+                image.src = skill.image;
+            }
 
 
             image.alt =
@@ -525,9 +541,9 @@ function buildSkillCards(
             );
 
 
-            imageArea.appendChild(
-                image
-            );
+            if (skill.image) {
+                imageArea.appendChild(image);
+            }
 
 
             /* =================================
@@ -803,6 +819,21 @@ function buildToolsCards() {
     buildSkillCards(
         "toolsCardGrid",
         developmentTools
+    );
+
+}
+
+
+/* =========================================
+   BUILD AI SKILL CARDS
+   ========================================= */
+
+function buildAISkillsCards() {
+
+    buildSkillCards(
+        "aiSkillsCardGrid",
+        aiSkills,
+        "Tools & models"
     );
 
 }
