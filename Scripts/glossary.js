@@ -93,6 +93,23 @@ function openPortfolioGlossary(trigger, entry) {
     const y = rect.top >= height + space + 8 ? rect.top - height - 8 : Math.max(space, Math.min(rect.bottom + 8, window.innerHeight - height - space));
     tooltip.style.left = x + "px";
     tooltip.style.top = y + "px";
+
+    // Animate after the tooltip has been measured and positioned.
+    // This starts a new animation on every open, including repeated hovers.
+    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (!reduceMotion && typeof tooltip.animate === "function") {
+        tooltip.animate(
+            [
+                { opacity: 0, transform: "translateY(12px) scale(0.94)" },
+                { opacity: 1, transform: "translateY(0) scale(1)" }
+            ],
+            {
+                duration: 280,
+                easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+                fill: "both"
+            }
+        );
+    }
 }
 
 function appendGlossaryText(container, sourceText, termNames = []) {
