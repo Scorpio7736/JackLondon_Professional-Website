@@ -1206,8 +1206,8 @@
             const mediaTime = run.audio && !run.audio.paused
                 ? run.audio.currentTime
                 : BOND_AUDIO_START + elapsed / 1000;
-            // Reference video: barrel slides into place before the walk, then
-            // rolls slightly as the figure reaches center and fires.
+            // Barrel enters from the left, meets the agent at the right edge,
+            // then tracks his horizontal position until he stops at center.
             const barrelCtx = barrelCanvas.getContext("2d");
             if (barrelCtx) {
                 barrelCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1217,7 +1217,21 @@
                         (mediaTime - BOND_BARREL_ENTER) /
                         (BOND_BARREL_SETTLED - BOND_BARREL_ENTER)));
                     const ease = 1 - Math.pow(1 - enterProgress, 3);
-                    const cx = -height * 1.8 + (width / 2 + height * 1.8) * ease;
+                    // During the walk, follow the agent's exact horizontal
+                    // position rather than leaving the barrel at center.
+                    const walkingSprite = run.images[0];
+                    const agentWidth = height * 0.92 *
+                        walkingSprite.naturalWidth / walkingSprite.naturalHeight;
+                    const agentStartX = width + agentWidth / 2;
+                    const agentWalkDuration = (BOND_SHOT_TIME - BOND_WALK_START) *
+                        1000 - BOND_TURN_DURATION;
+                    const agentProgress = Math.max(0, Math.min(1,
+                        ((mediaTime - BOND_WALK_START) * 1000) / agentWalkDuration));
+                    const trackedX = agentStartX +
+                        (width / 2 - agentStartX) * agentProgress;
+                    const cx = mediaTime < BOND_WALK_START
+                        ? -height * 1.8 + (agentStartX + height * 1.8) * ease
+                        : trackedX;
                     const cy = height / 2;
                     const drawW = height * 4.3;
                     const drawH = drawW * run.barrelImage.naturalHeight /
