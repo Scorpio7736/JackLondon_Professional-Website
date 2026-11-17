@@ -213,6 +213,35 @@
 }
 .band-celebration--red .band-confetti span:nth-child(3n) { background: #ae202b; }
 .band-celebration--red .band-confetti span:nth-child(4n) { background: #ff7957; }
+/* MI6 finale uses the existing thank-you popup and Keep exploring button. */
+.band-celebration--bond .band-celebration-dialog {
+    background: #310809;
+    border-color: #f5ebd5;
+    box-shadow: 7px 7px 0 #160304;
+}
+.band-celebration--bond .band-celebration-dialog h2,
+.band-celebration--bond .band-celebration-dialog p {
+    color: #f5ebd5;
+}
+.band-celebration--bond .band-celebration-dialog button {
+    color: #600006;
+    background: #f5ebd5;
+    border-color: #f5ebd5;
+}
+.band-celebration--bond .band-celebration-dialog button:hover,
+.band-celebration--bond .band-celebration-dialog button:focus-visible {
+    background: #e5d6b8;
+}
+.band-celebration--bond .band-confetti span {
+    background: #f5ebd5;
+    box-shadow: 3px 0 #600006;
+}
+.band-celebration--bond .band-confetti span:nth-child(3n) {
+    background: #d7c6a4;
+}
+.band-celebration--bond .band-confetti span:nth-child(4n) {
+    background: #840f16;
+}
 @keyframes band-celebration-appear {
     from { opacity: 0; }
     to { opacity: 1; }
