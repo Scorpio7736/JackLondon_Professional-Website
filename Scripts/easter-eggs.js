@@ -974,6 +974,10 @@
     // 08-14: turn to camera, raise arm and point. Last frame holds the aim.
     const BOND_TURN_FRAMES = [7, 8, 9, 10, 11, 12, 13];
     // Timing is expressed in seconds on the original Gunbarrel.mp3 timeline.
+    const BOND_BARREL_PATH = "Images/EasterEggs/Bond_Barrel.png";
+    const BOND_BARREL_ENTER = 18.7;
+    const BOND_BARREL_SETTLED = 20;
+    const BOND_RED_WASH_DURATION = 1200;
     const BOND_AUDIO_PATH = "Audio/Gunbarrel.mp3";
     const BOND_AUDIO_START = 12;
     const BOND_WALK_START = 20;
@@ -981,6 +985,23 @@
     const BOND_TURN_DURATION = 600; // milliseconds before the gunshot
     const BOND_HOLD_DURATION = 5000;
     const BOND_WALK_FRAME_DURATION = 150;
+    let bondBarrelPromise = null;
+    function loadBondBarrel() {
+        if (!bondBarrelPromise) {
+            bondBarrelPromise = new Promise((resolve, reject) => {
+                const image = new Image();
+                image.onload = () => resolve(image);
+                image.onerror = () => reject(new Error("MI6 gunbarrel image unavailable"));
+                image.src = BOND_BARREL_PATH;
+            }).catch(error => {
+                // Keep the character animation functional if the art cannot load.
+                console.warn(error);
+                return null;
+            });
+        }
+        return bondBarrelPromise;
+    }
+
     let bondFramesPromise = null;
     let bondRequestId = 0;
 
@@ -1045,11 +1066,13 @@
             setEasterEggStatus();
             bondCloseTimer = setTimeout(() => {
                 run.canvas.remove();
+                run.barrelCanvas.remove();
                 run.bar.classList.remove("bond-mode");
                 bondCloseTimer = null;
             }, bandTransitionMs);
         } else {
             run.canvas.remove();
+            run.barrelCanvas.remove();
             run.bar.classList.remove("bond-mode");
         }
     }
@@ -1078,16 +1101,16 @@
         // Do not open an empty dropdown while the first-load images arrive.
         // Only the most recently requested run can start after preloading.
         const requestId = ++bondRequestId;
-        loadBondFrames().then(images => {
+        Promise.all([loadBondFrames(), loadBondBarrel()]).then(([images, barrelImage]) => {
             if (requestId !== bondRequestId) return;
-            openBondStrip(images);
+            openBondStrip(images, barrelImage);
         }).catch(error => {
             if (requestId !== bondRequestId) return;
             console.warn("MI6 could not initialize:", error);
             setEasterEggStatus();
         });
 
-        function openBondStrip(images) {
+        function openBondStrip(images, barrelImage) {
             const bar = createMarchingBand();
             if (!bar) return;
             if (bandCloseTimer !== null) {
@@ -1096,11 +1119,15 @@
             }
             bar.classList.remove("terminator-mode");
             bar.classList.add("bond-mode");
+            const barrelCanvas = document.createElement("canvas");
+            barrelCanvas.className = "bond-strip-barrel";
+            bar.appendChild(barrelCanvas);
             const canvas = document.createElement("canvas");
             canvas.className = "bond-strip-sprite";
             bar.appendChild(canvas);
             run = {
-                bar, canvas, frame: null, holdTimer: null,
+                bar, canvas, barrelCanvas, barrelImage,
+                frame: null, holdTimer: null,
                 started: 0, images, audio: null
             };
             bondRun = run;
@@ -1152,6 +1179,7 @@
             const elapsed = now - run.started;
             const bar = run.bar;
             const canvas = run.canvas;
+            const barrelCanvas = run.barrelCanvas;
             const width = bar.clientWidth;
             const height = window.matchMedia("(max-width: 700px)").matches ? 94 : 124;
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -1162,6 +1190,11 @@
                 canvas.height = desiredH;
             }
             canvas.style.height = height + "px";
+            if (barrelCanvas.width !== desiredW || barrelCanvas.height !== desiredH) {
+                barrelCanvas.width = desiredW;
+                barrelCanvas.height = desiredH;
+            }
+            barrelCanvas.style.height = height + "px";
             const ctx = canvas.getContext("2d");
             if (!ctx) { stopBondEgg(); return; }
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1173,6 +1206,54 @@
             const mediaTime = run.audio && !run.audio.paused
                 ? run.audio.currentTime
                 : BOND_AUDIO_START + elapsed / 1000;
+            // Reference video: barrel slides into place before the walk, then
+            // rolls slightly as the figure reaches center and fires.
+            const barrelCtx = barrelCanvas.getContext("2d");
+            if (barrelCtx) {
+                barrelCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                barrelCtx.clearRect(0, 0, width, height);
+                if (run.barrelImage && mediaTime >= BOND_BARREL_ENTER) {
+                    const enterProgress = Math.min(1, Math.max(0,
+                        (mediaTime - BOND_BARREL_ENTER) /
+                        (BOND_BARREL_SETTLED - BOND_BARREL_ENTER)));
+                    const ease = 1 - Math.pow(1 - enterProgress, 3);
+                    const cx = -height * 1.8 + (width / 2 + height * 1.8) * ease;
+                    const cy = height / 2;
+                    const drawW = height * 4.3;
+                    const drawH = drawW * run.barrelImage.naturalHeight /
+                        run.barrelImage.naturalWidth;
+                    const rotation = (-0.25 + 0.25 * ease) +
+                        Math.min(1, Math.max(0, (mediaTime - 20) / 3)) * 0.16;
+                    barrelCtx.save();
+                    barrelCtx.translate(cx, cy);
+                    barrelCtx.rotate(rotation);
+                    barrelCtx.imageSmoothingEnabled = false;
+                    barrelCtx.drawImage(run.barrelImage,
+                        -drawW * 0.43, -drawH * 0.50, drawW, drawH);
+                    // Soften image edges rather than showing a black rectangle.
+                    barrelCtx.globalCompositeOperation = "destination-in";
+                    const edge = barrelCtx.createRadialGradient(0, 0,
+                        height * 0.65, 0, 0, height * 2.0);
+                    edge.addColorStop(0, "rgba(0,0,0,1)");
+                    edge.addColorStop(1, "rgba(0,0,0,0)");
+                    barrelCtx.fillStyle = edge;
+                    barrelCtx.fillRect(-drawW, -drawH, drawW * 2, drawH * 2);
+                    // Make the center transparent to retain the cream backdrop.
+                    barrelCtx.globalCompositeOperation = "destination-out";
+                    barrelCtx.beginPath();
+                    barrelCtx.arc(0, 0, height * 0.53, 0, Math.PI * 2);
+                    barrelCtx.fill();
+                    barrelCtx.restore();
+                }
+                if (mediaTime >= BOND_SHOT_TIME) {
+                    const redProgress = Math.min(1, Math.max(0,
+                        (mediaTime - BOND_SHOT_TIME) * 1000 /
+                        BOND_RED_WASH_DURATION));
+                    barrelCtx.fillStyle = "rgba(125,0,0," +
+                        (0.58 * redProgress).toFixed(3) + ")";
+                    barrelCtx.fillRect(0, 0, width, height * redProgress);
+                }
+            }
             const walkElapsed = (mediaTime - BOND_WALK_START) * 1000;
             const walkDuration = (BOND_SHOT_TIME - BOND_WALK_START) * 1000
                 - BOND_TURN_DURATION;
