@@ -975,10 +975,66 @@
     const BOND_TURN_FRAMES = [7, 8, 9, 10, 11, 12, 13];
     // Gun-barrel-style pacing: measured reference video was not accessible,
     // so these are adjustable estimates (milliseconds).
-    const BOND_WALK_DURATION = 2750;
+    const BOND_WALK_DURATION = 2750; // fallback if audio analysis fails
     const BOND_TURN_DURATION = 600;
     const BOND_HOLD_DURATION = 5000;
     const BOND_WALK_FRAME_DURATION = 150;
+    const BOND_AUDIO_PATH = "Audio/Gunbarrel.mp3";
+    const BOND_AUDIO_START = 12;
+    let bondGunshotPromise = null;
+
+    // Locate a loud, sharp transient in the actual audio. This is deliberately
+    // a cue estimate rather than an invented fixed timestamp for the gunshot.
+    function loadBondGunshotCue() {
+        if (bondGunshotPromise) return bondGunshotPromise;
+        bondGunshotPromise = (async () => {
+            const response = await fetch(BOND_AUDIO_PATH);
+            if (!response.ok) throw new Error("MI6 audio HTTP " + response.status);
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) throw new Error("Audio analysis unavailable");
+            const context = new AudioCtx();
+            try {
+                const buffer = await context.decodeAudioData(await response.arrayBuffer());
+                const channel = buffer.getChannelData(0);
+                const rate = buffer.sampleRate;
+                const step = Math.max(1, Math.round(rate * 0.015));
+                const first = Math.floor((BOND_AUDIO_START + 1.8) * rate / step);
+                const last = Math.min(
+                    Math.floor(Math.min(buffer.duration - 0.2, BOND_AUDIO_START + 14) * rate / step),
+                    Math.floor(channel.length / step) - 1
+                );
+                let bestTime = null, bestScore = 0, previous = 0;
+                for (let i = Math.max(0, first - 10); i <= last; i++) {
+                    const offset = i * step;
+                    let energy = 0;
+                    // Differences emphasize explosive attacks over sustained score.
+                    for (let j = 1; j < step && offset + j < channel.length; j += 2) {
+                        const delta = channel[offset + j] - channel[offset + j - 1];
+                        energy += delta * delta;
+                    }
+                    const level = Math.sqrt(energy / Math.max(1, step / 2));
+                    const score = Math.max(0, level - previous * 1.3);
+                    previous = previous * 0.82 + level * 0.18;
+                    if (i >= first && score > bestScore) {
+                        bestScore = score;
+                        bestTime = offset / rate;
+                    }
+                }
+                if (bestTime === null || bestScore < 0.003) {
+                    throw new Error("No reliable gunshot transient detected");
+                }
+                console.info("MI6 estimated gunshot cue:", bestTime.toFixed(3), "s");
+                return bestTime;
+            } finally {
+                await context.close();
+            }
+        })().catch(error => {
+            console.warn("MI6 audio cue fallback:", error.message);
+            return BOND_AUDIO_START +
+                (BOND_WALK_DURATION + BOND_TURN_DURATION) / 1000;
+        });
+        return bondGunshotPromise;
+    }
     let bondFramesPromise = null;
     let bondRequestId = 0;
 
@@ -1031,6 +1087,11 @@
         bondRun = null;
         if (run.frame !== null) cancelAnimationFrame(run.frame);
         if (run.holdTimer !== null) clearTimeout(run.holdTimer);
+        if (run.audio) {
+            run.audio.pause();
+            run.audio.src = "";
+            run.audio.load();
+        }
         if (closeStrip) {
             // Keep the MI6 background in place until the dropdown has
             // fully folded shut, so the Wisconsin scene never flashes.
@@ -1071,16 +1132,17 @@
         // Do not open an empty dropdown while the first-load images arrive.
         // Only the most recently requested run can start after preloading.
         const requestId = ++bondRequestId;
-        loadBondFrames().then(images => {
-            if (requestId !== bondRequestId) return;
-            openBondStrip(images);
-        }).catch(error => {
+        Promise.all([loadBondFrames(), loadBondGunshotCue()])
+            .then(([images, gunshotAt]) => {
+                if (requestId !== bondRequestId) return;
+                openBondStrip(images, gunshotAt);
+            }).catch(error => {
             if (requestId !== bondRequestId) return;
             console.warn("MI6 could not initialize:", error);
             setEasterEggStatus();
         });
 
-        function openBondStrip(images) {
+        function openBondStrip(images, gunshotAt) {
             const bar = createMarchingBand();
             if (!bar) return;
             if (bandCloseTimer !== null) {
@@ -1094,7 +1156,9 @@
             bar.appendChild(canvas);
             run = {
                 bar, canvas, frame: null, holdTimer: null,
-                started: 0, images
+                started: 0, images, audio: null,
+                cueOffsetMs: Math.max(2150,
+                    (gunshotAt - BOND_AUDIO_START) * 1000)
             };
             bondRun = run;
             setEasterEggStatus("Secret Agent");
@@ -1102,13 +1166,38 @@
             bar.classList.add("active");
             document.querySelector(".app-shell")?.classList.add("band-open");
 
-            // Opening and playback share a single clock after assets are ready.
-            run.holdTimer = setTimeout(() => {
+            // Seek before playback; never play the first 12 seconds.
+            const audio = new Audio(BOND_AUDIO_PATH);
+            audio.preload = "auto";
+            audio.volume = 0.7;
+            run.audio = audio;
+            const begin = () => {
                 if (bondRun !== run) return;
-                run.holdTimer = null;
+                audio.currentTime = BOND_AUDIO_START;
+                // Start visuals from the same clock as playback.
                 run.started = performance.now();
+                const playback = audio.play();
+                if (playback && typeof playback.catch === "function") {
+                    playback.catch(error =>
+                        console.warn("MI6 audio playback blocked:", error));
+                }
                 run.frame = requestAnimationFrame(draw);
-            }, bandTransitionMs);
+            };
+            audio.addEventListener("error", () =>
+                console.warn("MI6 audio could not load"), { once: true });
+            const schedule = () => {
+                if (run.holdTimer !== null) clearTimeout(run.holdTimer);
+                run.holdTimer = setTimeout(() => {
+                    run.holdTimer = null;
+                    begin();
+                }, bandTransitionMs);
+            };
+            if (audio.readyState >= HTMLMediaElement.HAVE_METADATA) {
+                schedule();
+            } else {
+                audio.addEventListener("loadedmetadata", schedule, { once: true });
+                audio.load();
+            }
         }
 
         function draw(now) {
@@ -1132,14 +1221,19 @@
             ctx.imageSmoothingEnabled = false;
             ctx.clearRect(0, 0, width, height);
 
-            const walking = elapsed < BOND_WALK_DURATION;
-            const turning = elapsed < BOND_WALK_DURATION + BOND_TURN_DURATION;
+            const audioElapsed = run.audio && !run.audio.paused
+                ? (run.audio.currentTime - BOND_AUDIO_START) * 1000
+                : elapsed;
+            const timeline = Math.max(0, audioElapsed);
+            const walkDuration = run.cueOffsetMs - BOND_TURN_DURATION;
+            const walking = timeline < walkDuration;
+            const turning = timeline < run.cueOffsetMs;
             const frameIndex = walking
-                ? Math.floor(elapsed / BOND_WALK_FRAME_DURATION) % BOND_WALK_FRAME_COUNT
+                ? Math.floor(timeline / BOND_WALK_FRAME_DURATION) % BOND_WALK_FRAME_COUNT
                 : turning
                     ? BOND_TURN_FRAMES[Math.min(
                         BOND_TURN_FRAMES.length - 1,
-                        Math.floor((elapsed - BOND_WALK_DURATION) /
+                        Math.floor((timeline - walkDuration) /
                             (BOND_TURN_DURATION / BOND_TURN_FRAMES.length))
                     )]
                     : BOND_TURN_FRAMES[BOND_TURN_FRAMES.length - 1]; // pointing pose
@@ -1147,7 +1241,7 @@
             // All transparent PNGs share dimensions and a common baseline.
             const spriteHeight = height * 0.92;
             const spriteWidth = spriteHeight * sprite.naturalWidth / sprite.naturalHeight;
-            const progress = Math.min(1, elapsed / BOND_WALK_DURATION);
+            const progress = Math.min(1, timeline / walkDuration);
             const startX = width + spriteWidth / 2;
             const characterX = startX + (width / 2 - startX) * progress;
             ctx.drawImage(sprite,
@@ -1155,7 +1249,7 @@
                 Math.round((height - spriteHeight) / 2),
                 Math.round(spriteWidth), Math.round(spriteHeight));
 
-            if (elapsed >= BOND_WALK_DURATION + BOND_TURN_DURATION + BOND_HOLD_DURATION) {
+            if (timeline >= run.cueOffsetMs + BOND_HOLD_DURATION) {
                 stopBondEgg();
                 return;
             }
