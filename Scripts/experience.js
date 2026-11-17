@@ -39,6 +39,8 @@ const experiences = [
         type:
             "Internship",
 
+        glossaryTerms: ["FHIR API"],
+
         responsibilities: [
 
             "Worked with the FHIR API and Papercut Avengers teams on internal technology initiatives.",
@@ -386,6 +388,131 @@ const experiences = [
     }
 
 ];
+
+
+/* =========================================
+   EXPERIENCE GLOSSARY
+   Reusable definitions for inline technical terms.
+   ========================================= */
+
+const experienceGlossary = {
+    "FHIR API": {
+        title: "FHIR API",
+        definition: "Fast Healthcare Interoperability Resources (FHIR) is an HL7 standard for exchanging healthcare information. A FHIR API lets applications request and share that information using standardized web interfaces."
+    }
+};
+
+let activeExperienceGlossary = null;
+
+function hideExperienceGlossary() {
+    if (!activeExperienceGlossary) {
+        return;
+    }
+
+    activeExperienceGlossary.trigger.setAttribute("aria-expanded", "false");
+    activeExperienceGlossary.tooltip.remove();
+    activeExperienceGlossary = null;
+}
+
+function showExperienceGlossary(trigger, entry) {
+    if (activeExperienceGlossary?.trigger === trigger) {
+        return;
+    }
+
+    hideExperienceGlossary();
+
+    const tooltip = document.createElement("div");
+    tooltip.className = "experience-glossary-tooltip";
+    tooltip.setAttribute("role", "tooltip");
+    tooltip.id = "experience-glossary-active";
+
+    const title = document.createElement("strong");
+    title.textContent = entry.title;
+    const definition = document.createElement("span");
+    definition.textContent = entry.definition;
+
+    tooltip.append(title, definition);
+    document.body.appendChild(tooltip);
+
+    trigger.setAttribute("aria-expanded", "true");
+    trigger.setAttribute("aria-describedby", tooltip.id);
+    activeExperienceGlossary = { trigger, tooltip };
+
+    const rect = trigger.getBoundingClientRect();
+    const width = tooltip.offsetWidth;
+    const height = tooltip.offsetHeight;
+    const margin = 12;
+    const left = Math.max(margin, Math.min(
+        rect.left + rect.width / 2 - width / 2,
+        window.innerWidth - width - margin
+    ));
+    const above = rect.top >= height + margin + 8;
+    tooltip.style.left = left + "px";
+    tooltip.style.top = (above
+        ? rect.top - height - 8
+        : Math.min(rect.bottom + 8, window.innerHeight - height - margin)
+    ) + "px";
+}
+
+function appendExperienceGlossaryText(container, text, terms) {
+    if (!terms.length) {
+        container.textContent = text;
+        return;
+    }
+
+    const pattern = new RegExp(
+        "(" + terms.map(term => term.replace(/[.*+?^${}()|[\]\\]/g, "\\/* =========================================
+   BUILD ALL EXPERIENCES
+   ========================================= */")).join("|") + ")",
+        "g"
+    );
+    const fragments = text.split(pattern);
+
+    fragments.forEach(fragment => {
+        const entry = experienceGlossary[fragment];
+        if (!entry || !terms.includes(fragment)) {
+            container.appendChild(document.createTextNode(fragment));
+            return;
+        }
+
+        const trigger = document.createElement("button");
+        trigger.type = "button";
+        trigger.className = "experience-glossary-trigger";
+        trigger.textContent = fragment;
+        trigger.setAttribute("aria-label", fragment + ": show definition");
+        trigger.setAttribute("aria-expanded", "false");
+        trigger.setAttribute("aria-haspopup", "true");
+
+        trigger.addEventListener("mouseenter", () => showExperienceGlossary(trigger, entry));
+        trigger.addEventListener("mouseleave", () => {
+            if (document.activeElement !== trigger) hideExperienceGlossary();
+        });
+        trigger.addEventListener("focus", () => showExperienceGlossary(trigger, entry));
+        trigger.addEventListener("blur", () => hideExperienceGlossary());
+        trigger.addEventListener("click", () => {
+            if (activeExperienceGlossary?.trigger === trigger) {
+                hideExperienceGlossary();
+            } else {
+                showExperienceGlossary(trigger, entry);
+            }
+        });
+
+        container.appendChild(trigger);
+    });
+}
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape") hideExperienceGlossary();
+});
+document.addEventListener("pointerdown", event => {
+    if (activeExperienceGlossary &&
+        !activeExperienceGlossary.trigger.contains(event.target) &&
+        !activeExperienceGlossary.tooltip.contains(event.target)) {
+        hideExperienceGlossary();
+    }
+});
+window.addEventListener("resize", hideExperienceGlossary);
+window.addEventListener("scroll", hideExperienceGlossary, true);
 
 
 /* =========================================
@@ -844,8 +971,11 @@ function buildExperience(
                 );
 
 
-            listItem.textContent =
-                responsibility;
+            appendExperienceGlossaryText(
+                listItem,
+                responsibility,
+                experience.glossaryTerms || []
+            );
 
 
             responsibilityList.appendChild(
