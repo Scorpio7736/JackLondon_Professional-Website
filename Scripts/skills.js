@@ -643,8 +643,11 @@ function buildSkillCards(
                 );
 
 
-            title.textContent =
-                skill.name;
+            appendGlossaryText(
+                title,
+                skill.name,
+                ["WPF", "XAML", "JavaFX"]
+            );
 
 
             header.appendChild(
