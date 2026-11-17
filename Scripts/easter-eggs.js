@@ -983,15 +983,6 @@
     const BOND_WALK_FRAME_DURATION = 150;
     let bondFramesPromise = null;
     let bondRequestId = 0;
-    let bondOutroAudio = null;
-
-    function stopBondOutroAudio() {
-        if (!bondOutroAudio) return;
-        bondOutroAudio.pause();
-        bondOutroAudio.removeAttribute("src");
-        bondOutroAudio.load();
-        bondOutroAudio = null;
-    }
 
     function loadBondFrames() {
         if (!bondFramesPromise) {
@@ -1042,10 +1033,10 @@
         bondRun = null;
         if (run.frame !== null) cancelAnimationFrame(run.frame);
         if (run.holdTimer !== null) clearTimeout(run.holdTimer);
-        // Preserve audio through the visual close; cleanup is handled
-        // by the media ended event, or by an explicit new activation.
+        // Normal completion occurs only when the MP3 has ended.
+        // Explicit interruption by another easter egg stops the soundtrack.
         if (run.audio && !run.audio.ended) {
-            bondOutroAudio = run.audio;
+            run.audio.pause();
         }
         if (closeStrip) {
             // Keep the MI6 background in place until the dropdown has
@@ -1064,7 +1055,6 @@
     }
 
     function startBondEgg() {
-        stopBondOutroAudio();
         dismissBandCelebration();
         stopBondEgg();
         if (bondCloseTimer !== null) {
@@ -1125,9 +1115,7 @@
             audio.volume = 0.7;
             run.audio = audio;
             audio.addEventListener("ended", () => {
-                if (bondOutroAudio === audio) bondOutroAudio = null;
-                // The final pointing pose remains on screen until
-                // the actual MP3 reaches its end.
+                // Keep the last pointing pose until playback completes.
                 if (bondRun === run) stopBondEgg();
             }, { once: true });
             const begin = () => {
