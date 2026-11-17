@@ -326,27 +326,17 @@ const developmentTools = [
 
 const aiSkills = [
 
-    {
-        name: "AI",
-        shortName: "AI",
-        // Image intentionally omitted until the AI icon is added.
-        comfort: 9,
-
-        projects: [
-            "Codex",
-            "GPT",
-            "Gemini",
-            "Claude",
-            "Claude Code",
-            "Copilot",
-            "Ollama",
-            "Llama3",
-            "deepseek"
-        ]
-    }
+    { name: "Codex", shortName: "CX" },
+    { name: "GPT", shortName: "GPT" },
+    { name: "Gemini", shortName: "GEM" },
+    { name: "Claude", shortName: "CL" },
+    { name: "Claude Code", shortName: "CC" },
+    { name: "Copilot", shortName: "CP" },
+    { name: "Ollama", shortName: "OLL" },
+    { name: "Llama3", shortName: "L3" },
+    { name: "deepseek", shortName: "DS" }
 
 ];
-
 
 /* =========================================
    ADDITIONAL SKILLS
@@ -712,7 +702,7 @@ function buildSkillCards(
                 );
 
 
-            skill.projects.forEach(
+            (skill.projects || []).forEach(
                 project => {
 
                     const item =
@@ -757,19 +747,16 @@ function buildSkillCards(
             );
 
 
-            card.appendChild(
-                confidenceHeader
-            );
+            // New AI tools have individual cards without invented ratings
+            // or project histories; other skills retain their full details.
+            if (Number.isFinite(skill.comfort)) {
+                card.appendChild(confidenceHeader);
+                card.appendChild(comfortBar);
+            }
 
-
-            card.appendChild(
-                comfortBar
-            );
-
-
-            card.appendChild(
-                projectSection
-            );
+            if (skill.projects && skill.projects.length) {
+                card.appendChild(projectSection);
+            }
 
 
             container.appendChild(
