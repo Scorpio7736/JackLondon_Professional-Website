@@ -411,17 +411,6 @@ const aiSkills = [
     },
 
     {
-        name: "Llama3",
-        shortName: "L3",
-        comfort: 7,
-        projects: [
-            "Local model experimentation",
-            "Text generation & reasoning",
-            "Offline AI workflows"
-        ]
-    },
-
-    {
         name: "deepseek",
         image: "Images/Icons/Deepseek_ICON.png",
         shortName: "DS",
