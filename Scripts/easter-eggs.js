@@ -1235,8 +1235,33 @@
             if (barrelCtx) {
                 barrelCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
                 barrelCtx.clearRect(0, 0, width, height);
+
+                // Like the reference intro: successive cream circular dots
+                // travel across the black strip before the spiral arrives.
+                // A new pulse replaces the previous dot, never a static row.
+                if (mediaTime >= BOND_AUDIO_START &&
+                    mediaTime < BOND_BARREL_ENTER) {
+                    const introLength = BOND_BARREL_ENTER - BOND_AUDIO_START;
+                    const dotCount = 3;
+                    const pulse = ((mediaTime - BOND_AUDIO_START) /
+                        introLength) * dotCount;
+                    const fraction = pulse - Math.floor(pulse);
+                    const dotRadius = height * (0.105 + 0.025 * fraction);
+                    const dotX = -dotRadius +
+                        (width + dotRadius * 2) * fraction;
+                    barrelCtx.fillStyle = "#f5ebd5";
+                    barrelCtx.beginPath();
+                    barrelCtx.arc(dotX, height / 2, dotRadius,
+                        0, Math.PI * 2);
+                    barrelCtx.fill();
+                    barrelCtx.strokeStyle = "#d6c9a7";
+                    barrelCtx.lineWidth = Math.max(1, height * 0.013);
+                    barrelCtx.stroke();
+                }
+
                 if (barrelVisible && run.barrelImage) {
-                    const drawW = height * 4.3;
+                    // Wider spiral extends farther to both sides of the iris.
+                    const drawW = height * 6.4;
                     const drawH = drawW * run.barrelImage.naturalHeight /
                         run.barrelImage.naturalWidth;
                     const rotation = (-0.25 + 0.25 * ease) +
@@ -1244,7 +1269,7 @@
                     barrelCtx.save();
                     barrelCtx.translate(irisX, irisY);
                     barrelCtx.beginPath();
-                    barrelCtx.arc(0, 0, height * 1.65, 0, Math.PI * 2);
+                    barrelCtx.arc(0, 0, height * 2.85, 0, Math.PI * 2);
                     barrelCtx.arc(0, 0, irisRadius, 0, Math.PI * 2, true);
                     barrelCtx.clip("evenodd");
                     barrelCtx.rotate(rotation);
