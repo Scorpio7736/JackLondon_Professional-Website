@@ -40,7 +40,7 @@ const projects = [
             "desktop",
 
         icon:
-            "Images/Icons/AI_ICON.png",
+            "Images/Icons/GridAI_ICON.png",
 
         featured:
             true,
