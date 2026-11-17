@@ -963,49 +963,34 @@
        MI6-007 — DROP-DOWN SECRET AGENT
        ===================================== */
 
-    /* MI6-007 renderer v5. No getImageData/readback: compatible with
-       cross-origin image URLs that are allowed to be drawn on a canvas. */
-    const BOND_SPRITE = "Images/EasterEggs/Bond_Sprite_Full.png?v=mi6-5";
-    const BOND_SOURCE_WIDTH = 2048;
-    const BOND_SOURCE_HEIGHT = 682;
-    // Measured on the provided nine-pose sprite sheet, not evenly sliced.
-    const BOND_SOURCE_FRAMES = [
-        [32, 120, 284, 547],
-        [331, 120, 496, 547],
-        [559, 120, 711, 547],
-        [773, 120, 923, 547],
-        [984, 120, 1145, 547],
-        [1194, 120, 1371, 547],
-        [1415, 120, 1595, 547],
-        [1627, 120, 1805, 547],
-        [1825, 120, 2035, 547]
-    ];
+    /* =====================================
+       MI6-007: separate transparent sprite files
+       ===================================== */
+    const BOND_FRAME_PATHS = Array.from({ length: 9 }, (_, i) =>
+        "Images/EasterEggs/Bond_Frame_" + String(i + 1).padStart(2, "0") + ".png"
+    );
+    const BOND_WALK_FRAME_COUNT = 7; // 01-07: profile walk
+    const BOND_TURN_FRAMES = [7, 8]; // 08-09: face camera
+    const BOND_WALK_DURATION = 3600;
+    const BOND_TURN_DURATION = 550;
+    const BOND_HOLD_DURATION = 5000;
     let bondFramesPromise = null;
 
     function loadBondFrames() {
-        if (bondFramesPromise) return bondFramesPromise;
-        bondFramesPromise = new Promise((resolve, reject) => {
-            const sheet = new Image();
-            sheet.decoding = "async";
-            sheet.onload = () => {
-                // Keep the source image and rectangles as descriptors.
-                // Even a tainted source can be drawn; only pixel readback fails.
-                const scaleX = sheet.naturalWidth / BOND_SOURCE_WIDTH;
-                const scaleY = sheet.naturalHeight / BOND_SOURCE_HEIGHT;
-                const frames = BOND_SOURCE_FRAMES.map(([l, t, r, b]) => ({
-                    image: sheet,
-                    sx: Math.round(l * scaleX),
-                    sy: Math.round(t * scaleY),
-                    sw: Math.max(1, Math.round((r - l) * scaleX)),
-                    sh: Math.max(1, Math.round((b - t) * scaleY))
-                }));
-                console.info("MI6 renderer v5 ready:", sheet.naturalWidth,
-                    sheet.naturalHeight, frames.length, "frames");
-                resolve(frames);
-            };
-            sheet.onerror = () => reject(new Error("MI6 sprite could not load"));
-            sheet.src = BOND_SPRITE;
-        }).catch(error => { bondFramesPromise = null; throw error; });
+        if (!bondFramesPromise) {
+            bondFramesPromise = Promise.all(
+                BOND_FRAME_PATHS.map(src => new Promise((resolve, reject) => {
+                    const frame = new Image();
+                    frame.decoding = "async";
+                    frame.onload = () => resolve(frame);
+                    frame.onerror = () => reject(new Error("MI6 frame missing: " + src));
+                    frame.src = src;
+                }))
+            ).catch(error => {
+                bondFramesPromise = null;
+                throw error;
+            });
+        }
         return bondFramesPromise;
     }
 
@@ -1013,7 +998,7 @@
         if (!bondRun) return;
         const run = bondRun;
         bondRun = null;
-        cancelAnimationFrame(run.frame);
+        if (run.frame !== null) cancelAnimationFrame(run.frame);
         if (run.holdTimer !== null) clearTimeout(run.holdTimer);
         run.canvas.remove();
         run.bar.classList.remove("bond-mode");
@@ -1043,24 +1028,32 @@
             clearTimeout(bandCloseTimer);
             bandCloseTimer = null;
         }
-        // The bar is the same expandable top-bar strip used by other eggs.
+
         bar.classList.remove("terminator-mode");
         bar.classList.add("bond-mode");
         const canvas = document.createElement("canvas");
         canvas.className = "bond-strip-sprite";
         bar.appendChild(canvas);
-        const run = { bar, canvas, frame: 0, started: 0, holdTimer: null };
+
+        const run = { bar, canvas, frame: null, holdTimer: null, started: 0, images: null };
         bondRun = run;
         setEasterEggStatus("Secret Agent");
+
+        // Use the exact same expanding top-bar strip as the other eggs.
         void bar.offsetHeight;
         bar.classList.add("active");
         document.querySelector(".app-shell")?.classList.add("band-open");
 
-        loadBondFrames().then(frames => {
+        loadBondFrames().then(images => {
             if (bondRun !== run) return;
-            run.images = frames;
-            run.started = performance.now();
-            run.frame = requestAnimationFrame(draw);
+            run.images = images;
+            // Begin after the strip has expanded, not while it is opening.
+            run.holdTimer = setTimeout(() => {
+                if (bondRun !== run) return;
+                run.holdTimer = null;
+                run.started = performance.now();
+                run.frame = requestAnimationFrame(draw);
+            }, bandTransitionMs);
         }).catch(error => {
             if (bondRun !== run) return;
             console.warn(error);
@@ -1068,48 +1061,49 @@
         });
 
         function draw(now) {
-            if (bondRun !== run) return;
-            const elapsed = (now - run.started) / 1000;
+            if (bondRun !== run || !run.images) return;
+            const elapsed = now - run.started;
             const width = bar.clientWidth;
             const height = window.matchMedia("(max-width: 700px)").matches ? 94 : 124;
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
-            canvas.width = Math.round(width * dpr);
-            canvas.height = Math.round(height * dpr);
+            const desiredW = Math.round(width * dpr);
+            const desiredH = Math.round(height * dpr);
+            if (canvas.width !== desiredW || canvas.height !== desiredH) {
+                canvas.width = desiredW;
+                canvas.height = desiredH;
+            }
             canvas.style.height = height + "px";
             const ctx = canvas.getContext("2d");
             if (!ctx) { stopBondEgg(); return; }
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             ctx.imageSmoothingEnabled = false;
+            ctx.clearRect(0, 0, width, height);
 
-            const walkSeconds = 3.2;
-            const turnSeconds = 0.65;
-            const count = run.images.length;
-            const walkingCount = Math.max(3, Math.min(count - 2, Math.floor(count / 2)));
-            const finalFrame = walkingCount; // neutral front pose, before pointing
-            const walkProgress = Math.min(1, elapsed / walkSeconds);
-            const frameIndex = elapsed < walkSeconds
-                ? Math.floor(elapsed * 7) % walkingCount
-                : finalFrame;
+            const walking = elapsed < BOND_WALK_DURATION;
+            const turning = elapsed < BOND_WALK_DURATION + BOND_TURN_DURATION;
+            const frameIndex = walking
+                ? Math.floor(elapsed / 125) % BOND_WALK_FRAME_COUNT
+                : turning
+                    ? BOND_TURN_FRAMES[Math.min(
+                        BOND_TURN_FRAMES.length - 1,
+                        Math.floor((elapsed - BOND_WALK_DURATION) /
+                            (BOND_TURN_DURATION / BOND_TURN_FRAMES.length))
+                    )]
+                    : BOND_TURN_FRAMES[BOND_TURN_FRAMES.length - 1];
             const sprite = run.images[frameIndex];
-            // All poses occupy the same virtual 264x438 frame, centered,
-            // with feet at the same baseline. No sheet-width guessing.
-            const spriteHeight = height * 0.90;
-            const scale = spriteHeight / 438;
-            const poseWidth = sprite.sw / (sprite.image.naturalWidth / BOND_SOURCE_WIDTH) * scale;
-            const startX = width + 140 * scale;
-            const x = startX + (width / 2 - startX) * walkProgress;
-            const y = (height - spriteHeight) / 2;
-            ctx.drawImage(sprite.image, sprite.sx, sprite.sy, sprite.sw, sprite.sh,
-                Math.round(x - poseWidth / 2),
-                Math.round(y + (438 - 7 - sprite.sh /
-                    (sprite.image.naturalHeight / BOND_SOURCE_HEIGHT)) * scale),
-                Math.round(poseWidth),
-                Math.round(sprite.sh / (sprite.image.naturalHeight /
-                    BOND_SOURCE_HEIGHT) * scale));
+            // All transparent PNGs share dimensions and a common baseline.
+            const spriteHeight = height * 0.92;
+            const spriteWidth = spriteHeight * sprite.naturalWidth / sprite.naturalHeight;
+            const progress = Math.min(1, elapsed / BOND_WALK_DURATION);
+            const startX = width + spriteWidth / 2;
+            const characterX = startX + (width / 2 - startX) * progress;
+            ctx.drawImage(sprite,
+                Math.round(characterX - spriteWidth / 2),
+                Math.round((height - spriteHeight) / 2),
+                Math.round(spriteWidth), Math.round(spriteHeight));
 
-            if (elapsed >= walkSeconds + turnSeconds) {
-                // Hold the turned pose briefly, then fold the strip closed.
-                run.holdTimer = setTimeout(() => stopBondEgg(), 2200);
+            if (elapsed >= BOND_WALK_DURATION + BOND_TURN_DURATION + BOND_HOLD_DURATION) {
+                stopBondEgg();
                 return;
             }
             run.frame = requestAnimationFrame(draw);
