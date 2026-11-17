@@ -87,6 +87,12 @@
             sequence: "ILLBEBACK",
             description: "I'll Be Back — 8-bit chase",
             action: () => startTerminatorEgg()
+        },
+        {
+            id: "mi6-007",
+            sequence: "MI6-007",
+            description: "MI6-007 — 8-bit secret agent",
+            action: () => startBondEgg()
         }
 
         /* ADD FUTURE EASTER EGGS HERE */
@@ -148,6 +154,7 @@
     let terminatorVolumeFactor = 1;
     let celebrationTimer = null;
     let celebrationOverlay = null;
+    let bondRun = null;
 
     function setEasterEggStatus(label = null) {
         document.body.classList.toggle("easter-egg-busy", Boolean(label));
@@ -935,6 +942,138 @@
     }
 
 
+
+    /* =====================================
+       MI6-007 — 8-BIT GUN BARREL INTRO
+       ===================================== */
+
+    const BOND_SPRITE = "Images/EasterEggs/Bond_Sprite.png";
+    // The combined walk-to-turn sheet has 14 equally spaced frames.
+    const BOND_FRAME_COUNT = 14;
+    const BOND_WALK_FRAMES = 7;
+
+    function stopBondEgg() {
+        if (!bondRun) return;
+        const run = bondRun;
+        bondRun = null;
+        cancelAnimationFrame(run.frame);
+        run.overlay.remove();
+        if (run.restoreFocus && run.restoreFocus.isConnected) {
+            run.restoreFocus.focus({ preventScroll: true });
+        }
+        setEasterEggStatus();
+    }
+
+    function startBondEgg() {
+        // Keep this Easter egg isolated from the marching band and chase.
+        dismissBandCelebration();
+        stopBondEgg();
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+        }
+        if (pendingPlaybackTimer !== null) {
+            clearTimeout(pendingPlaybackTimer);
+            pendingPlaybackTimer = null;
+        }
+        stopTerminatorEgg();
+        stopMarchingBand();
+
+        const overlay = document.createElement("div");
+        overlay.className = "bond-overlay";
+        overlay.setAttribute("role", "dialog");
+        overlay.setAttribute("aria-modal", "true");
+        overlay.setAttribute("aria-label", "MI6-007 secret agent animation");
+        overlay.tabIndex = -1;
+        const barrel = document.createElement("div");
+        barrel.className = "bond-barrel";
+        barrel.setAttribute("aria-hidden", "true");
+        const aperture = document.createElement("div");
+        aperture.className = "bond-aperture";
+        const canvas = document.createElement("canvas");
+        canvas.className = "bond-agent-canvas";
+        canvas.width = 200;
+        canvas.height = 300;
+        aperture.appendChild(canvas);
+        const close = document.createElement("button");
+        close.type = "button";
+        close.className = "bond-close";
+        close.textContent = "Close";
+        close.addEventListener("click", stopBondEgg);
+        overlay.append(barrel, aperture, close);
+        document.body.appendChild(overlay);
+        const run = {
+            overlay,
+            frame: 0,
+            started: 0,
+            image: null,
+            restoreFocus: document.activeElement,
+            complete: false
+        };
+        bondRun = run;
+        setEasterEggStatus("Secret Agent");
+        close.focus();
+
+        const image = new Image();
+        image.decoding = "async";
+        image.src = BOND_SPRITE;
+        image.onload = () => {
+            if (bondRun !== run) return;
+            run.image = image;
+            run.frameWidth = image.naturalWidth / BOND_FRAME_COUNT;
+            run.started = performance.now();
+            run.frame = requestAnimationFrame(draw);
+        };
+        image.onerror = () => {
+            if (bondRun !== run) return;
+            console.warn("MI6 sprite missing: " + BOND_SPRITE);
+            stopBondEgg();
+        };
+
+        const draw = now => {
+            if (bondRun !== run) return;
+            const elapsed = (now - run.started) / 1000;
+            const ctx = canvas.getContext("2d");
+            if (!ctx) { stopBondEgg(); return; }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.imageSmoothingEnabled = false;
+            const walkDuration = 3.3;
+            const turnDuration = 1.4;
+            const holdDuration = 1.5;
+            const total = walkDuration + turnDuration + holdDuration;
+            const frameIndex = elapsed < walkDuration
+                ? Math.floor(elapsed * 9) % BOND_WALK_FRAMES
+                : elapsed < walkDuration + turnDuration
+                    ? Math.min(BOND_FRAME_COUNT - 1,
+                        BOND_WALK_FRAMES + Math.floor((elapsed - walkDuration) /
+                        turnDuration * (BOND_FRAME_COUNT - BOND_WALK_FRAMES)))
+                    : BOND_FRAME_COUNT - 1;
+
+            // The sheet includes black padding above and below the sprite.
+            // Drawing the same cropped frame keeps the character's feet steady.
+            const sourceTop = run.image.naturalHeight * 0.17;
+            const sourceHeight = run.image.naturalHeight * 0.62;
+            const destHeight = 250;
+            const destWidth = destHeight * (run.frameWidth / sourceHeight);
+            const walkX = canvas.width + destWidth / 2 -
+                (canvas.width / 2 + destWidth / 2) *
+                Math.min(1, elapsed / walkDuration);
+            const characterX = elapsed < walkDuration ? walkX : canvas.width / 2;
+            ctx.drawImage(run.image,
+                frameIndex * run.frameWidth, sourceTop,
+                run.frameWidth, sourceHeight,
+                characterX - destWidth / 2, 25, destWidth, destHeight);
+
+            if (elapsed >= total) {
+                stopBondEgg();
+                setEasterEggStatus("Secret Agent");
+                showBandCelebration("blue");
+                return;
+            }
+            run.frame = requestAnimationFrame(draw);
+        };
+    }
+
     /* =====================================
        IGNORE TEXT INPUTS
        ===================================== */
@@ -1068,7 +1207,7 @@
             /* ONLY ACCEPT LETTERS */
 
             if (
-                !/^[a-z]$/i.test(
+                !/^[a-z0-9-]$/i.test(
                     event.key
                 )
             ) {
@@ -1174,6 +1313,7 @@
             }
 
             stopMarchingBand();
+            stopBondEgg();
             setEasterEggStatus();
 
         }
