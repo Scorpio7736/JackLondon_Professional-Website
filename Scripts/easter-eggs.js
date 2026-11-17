@@ -975,8 +975,8 @@
     const BOND_TURN_FRAMES = [7, 8, 9, 10, 11, 12, 13];
     // Timing is expressed in seconds on the original Gunbarrel.mp3 timeline.
     const BOND_BARREL_PATH = "Images/EasterEggs/Bond_Barrel.png";
-    const BOND_BARREL_ENTER = 18.7;
-    const BOND_BARREL_SETTLED = 20;
+    const BOND_SCAN_START = 12;
+    const BOND_SCAN_END = 20;
     const BOND_RED_WASH_DURATION = 1200;
     const BOND_AUDIO_PATH = "Audio/Gunbarrel.mp3";
     const BOND_AUDIO_START = 12;
@@ -1206,15 +1206,17 @@
             const mediaTime = run.audio && !run.audio.paused
                 ? run.audio.currentTime
                 : BOND_AUDIO_START + elapsed / 1000;
-            // The whole strip starts black; only the moving iris reveals color.
-            let irisX = -height * 2;
+            // Sweep the iris from the left to the agent's starting position
+            // from audio 12s to 20s, then follow his walk toward center.
             const irisY = height / 2;
             const irisRadius = height * 0.53;
-            const barrelVisible = mediaTime >= BOND_BARREL_ENTER;
-            const enterProgress = Math.max(0, Math.min(1,
-                (mediaTime - BOND_BARREL_ENTER) /
-                (BOND_BARREL_SETTLED - BOND_BARREL_ENTER)));
-            const ease = 1 - Math.pow(1 - enterProgress, 3);
+            const barrelVisible = mediaTime >= BOND_SCAN_START;
+            const scanProgress = Math.max(0, Math.min(1,
+                (mediaTime - BOND_SCAN_START) /
+                (BOND_SCAN_END - BOND_SCAN_START)));
+            // Gentle accelerate/decelerate without discontinuity at 20s.
+            const scanEase = scanProgress * scanProgress *
+                (3 - 2 * scanProgress);
             const walkingSprite = run.images[0];
             const agentWidth = height * 0.92 *
                 walkingSprite.naturalWidth / walkingSprite.naturalHeight;
@@ -1225,45 +1227,21 @@
                 ((mediaTime - BOND_WALK_START) * 1000) / agentWalkDuration));
             const trackedX = agentStartX +
                 (width / 2 - agentStartX) * agentProgress;
-            if (barrelVisible) {
-                irisX = mediaTime < BOND_WALK_START
-                    ? -height * 1.8 + (agentStartX + height * 1.8) * ease
-                    : trackedX;
-            }
+            const irisX = mediaTime < BOND_WALK_START
+                ? -irisRadius + (agentStartX + irisRadius) * scanEase
+                : trackedX;
             // Monochrome spiral surrounds (but never covers) the viewing hole.
             const barrelCtx = barrelCanvas.getContext("2d");
             if (barrelCtx) {
                 barrelCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
                 barrelCtx.clearRect(0, 0, width, height);
 
-                // Reference intro: one stationary cream dot at a time.
-                // It CUTS to four positions (left edge, thirds, right edge)
-                // instead of continuously sweeping across the screen.
-                if (mediaTime >= BOND_AUDIO_START &&
-                    mediaTime < BOND_BARREL_ENTER) {
-                    const introProgress = Math.max(0, Math.min(0.999,
-                        (mediaTime - BOND_AUDIO_START) /
-                        (BOND_BARREL_ENTER - BOND_AUDIO_START)));
-                    const dotStep = Math.floor(introProgress * 4);
-                    const positions = [0, 1 / 3, 2 / 3, 1];
-                    const dotRadius = height * (dotStep === 3 ? 0.16 : 0.12);
-                    const dotX = width * positions[dotStep];
-                    barrelCtx.fillStyle = "#f5ebd5";
-                    barrelCtx.beginPath();
-                    barrelCtx.arc(dotX, height / 2, dotRadius,
-                        0, Math.PI * 2);
-                    barrelCtx.fill();
-                    barrelCtx.strokeStyle = "#d6c9a7";
-                    barrelCtx.lineWidth = Math.max(1, height * 0.012);
-                    barrelCtx.stroke();
-                }
-
                 if (barrelVisible && run.barrelImage) {
                     // Center the spiral image symmetrically around the iris.
                     const drawW = height * 6.4;
                     const drawH = drawW * run.barrelImage.naturalHeight /
                         run.barrelImage.naturalWidth;
-                    const rotation = (-0.25 + 0.25 * ease) +
+                    const rotation = (-0.25 + 0.25 * scanEase) +
                         Math.min(1, Math.max(0, (mediaTime - 20) / 3)) * 0.16;
                     barrelCtx.save();
                     barrelCtx.translate(irisX, irisY);
