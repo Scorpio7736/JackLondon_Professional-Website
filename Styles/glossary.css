@@ -38,9 +38,7 @@
     font-size: 0.82rem;
     line-height: 1.55;
 
-    /* A quick, subtle pop without moving surrounding content. */
     transform-origin: center bottom;
-    animation: glossary-pop-in 180ms cubic-bezier(0.2, 0.75, 0.3, 1) both;
 }
 .portfolio-glossary-tooltip strong {
     display: block;
@@ -51,21 +49,4 @@
 .portfolio-glossary-tooltip span {
     display: block;
     color: var(--text-secondary);
-}
-
-@keyframes glossary-pop-in {
-    from {
-        opacity: 0;
-        transform: translateY(6px) scale(0.975);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .portfolio-glossary-tooltip {
-        animation: none;
-    }
 }
