@@ -24,25 +24,9 @@ const portfolioGlossary = Object.freeze({
         title: "MCP — Master Control Program",
         definition: "Grid.AI's coordinating agent. MCP organizes requests, delegates tasks to specialized agents, and routes proposed actions through review and approval."
     },
-    "Local AI": {
-        title: "Local AI",
-        definition: "AI models that run on your own computer rather than sending model inference requests to a remote cloud service."
-    },
     "Multi-Agent Orchestration": {
         title: "Multi-Agent Orchestration",
         definition: "Coordinating multiple specialized AI agents so they can share the work of planning, handling, and verifying more complex tasks."
-    },
-    "JavaFX": {
-        title: "JavaFX",
-        definition: "A Java framework for building graphical desktop applications, including windows, controls, and interactive interfaces."
-    },
-    "FXML": {
-        title: "FXML",
-        definition: "An XML-based markup format that describes JavaFX user interface layouts separately from application logic."
-    },
-    "OOP": {
-        title: "Object-Oriented Programming (OOP)",
-        definition: "A programming approach that organizes software around objects and classes, combining data with the operations that use it."
     },
     "AST": {
         title: "Abstract Syntax Tree (AST)",
