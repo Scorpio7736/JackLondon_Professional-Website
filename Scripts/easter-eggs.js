@@ -838,11 +838,13 @@
                         const visibleHeight = height * 0.78;
                         const scale = visibleHeight / bounds.h;
                         const visibleWidth = bounds.w * scale;
-                        const baseline = height * 0.94;
-                        // A fixed ground shadow makes airborne frames feel anchored.
+                        // Place the soles near the stage floor. The former
+                        // 94% baseline left a visible gap beneath Jack.
+                        const baseline = height * 0.99;
+                        // Keep the shadow under his feet, inside the canvas.
                         ctx.fillStyle = "rgba(0, 0, 0, 0.32)";
                         ctx.beginPath();
-                        ctx.ellipse(x, baseline + 1, visibleWidth * 0.37,
+                        ctx.ellipse(x, baseline - 1, visibleWidth * 0.37,
                             Math.max(1.5, height * 0.018), 0, 0, Math.PI * 2);
                         ctx.fill();
                         ctx.drawImage(image, bounds.x, bounds.y, bounds.w, bounds.h,
