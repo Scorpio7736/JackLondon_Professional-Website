@@ -60,6 +60,11 @@ const experiences = [
             {
                 name: "View DentaQuest",
                 link: "https://www.dentaquest.com/"
+            },
+
+            {
+                name: "End of Internship Presentation",
+                link: "Downloads/Internship_Presentation.pptx"
             }
 
         ]
