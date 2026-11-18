@@ -1,4 +1,125 @@
 /* =========================================
+   SKILLS SECTION HEADERS (EXPERIENCE STYLE)
+   ========================================= */
+
+.skills-content-card {
+    padding: 0;
+    overflow: hidden;
+}
+
+.skills-top {
+    margin-bottom: 0;
+    background: var(--surface-secondary);
+}
+
+.skills-banner {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 150px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(125deg, rgba(123, 131, 235, 0.24), rgba(70, 76, 145, 0.14) 45%, rgba(37, 36, 42, 0.65));
+}
+
+.skills-banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent 40%, rgba(27, 26, 31, 0.35));
+}
+
+.skills-banner span {
+    position: relative;
+    z-index: 1;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    background: rgba(27, 26, 31, 0.4);
+    color: var(--text-secondary);
+    font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+    font-size: 0.75rem;
+}
+
+.skills-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 24px 26px 26px;
+}
+
+.skills-icon-badge {
+    display: flex;
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #25242a;
+    color: var(--accent-light);
+    font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.skills-title-group {
+    min-width: 0;
+}
+
+.skills-title-group h2 {
+    margin: 0;
+    font-size: 1.45rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.skills-title-group .section-eyebrow {
+    display: block;
+    margin-bottom: 7px;
+}
+
+.skills-content-card > .language-card-grid {
+    padding: 0 26px 26px;
+}
+
+.skills-top-ai .skills-banner {
+    background: linear-gradient(125deg, #323052, #242938 65%, #25242a);
+}
+
+.skills-top-languages .skills-banner {
+    background: linear-gradient(125deg, #3a3437, #34344b 65%, #25242a);
+}
+
+.skills-top-frameworks .skills-banner {
+    background: linear-gradient(125deg, #343052, #273944 65%, #25242a);
+}
+
+.skills-top-tools .skills-banner {
+    background: linear-gradient(125deg, #263f4c, #2b304c 65%, #25242a);
+}
+
+.skills-top-other .skills-banner {
+    background: linear-gradient(125deg, #41304c, #32314a 65%, #25242a);
+}
+
+@media (max-width: 700px) {
+    .skills-banner { height: 130px; }
+}
+
+@media (max-width: 550px) {
+    .skills-banner { height: 105px; }
+    .skills-header { padding: 18px; gap: 14px; }
+    .skills-icon-badge { width: 60px; height: 60px; }
+    .skills-title-group h2 { font-size: 1.25rem; }
+    .skills-content-card > .language-card-grid { padding: 0 18px 18px; }
+}
+
+/* =========================================
    SKILL CARD GRID
    ========================================= */
 
