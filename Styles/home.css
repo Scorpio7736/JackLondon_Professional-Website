@@ -35,6 +35,51 @@
 
 
 /* =========================================
+   HERO PORTRAIT
+   ========================================= */
+
+.home-hero-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(190px, 28%, 300px);
+    align-items: center;
+    gap: clamp(24px, 4vw, 48px);
+}
+
+.home-hero-content {
+    min-width: 0;
+}
+
+.home-hero-photo {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-secondary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.home-hero-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+@media (max-width: 950px) {
+    .home-hero-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .home-hero-photo {
+        width: min(100%, 320px);
+        justify-self: center;
+        aspect-ratio: 4 / 5;
+    }
+}
+
+/* =========================================
    HERO PROFILE
    ========================================= */
 
