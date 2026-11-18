@@ -2,7 +2,7 @@
    SKILLS SECTION HEADERS (EXPERIENCE STYLE)
    ========================================= */
 
-.skills-content-card {
+.content-card.skills-content-card {
     padding: 0;
     overflow: hidden;
 }
