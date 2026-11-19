@@ -730,109 +730,6 @@
 
 
 /* =========================================
-   RESPONSIVE HEADERS
-   ========================================= */
-
-@media (max-width: 800px) {
-    .experience-header {
-        flex-wrap: wrap;
-    }
-
-    .experience-icon {
-        width: 88px;
-        height: 88px;
-    }
-
-    .experience-icon img {
-        width: 70px;
-        height: 70px;
-    }
-
-    .experience-business-title h2 {
-        font-size: clamp(1.4rem, 3.5vw, 1.9rem);
-    }
-}
-
-@media (max-width: 550px) {
-    .experience-header {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-        padding: 0 20px 22px;
-        margin-top: -40px;
-    }
-
-    .experience-identity {
-        align-items: center;
-        gap: 14px;
-    }
-
-    .experience-business-title {
-        padding-top: 40px;
-    }
-
-    .experience-icon {
-        width: 88px;
-        height: 88px;
-        border-radius: 16px;
-    }
-
-    .experience-icon img {
-        width: 70px;
-        height: 70px;
-    }
-
-    .experience-business-title h2 {
-        font-size: 1.4rem;
-    }
-
-    .experience-type {
-        align-self: flex-start;
-        margin: 0 0 0 102px;
-    }
-}
-
-@media (max-width: 450px) {
-    .experience-header {
-        padding: 0 18px 18px;
-        margin-top: -34px;
-    }
-
-    .experience-identity {
-        align-items: center;
-        gap: 14px;
-    }
-
-    .experience-icon {
-        width: 74px;
-        height: 74px;
-        border-radius: 14px;
-        border-width: 4px;
-    }
-
-    .experience-icon img {
-        width: 58px;
-        height: 58px;
-    }
-
-    .experience-business-title {
-        padding-top: 34px;
-    }
-
-    .experience-eyebrow {
-        font-size: 0.68rem;
-    }
-
-    .experience-business-title h2 {
-        font-size: 1.2rem;
-    }
-
-    .experience-type {
-        margin-left: 88px;
-    }
-}
-
-/* =========================================
    RESPONSIVE - 800PX
    ========================================= */
 
@@ -1120,3 +1017,107 @@
     }
 
 }
+
+/* =========================================
+   RESPONSIVE HEADERS
+   ========================================= */
+
+@media (max-width: 800px) {
+    .experience-header {
+        flex-wrap: wrap;
+    }
+
+    .experience-icon {
+        width: 88px;
+        height: 88px;
+    }
+
+    .experience-icon img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .experience-business-title h2 {
+        font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+    }
+}
+
+@media (max-width: 550px) {
+    .experience-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 0 20px 22px;
+        margin-top: -40px;
+    }
+
+    .experience-identity {
+        align-items: center;
+        gap: 14px;
+    }
+
+    .experience-business-title {
+        padding-top: 40px;
+    }
+
+    .experience-icon {
+        width: 88px;
+        height: 88px;
+        border-radius: 16px;
+    }
+
+    .experience-icon img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .experience-business-title h2 {
+        font-size: 1.4rem;
+    }
+
+    .experience-type {
+        align-self: flex-start;
+        margin: 0 0 0 102px;
+    }
+}
+
+@media (max-width: 450px) {
+    .experience-header {
+        padding: 0 18px 18px;
+        margin-top: -34px;
+    }
+
+    .experience-identity {
+        align-items: center;
+        gap: 14px;
+    }
+
+    .experience-icon {
+        width: 74px;
+        height: 74px;
+        border-radius: 14px;
+        border-width: 4px;
+    }
+
+    .experience-icon img {
+        width: 58px;
+        height: 58px;
+    }
+
+    .experience-business-title {
+        padding-top: 34px;
+    }
+
+    .experience-eyebrow {
+        font-size: 0.68rem;
+    }
+
+    .experience-business-title h2 {
+        font-size: 1.2rem;
+    }
+
+    .experience-type {
+        margin-left: 88px;
+    }
+}
+
