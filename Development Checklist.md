@@ -1,5 +1,15 @@
 # Development Checklist
 
+## Versioning Conventions
+
+Version numbers follow `MAJOR.MINOR.PATCH` (`#.x.x`):
+
+- **Major (`#.x.x`)** — Full website changes, such as a major redesign or site-wide architectural overhaul.
+- **Minor (`x.#.x`)** — Substantial additions, such as introducing a new primary website section (e.g., Home or Activities).
+- **Patch (`x.x.#`)** — Changes within existing sections, including content, features, layout, banners, and design refinements.
+
+Major and minor versions can have a custom release name chosen later; use `[INSERT NAME]` as the placeholder until named.
+
 ## 1.3 - [INSERT NAME]
 
 - [ ] **1.3.1** - Add more AI-related skills to the homepage.
