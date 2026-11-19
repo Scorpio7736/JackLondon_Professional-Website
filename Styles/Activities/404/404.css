@@ -46,28 +46,19 @@
 
 .network404-banner {
     position: relative;
-
     width: 100%;
     height: 240px;
-
     overflow: hidden;
-
-    background:
-        radial-gradient(ellipse at 77% 44%, rgba(47, 107, 255, .16), transparent 60%),
-        linear-gradient(115deg, #26252e 5%, #222a3a 67%, #242536);
+    background: #000;
 }
 
-/* Scalable circuit texture: visual reference to a computing network, not a hero graphic. */
+/* Recreated original 404 artwork as resolution-independent SVG. */
 .network404-banner-art {
-    position: absolute;
-    inset: 0;
     display: block;
     width: 100%;
     height: 100%;
-    opacity: .67;
     pointer-events: none;
 }
-
 
 .network404-banner-image {
     width: 100%;
@@ -107,19 +98,7 @@
 
 
 .network404-banner-overlay {
-    position: absolute;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    background:
-        linear-gradient(
-            to bottom,
-            transparent 35%,
-            rgba(25, 24, 29, 0.2) 60%,
-            rgba(25, 24, 29, 0.86) 100%
-        );
+    display: none;
 }
 
 
