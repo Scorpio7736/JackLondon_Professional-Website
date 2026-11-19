@@ -185,38 +185,31 @@ class OutdoorsActivity {
 
             <header class="outdoors-hero">
 
-                <img
-                    src="${this.data.heroImage}"
-                    alt="Outdoor recreation"
-                    class="outdoors-hero-image"
-                    style="
-                        object-position:
-                        ${this.data.heroImagePosition || "center"};
-                    "
-                >
+                <div class="outdoors-banner">
+                    <img
+                        src="${this.data.heroImage}"
+                        alt="Outdoor recreation"
+                        class="outdoors-hero-image"
+                        style="object-position: ${this.data.heroImagePosition || "center"};"
+                    >
+                    <div class="outdoors-hero-overlay"></div>
+                </div>
 
+                <div class="outdoors-hero-content">
+                    <div class="outdoors-icon-wrapper" aria-hidden="true">
+                        <svg class="outdoors-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 43 23 19 34 34 42 24 57 43" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="m7 43 9-7 7 4 9-8 9 8 7-5 9 8" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+                            <path d="M9 50c6-4 11-4 17 0s11 4 17 0 10-4 12-2" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                            <circle cx="48" cy="14" r="5" fill="currentColor" opacity=".7"/>
+                        </svg>
+                    </div>
 
-                <div
-                    class="outdoors-hero-overlay"
-                ></div>
-
-
-                <div class="outdoors-hero-copy">
-
-                    <span class="section-eyebrow">
-                        ${this.data.eyebrow}
-                    </span>
-
-
-                    <h2>
-                        ${this.data.title}
-                    </h2>
-
-
-                    <p>
-                        ${this.data.subtitle}
-                    </p>
-
+                    <div class="outdoors-title-area">
+                        <span class="section-eyebrow">${this.data.eyebrow}</span>
+                        <h2>${this.data.title}</h2>
+                        <p>${this.data.subtitle}</p>
+                    </div>
                 </div>
 
             </header>
