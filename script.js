@@ -194,7 +194,8 @@ function moveSidebarIndicator(
 function openPage(
     pageName,
     animate = false,
-    targetSectionId = null
+    targetSectionId = null,
+    skipExitAnimation = false
 ) {
 
     const selectedPage =
@@ -461,7 +462,8 @@ function openPage(
     };
 
 
-    if (!animate) {
+    // First load uses the existing entrance animation without an exit transition.
+    if (!animate || skipExitAnimation) {
 
         switchPage();
 
@@ -1283,7 +1285,9 @@ buildCertifications();
 const initialPage = window.location.hash.slice(1).toLowerCase();
 openPage(
     Object.prototype.hasOwnProperty.call(pageConfig, initialPage) ? initialPage : "home",
-    false
+    true,
+    null,
+    true
 );
 
 window.addEventListener("hashchange", () => {
