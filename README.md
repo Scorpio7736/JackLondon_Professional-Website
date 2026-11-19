@@ -196,3 +196,4 @@ As the portfolio evolves, useful areas to revisit include:
 ---
 
 Designed and developed by **Jack London** as a personal portfolio and ongoing front-end development project.
+
