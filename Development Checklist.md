@@ -45,6 +45,7 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 - [ ] **1.3.9** - Improve search discoverability by incorporating relevant keywords naturally into page content, headings, titles, and metadata so Google can better understand and surface the website.
 - [ ] **1.3.10** - Fix the Blacksmithing banner image.
 - [ ] **1.3.11** - Combine all existing error pages into one dynamic error page that changes its content and presentation based on the error code.
+- [ ] **1.3.12** - Add space for images on the tooltips for certian items. Key items are FHIR, PapercutAvengers, Top-Rope Belay, and MCP.
 
 ---
 *Historical entries are reconstructed from representative commits, not a complete commit-by-commit audit. The 1.1 and 1.2 names and the 1.3 name were read from historical `index.html` version headers. Where commits did not assign a patch version to a particular change, checklist numbers are organizational rather than original release tags.*
