@@ -47,9 +47,14 @@
 
 .home-hero-content {
     min-width: 0;
+    grid-column: 1;
+    grid-row: 1;
 }
 
 .home-hero-photo {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
     width: 100%;
     aspect-ratio: 4 / 5;
     overflow: hidden;
@@ -72,9 +77,16 @@
         grid-template-columns: minmax(0, 1fr);
     }
 
+    .home-hero-content {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
     .home-hero-photo {
+        grid-column: 1;
+        grid-row: 2;
         width: min(100%, 320px);
-        justify-self: center;
+        justify-self: end;
         aspect-ratio: 4 / 5;
     }
 }
