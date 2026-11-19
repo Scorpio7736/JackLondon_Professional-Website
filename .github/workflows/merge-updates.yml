@@ -1,0 +1,33 @@
+name: Merge Updates to Main
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: merge-updates-main
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Merge Updates without development checklist
+        shell: bash
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin Updates
+          git merge --no-commit --no-ff origin/Updates
+          git rm -f --ignore-unmatch -- "Development Checklist.md"
+          git commit -m "Merge Updates into main (exclude development checklist)"
+          git push origin HEAD:main
