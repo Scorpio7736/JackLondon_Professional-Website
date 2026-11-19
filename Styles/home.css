@@ -232,6 +232,63 @@
 
 
 /* =========================================
+   AI DEVELOPMENT PHILOSOPHY
+   ========================================= */
+
+.home-ai-philosophy {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 14px;
+    padding: 20px 22px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    background: linear-gradient(110deg, rgba(123, 131, 235, 0.07), transparent 65%), #29282e;
+}
+
+.home-ai-philosophy-icon {
+    display: flex;
+    flex: 0 0 35px;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: #1f1e23;
+    color: var(--accent-light);
+    font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.home-ai-philosophy-copy {
+    min-width: 0;
+}
+
+.home-ai-philosophy-copy h2 {
+    margin: 0 0 7px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.home-ai-philosophy-copy p {
+    margin: 0;
+    max-width: 900px;
+    color: var(--text-secondary);
+    font-size: 0.84rem;
+    line-height: 1.65;
+}
+
+@media (max-width: 550px) {
+    .home-ai-philosophy {
+        gap: 11px;
+        padding: 16px;
+    }
+}
+
+/* =========================================
    HERO ACTIONS
    ========================================= */
 
