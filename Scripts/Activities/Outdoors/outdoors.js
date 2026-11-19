@@ -21,9 +21,6 @@ const outdoorsActivityData = {
     heroImage:
         "Images/Activities/Outdoors/Boating.png",
 
-    heroImagePosition:
-        "center 55%",
-
     intro:
         "A lot of my time outside of school and software is spent around the water. Whether I'm working on the boat, fishing with my grandpa, or heading up north, it's one of my favorite ways to slow down, work with my hands, and get away from a screen for a while.",
 
@@ -190,7 +187,6 @@ class OutdoorsActivity {
                         src="${this.data.heroImage}"
                         alt="Outdoor recreation"
                         class="outdoors-hero-image"
-                        style="object-position: ${this.data.heroImagePosition || "center"};"
                     >
                     <div class="outdoors-hero-overlay"></div>
                 </div>
