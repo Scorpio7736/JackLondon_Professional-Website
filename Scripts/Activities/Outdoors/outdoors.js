@@ -185,7 +185,13 @@ class OutdoorsActivity {
                 <div class="outdoors-banner">
                     <img
                         src="${this.data.heroImage}"
-                        alt="Outdoor recreation"
+                        alt=""
+                        aria-hidden="true"
+                        class="outdoors-hero-backdrop"
+                    >
+                    <img
+                        src="${this.data.heroImage}"
+                        alt="Boat on the water"
                         class="outdoors-hero-image"
                     >
                     <div class="outdoors-hero-overlay"></div>
@@ -367,7 +373,7 @@ class OutdoorsActivity {
 
         const images =
             this.container.querySelectorAll(
-                ".outdoors-hero-image, .outdoors-story-image"
+                ".outdoors-hero-backdrop, .outdoors-hero-image, .outdoors-story-image"
             );
 
 
