@@ -1,5 +1,7 @@
 /* =========================================
-   SKILLS SECTION HEADERS (EXPERIENCE STYLE)
+   CODE-GENERATED SKILLS BANNERS
+   Intentional background accents, not hero illustrations.
+   No image assets, cropping, or animation required.
    ========================================= */
 
 .content-card.skills-content-card {
@@ -13,15 +15,27 @@
 }
 
 .skills-banner {
+    --banner-accent: #85adce;
     position: relative;
-    display: flex;
+    height: clamp(90px, 8vw, 110px);
     width: 100%;
-    height: 150px;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
     border-bottom: 1px solid var(--border);
-    background: linear-gradient(125deg, rgba(123, 131, 235, 0.24), rgba(70, 76, 145, 0.14) 45%, rgba(37, 36, 42, 0.65));
+    background:
+        radial-gradient(ellipse at 76% 48%, color-mix(in srgb, var(--banner-accent) 11%, transparent), transparent 50%),
+        linear-gradient(110deg, #28282e, #252932 65%, #27262d);
+}
+
+.skills-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, .028) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, .028) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: linear-gradient(to right, transparent 20%, #000 85%);
 }
 
 .skills-banner::after {
@@ -29,16 +43,30 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: linear-gradient(to bottom, transparent 40%, rgba(27, 26, 31, 0.35));
+    background: linear-gradient(to right, #28282e 8%, transparent 55%, #28282e 100%);
+    opacity: .53;
 }
 
-.skills-banner img {
-    display: block;
-    width: 100%;
+.skills-banner svg {
+    position: absolute;
+    right: 0;
+    top: 50%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
+    width: min(85%, 760px);
+    transform: translateY(-50%);
+    color: var(--banner-accent);
+    opacity: .42;
+    pointer-events: none;
 }
+
+.skills-banner .banner-drawing { opacity: .68; }
+.skills-banner .banner-nodes { opacity: .75; }
+
+.skills-top-ai .skills-banner { --banner-accent: #76b6d5; }
+.skills-top-languages .skills-banner { --banner-accent: #c7ab7e; }
+.skills-top-frameworks .skills-banner { --banner-accent: #7daaa1; }
+.skills-top-tools .skills-banner { --banner-accent: #91a7c6; }
+.skills-top-other .skills-banner { --banner-accent: #a9b68a; }
 
 .skills-header {
     display: flex;
@@ -57,10 +85,6 @@
     border: 1px solid var(--border);
     border-radius: 12px;
     background: #25242a;
-    color: var(--accent-light);
-    font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
-    font-size: 0.85rem;
-    font-weight: 600;
     overflow: hidden;
 }
 
@@ -71,9 +95,7 @@
     object-fit: contain;
 }
 
-.skills-title-group {
-    min-width: 0;
-}
+.skills-title-group { min-width: 0; }
 
 .skills-title-group h2 {
     margin: 0;
@@ -87,32 +109,11 @@
     margin-bottom: 7px;
 }
 
-.skills-content-card > .language-card-grid {
-    padding: 0 26px 26px;
-}
-
-.skills-top-ai .skills-banner {
-    background: linear-gradient(125deg, #323052, #242938 65%, #25242a);
-}
-
-.skills-top-languages .skills-banner {
-    background: linear-gradient(125deg, #3a3437, #34344b 65%, #25242a);
-}
-
-.skills-top-frameworks .skills-banner {
-    background: linear-gradient(125deg, #343052, #273944 65%, #25242a);
-}
-
-.skills-top-tools .skills-banner {
-    background: linear-gradient(125deg, #263f4c, #2b304c 65%, #25242a);
-}
-
-.skills-top-other .skills-banner {
-    background: linear-gradient(125deg, #41304c, #32314a 65%, #25242a);
-}
+.skills-content-card > .language-card-grid { padding: 0 26px 26px; }
 
 @media (max-width: 550px) {
-    .skills-banner { height: 105px; }
+    .skills-banner { height: 80px; }
+    .skills-banner svg { width: min(115%, 760px); opacity: .34; }
     .skills-header { padding: 18px; gap: 14px; }
     .skills-icon-badge { width: 60px; height: 60px; }
     .skills-icon-badge img { width: 44px; height: 44px; }
