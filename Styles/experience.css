@@ -186,6 +186,7 @@
 
 .experience-header {
     position: relative;
+    z-index: 3; /* Keep the overlapping icon above the banner's gradient overlays. */
     display: flex;
     align-items: center;
     justify-content: space-between;
