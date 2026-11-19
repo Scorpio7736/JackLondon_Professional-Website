@@ -18,9 +18,6 @@ const outdoorsActivityData = {
     subtitle:
         "Boats, fishing, and getting away from the screen.",
 
-    heroImage:
-        "Images/Activities/Outdoors/Boating.png",
-
     intro:
         "A lot of my time outside of school and software is spent around the water. Whether I'm working on the boat, fishing with my grandpa, or heading up north, it's one of my favorite ways to slow down, work with my hands, and get away from a screen for a while.",
 
@@ -183,17 +180,64 @@ class OutdoorsActivity {
             <header class="outdoors-hero">
 
                 <div class="outdoors-banner">
-                    <img
-                        src="${this.data.heroImage}"
-                        alt=""
+                    <svg
+                        class="outdoors-banner-art"
+                        viewBox="0 0 1200 240"
+                        preserveAspectRatio="xMidYMid slice"
+                        xmlns="http://www.w3.org/2000/svg"
                         aria-hidden="true"
-                        class="outdoors-hero-backdrop"
+                        focusable="false"
                     >
-                    <img
-                        src="${this.data.heroImage}"
-                        alt="Boat on the water"
-                        class="outdoors-hero-image"
-                    >
+                        <defs>
+                            <pattern id="outdoors-grid" width="42" height="42" patternUnits="userSpaceOnUse">
+                                <path d="M42 0H0V42" fill="none" stroke="#9fc7b0" stroke-width=".6" opacity=".12"/>
+                            </pattern>
+                            <linearGradient id="outdoors-mountain-line" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#7fae96" stop-opacity=".18"/>
+                                <stop offset="55%" stop-color="#a8d2bc" stop-opacity=".55"/>
+                                <stop offset="100%" stop-color="#87c1c7" stop-opacity=".32"/>
+                            </linearGradient>
+                            <linearGradient id="outdoors-water-line" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#7fb3b9" stop-opacity=".12"/>
+                                <stop offset="50%" stop-color="#b7d8d7" stop-opacity=".42"/>
+                                <stop offset="100%" stop-color="#7ea7af" stop-opacity=".16"/>
+                            </linearGradient>
+                            <radialGradient id="outdoors-glow-left" cx="0%" cy="0%" r="95%">
+                                <stop offset="0%" stop-color="#39584d" stop-opacity=".55"/>
+                                <stop offset="45%" stop-color="#24372f" stop-opacity=".2"/>
+                                <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+                            </radialGradient>
+                            <radialGradient id="outdoors-glow-right" cx="100%" cy="100%" r="100%">
+                                <stop offset="0%" stop-color="#2f5f66" stop-opacity=".38"/>
+                                <stop offset="48%" stop-color="#1f3438" stop-opacity=".15"/>
+                                <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+                            </radialGradient>
+                        </defs>
+
+                        <rect width="1200" height="240" fill="url(#outdoors-grid)"/>
+                        <rect width="1200" height="240" fill="url(#outdoors-glow-left)"/>
+                        <rect width="1200" height="240" fill="url(#outdoors-glow-right)"/>
+
+                        <g fill="none" stroke="url(#outdoors-mountain-line)"
+                           stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M465 156 565 92 655 152 736 78 842 161 934 110 1042 162"/>
+                            <path d="M612 164 680 118 747 164" opacity=".65"/>
+                            <path d="M835 162 902 126 968 162" opacity=".58"/>
+                            <path d="M708 78 736 46 774 94" opacity=".38"/>
+                        </g>
+
+                        <g fill="none" stroke="url(#outdoors-water-line)"
+                           stroke-width="1.4" stroke-linecap="round">
+                            <path d="M0 170 C90 164 158 174 244 170 C340 165 407 175 505 170 C610 165 682 176 781 171 C888 166 972 176 1200 168"/>
+                            <path d="M0 187 C98 181 177 191 269 187 C357 183 426 192 531 188 C628 184 707 194 811 189 C920 184 1002 194 1200 186" opacity=".78"/>
+                            <path d="M0 205 C110 198 196 209 288 205 C375 201 454 210 553 206 C652 202 730 212 839 207 C937 203 1020 211 1200 204" opacity=".55"/>
+                        </g>
+
+                        <g fill="none" stroke="#8bb49f" stroke-width="1" opacity=".16">
+                            <path d="M910 94 968 72 1042 76 1120 58"/>
+                            <path d="M545 108 602 88 665 96"/>
+                        </g>
+                    </svg>
                     <div class="outdoors-hero-overlay"></div>
                 </div>
 
@@ -373,7 +417,7 @@ class OutdoorsActivity {
 
         const images =
             this.container.querySelectorAll(
-                ".outdoors-hero-backdrop, .outdoors-hero-image, .outdoors-story-image"
+                ".outdoors-story-image"
             );
 
 
