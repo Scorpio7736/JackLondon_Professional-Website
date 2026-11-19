@@ -289,32 +289,44 @@ class Network404Activity {
 
     renderHero() {
 
-        const bannerMarkup =
-            this.data.banner
-
-                ? `
-
-                    <img
-                        src="${this.data.banner}"
-                        alt="${this.data.title} banner"
-                        class="network404-banner-image"
-                    >
-
-                `
-
-                : `
-
-                    <div
-                        class="network404-banner-placeholder"
-                    >
-
-                        <span>
-                            404
-                        </span>
-
-                    </div>
-
-                `;
+        // Decorative geometry stays crisp at every viewport width.
+        // The 404 logo and label remain in the identity area below.
+        const bannerMarkup = `
+            <svg class="network404-banner-art" viewBox="0 0 1200 240"
+                 preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <defs>
+                    <pattern id="network404-grid" width="42" height="42" patternUnits="userSpaceOnUse">
+                        <path d="M42 0H0V42" fill="none" stroke="#7193ce" stroke-width="0.6" opacity=".19"/>
+                    </pattern>
+                    <linearGradient id="network404-trail" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0" stop-color="#2f6bff" stop-opacity="0"/>
+                        <stop offset=".55" stop-color="#2f6bff" stop-opacity=".3"/>
+                        <stop offset="1" stop-color="#20d9ff" stop-opacity=".64"/>
+                    </linearGradient>
+                </defs>
+                <rect width="1200" height="240" fill="url(#network404-grid)"/>
+                <g fill="none" stroke="url(#network404-trail)" stroke-width="1.5"
+                   stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M470 176H635L702 110H875L924 61H1145"/>
+                    <path d="M570 222L660 152H791L854 204H1080L1155 129H1200"/>
+                    <path d="M750 18L808 78H970L1031 139H1180"/>
+                    <path d="M865 110L915 160H1050"/>
+                    <path d="M665 152V79L710 34H790"/>
+                    <path d="M975 61L1040 15H1200"/>
+                </g>
+                <g fill="#20d9ff" opacity=".56">
+                    <circle cx="702" cy="110" r="3.5"/><circle cx="875" cy="110" r="3.5"/>
+                    <circle cx="924" cy="61" r="3.5"/><circle cx="660" cy="152" r="3"/>
+                    <circle cx="854" cy="204" r="3.5"/><circle cx="1031" cy="139" r="3.5"/>
+                    <circle cx="808" cy="78" r="3"/><circle cx="915" cy="160" r="3"/>
+                    <circle cx="1040" cy="15" r="3"/>
+                </g>
+                <g fill="none" stroke="#7957ff" stroke-width="1" opacity=".22">
+                    <path d="M780 221L895 90L1026 233 M835 35L1006 89L1113 14"/>
+                    <circle cx="895" cy="90" r="14"/><circle cx="1006" cy="89" r="9"/>
+                </g>
+            </svg>
+        `;
 
 
         const iconMarkup =
