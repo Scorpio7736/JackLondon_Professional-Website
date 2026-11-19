@@ -10,7 +10,7 @@ Version numbers follow `MAJOR.MINOR.PATCH` (`#.x.x`):
 
 Major and minor versions can have a custom release name chosen later; use `[INSERT NAME]` as the placeholder until named.
 
-## 1.3 - [INSERT NAME]
+## 1.3 - [London, Jack London - Software Engineer]
 
 - [ ] **1.3.1** - Add more AI-related skills to the homepage.
 - [ ] **1.3.2** - Add a note explaining that I use AI as an accelerator and thought partner.
