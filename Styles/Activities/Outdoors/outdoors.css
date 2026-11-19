@@ -32,122 +32,90 @@
 
 
 /* =========================================
-   HERO
+   HERO - MATCH 404 NETWORK ACTIVITY
    ========================================= */
 
 .outdoors-hero {
     position: relative;
-
-    width: 100%;
-    height: 360px;
-
-    overflow: hidden;
-
-    background:
-        #1d1c21;
-
-    border-bottom:
-        1px solid var(--border);
 }
 
+.outdoors-banner {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+    background: #1d1c21;
+}
 
 .outdoors-hero-image {
-    position: absolute;
-
-    inset: 0;
-
+    display: block;
     width: 100%;
     height: 100%;
-
-    display: block;
-
-    object-fit:
-        cover;
-
-    object-position:
-        center;
-
-    transition:
-        transform 500ms ease;
+    object-fit: cover;
+    transition: transform 500ms ease;
 }
 
-
-.outdoors-hero:hover
-.outdoors-hero-image {
-    transform:
-        scale(1.01);
+.outdoors-banner:hover .outdoors-hero-image {
+    transform: scale(1.01);
 }
-
 
 .outdoors-hero-overlay {
     position: absolute;
-
     inset: 0;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0.04) 15%,
-            rgba(0, 0, 0, 0.16) 48%,
-            rgba(0, 0, 0, 0.76) 100%
-        );
-
+    background: linear-gradient(to bottom, transparent 35%, rgba(25, 24, 29, .2) 60%, rgba(25, 24, 29, .86) 100%);
     pointer-events: none;
 }
 
-
-/* =========================================
-   HERO TEXT
-   ========================================= */
-
-.outdoors-hero-copy {
-    position: absolute;
-
-    left: 30px;
-    right: 30px;
-    bottom: 28px;
-
-    z-index: 2;
+.outdoors-hero-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: -48px;
+    padding: 0 28px 26px;
 }
 
-
-.outdoors-hero-copy h2 {
-    margin:
-        5px 0 6px;
-
-    color:
-        #ffffff;
-
-    font-size:
-        clamp(
-            1.8rem,
-            4vw,
-            2.6rem
-        );
-
-    font-weight:
-        600;
-
-    letter-spacing:
-        -0.035em;
+.outdoors-icon-wrapper {
+    position: relative;
+    display: flex;
+    width: 108px;
+    height: 108px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: #a9c8af;
+    background: #212026;
+    border: 5px solid #29282e;
+    border-radius: 18px;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, .35);
 }
 
+.outdoors-icon {
+    display: block;
+    width: 78px;
+    height: 78px;
+}
 
-.outdoors-hero-copy p {
+.outdoors-title-area {
+    min-width: 0;
+    padding-top: 48px;
+}
+
+.outdoors-title-area h2 {
+    margin: 3px 0 5px;
+    color: var(--text-primary);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: -.03em;
+}
+
+.outdoors-title-area p {
     margin: 0;
-
-    color:
-        rgba(
-            255,
-            255,
-            255,
-            0.78
-        );
-
-    font-size:
-        0.9rem;
+    color: var(--text-secondary);
+    font-size: .88rem;
 }
-
 
 /* =========================================
    CONTENT
@@ -534,9 +502,28 @@
 
 @media (max-width: 600px) {
 
-    .outdoors-hero {
-        height:
-            280px;
+    .outdoors-banner {
+        height: 190px;
+    }
+
+    .outdoors-hero-content {
+        gap: 14px;
+        padding: 0 20px 22px;
+        margin-top: -40px;
+    }
+
+    .outdoors-icon-wrapper {
+        width: 88px;
+        height: 88px;
+    }
+
+    .outdoors-icon {
+        width: 66px;
+        height: 66px;
+    }
+
+    .outdoors-title-area {
+        padding-top: 40px;
     }
 
 
@@ -564,16 +551,7 @@
     }
 
 
-    .outdoors-hero-copy {
-        left:
-            20px;
 
-        right:
-            20px;
-
-        bottom:
-            20px;
-    }
 
 
     .outdoors-story-image-title {
@@ -602,9 +580,37 @@
 
 @media (max-width: 480px) {
 
-    .outdoors-hero {
-        height:
-            240px;
+    .outdoors-banner {
+        height: 165px;
+    }
+
+    .outdoors-hero-content {
+        margin-top: -34px;
+        padding: 0 18px 18px;
+    }
+
+    .outdoors-icon-wrapper {
+        width: 74px;
+        height: 74px;
+        border-width: 4px;
+        border-radius: 14px;
+    }
+
+    .outdoors-icon {
+        width: 56px;
+        height: 56px;
+    }
+
+    .outdoors-title-area {
+        padding-top: 34px;
+    }
+
+    .outdoors-title-area h2 {
+        font-size: 1.4rem;
+    }
+
+    .outdoors-title-area p {
+        font-size: .8rem;
     }
 
 
