@@ -53,11 +53,19 @@
     overflow: hidden;
 
     background:
-        linear-gradient(
-            135deg,
-            #202027,
-            #373641
-        );
+        radial-gradient(ellipse at 77% 44%, rgba(47, 107, 255, .16), transparent 60%),
+        linear-gradient(115deg, #26252e 5%, #222a3a 67%, #242536);
+}
+
+/* Scalable circuit texture: visual reference to a computing network, not a hero graphic. */
+.network404-banner-art {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: .67;
+    pointer-events: none;
 }
 
 
