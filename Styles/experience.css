@@ -181,196 +181,95 @@
 
 /* =========================================
    EXPERIENCE HEADER
+   Match the overlapping 404 Network / Skills header.
    ========================================= */
 
 .experience-header {
+    position: relative;
     display: flex;
-
     align-items: center;
     justify-content: space-between;
-
-    gap: 24px;
-
-    padding:
-        24px 26px 26px;
+    gap: 20px;
+    padding: 0 28px 26px;
+    margin-top: -48px;
 }
-
-
-/* =========================================
-   EXPERIENCE IDENTITY
-   ========================================= */
 
 .experience-identity {
     min-width: 0;
-
     display: flex;
-
     align-items: center;
-
-    gap: 18px;
-
+    gap: 20px;
     flex: 1;
 }
 
-
-/* =========================================
-   COMPANY ICON
-   ========================================= */
-
 .experience-icon {
     position: relative;
-
-    width: 72px;
-    height: 72px;
-
     display: flex;
-
+    width: 108px;
+    height: 108px;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
-
-    flex-shrink: 0;
-
-    background:
-        #25242a;
-
-    border:
-        1px solid var(--border);
-
-    border-radius: 12px;
-
     overflow: hidden;
+    background: #212026;
+    border: 5px solid #29282e;
+    border-radius: 18px;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.35);
 }
 
-
 .experience-icon img {
-    width: 53px;
-    height: 53px;
-
+    display: block;
+    width: 88px;
+    height: 88px;
     object-fit: contain;
 }
 
-
 .experience-icon-fallback {
     position: absolute;
-
-    color:
-        var(--accent-light);
-
-    font-family:
-        "Cascadia Code",
-        "Fira Code",
-        Consolas,
-        monospace;
-
+    color: var(--accent-light);
+    font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
     font-size: 0.85rem;
-
     font-weight: 600;
 }
-
-
-/* =========================================
-   BUSINESS TITLE
-   ========================================= */
 
 .experience-business-title {
     min-width: 0;
-
+    padding-top: 48px;
     margin: 0;
 }
-
 
 .experience-eyebrow {
     display: block;
-
-    margin-bottom: 7px;
-
-    color:
-        var(--accent-light);
-
-    font-family:
-        "Cascadia Code",
-        "Fira Code",
-        Consolas,
-        monospace;
-
+    color: var(--accent-light);
+    font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
     font-size: 0.74rem;
-
     line-height: 1.4;
 }
 
-
 .experience-business-title h2 {
     max-width: 750px;
-
-    margin: 0;
-
-    color:
-        var(--text-primary);
-
-    font-size:
-        clamp(
-            1.35rem,
-            2.4vw,
-            2rem
-        );
-
+    margin: 3px 0 5px;
+    color: var(--text-primary);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
     font-weight: 600;
-
     line-height: 1.2;
-
-    letter-spacing:
-        -0.025em;
+    letter-spacing: -0.03em;
 }
-
-
-/* =========================================
-   EXPERIENCE TYPE
-   ========================================= */
 
 .experience-type {
     flex-shrink: 0;
-
-    align-self: flex-start;
-
-    padding:
-        6px 9px;
-
-    color:
-        var(--accent-light);
-
-    background:
-        rgba(
-            123,
-            131,
-            235,
-            0.08
-        );
-
-    border:
-        1px solid rgba(
-            123,
-            131,
-            235,
-            0.25
-        );
-
+    align-self: center;
+    margin-top: 48px;
+    padding: 6px 9px;
+    color: var(--accent-light);
+    background: rgba(123, 131, 235, 0.08);
+    border: 1px solid rgba(123, 131, 235, 0.25);
     border-radius: 5px;
-
-    font-family:
-        "Cascadia Code",
-        "Fira Code",
-        Consolas,
-        monospace;
-
+    font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
     font-size: 0.67rem;
-
-    text-transform:
-        uppercase;
-
-    letter-spacing:
-        0.05em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
-
 
 /* =========================================
    DETAIL GRID
@@ -829,6 +728,109 @@
         translateX(3px);
 }
 
+
+/* =========================================
+   RESPONSIVE HEADERS
+   ========================================= */
+
+@media (max-width: 800px) {
+    .experience-header {
+        flex-wrap: wrap;
+    }
+
+    .experience-icon {
+        width: 88px;
+        height: 88px;
+    }
+
+    .experience-icon img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .experience-business-title h2 {
+        font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+    }
+}
+
+@media (max-width: 550px) {
+    .experience-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 0 20px 22px;
+        margin-top: -40px;
+    }
+
+    .experience-identity {
+        align-items: center;
+        gap: 14px;
+    }
+
+    .experience-business-title {
+        padding-top: 40px;
+    }
+
+    .experience-icon {
+        width: 88px;
+        height: 88px;
+        border-radius: 16px;
+    }
+
+    .experience-icon img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .experience-business-title h2 {
+        font-size: 1.4rem;
+    }
+
+    .experience-type {
+        align-self: flex-start;
+        margin: 0 0 0 102px;
+    }
+}
+
+@media (max-width: 450px) {
+    .experience-header {
+        padding: 0 18px 18px;
+        margin-top: -34px;
+    }
+
+    .experience-identity {
+        align-items: center;
+        gap: 14px;
+    }
+
+    .experience-icon {
+        width: 74px;
+        height: 74px;
+        border-radius: 14px;
+        border-width: 4px;
+    }
+
+    .experience-icon img {
+        width: 58px;
+        height: 58px;
+    }
+
+    .experience-business-title {
+        padding-top: 34px;
+    }
+
+    .experience-eyebrow {
+        font-size: 0.68rem;
+    }
+
+    .experience-business-title h2 {
+        font-size: 1.2rem;
+    }
+
+    .experience-type {
+        margin-left: 88px;
+    }
+}
 
 /* =========================================
    RESPONSIVE - 800PX
