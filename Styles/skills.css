@@ -68,45 +68,52 @@
 .skills-top-tools .skills-banner { --banner-accent: #91a7c6; }
 .skills-top-other .skills-banner { --banner-accent: #a9b68a; }
 
+/* Follow the 404 Network activity's overlapping banner/icon composition. */
 .skills-header {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 18px;
-    padding: 24px 26px 26px;
+    gap: 20px;
+    padding: 0 28px 26px;
+    margin-top: -42px;
 }
 
 .skills-icon-badge {
+    position: relative;
     display: flex;
-    width: 72px;
-    height: 72px;
+    width: 96px;
+    height: 96px;
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: #25242a;
     overflow: hidden;
+    background: #212026;
+    border: 5px solid #29282e;
+    border-radius: 18px;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.35);
 }
 
 .skills-icon-badge img {
     display: block;
-    width: 53px;
-    height: 53px;
+    width: 78px;
+    height: 78px;
     object-fit: contain;
 }
 
-.skills-title-group { min-width: 0; }
+.skills-title-group {
+    min-width: 0;
+    padding-top: 42px;
+}
 
 .skills-title-group h2 {
-    margin: 0;
-    font-size: 1.45rem;
+    margin: 3px 0 5px;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
     font-weight: 600;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
 }
 
 .skills-title-group .section-eyebrow {
     display: block;
-    margin-bottom: 7px;
 }
 
 .skills-content-card > .language-card-grid { padding: 0 26px 26px; }
@@ -114,10 +121,11 @@
 @media (max-width: 550px) {
     .skills-banner { height: 80px; }
     .skills-banner svg { width: min(115%, 760px); opacity: .34; }
-    .skills-header { padding: 18px; gap: 14px; }
-    .skills-icon-badge { width: 60px; height: 60px; }
-    .skills-icon-badge img { width: 44px; height: 44px; }
-    .skills-title-group h2 { font-size: 1.25rem; }
+    .skills-header { gap: 14px; padding: 0 18px 20px; margin-top: -32px; }
+    .skills-icon-badge { width: 72px; height: 72px; border-radius: 15px; border-width: 4px; }
+    .skills-icon-badge img { width: 58px; height: 58px; }
+    .skills-title-group { padding-top: 32px; }
+    .skills-title-group h2 { font-size: 1.4rem; }
     .skills-content-card > .language-card-grid { padding: 0 18px 18px; }
 }
 
