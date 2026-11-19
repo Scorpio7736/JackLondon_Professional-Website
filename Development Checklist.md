@@ -40,7 +40,7 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 - [x] **1.3.4** - Add branded 403, 404, 500, 503, and 504 error pages with matching portfolio styling and error-specific GIFs. ([3f42bb7](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/3f42bb72e), [d376f44](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/d376f440c))
 - [x] **1.3.5** - Remove unused image and audio assets from the portfolio repository. ([4ea8404](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/4ea84049bce4ece0c977b4d8f5e11f49c97a0894), [f9132e1](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/f9132e108))
 - [x] **1.3.6** - Replace the Outdoors photo banner with a coded mountain-and-lake SVG and refine its presentation. ([8c30013](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/8c30013f2903dc5df8bdae31c6b96cd5fd6b9e4d), [4009cb6](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/4009cb6395b532309c44f87cad0abfaf847b20e7))
-- [ ] **1.3.7** - Add more AI-related skills to the homepage.
+- [x] **1.3.7** - Add more AI-related skills to the homepage.
 - [ ] **1.3.8** - Add a note explaining that I use AI as an accelerator and thought partner.
 - [ ] **1.3.9** - Improve search discoverability by incorporating relevant keywords naturally into page content, headings, titles, and metadata so Google can better understand and surface the website.
 - [ ] **1.3.10** - Fix the Blacksmithing banner image.
