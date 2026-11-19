@@ -193,7 +193,8 @@ function moveSidebarIndicator(
 
 function openPage(
     pageName,
-    animate = false
+    animate = false,
+    targetSectionId = null
 ) {
 
     const selectedPage =
@@ -213,6 +214,9 @@ function openPage(
             "active"
         )
     ) {
+        if (targetSectionId) {
+            scrollToSection(targetSectionId);
+        }
         return;
     }
 
@@ -320,6 +324,14 @@ function openPage(
         setupSectionObserver(
             selectedPage
         );
+
+        if (targetSectionId) {
+            requestAnimationFrame(() => {
+                if (transitionId === pageTransitionId) {
+                    scrollToSection(targetSectionId);
+                }
+            });
+        }
 
 
         if (!animate) {
@@ -1181,7 +1193,8 @@ internalPageLinks.forEach(
 
                 openPage(
                     button.dataset.page,
-                    true
+                    true,
+                    button.dataset.sectionId || null
                 );
 
             }
