@@ -289,41 +289,50 @@ class Network404Activity {
 
     renderHero() {
 
-        // Decorative geometry stays crisp at every viewport width.
-        // The 404 logo and label remain in the identity area below.
+        // Vector recreation of the original Images/Banners/404_BANNER.png:
+        // black field, cyan upper-left accent, purple lower-right accent,
+        // and the original centered 404 lettering.
         const bannerMarkup = `
-            <svg class="network404-banner-art" viewBox="0 0 1200 240"
+            <svg class="network404-banner-art" viewBox="0 0 1200 480"
                  preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
                 <defs>
-                    <pattern id="network404-grid" width="42" height="42" patternUnits="userSpaceOnUse">
-                        <path d="M42 0H0V42" fill="none" stroke="#7193ce" stroke-width="0.6" opacity=".19"/>
-                    </pattern>
-                    <linearGradient id="network404-trail" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0" stop-color="#2f6bff" stop-opacity="0"/>
-                        <stop offset=".55" stop-color="#2f6bff" stop-opacity=".3"/>
-                        <stop offset="1" stop-color="#20d9ff" stop-opacity=".64"/>
+                    <radialGradient id="network404-backlight" cx="50%" cy="49%" r="65%">
+                        <stop offset="0" stop-color="#090a10"/>
+                        <stop offset=".7" stop-color="#030407"/>
+                        <stop offset="1" stop-color="#000000"/>
+                    </radialGradient>
+                    <radialGradient id="network404-cyan-corner" cx="0%" cy="0%" r="100%">
+                        <stop offset="0" stop-color="#0876bc"/>
+                        <stop offset=".55" stop-color="#00385f"/>
+                        <stop offset="1" stop-color="#00101a"/>
+                    </radialGradient>
+                    <radialGradient id="network404-purple-corner" cx="100%" cy="100%" r="95%">
+                        <stop offset="0" stop-color="#5338c2"/>
+                        <stop offset=".62" stop-color="#23115c"/>
+                        <stop offset="1" stop-color="#0a071b"/>
+                    </radialGradient>
+                    <linearGradient id="network404-blue-four" x1="0" y1="0" x2="1" y2="1">
+                        <stop stop-color="#88b8ff"/><stop offset="1" stop-color="#2f6bff"/>
+                    </linearGradient>
+                    <linearGradient id="network404-ring" x1="0" y1="0" x2="1" y2="1">
+                        <stop stop-color="#20d9ff"/>
+                        <stop offset=".5" stop-color="#279cff"/>
+                        <stop offset="1" stop-color="#7957ff"/>
                     </linearGradient>
                 </defs>
-                <rect width="1200" height="240" fill="url(#network404-grid)"/>
-                <g fill="none" stroke="url(#network404-trail)" stroke-width="1.5"
-                   stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M470 176H635L702 110H875L924 61H1145"/>
-                    <path d="M570 222L660 152H791L854 204H1080L1155 129H1200"/>
-                    <path d="M750 18L808 78H970L1031 139H1180"/>
-                    <path d="M865 110L915 160H1050"/>
-                    <path d="M665 152V79L710 34H790"/>
-                    <path d="M975 61L1040 15H1200"/>
-                </g>
-                <g fill="#20d9ff" opacity=".56">
-                    <circle cx="702" cy="110" r="3.5"/><circle cx="875" cy="110" r="3.5"/>
-                    <circle cx="924" cy="61" r="3.5"/><circle cx="660" cy="152" r="3"/>
-                    <circle cx="854" cy="204" r="3.5"/><circle cx="1031" cy="139" r="3.5"/>
-                    <circle cx="808" cy="78" r="3"/><circle cx="915" cy="160" r="3"/>
-                    <circle cx="1040" cy="15" r="3"/>
-                </g>
-                <g fill="none" stroke="#7957ff" stroke-width="1" opacity=".22">
-                    <path d="M780 221L895 90L1026 233 M835 35L1006 89L1113 14"/>
-                    <circle cx="895" cy="90" r="14"/><circle cx="1006" cy="89" r="9"/>
+                <rect width="1200" height="480" fill="url(#network404-backlight)"/>
+                <path d="M0 0 H185 C173 88 117 140 0 147 Z" fill="url(#network404-cyan-corner)"/>
+                <path d="M1200 285 V480 H1001 C1021 381 1095 316 1200 285 Z" fill="url(#network404-purple-corner)"/>
+
+                <g fill="none" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Stylized white-and-blue fours -->
+                    <path d="M461 175 362 269 H484" stroke="#edf1fa"/>
+                    <path d="M461 224 V322" stroke="url(#network404-blue-four)"/>
+                    <path d="M776 175 677 269 H799" stroke="#edf1fa"/>
+                    <path d="M776 224 V322" stroke="url(#network404-blue-four)"/>
+                    <!-- Open circular 0 with cyan upper-left and violet lower-right -->
+                    <path d="M622 179 A73 73 0 0 0 553 277" stroke="#20cafa"/>
+                    <path d="M561 297 A73 73 0 0 0 652 194" stroke="url(#network404-ring)"/>
                 </g>
             </svg>
         `;
