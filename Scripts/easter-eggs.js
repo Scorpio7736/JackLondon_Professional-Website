@@ -1036,7 +1036,7 @@
                     celebrationTimer = setTimeout(() => {
                         celebrationTimer = null;
                         showBandCelebration("blue", {
-                            image: "Images/EasterEggs/ONWISCONSIN/Photos/Jack_Trombone.png",
+                            image: "Images/EasterEggs/ONWISCONSIN/Jack_Trombone.png",
                             imageAlt: "Jack playing trombone"
                         });
                     }, bandTransitionMs + 80);
