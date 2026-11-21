@@ -18,6 +18,13 @@ class PortfolioHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(SITE_ROOT), **kwargs)
 
+    def end_headers(self):
+        # Prevent stale MP3s during local testing when audio is re-trimmed
+        # and replaced at the same filename.
+        if self.path.partition("?")[0].lower().endswith(".mp3"):
+            self.send_header("Cache-Control", "no-store")
+        super().end_headers()
+
     def send_error(self, code, message=None, explain=None):
         if code == HTTPStatus.NOT_FOUND:
             try:
