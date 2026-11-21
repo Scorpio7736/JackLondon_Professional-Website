@@ -77,6 +77,13 @@ Completed development identified before the November 17, 2026 transition to 1.3:
   - [ ] Check that keyboard tab order, visible focus indicators, Enter/Space activation, and screen-reader names remain usable in collapsed and expanded sidebar layouts.
   - [ ] Review mobile touch-target spacing and overflow at approximately 320px, 375px, 700px, and tablet widths; preserve responsive layout and existing hover interactions.
   - [ ] **Acceptance criteria:** All icon-only navigation actions have meaningful accessible names; the active page is announced correctly; mouse, touch, and keyboard navigation still work; no visual regression on desktop or mobile. Test with browser accessibility inspection and at least one screen reader (e.g., NVDA).
+- [ ] Optimize portfolio performance and loading speed while preserving the current desktop-inspired design and animations.
+  - [ ] Establish baseline Lighthouse measurements for desktop and mobile (Performance, LCP, INP, CLS, and transferred bytes); record the test conditions.
+  - [ ] Audit oversized images, project screenshots, banners, and GIFs; compress or resize where appropriate, use efficient formats and responsive image sizes without compromising visual quality.
+  - [ ] Apply appropriate lazy loading to below-the-fold imagery and prioritize critical above-the-fold assets; ensure tooltips, galleries, and Easter eggs still load reliably on first use.
+  - [ ] Review JavaScript/CSS and media loading for unnecessary requests, blocking work, cache behavior, and opportunities to defer noncritical resources.
+  - [ ] Re-run Lighthouse and browser smoke tests at desktop and mobile widths; compare against baseline and resolve major regressions.
+  - [ ] **Acceptance criteria:** Measurable loading improvements without broken media, layout shifts, altered visual design, or degraded Easter egg timing; document before/after results.
 
 **Post-release hotfixes:** None yet. Reserve `1.4.1`, `1.4.2`, etc. for fixes after 1.4.0 is released.
 
