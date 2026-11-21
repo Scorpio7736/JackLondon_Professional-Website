@@ -44,7 +44,7 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 - [x] **1.3.8** - Add a note explaining that I use AI as an accelerator and thought partner.
 - [ ] **1.3.9** - Improve search discoverability by incorporating relevant keywords naturally into page content, headings, titles, and metadata so Google can better understand and surface the website.
 - [x] **1.3.10** - Fix the Blacksmithing banner image.
-- [ ] **1.3.11** - Combine all existing error pages into one dynamic error page that changes its content and presentation based on the error code.
+- [x] **1.3.11** - Combine the 403, 404, 500, 503, and 504 pages into one dynamic `404.html` template with error-specific messages and GIFs; remove obsolete error pages and `UnderConstruction.html`. ([e738904](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/e738904842d0a70f5ce81f499de78cff85726db2))
 - [ ] **1.3.12** - Add space for images on the tooltips for certian items. Key items are FHIR, PapercutAvengers, Top-Rope Belay, and MCP.
 
 
