@@ -15,7 +15,7 @@
             document.head.appendChild(base);
         }
     </script>
-    <link rel="icon" href="Images/Icons/Headshot_ICON.png" type="image/png">
+    <link rel="icon" href="Images/Icons/favicon.ico?v=jl-favicon-1" type="image/x-icon" sizes="16x16 32x32">
     <link rel="stylesheet" href="Styles/error-pages.css?v=4">
 </head>
 <body>
@@ -31,14 +31,14 @@
             <div class="sidebar-nav">
                 <div class="nav-item active" aria-current="page">
                     <span class="nav-icon" aria-hidden="true">!</span>
-                    <span>Error 404</span>
+                    <span id="error-sidebar-code">Error 404</span>
                 </div>
             </div>
         </aside>
         <main class="workspace" aria-labelledby="error-title">
             <header class="workspace-header">
-                <div><span class="workspace-path">Portfolio / System / 404</span><h1>Page Not Found</h1></div>
-                <span class="workspace-tag">HTTP 404</span>
+                <div><span class="workspace-path" id="error-workspace-path">Portfolio / System / 404</span><h1 id="error-workspace-title">Page Not Found</h1></div>
+                <span class="workspace-tag" id="error-http-tag">HTTP 404</span>
             </header>
             <div class="workspace-tabs" aria-label="Current section">
                 <span class="workspace-tab active">Error Details</span>
@@ -46,14 +46,14 @@
             <div class="workspace-content">
                 <div class="error-grid">
                     <section class="content-card error-hero" aria-labelledby="error-title">
-                        <span class="eyebrow">system.status.not_found</span>
-                        <div class="error-number" aria-hidden="true">404</div>
+                        <span class="eyebrow" id="error-eyebrow">system.status.not_found</span>
+                        <div class="error-number" id="error-number" aria-hidden="true">404</div>
                         <h2 id="error-title">Looks like this file went missing.</h2>
-                        <p>The page you're looking for may have moved, or the address might have a typo. No problem—there's plenty more to explore.</p>
+                        <p id="error-description">The page you're looking for may have moved, or the address might have a typo. No problem—there's plenty more to explore.</p>
                         <div class="error-media">
-                            <img src="Images/Other/404_ERROR.gif" alt="Animated 404 page not found illustration" loading="eager">
+                            <img id="error-illustration" src="Images/Other/404_ERROR.gif" alt="Animated 404 page not found illustration" loading="eager">
                         </div>
-                        <div class="terminal"><span class="prompt">jack@portfolio:~$</span><span>GET /requested-page → 404 NOT_FOUND</span></div>
+                        <div class="terminal"><span class="prompt">jack@portfolio:~$</span><span id="error-terminal">GET /requested-page → 404 NOT_FOUND</span></div>
                         <div class="actions">
                             <a class="action primary" href="index.html">Return to Portfolio</a>
                             <button class="action" id="go-back" type="button">Go Back</button>
@@ -66,13 +66,107 @@
     </div>
 </div>
 <script>
-    document.getElementById("go-back").addEventListener("click", function () {
-        if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) {
-            history.back();
-        } else {
+    (function () {
+        "use strict";
+
+        // One template for each supported error. Vercel serves this file
+        // automatically for missing routes (404); other codes can be
+        // previewed explicitly at /404.html?code=403 (or 500, 503, 504).
+        const errors = {
+            "403": {
+                title: "Access Restricted",
+                documentTitle: "403 · Access restricted | Jack London",
+                headline: "This directory is off limits.",
+                description: "You don't have permission to access this resource. Head back to the portfolio, or contact me if you believe this page should be available.",
+                status: "access_denied",
+                terminal: "ACCESS_CHECK → 403 FORBIDDEN",
+                image: "403_ERROR.gif",
+                imageAlt: "Animated 403 access restricted illustration"
+            },
+            "404": {
+                title: "Page Not Found",
+                documentTitle: "404 · Page not found | Jack London",
+                headline: "Looks like this file went missing.",
+                description: "The page you're looking for may have moved, or the address might have a typo. No problem—there's plenty more to explore.",
+                status: "not_found",
+                terminal: "GET /requested-page → 404 NOT_FOUND",
+                image: "404_ERROR.gif",
+                imageAlt: "Animated 404 page not found illustration"
+            },
+            "500": {
+                title: "Server Error",
+                documentTitle: "500 · Something went wrong | Jack London",
+                headline: "A process encountered an error.",
+                description: "Something unexpected happened while loading this page. Try again in a moment, or head back to the portfolio.",
+                status: "internal_error",
+                terminal: "SYSTEM → 500 INTERNAL_ERROR",
+                image: "500_ERROR.gif",
+                imageAlt: "Animated 500 internal server error illustration"
+            },
+            "503": {
+                title: "Service Unavailable",
+                documentTitle: "503 · Temporarily unavailable | Jack London",
+                headline: "A quick maintenance break.",
+                description: "This part of the site isn't available right now. The rest of the portfolio may still be working—feel free to head home and explore.",
+                status: "service_unavailable",
+                terminal: "SERVICE → 503 UNAVAILABLE",
+                image: "503_ERROR.gif",
+                imageAlt: "Animated 503 error illustration"
+            },
+            "504": {
+                title: "Gateway Timeout",
+                documentTitle: "504 · Request timed out | Jack London",
+                headline: "That took longer than expected.",
+                description: "The request didn't complete in time. Your connection may be fine—please retry or return to the portfolio.",
+                status: "gateway_timeout",
+                terminal: "REQUEST → 504 GATEWAY_TIMEOUT",
+                image: "504_ERROR.gif",
+                imageAlt: "Animated 504 error illustration"
+            }
+        };
+
+        // Only explicit visits to the error template can select other codes.
+        // A genuinely missing URL always shows the actual 404 messaging.
+        const isTemplateUrl = location.pathname.toLowerCase().endsWith("/404.html");
+        const requestedCode = isTemplateUrl
+            ? new URLSearchParams(location.search).get("code")
+            : null;
+        const code = Object.prototype.hasOwnProperty.call(errors, requestedCode)
+            ? requestedCode
+            : "404";
+        const error = errors[code];
+
+        const setText = function (id, value) {
+            document.getElementById(id).textContent = value;
+        };
+
+        document.title = error.documentTitle;
+        setText("error-sidebar-code", "Error " + code);
+        setText("error-workspace-path", "Portfolio / System / " + code);
+        setText("error-workspace-title", error.title);
+        setText("error-http-tag", "HTTP " + code);
+        setText("error-eyebrow", "system.status." + error.status);
+        setText("error-number", code);
+        setText("error-title", error.headline);
+        setText("error-description", error.description);
+        setText("error-terminal", error.terminal);
+
+        const illustration = document.getElementById("error-illustration");
+        illustration.src = "Images/Other/" + error.image;
+        illustration.alt = error.imageAlt;
+
+        document.getElementById("go-back").addEventListener("click", function () {
+            try {
+                if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) {
+                    history.back();
+                    return;
+                }
+            } catch (err) {
+                // Invalid referrers should return to the main portfolio instead.
+            }
             location.assign("index.html");
-        }
-    });
+        });
+    }());
 </script>
 </body>
 </html>

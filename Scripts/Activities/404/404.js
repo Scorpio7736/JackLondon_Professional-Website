@@ -289,32 +289,67 @@ class Network404Activity {
 
     renderHero() {
 
-        const bannerMarkup =
-            this.data.banner
-
-                ? `
-
-                    <img
-                        src="${this.data.banner}"
-                        alt="${this.data.title} banner"
-                        class="network404-banner-image"
-                    >
-
-                `
-
-                : `
-
-                    <div
-                        class="network404-banner-placeholder"
-                    >
-
-                        <span>
-                            404
-                        </span>
-
-                    </div>
-
-                `;
+        // Faithful vector recreation of Images/Banners/404_BANNER.png.
+        // Original composition and glyph proportions (1983 × 793 canvas).
+        const bannerMarkup = `
+            <svg class="network404-banner-art" viewBox="0 0 1983 793"
+                 preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <defs>
+                    <radialGradient id="network404-base" cx="50%" cy="48%" r="70%">
+                        <stop offset="0" stop-color="#050509"/>
+                        <stop offset="1" stop-color="#010204"/>
+                    </radialGradient>
+                    <radialGradient id="network404-cyan-corner" cx="0%" cy="100%" r="115%">
+                        <stop offset="0" stop-color="#005989"/>
+                        <stop offset=".52" stop-color="#002944"/>
+                        <stop offset="1" stop-color="#000811"/>
+                    </radialGradient>
+                    <radialGradient id="network404-purple-corner" cx="100%" cy="0%" r="115%">
+                        <stop offset="0" stop-color="#3d2299"/>
+                        <stop offset=".65" stop-color="#1f1157"/>
+                        <stop offset="1" stop-color="#070510"/>
+                    </radialGradient>
+                    <!-- User-space gradients ensure vertical strokes are visible. -->
+                    <linearGradient id="network404-fours" gradientUnits="userSpaceOnUse"
+                                    x1="550" y1="380" x2="1500" y2="550">
+                        <stop offset="0" stop-color="#5b83ff"/>
+                        <stop offset=".55" stop-color="#5578f5"/>
+                        <stop offset="1" stop-color="#239bff"/>
+                    </linearGradient>
+                    <linearGradient id="network404-zero-cyan" gradientUnits="userSpaceOnUse"
+                                    x1="866" y1="295" x2="1094" y2="458">
+                        <stop offset="0" stop-color="#15c4f4"/>
+                        <stop offset="1" stop-color="#20d9ff"/>
+                    </linearGradient>
+                    <linearGradient id="network404-zero-purple" gradientUnits="userSpaceOnUse"
+                                    x1="925" y1="345" x2="1120" y2="535">
+                        <stop offset="0" stop-color="#9966ff"/>
+                        <stop offset=".52" stop-color="#8660f5"/>
+                        <stop offset="1" stop-color="#6453ee"/>
+                    </linearGradient>
+                </defs>
+                <rect width="1983" height="793" fill="url(#network404-base)"/>
+                <path d="M0 0H308 C282 143 151 252 0 258Z"
+                      fill="url(#network404-cyan-corner)"/>
+                <path d="M1983 517V793H1629 C1662 666 1800 535 1983 517Z"
+                      fill="url(#network404-purple-corner)"/>
+                <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Blue crosses are painted first, white diagonals on top. -->
+                    <g stroke="url(#network404-fours)" stroke-width="38">
+                        <path d="M605 459H794 M746 401V526"/>
+                        <path d="M1203 459H1394 M1346 401V526"/>
+                    </g>
+                    <g stroke="#f0f3fc" stroke-width="38">
+                        <path d="M746 309L598 460"/>
+                        <path d="M1346 309L1198 460"/>
+                    </g>
+                    <path d="M1050 308C987 270 923 306 889 362 C868 397 868 439 891 469"
+                          stroke="url(#network404-zero-cyan)" stroke-width="35"/>
+                    <path d="M1090 355C1126 418 1104 477 1067 504 C1028 537 980 541 931 510"
+                          stroke="url(#network404-zero-purple)" stroke-width="35"/>
+                </g>
+            </svg>
+        `;
 
 
         const iconMarkup =

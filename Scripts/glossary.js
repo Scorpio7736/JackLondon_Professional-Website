@@ -2,11 +2,15 @@
 const portfolioGlossary = Object.freeze({
     "FHIR API": {
         title: "FHIR API",
-        definition: "Fast Healthcare Interoperability Resources (FHIR) is an HL7 standard for exchanging healthcare information. A FHIR API lets applications request and share that information using standardized web interfaces."
+        definition: "Fast Healthcare Interoperability Resources (FHIR) is an HL7 standard for exchanging healthcare information. A FHIR API lets applications request and share that information using standardized web interfaces.",
+        image: "Images/Icons/FHIR_ICON.png",
+        imageAlt: "FHIR flame logo"
     },
     "Papercut Avengers": {
         title: "Papercut Avengers",
-        definition: "An internal Sun Life DentaQuest team focused on reducing repetitive work through automation, improving existing tools and applications, and making complex workflows more efficient so employees can focus on higher-value tasks."
+        definition: "An internal Sun Life DentaQuest team focused on reducing repetitive work through automation, improving existing tools and applications, and making complex workflows more efficient so employees can focus on higher-value tasks.",
+        image: "Images/Icons/PapercutAvengers_ICON.png",
+        imageAlt: "Papercut Avengers team emblem"
     },
     "Utilization Management": {
         title: "Utilization Management (UM)",
@@ -22,7 +26,9 @@ const portfolioGlossary = Object.freeze({
     },
     "MCP": {
         title: "MCP — Master Control Program",
-        definition: "Grid.AI's coordinating agent. MCP organizes requests, delegates tasks to specialized agents, and routes proposed actions through review and approval."
+        definition: "Grid.AI's coordinating agent. MCP organizes requests, delegates tasks to specialized agents, and routes proposed actions through review and approval.",
+        image: "Images/Icons/GridAI_ICON.png",
+        imageAlt: "Grid AI icon"
     },
     "Multi-Agent Orchestration": {
         title: "Multi-Agent Orchestration",
@@ -73,6 +79,20 @@ function openPortfolioGlossary(trigger, entry) {
     tooltip.className = "portfolio-glossary-tooltip";
     tooltip.id = "portfolio-glossary-tooltip";
     tooltip.setAttribute("role", "tooltip");
+
+    if (entry.image) {
+        const media = document.createElement("div");
+        media.className = "portfolio-glossary-media";
+
+        const image = document.createElement("img");
+        image.src = entry.image;
+        image.alt = entry.imageAlt || entry.title + " logo";
+        image.loading = "eager";
+        image.decoding = "async";
+
+        media.appendChild(image);
+        tooltip.appendChild(media);
+    }
 
     const heading = document.createElement("strong");
     heading.textContent = entry.title;

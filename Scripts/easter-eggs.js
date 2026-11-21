@@ -150,6 +150,7 @@
     let terminatorSoundContext = null;
     let terminatorBeatTimer = null;
     let terminatorImagesPromise = null;
+    let terminatorRunId = 0;
     let terminatorSpeechSpoken = false;
     let terminatorVolumeFactor = 1;
     let celebrationTimer = null;
@@ -594,6 +595,7 @@
        ===================================== */
 
     function stopTerminatorEgg({ keepStage = false } = {}) {
+        ++terminatorRunId;
         terminatorRunning = false;
         terminatorVolumeFactor = 1;
         if (terminatorFrame !== null) cancelAnimationFrame(terminatorFrame);
@@ -669,6 +671,63 @@
         if (playback) playback.catch(fallback);
     }
 
+    // Preload the running sprites when the page is first opened rather than
+    // waiting for the first ILLBEBACK trigger. Only the first Jack and
+    // Terminator poses are required to start; all others replace fallbacks
+    // progressively as they arrive.
+    const JACK_RUN_FRAME_COUNT = 14;
+    const TERMINATOR_WALK_OFFSET = JACK_RUN_FRAME_COUNT;
+    const TERMINATOR_FRONT_INDEX = TERMINATOR_WALK_OFFSET + 4;
+    const terminatorAssetPaths = [
+        ...Array.from({ length: JACK_RUN_FRAME_COUNT }, (_, i) =>
+            "Jack_Run_Smooth_" + String(i).padStart(2, "0") + ".png"),
+        ...[0, 1, 2, 3].map(i => "Terminator_ArmedWalk_Clean_" + i + ".png"),
+        "Terminator_ArmedFront.png"
+    ];
+    let terminatorLoadedImages = null;
+    function ensureTerminatorImages() {
+        if (terminatorImagesPromise) return terminatorImagesPromise;
+        const images = new Array(terminatorAssetPaths.length).fill(null);
+        terminatorLoadedImages = images;
+        const loadAt = i => new Promise((resolve, reject) => {
+            const image = new Image();
+            image.decoding = "async";
+            image.onload = () => {
+                images[i] = image;
+                resolve(image);
+            };
+            image.onerror = () => reject(new Error(
+                "ILLBEBACK image unavailable: " + terminatorAssetPaths[i]));
+            image.src = "Images/EasterEggs/" + terminatorAssetPaths[i];
+        });
+        // Begin *all* requests immediately. Nonessential poses never block
+        // startup; missing images keep their nearest available fallback.
+        const requests = terminatorAssetPaths.map((_, i) => loadAt(i));
+        for (let i = 1; i < JACK_RUN_FRAME_COUNT; i++) {
+            requests[i].catch(error => console.warn(error.message));
+        }
+        for (let i = TERMINATOR_WALK_OFFSET + 1; i < images.length; i++) {
+            requests[i].catch(error => console.warn(error.message));
+        }
+        terminatorImagesPromise = Promise.all([
+            requests[0], requests[TERMINATOR_WALK_OFFSET]
+        ]).then(() => images).catch(error => {
+            terminatorImagesPromise = null;
+            console.warn("ILLBEBACK essential sprite failed:", error);
+            throw error;
+        });
+        return terminatorImagesPromise;
+    }
+    // Start fetching on initial page load. First keypress should not pay the
+    // 19-image download cost. No animation or sound is started by preload.
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+            ensureTerminatorImages().catch(() => {});
+        }, { once: true });
+    } else {
+        ensureTerminatorImages().catch(() => {});
+    }
+
     function startTerminatorEgg() {
         dismissBandCelebration();
         if (pendingPlaybackTimer !== null) clearTimeout(pendingPlaybackTimer);
@@ -692,41 +751,84 @@
         bar.classList.add("active", "terminator-mode");
         document.querySelector(".app-shell")?.classList.add("band-open");
 
-        const load = name => new Promise((resolve, reject) => {
-            const image = new Image();
-            image.onload = () => resolve(image);
-            image.onerror = () => reject(new Error("Missing Terminator sprite: " + name));
-            image.src = "Images/EasterEggs/" + name;
-        });
-        if (!terminatorImagesPromise) {
-            terminatorImagesPromise = Promise.all([
-                load("Jack_Run_Smooth_0.png"),
-                load("Jack_Run_Smooth_1.png"),
-                load("Jack_Run_Smooth_2.png"),
-                load("Jack_Run_Smooth_3.png"),
-                load("Jack_Run_Smooth_4.png"),
-                load("Jack_Run_Smooth_5.png"),
-                load("Jack_Run_Smooth_6.png"),
-                load("Jack_Run_Smooth_7.png"),
-                load("Terminator_ArmedWalk_Clean_0.png"),
-                load("Terminator_ArmedWalk_Clean_1.png"),
-                load("Terminator_ArmedWalk_Clean_2.png"),
-                load("Terminator_ArmedWalk_Clean_3.png"),
-                load("Terminator_ArmedFront.png")
-            ]).catch(error => {
-                terminatorImagesPromise = null;
-                throw error;
-            });
-        }
+        // If preload is still underway, retain this *first* trigger and
+        // start when the two essential sprites resolve. Do not require a
+        // second key sequence to start the animation.
+        const assetsReady = ensureTerminatorImages();
 
-        terminatorTimer = setTimeout(() => {
-            terminatorTimer = null;
-            if (!terminatorRunning) return;
-            terminatorImagesPromise.then(images => {
-                if (!terminatorRunning) return;
-                playTerminatorAudio();
-                const start = performance.now();
+        // The new PNGs have large transparent margins. Measure only the
+        // visible runner (exclude the translucent foot shadow) so every
+        // running pose is rendered at the same height and ground baseline.
+        const getRunnerBounds = image => {
+            const scratch = document.createElement("canvas");
+            scratch.width = image.naturalWidth;
+            scratch.height = image.naturalHeight;
+            const scan = scratch.getContext("2d", { willReadFrequently: true });
+            if (!scan) return { x: 0, y: 0, w: scratch.width, h: scratch.height };
+            try {
+                scan.drawImage(image, 0, 0);
+                const pixels = scan.getImageData(0, 0, scratch.width, scratch.height).data;
+                let left = scratch.width, top = scratch.height, right = -1, bottom = -1;
+                for (let y = 0; y < scratch.height; y++) {
+                    for (let x = 0; x < scratch.width; x++) {
+                        const p = (y * scratch.width + x) * 4;
+                        // The shadow is low-opacity, dark gray; the character
+                        // has stronger alpha and brighter colored pixels.
+                        const alpha = pixels[p + 3];
+                        const brightness = Math.max(pixels[p], pixels[p + 1], pixels[p + 2]);
+                        if (alpha < 180 || brightness < 65) continue;
+                        left = Math.min(left, x);
+                        top = Math.min(top, y);
+                        right = Math.max(right, x);
+                        bottom = Math.max(bottom, y);
+                    }
+                }
+                if (right >= left) {
+                    return { x: left, y: top, w: right - left + 1, h: bottom - top + 1 };
+                }
+            } catch (error) {
+                console.warn("Jack sprite bounds unavailable:", error);
+            }
+            return { x: 0, y: 0, w: scratch.width, h: scratch.height };
+        };
+
+        // Every activation owns a token. A later activation/stop cancels
+        // stale first-load callbacks without losing the current request.
+        const runId = ++terminatorRunId;
+        const startWhenReady = () => {
+            if (!terminatorRunning || runId !== terminatorRunId) return;
+            assetsReady.then(images => {
+                if (!terminatorRunning || runId !== terminatorRunId) return;
+                // Later frames may still be loading. Use known poses until
+                // each requested image is ready, instead of waiting for all.
+                const runnerBounds = new WeakMap();
+                const getFrame = index => images[index] ||
+                    (index < JACK_RUN_FRAME_COUNT
+                        ? images[0]
+                        : images[TERMINATOR_WALK_OFFSET]);
+                // Key by image rather than slot so later-loaded poses get
+                // their own correct crop, not the earlier fallback's crop.
+                const getBounds = index => {
+                    const frame = getFrame(index);
+                    if (!runnerBounds.has(frame)) {
+                        runnerBounds.set(frame, getRunnerBounds(frame));
+                    }
+                    return runnerBounds.get(frame);
+                };
                 const canvas = marchingBandCanvas;
+                if (!canvas) {
+                    console.error("ILLBEBACK canvas not initialized");
+                    stopTerminatorEgg();
+                    setEasterEggStatus();
+                    return;
+                }
+                // Start visuals even if audio playback is unavailable.
+                try {
+                    playTerminatorAudio();
+                } catch (error) {
+                    console.warn("ILLBEBACK music unavailable:", error);
+                }
+                const start = performance.now();
                 const draw = now => {
                     if (!terminatorRunning) return;
                     const seconds = (now - start) / 1000;
@@ -743,32 +845,61 @@
                     canvas.style.width = "100%";
                     canvas.style.height = height + "px";
                     const ctx = canvas.getContext("2d");
+                    if (!ctx) {
+                        console.error("ILLBEBACK could not initialize 2D canvas");
+                        stopTerminatorEgg();
+                        setEasterEggStatus();
+                        return;
+                    }
                     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
                     ctx.imageSmoothingEnabled = false;
                     ctx.clearRect(0, 0, width, height);
                     const charHeight = height * 0.88;
                     const groundY = height - charHeight;
-                    // Eight poses add transitional steps; keep Jack's torso level
-                    // so his stride reads as running rather than bouncing.
-                    const runFrame = Math.floor(seconds * 14) % 8;
-                    // Four consistent poses per cycle, two grounded footfalls each second.
+                    // All 14 run poses play in order at a steady 14 fps.
+                    const runFrame = Math.floor(seconds * 14) % JACK_RUN_FRAME_COUNT;
                     const walkFrame = Math.floor(seconds * 4.2) % 4;
                     const walkBob = Math.sin(seconds * Math.PI * 4.2) * 0.25;
                     const paint = (image, x, y = groundY) => {
                         const w = image.naturalWidth / image.naturalHeight * charHeight;
                         ctx.drawImage(image, x, y, w, charHeight);
                     };
+                    const paintJack = (image, bounds, x) => {
+                        // Use source crop to eliminate inconsistent empty borders.
+                        // No vertical bobbing: head stays steady through all poses.
+                        const visibleHeight = height * 0.78;
+                        const scale = visibleHeight / bounds.h;
+                        const visibleWidth = bounds.w * scale;
+                        // Place the soles near the stage floor. The former
+                        // 94% baseline left a visible gap beneath Jack.
+                        const baseline = height * 0.99;
+                        // Keep the shadow under his feet, inside the canvas.
+                        ctx.fillStyle = "rgba(0, 0, 0, 0.32)";
+                        ctx.beginPath();
+                        ctx.ellipse(x, baseline - 1, visibleWidth * 0.37,
+                            Math.max(1.5, height * 0.018), 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.drawImage(image, bounds.x, bounds.y, bounds.w, bounds.h,
+                            Math.round(x - visibleWidth / 2),
+                            Math.round(baseline - visibleHeight),
+                            Math.round(visibleWidth),
+                            Math.round(visibleHeight));
+                    };
 
                     // First Jack runs completely off-screen. Only THEN the
                     // Terminator emerges, walks to center and faces the viewer.
                     if (seconds < 5.5) {
-                        paint(images[runFrame], -120 + (width + 250) * (seconds / 5.5), groundY);
+                        const runner = getFrame(runFrame);
+                        const bounds = getBounds(runFrame);
+                        const initialX = -Math.max(20, height * 0.25);
+                        paintJack(runner, bounds,
+                            initialX + (width + height * 0.8) * (seconds / 5.5));
                     } else if (seconds < 9.1) {
                         const approach = (seconds - 5.5) / 3.6;
-                        paint(images[8 + walkFrame], -65 + (width / 2 + 35) * approach, groundY + walkBob);
+                        paint(getFrame(TERMINATOR_WALK_OFFSET + walkFrame), -65 + (width / 2 + 35) * approach, groundY + walkBob);
                     } else if (seconds < 11.3) {
-                        const centerW = images[12].naturalWidth / images[12].naturalHeight * charHeight;
-                        paint(images[12], (width - centerW) / 2);
+                        const centerW = getFrame(TERMINATOR_FRONT_INDEX).naturalWidth / getFrame(TERMINATOR_FRONT_INDEX).naturalHeight * charHeight;
+                        paint(getFrame(TERMINATOR_FRONT_INDEX), (width - centerW) / 2);
                         const text = "I'LL BE BACK";
                         const fontSize = mobile ? 11 : 16;
                         ctx.font = `bold ${fontSize}px monospace`;
@@ -789,7 +920,7 @@
                         }
                     } else if (seconds < 16.8) {
                         const leaving = (seconds - 11.3) / 5.5;
-                        paint(images[8 + walkFrame], width / 2 - 30 + (width / 2 + 160) * leaving, groundY + walkBob);
+                        paint(getFrame(TERMINATOR_WALK_OFFSET + walkFrame), width / 2 - 30 + (width / 2 + 160) * leaving, groundY + walkBob);
                     } else {
                         stopTerminatorEgg({ keepStage: true });
                         stopMarchingBand();
@@ -806,12 +937,23 @@
                 };
                 terminatorFrame = requestAnimationFrame(draw);
             }).catch(error => {
+                if (runId !== terminatorRunId) return;
                 console.warn("Terminator Easter egg could not load:", error);
                 stopTerminatorEgg();
                 stopMarchingBand();
                 setEasterEggStatus();
             });
-        }, bandTransitionMs);
+        };
+        // The stage expands from height 0 to its final height. Starting
+        // Jack while that transition is still running makes him look like
+        // he is floating upward from the bottom as the clip reveals him.
+        // Preloading started at page load and the first trigger is retained;
+        // only the visible animation waits until the stage is fully open.
+        terminatorTimer = setTimeout(() => {
+            terminatorTimer = null;
+            if (!terminatorRunning || runId !== terminatorRunId) return;
+            startWhenReady();
+        }, bandTransitionMs + 30);
     }
 
     /* =====================================
@@ -967,20 +1109,25 @@
     /* =====================================
        MI6-007: separate transparent sprite files
        ===================================== */
-    const BOND_FRAME_PATHS = Array.from({ length: 14 }, (_, i) =>
+    // Sprite files are numbered 01-21. Frames 15-21 contain the updated
+    // seven-pose walking cycle; 08-14 retain the cinematic turn and aim.
+    const BOND_FRAME_PATHS = Array.from({ length: 21 }, (_, i) =>
         "Images/EasterEggs/Bond_Frame_" + String(i + 1).padStart(2, "0") + ".png"
     );
-    const BOND_WALK_FRAME_COUNT = 7; // 01-07: profile walk
-    // 08-14: turn to camera, raise arm and point. Last frame holds the aim.
+    // Zero-based indices into the preloaded sprites.
+    const BOND_WALK_FRAMES = [14, 15, 16, 17, 18, 19, 20];
+    const BOND_WALK_FRAME_COUNT = BOND_WALK_FRAMES.length;
     const BOND_TURN_FRAMES = [7, 8, 9, 10, 11, 12, 13];
-    // Timing is expressed in seconds on the original Gunbarrel.mp3 timeline.
+    // The updated Gunbarrel.mp3 is already trimmed by 12 seconds.
+    // All cues below use its new 0-based media timeline.
     const BOND_BARREL_PATH = "Images/EasterEggs/Bond_Barrel.png";
-    const BOND_SCAN_START = 12;
+    // Versioned URL forces browsers to fetch the newly trimmed MP3, not a cached old cut.
+    const BOND_AUDIO_PATH = "Audio/Gunbarrel.mp3?v=c44c8ef0";
+    const BOND_AUDIO_START = 0;
+    const BOND_SCAN_START = BOND_AUDIO_START;
     const BOND_RED_WASH_DURATION = 3000; // slower downward blood drips, milliseconds
-    const BOND_AUDIO_PATH = "Audio/Gunbarrel.mp3";
-    const BOND_AUDIO_START = 12;
-    const BOND_WALK_START = 20;
-    const BOND_SHOT_TIME = 23;
+    const BOND_WALK_START = 8;  // formerly 20s on the untrimmed track
+    const BOND_SHOT_TIME = 11; // formerly 23s on the untrimmed track
     const BOND_TURN_DURATION = 600; // milliseconds before the gunshot
     const BOND_HOLD_DURATION = 5000;
     const BOND_WALK_FRAME_DURATION = 150;
@@ -1002,7 +1149,49 @@
     }
 
     let bondFramesPromise = null;
+    let bondFrameBounds = null;
     let bondRequestId = 0;
+
+    // Transparent padding differs between the original and added sprites.
+    // Measure the opaque character, not the PNG canvas, once at preload.
+    function measureBondSprite(image) {
+        const canvas = document.createElement("canvas");
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        if (!context) return { x: 0, y: 0,
+            width: image.naturalWidth, height: image.naturalHeight };
+        try {
+            context.drawImage(image, 0, 0);
+        } catch (error) {
+            console.warn("MI6 sprite could not be measured:", error);
+            return { x: 0, y: 0, width: canvas.width, height: canvas.height };
+        }
+        let pixels;
+        try {
+            pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+        } catch (error) {
+            // Canvas pixel reads can be blocked by hosting/security settings.
+            // Never let this disable the MI6 trigger.
+            console.warn("MI6 sprite pixel access unavailable:", error);
+            return { x: 0, y: 0, width: canvas.width, height: canvas.height };
+        }
+        let left = canvas.width, top = canvas.height, right = -1, bottom = -1;
+        for (let y = 0; y < canvas.height; y++) {
+            for (let x = 0; x < canvas.width; x++) {
+                // Ignore the translucent floor shadow while measuring height.
+                if (pixels[(y * canvas.width + x) * 4 + 3] < 190) continue;
+                left = Math.min(left, x);
+                right = Math.max(right, x);
+                top = Math.min(top, y);
+                bottom = Math.max(bottom, y);
+            }
+        }
+        return right < left
+            ? { x: 0, y: 0, width: canvas.width, height: canvas.height }
+            : { x: left, y: top, width: right - left + 1,
+                height: bottom - top + 1 };
+    }
 
     function loadBondFrames() {
         if (!bondFramesPromise) {
@@ -1021,11 +1210,28 @@
                 };
                 frame.src = src;
             });
-            bondFramesPromise = Promise.all(BOND_FRAME_PATHS.map(src => loadFrame(src)))
-                .catch(error => {
-                    bondFramesPromise = null;
-                    throw error;
-                });
+            // Only the turn/aim sprites are mandatory. Added walking images
+            // may arrive in a different deployment; fall back to original
+            // walk sprites rather than preventing the Easter egg from opening.
+            bondFramesPromise = Promise.all(
+                BOND_FRAME_PATHS.slice(0, 14).map(src => loadFrame(src))
+            ).then(async originals => {
+                const additions = await Promise.all(
+                    BOND_FRAME_PATHS.slice(14).map((src, i) =>
+                        loadFrame(src).catch(error => {
+                            console.warn(error.message,
+                                "- using original walking frame instead");
+                            return originals[i];
+                        })
+                    )
+                );
+                const images = originals.concat(additions);
+                bondFrameBounds = images.map(measureBondSprite);
+                return images;
+            }).catch(error => {
+                bondFramesPromise = null;
+                throw error;
+            });
         }
         return bondFramesPromise;
     }
@@ -1140,7 +1346,7 @@
             bar.classList.add("active");
             document.querySelector(".app-shell")?.classList.add("band-open");
 
-            // Seek before playback; never play the first 12 seconds.
+            // Play the pre-trimmed soundtrack from its beginning.
             const audio = new Audio(BOND_AUDIO_PATH);
             audio.preload = "auto";
             audio.volume = 0.7;
@@ -1210,7 +1416,7 @@
             ctx.imageSmoothingEnabled = false;
             ctx.clearRect(0, 0, width, height);
 
-            // Play from 12s, remain offscreen until 20s, hit full aim at 23s.
+            // Play from 0s, remain offscreen until 8s, hit full aim at 11s.
             // Drive poses from the media clock so the gunshot stays aligned.
             const mediaTime = run.audio && !run.audio.paused
                 ? run.audio.currentTime
@@ -1220,9 +1426,13 @@
             const irisY = height / 2;
             const irisRadius = height * 0.53;
             const barrelVisible = mediaTime >= BOND_SCAN_START;
-            const walkingSprite = run.images[0];
-            const agentWidth = height * 0.92 *
-                walkingSprite.naturalWidth / walkingSprite.naturalHeight;
+            const referenceBounds = bondFrameBounds[0];
+            const referenceHeight = height * 0.92 *
+                referenceBounds.height / run.images[0].naturalHeight;
+            const agentWidth = Math.max(...BOND_WALK_FRAMES.map(index => {
+                const bounds = bondFrameBounds[index];
+                return referenceHeight * bounds.width / bounds.height;
+            }));
             const agentStartX = width + agentWidth / 2;
             const agentWalkDuration = (BOND_SHOT_TIME - BOND_WALK_START) *
                 1000 - BOND_TURN_DURATION;
@@ -1295,24 +1505,39 @@
                 - BOND_TURN_DURATION;
             const turning = walkElapsed >= walkDuration;
             const frameIndex = !turning
-                ? Math.floor(Math.max(0, walkElapsed) / BOND_WALK_FRAME_DURATION)
-                    % BOND_WALK_FRAME_COUNT
+                ? BOND_WALK_FRAMES[
+                    Math.floor(Math.max(0, walkElapsed) / BOND_WALK_FRAME_DURATION)
+                        % BOND_WALK_FRAME_COUNT
+                ]
                 : BOND_TURN_FRAMES[Math.min(
                     BOND_TURN_FRAMES.length - 1,
                     Math.floor((walkElapsed - walkDuration) /
                         (BOND_TURN_DURATION / BOND_TURN_FRAMES.length))
                 )];
             const sprite = run.images[frameIndex];
-            // All transparent PNGs share dimensions and a common baseline.
-            const spriteHeight = height * 0.92;
-            const spriteWidth = spriteHeight * sprite.naturalWidth / sprite.naturalHeight;
+            const bounds = bondFrameBounds[frameIndex];
+            // Every pose is scaled to frame 01's visible character height,
+            // with the soles resting on one shared baseline. This removes
+            // jumping/shrinking caused by different transparent PNG margins.
+            const spriteHeight = referenceHeight;
+            const spriteWidth = spriteHeight * bounds.width / bounds.height;
             const progress = Math.max(0, Math.min(1, walkElapsed / walkDuration));
-            const startX = width + spriteWidth / 2;
-            const characterX = startX + (width / 2 - startX) * progress;
+            const characterX = agentStartX +
+                (width / 2 - agentStartX) * progress;
+            const baselineY = (height + height * 0.92) / 2 -
+                (run.images[0].naturalHeight -
+                    referenceBounds.y - referenceBounds.height) *
+                (height * 0.92 / run.images[0].naturalHeight);
+            // Draw the entire source image at the calibrated scale so that
+            // the translucent ground shadow is preserved below the shoes.
+            const spriteScale = spriteHeight / bounds.height;
             if (mediaTime >= BOND_WALK_START) ctx.drawImage(sprite,
-                Math.round(characterX - spriteWidth / 2),
-                Math.round((height - spriteHeight) / 2),
-                Math.round(spriteWidth), Math.round(spriteHeight));
+                Math.round(characterX -
+                    (bounds.x + bounds.width / 2) * spriteScale),
+                Math.round(baselineY -
+                    (bounds.y + bounds.height) * spriteScale),
+                Math.round(sprite.naturalWidth * spriteScale),
+                Math.round(sprite.naturalHeight * spriteScale));
 
             ctx.restore();
 

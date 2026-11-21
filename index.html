@@ -10,12 +10,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jack London | Software Engineer</title>
+    <link rel="icon" type="image/x-icon" href="Images/Icons/favicon.ico?v=jl-favicon-1" sizes="16x16 32x32">
 
     <!-- SEO AND SOCIAL SHARING -->
     <meta name="description" content="Hey, I'm Jack! I build software, explore AI, and turn big ideas into real projects. Take a look around and see what I've been creating along the way.">
     <meta name="author" content="Jack London">
     <meta name="theme-color" content="#181818">
     <link rel="canonical" href="https://www.jacklondon.site/">
+
+    <!-- Machine-readable identity and site details for search engines. Not rendered on the page. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Person",
+                "@id": "https://www.jacklondon.site/#person",
+                "name": "Jack London",
+                "url": "https://www.jacklondon.site/",
+                "jobTitle": "Software Engineer",
+                "description": "Software engineer focused on C# and .NET applications, AI agents, automation, and practical software projects.",
+                "knowsAbout": [
+                    "Software Engineering",
+                    "C# Programming",
+                    ".NET Development",
+                    "WPF",
+                    "Desktop Application Development",
+                    "Java Programming",
+                    "SQL",
+                    "Database Design",
+                    "Artificial Intelligence",
+                    "AI Agents",
+                    "Local AI",
+                    "Automation",
+                    "Web Development",
+                    "Embedded Systems"
+                ],
+                "sameAs": [
+                    "https://github.com/Scorpio7736",
+                    "https://www.linkedin.com/in/jack-london-8a4001220/"
+                ]
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://www.jacklondon.site/#website",
+                "url": "https://www.jacklondon.site/",
+                "name": "Jack London | Software Engineer",
+                "description": "Jack London's software engineering portfolio featuring desktop, mobile, web, AI, and embedded projects.",
+                "inLanguage": "en-US",
+                "author": {
+                    "@id": "https://www.jacklondon.site/#person"
+                }
+            }
+        ]
+    }
+    </script>
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -38,18 +87,18 @@
      ========================================= -->
 
     <link rel="stylesheet" href="stylesheet.css">
-    <link rel="stylesheet" href="Styles/Activities/404/404.css">
+    <link rel="stylesheet" href="Styles/Activities/404/404.css?v=faithful-original-404-3">
     <link rel="stylesheet" href="Styles/Activities/KSP/ksp.css">
-    <link rel="stylesheet" href="Styles/Activities/Outdoors/outdoors.css">
+    <link rel="stylesheet" href="Styles/Activities/Outdoors/outdoors.css?v=outdoors-image-banner-1">
     <link rel="stylesheet" href="Styles/Activities/Blacksmithing/blacksmithing.css">
     <link rel="stylesheet" href="Styles/layout.css?v=hover-pop-1">
     <link rel="stylesheet" href="Styles/components.css">
-    <link rel="stylesheet" href="Styles/home.css?v=home-ai-card-1">
-    <link rel="stylesheet" href="Styles/skills.css">
-    <link rel="stylesheet" href="Styles/experience.css?v=shared-glossary-2">
-    <link rel="stylesheet" href="Styles/glossary.css?v=4">
-    <link rel="stylesheet" href="Styles/projects.css">
-    <link rel="stylesheet" href="Styles/education.css">
+    <link rel="stylesheet" href="Styles/home.css?v=hero-portraits-2">
+    <link rel="stylesheet" href="Styles/skills.css?v=activity-style-skills-header-1">
+    <link rel="stylesheet" href="Styles/experience.css?v=experience-icon-overlay-fix-2">
+    <link rel="stylesheet" href="Styles/glossary.css?v=tooltip-logo-images-1">
+    <link rel="stylesheet" href="Styles/projects.css?v=project-abstract-banners-1">
+    <link rel="stylesheet" href="Styles/education.css?v=overlapping-education-headers-1">
     <link rel="stylesheet" href="Styles/activities.css">
     <link rel="stylesheet" href="Styles/responsive.css">
     <link rel="stylesheet" href="Styles/easter-eggs.css?v=wisconsin-photo-fit-33">
@@ -451,24 +500,16 @@
     <section
         class="page-section"
         id="home-hello"
-        data-tab="Hello"
+        data-tab="Hello World"
     >
 
         <section class="home-hero">
 
+            <div class="home-hero-layout">
+
+                <div class="home-hero-content">
+
             <div class="home-hero-profile">
-
-                <div class="home-hero-avatar">
-
-                    <img
-                        src="Images/Icons/Headshot_ICON.png"
-                        alt="Jack London"
-                    >
-
-                    <span class="home-status-dot"></span>
-
-                </div>
-
 
                 <div>
 
@@ -534,6 +575,20 @@
 
             </div>
 
+                </div>
+
+                <!-- Replace the image source here when a new hero portrait is ready. -->
+                <div class="home-hero-photo">
+                    <img
+                        src="Images/Home/Hero_Lakeside.png" onerror="this.onerror=null;this.src='Images/Icons/Headshot_ICON.png';"
+                        alt="Portrait of Jack London"
+                        loading="eager"
+                        decoding="async"
+                    >
+                </div>
+
+            </div>
+
         </section>
 
     </section>
@@ -590,9 +645,26 @@
                     </h3>
 
                     <p>
-                        Finishing my Computer Science degree
-                        at UW–Green Bay.
+                        I'm working toward my Computer Science degree with a
+                        Software Engineering emphasis at UW–Green Bay. Through
+                        coursework and personal projects, I'm strengthening
+                        my skills in software design, data structures, databases,
+                        and application development, then putting what I learn
+                        into practice by building real software.
                     </p>
+
+                    <span class="home-ai-skills" aria-label="Software engineering learning areas">
+                        <span>Software Design</span>
+                        <span>Data Structures</span>
+                        <span>Databases</span>
+                        <span>Algorithms</span>
+                        <span>C#</span>
+                        <span>Problem Solving</span>
+                    </span>
+
+                    <span class="home-ai-cta" aria-hidden="true">
+                        Explore Education <span>&rarr;</span>
+                    </span>
 
                 </button>
 
@@ -616,10 +688,25 @@
                     </h3>
 
                     <p>
-                        Desktop apps, local AI experiments,
-                        websites, and whatever seems
-                        interesting that week.
+                        I like turning interesting ideas into working software,
+                        whether that's a desktop application, a website, or
+                        an experiment with local AI. My projects give me room
+                        to try new technologies, solve practical problems,
+                        and keep improving the way I design, build, and test.
                     </p>
+
+                    <span class="home-ai-skills" aria-label="Project development areas">
+                        <span>Desktop Apps</span>
+                        <span>Web Development</span>
+                        <span>C# / .NET</span>
+                        <span>Local AI</span>
+                        <span>UI Design</span>
+                        <span>Automation</span>
+                    </span>
+
+                    <span class="home-ai-cta" aria-hidden="true">
+                        Explore Projects <span>&rarr;</span>
+                    </span>
 
                 </button>
 
@@ -627,6 +714,7 @@
                 <button
                     class="home-now-card internal-page-link"
                     data-page="experience"
+                    data-section-id="experience-urec"
                     type="button"
                 >
 
@@ -643,9 +731,26 @@
                     </h3>
 
                     <p>
-                        Leading climbing operations,
-                        training staff, and setting routes.
+                        As a Lead Supervisor at the UW–Green Bay Climbing Tower,
+                        I help keep day-to-day operations running safely and
+                        smoothly. I coordinate schedules, train and support
+                        staff, teach climbing skills, and work on route setting
+                        and equipment maintenance while building my leadership
+                        and communication skills.
                     </p>
+
+                    <span class="home-ai-skills" aria-label="Climbing Tower leadership areas">
+                        <span>Team Leadership</span>
+                        <span>Staff Training</span>
+                        <span>Scheduling</span>
+                        <span>Climbing Safety</span>
+                        <span>Route Setting</span>
+                        <span>Gear Maintenance</span>
+                    </span>
+
+                    <span class="home-ai-cta" aria-hidden="true">
+                        Explore Experience <span>&rarr;</span>
+                    </span>
 
                 </button>
 
@@ -669,10 +774,25 @@
                     </h3>
 
                     <p>
-                        Building with AI agents, exploring local
-                        models, and experimenting with
-                        intelligent software.
+                        I see AI as an accelerator and a thought partner in my
+                        development process. I use it to explore ideas, challenge
+                        approaches, troubleshoot problems, and work more
+                        efficiently, while keeping the technical decisions,
+                        understanding, and responsibility for the final result my own.
                     </p>
+
+                    <span class="home-ai-skills" aria-label="AI engineering areas">
+                        <span>AI Agents</span>
+                        <span>MCP</span>
+                        <span>Local LLMs</span>
+                        <span>Agent Orchestration</span>
+                        <span>AI Memory</span>
+                        <span>Human Review</span>
+                    </span>
+
+                    <span class="home-ai-cta" aria-hidden="true">
+                        Explore AI Skills <span>&rarr;</span>
+                    </span>
 
                 </button>
 
@@ -773,16 +893,31 @@
                         data-tab="AI"
                     >
 
-                        <div class="content-card">
+                        <div class="content-card skills-content-card">
 
-                            <div class="section-heading">
+                            <div class="skills-top skills-top-ai">
 
-                                <div>
-                                    <span class="section-eyebrow">
-                                        skills.ai
-                                    </span>
+                                <div class="skills-banner skills-banner-coded" role="presentation">
+                                    <svg viewBox="0 0 760 120" aria-hidden="true" focusable="false">
+                                        <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.4">
+                                            <path d="M165 86 245 39 326 81 405 31 495 70 582 22 679 72 M245 39 296 12 405 31 452 105 582 22 M326 81 452 105 495 70 679 72 M165 86 296 12"/>
+                                            <path d="M405 31 374 104 M495 70 546 115 M582 22 648 9"/>
+                                        </g>
+                                        <g class="banner-nodes" fill="currentColor">
+                                            <circle cx="165" cy="86" r="3"/><circle cx="245" cy="39" r="4"/><circle cx="296" cy="12" r="2.5"/><circle cx="326" cy="81" r="3.5"/><circle cx="405" cy="31" r="4"/><circle cx="374" cy="104" r="2"/><circle cx="452" cy="105" r="3"/><circle cx="495" cy="70" r="4"/><circle cx="546" cy="115" r="2.5"/><circle cx="582" cy="22" r="4"/><circle cx="648" cy="9" r="2"/><circle cx="679" cy="72" r="3"/>
+                                        </g>
+                                    </svg>
+                                </div>
 
-                                    <h2>AI</h2>
+                                <div class="skills-header">
+                                    <div class="skills-icon-badge">
+                                        <img src="Images/Icons/AISkill_ICON.png" alt="" loading="lazy" decoding="async">
+                                    </div>
+
+                                    <div class="skills-title-group">
+                                        <span class="section-eyebrow">skills.ai</span>
+                                        <h2>AI</h2>
+                                    </div>
                                 </div>
 
                             </div>
@@ -803,16 +938,30 @@
                         data-tab="Languages"
                     >
 
-                        <div class="content-card">
+                        <div class="content-card skills-content-card">
 
-                            <div class="section-heading">
+                            <div class="skills-top skills-top-languages">
 
-                                <div>
-                                    <span class="section-eyebrow">
-                                        skills.languages
-                                    </span>
+                                <div class="skills-banner skills-banner-coded" role="presentation">
+                                    <svg viewBox="0 0 760 120" aria-hidden="true" focusable="false">
+                                        <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="m270 25-29 34 29 34 M330 25l29 34-29 34 M314 15l-21 89"/>
+                                            <path d="M409 29h110 M409 50h65 M409 72h128 M409 93h84" stroke-width="1.5"/>
+                                            <path d="M583 28h-16v65h16 M623 28h16v65h-16" stroke-width="1.5"/>
+                                            <path d="M183 28h-18v65h18" stroke-width="1.2"/>
+                                        </g>
+                                    </svg>
+                                </div>
 
-                                    <h2>Programming Languages</h2>
+                                <div class="skills-header">
+                                    <div class="skills-icon-badge">
+                                        <img src="Images/Icons/ProgrammingLanguages_ICON.png" alt="" loading="lazy" decoding="async">
+                                    </div>
+
+                                    <div class="skills-title-group">
+                                        <span class="section-eyebrow">skills.languages</span>
+                                        <h2>Programming Languages</h2>
+                                    </div>
                                 </div>
 
                             </div>
@@ -833,18 +982,31 @@
                         data-tab="Frameworks"
                     >
 
-                        <div class="content-card">
+                        <div class="content-card skills-content-card">
 
-                            <div class="section-heading">
+                            <div class="skills-top skills-top-frameworks">
 
-                                <div>
+                                <div class="skills-banner skills-banner-coded" role="presentation">
+                                    <svg viewBox="0 0 760 120" aria-hidden="true" focusable="false">
+                                        <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <rect x="270" y="25" width="100" height="70" rx="6"/><path d="M270 42h100 M284 34h5 M296 34h5"/>
+                                            <rect x="435" y="5" width="125" height="52" rx="6"/><path d="M435 23h125 M449 14h5 M461 14h5"/>
+                                            <rect x="435" y="74" width="125" height="42" rx="6"/><path d="M435 92h125 M449 83h5"/>
+                                            <path d="M370 58h33v-27h32 M403 58v37h32 M560 31h47v64h-47" stroke-dasharray="5 6"/>
+                                            <circle cx="403" cy="58" r="3" fill="currentColor"/>
+                                        </g>
+                                    </svg>
+                                </div>
 
-                                    <span class="section-eyebrow">
-                                        skills.frameworks
-                                    </span>
+                                <div class="skills-header">
+                                    <div class="skills-icon-badge">
+                                        <img src="Images/Icons/Frameworks_ICON.png" alt="" loading="lazy" decoding="async">
+                                    </div>
 
-                                    <h2>Frameworks & UI</h2>
-
+                                    <div class="skills-title-group">
+                                        <span class="section-eyebrow">skills.frameworks</span>
+                                        <h2>Frameworks & UI</h2>
+                                    </div>
                                 </div>
 
                             </div>
@@ -865,18 +1027,30 @@
                         data-tab="Tools"
                     >
 
-                        <div class="content-card">
+                        <div class="content-card skills-content-card">
 
-                            <div class="section-heading">
+                            <div class="skills-top skills-top-tools">
 
-                                <div>
+                                <div class="skills-banner skills-banner-coded" role="presentation">
+                                    <svg viewBox="0 0 760 120" aria-hidden="true" focusable="false">
+                                        <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="252" y="13" width="287" height="94" rx="7"/>
+                                            <path d="M252 35h287 M265 25h3 M277 25h3 M289 25h3"/>
+                                            <path d="m283 57 14 10-14 10 M311 77h24 M366 56h85 M366 76h113 M366 95h65" opacity=".9"/>
+                                            <path d="M566 41h43v43h-43z M574 62h27 M587 49v27 M632 16h32 M632 29h55 M632 42h39" stroke-width="1.3"/>
+                                        </g>
+                                    </svg>
+                                </div>
 
-                                    <span class="section-eyebrow">
-                                        skills.tools
-                                    </span>
+                                <div class="skills-header">
+                                    <div class="skills-icon-badge">
+                                        <img src="Images/Icons/DevelopmentTools_ICON.png" alt="" loading="lazy" decoding="async">
+                                    </div>
 
-                                    <h2>Development Tools</h2>
-
+                                    <div class="skills-title-group">
+                                        <span class="section-eyebrow">skills.tools</span>
+                                        <h2>Development Tools</h2>
+                                    </div>
                                 </div>
 
                             </div>
@@ -900,18 +1074,29 @@
                         data-tab="Other Skills"
                     >
 
-                        <div class="content-card">
+                        <div class="content-card skills-content-card">
 
-                            <div class="section-heading">
+                            <div class="skills-top skills-top-other">
 
-                                <div>
+                                <div class="skills-banner skills-banner-coded" role="presentation">
+                                    <svg viewBox="0 0 760 120" aria-hidden="true" focusable="false">
+                                        <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="319" cy="60" r="25"/><circle cx="433" cy="28" r="18"/><circle cx="485" cy="90" r="19"/><circle cx="582" cy="50" r="27"/>
+                                            <path d="M344 54 415 32 M338 79 469 89 M450 41l111 7 M501 81l59-20" stroke-dasharray="4 7"/>
+                                            <path d="M312 60h14 M319 53v14 M425 28h16 M476 90h18 M572 50h20"/>
+                                        </g>
+                                    </svg>
+                                </div>
 
-                                    <span class="section-eyebrow">
-                                        skills.additional
-                                    </span>
+                                <div class="skills-header">
+                                    <div class="skills-icon-badge">
+                                        <img src="Images/Icons/OtherSkills_ICON.png" alt="" loading="lazy" decoding="async">
+                                    </div>
 
-                                    <h2>Additional Skills</h2>
-
+                                    <div class="skills-title-group">
+                                        <span class="section-eyebrow">skills.additional</span>
+                                        <h2>Additional Skills</h2>
+                                    </div>
                                 </div>
 
                             </div>
@@ -1071,10 +1256,30 @@
 
                         <section class="project-category-card">
 
+                            <div class="project-category-banner project-category-banner-desktop" role="presentation" aria-hidden="true">
+                                <svg viewBox="0 0 760 120" aria-hidden="true" focusable="false">
+                                    <!-- Abstract workspaces and parallel task flows; no literal desktop icon. -->
+                                    <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+                                        <rect x="325" y="20" width="188" height="79" rx="5" opacity=".73"/>
+                                        <path d="M325 37h188 M337 29h3 M349 29h3 M361 29h3" opacity=".72"/>
+                                        <path d="M341 53h58 M341 65h78 M341 77h43" opacity=".56"/>
+                                        <rect x="469" y="8" width="161" height="72" rx="5" opacity=".7"/>
+                                        <path d="M469 24h161 M483 16h3 M495 16h3 M488 39h66 M488 51h89 M488 63h48" opacity=".64"/>
+                                        <rect x="554" y="76" width="120" height="31" rx="4" opacity=".62"/>
+                                        <path d="M566 87h58 M566 97h83" opacity=".55"/>
+                                        <path d="M269 41h34v15h22 M513 91h21v-26h20 M630 45h44v-14h30" stroke-dasharray="4 6" opacity=".55"/>
+                                        <circle cx="303" cy="41" r="2.6" fill="currentColor"/>
+                                        <circle cx="534" cy="65" r="2.6" fill="currentColor"/>
+                                        <circle cx="704" cy="31" r="2.6" fill="currentColor"/>
+                                    </g>
+                                </svg>
+                            </div>
+
                             <div class="project-category-header">
-
-                                <div>
-
+                                <div class="project-category-icon-badge" aria-hidden="true">
+                                    <img src="Images/Icons/Desktop_ICON.png" alt="" loading="lazy" decoding="async">
+                                </div>
+                                <div class="project-category-title-group">
                                     <span class="section-eyebrow">
                                         projects.desktop
                                     </span>
@@ -1088,9 +1293,7 @@
                                         automation systems, and applications
                                         designed around practical workflows.
                                     </p>
-
                                 </div>
-
                             </div>
 
 
@@ -1116,10 +1319,40 @@
 
                         <section class="project-category-card">
 
+                            <div class="project-category-banner project-category-banner-mobile" role="presentation" aria-hidden="true">
+                                <svg viewBox="0 0 760 120" aria-hidden="true" focusable="false">
+                                    <!-- Subtle phone frames, app layouts, and touch-flow accents. No platform logos. -->
+                                    <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round" stroke-linecap="round">
+                                        <rect x="336" y="19" width="112" height="34" rx="5" opacity=".58"/>
+                                        <rect x="336" y="63" width="112" height="37" rx="5" opacity=".5"/>
+                                        <path d="M350 32h56 M350 43h37 M350 76h76 M350 88h51" opacity=".5"/>
+                                        <path d="M282 42c25-19 37-21 54-18 M292 66c21-9 32-10 44-9" stroke-dasharray="4 6" opacity=".49"/>
+                                        <circle cx="302" cy="28" r="3" fill="currentColor" opacity=".6"/>
+                                        <!-- Tall rounded phone silhouette, simplified on purpose. -->
+                                        <rect x="485" y="7" width="79" height="106" rx="12" stroke-width="2" opacity=".83"/>
+                                        <path d="M511 18h27 M512 102h25" stroke-width="2.2" opacity=".7"/>
+                                        <rect x="497" y="29" width="55" height="29" rx="5" opacity=".58"/>
+                                        <path d="M501 67h47 M501 77h31 M501 88h42" opacity=".55"/>
+                                        <!-- A second offset mobile viewport suggests adaptable screens. -->
+                                        <rect x="582" y="24" width="61" height="81" rx="9" opacity=".63"/>
+                                        <path d="M601 34h23 M600 96h25" opacity=".56"/>
+                                        <rect x="592" y="44" width="41" height="20" rx="4" opacity=".47"/>
+                                        <path d="M594 74h32 M594 83h23" opacity=".48"/>
+                                        <path d="M448 56c20-4 22-20 37-20 M564 72c10-3 13-16 18-16 M643 57c21 0 26-15 43-15" stroke-dasharray="4 6" opacity=".53"/>
+                                        <path d="m677 37 9 5-8 7" opacity=".51"/>
+                                        <circle cx="672" cy="74" r="3" fill="currentColor" opacity=".58"/>
+                                    </g>
+                                    <g fill="none" stroke="#aeb3b8" stroke-width="1.2" opacity=".24">
+                                        <path d="M470 15v91 M573 15v91" stroke-dasharray="2 7"/>
+                                    </g>
+                                </svg>
+                            </div>
+
                             <div class="project-category-header">
-
-                                <div>
-
+                                <div class="project-category-icon-badge" aria-hidden="true">
+                                    <img src="Images/Icons/MobileDevelopment_ICON.png" alt="" loading="lazy" decoding="async">
+                                </div>
+                                <div class="project-category-title-group">
                                     <span class="section-eyebrow">
                                         projects.mobile
                                     </span>
@@ -1133,9 +1366,7 @@
                                         around mobile-first interfaces,
                                         navigation, and interactive experiences.
                                     </p>
-
                                 </div>
-
                             </div>
 
 
@@ -1161,10 +1392,32 @@
 
                         <section class="project-category-card">
 
+                            <div class="project-category-banner project-category-banner-web" role="presentation" aria-hidden="true">
+                                <svg viewBox="0 0 760 120" aria-hidden="true" focusable="false">
+                                    <!-- Connected content nodes and curved data paths; not a globe or WWW logo. -->
+                                    <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+                                        <rect x="347" y="26" width="110" height="67" rx="5" opacity=".76"/>
+                                        <path d="M347 41h110 M362 55h52 M362 67h75 M362 79h40" opacity=".6"/>
+                                        <rect x="544" y="11" width="97" height="47" rx="5" opacity=".73"/>
+                                        <path d="M559 27h48 M559 39h64" opacity=".6"/>
+                                        <rect x="553" y="77" width="107" height="31" rx="5" opacity=".73"/>
+                                        <path d="M567 90h53 M567 99h74" opacity=".6"/>
+                                        <path d="M457 56c39 0 43-22 87-22 M457 73c55 0 48 19 96 19 M641 33h47v25h-34 M300 59h47" stroke-dasharray="5 6" opacity=".71"/>
+                                        <circle cx="457" cy="56" r="3.4" fill="currentColor"/>
+                                        <circle cx="544" cy="34" r="3.4" fill="currentColor"/>
+                                        <circle cx="553" cy="92" r="3.4" fill="currentColor"/>
+                                        <circle cx="688" cy="58" r="3" fill="currentColor"/>
+                                        <circle cx="300" cy="59" r="3" fill="currentColor"/>
+                                        <path d="M482 16h42 M490 105h47 M683 82h31" opacity=".4"/>
+                                    </g>
+                                </svg>
+                            </div>
+
                             <div class="project-category-header">
-
-                                <div>
-
+                                <div class="project-category-icon-badge" aria-hidden="true">
+                                    <img src="Images/Icons/WebDevelopment_ICON.png" alt="" loading="lazy" decoding="async">
+                                </div>
+                                <div class="project-category-title-group">
                                     <span class="section-eyebrow">
                                         projects.web
                                     </span>
@@ -1178,9 +1431,7 @@
                                         interactive front-end projects, and
                                         web development experiments.
                                     </p>
-
                                 </div>
-
                             </div>
 
 
@@ -1206,10 +1457,33 @@
 
                         <section class="project-category-card">
 
+                            <div class="project-category-banner project-category-banner-hardware" role="presentation" aria-hidden="true">
+                                <svg viewBox="0 0 760 120" aria-hidden="true" focusable="false">
+                                    <!-- PCB traces, contact pads and routing; no oversized chip silhouette. -->
+                                    <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M278 21h96l29 29h86l27-27h110 M292 44h63l44 43h111l24-24h88l26 25h54"/>
+                                        <path d="M281 95h87l27-27h69 M529 11v31h56l20 20h103 M476 105h78l24-25h78"/>
+                                        <path d="M374 21v35 M622 63v28 M464 68v31" stroke-dasharray="5 6" opacity=".5"/>
+                                        <rect x="392" y="39" width="22" height="22" rx="3" opacity=".63"/>
+                                        <rect x="515" y="77" width="18" height="18" rx="3" opacity=".58"/>
+                                        <circle cx="278" cy="21" r="4" fill="currentColor"/>
+                                        <circle cx="292" cy="44" r="3.4" fill="currentColor"/>
+                                        <circle cx="281" cy="95" r="4" fill="currentColor"/>
+                                        <circle cx="626" cy="23" r="4" fill="currentColor"/>
+                                        <circle cx="702" cy="88" r="4" fill="currentColor"/>
+                                        <circle cx="708" cy="62" r="3.4" fill="currentColor"/>
+                                        <circle cx="656" cy="80" r="4" fill="currentColor"/>
+                                        <circle cx="476" cy="105" r="3.4" fill="currentColor"/>
+                                        <circle cx="489" cy="50" r="3.4" fill="currentColor"/>
+                                    </g>
+                                </svg>
+                            </div>
+
                             <div class="project-category-header">
-
-                                <div>
-
+                                <div class="project-category-icon-badge" aria-hidden="true">
+                                    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true"><rect x="15" y="15" width="34" height="34" rx="4" stroke="currentColor" stroke-width="3"/><rect x="24" y="24" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2.7"/><path d="M23 6v9 M32 6v9 M41 6v9 M23 49v9 M32 49v9 M41 49v9 M6 23h9 M6 32h9 M6 41h9 M49 23h9 M49 32h9 M49 41h9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                                </div>
+                                <div class="project-category-title-group">
                                     <span class="section-eyebrow">
                                         projects.hardware
                                     </span>
@@ -1223,9 +1497,7 @@
                                         electronics, sensors, networking, and
                                         software interacting with physical systems.
                                     </p>
-
                                 </div>
-
                             </div>
 
 
@@ -1251,10 +1523,30 @@
 
                         <section class="project-category-card">
 
+                            <div class="project-category-banner project-category-banner-experiments" role="presentation" aria-hidden="true">
+                                <svg viewBox="0 0 760 120" aria-hidden="true" focusable="false">
+                                    <!-- Iterative trials, branching results and measurements; no flask or gear. -->
+                                    <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M285 93h402 M309 99V26" opacity=".63"/>
+                                        <path d="M325 82c29-1 36-26 63-27s43 28 73 21 46-51 75-49 48 38 76 35 45-22 72-17" opacity=".8"/>
+                                        <path d="M325 69c34 13 53 3 79-7s48-14 73-4 40 20 66 12 42-18 70-12 41 10 71 0" stroke-dasharray="5 7" opacity=".56"/>
+                                        <path d="M347 93V81 M404 93V62 M461 93V76 M536 93V27 M612 93V62 M684 93V45" stroke-dasharray="3 5" opacity=".4"/>
+                                        <circle cx="347" cy="81" r="3" fill="currentColor"/>
+                                        <circle cx="404" cy="62" r="3" fill="currentColor"/>
+                                        <circle cx="461" cy="76" r="3" fill="currentColor"/>
+                                        <circle cx="536" cy="27" r="3.8" fill="currentColor"/>
+                                        <circle cx="612" cy="62" r="3" fill="currentColor"/>
+                                        <circle cx="684" cy="45" r="3" fill="currentColor"/>
+                                        <path d="M335 22h42 M335 32h28 M584 18h71 M597 30h41" opacity=".45"/>
+                                    </g>
+                                </svg>
+                            </div>
+
                             <div class="project-category-header">
-
-                                <div>
-
+                                <div class="project-category-icon-badge" aria-hidden="true">
+                                    <img src="Images/Icons/Experiments_ICON.png" alt="" loading="lazy" decoding="async">
+                                </div>
+                                <div class="project-category-title-group">
                                     <span class="section-eyebrow">
                                         projects.experiments
                                     </span>
@@ -1269,9 +1561,7 @@
                                         and projects built primarily to learn
                                         how something works.
                                     </p>
-
                                 </div>
-
                             </div>
 
 
@@ -1462,14 +1752,14 @@
      JAVASCRIPT
      ========================================= -->
 
-<script src="Scripts/glossary.js?v=4"></script>
+<script src="Scripts/glossary.js?v=mcp-grid-icon-1"></script>
 <script src="Scripts/skills.js?v=shared-glossary-2"></script>
-<script src="Scripts/experience.js?v=shared-glossary-1"></script>
-<script src="Scripts/projects.js?v=shared-glossary-2"></script>
+<script src="Scripts/experience.js?v=plain-company-headings-1"></script>
+<script src="Scripts/projects.js?v=original-project-cards-1"></script>
 <script src="Scripts/education.js"></script>
-<script src="Scripts/easter-eggs.js?v=mi6-popup-thanks-32"></script>
+<script src="Scripts/easter-eggs.js?v=mi6-audio-cache-fix-1"></script>
 <script src="Scripts/Activities/404/404.js"></script>
-<Script src="Scripts/Activities/Outdoors/outdoors.js"></Script>
+<Script src="Scripts/Activities/Outdoors/outdoors.js?v=outdoors-image-banner-1"></Script>
 <script src="Scripts/Activities/Blacksmithing/blacksmithing.js"></script>
 <script src="Scripts/Activities/KSP/ksp.js"></script>
 <script src="script.js?v=error-deeplinks-1"></script>

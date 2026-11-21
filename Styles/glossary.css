@@ -41,6 +41,29 @@
     transform-origin: center bottom;
     animation: glossary-popup 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+/* Logos are only shown for glossary entries that explicitly define an image. */
+.portfolio-glossary-media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 94px;
+    margin-bottom: 11px;
+    padding: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    background: #f7f8fa;
+}
+
+.portfolio-glossary-media img {
+    display: block;
+    max-width: 100%;
+    max-height: 78px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
 .portfolio-glossary-tooltip strong {
     display: block;
     margin-bottom: 5px;

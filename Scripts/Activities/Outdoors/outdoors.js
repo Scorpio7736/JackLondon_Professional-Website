@@ -18,12 +18,6 @@ const outdoorsActivityData = {
     subtitle:
         "Boats, fishing, and getting away from the screen.",
 
-    heroImage:
-        "Images/Activities/Outdoors/Boating.png",
-
-    heroImagePosition:
-        "center 55%",
-
     intro:
         "A lot of my time outside of school and software is spent around the water. Whether I'm working on the boat, fishing with my grandpa, or heading up north, it's one of my favorite ways to slow down, work with my hands, and get away from a screen for a while.",
 
@@ -185,38 +179,26 @@ class OutdoorsActivity {
 
             <header class="outdoors-hero">
 
-                <img
-                    src="${this.data.heroImage}"
-                    alt="Outdoor recreation"
-                    class="outdoors-hero-image"
-                    style="
-                        object-position:
-                        ${this.data.heroImagePosition || "center"};
-                    "
-                >
+                <div class="outdoors-banner">
+                    <img src="Images/Banners/Outdoors_BANNER.png" class="outdoors-banner-image" alt="" loading="lazy">
+                    <div class="outdoors-hero-overlay"></div>
+                </div>
 
+                <div class="outdoors-hero-content">
+                    <div class="outdoors-icon-wrapper" aria-hidden="true">
+                        <svg class="outdoors-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 43 23 19 34 34 42 24 57 43" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="m7 43 9-7 7 4 9-8 9 8 7-5 9 8" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+                            <path d="M9 50c6-4 11-4 17 0s11 4 17 0 10-4 12-2" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                            <circle cx="48" cy="14" r="5" fill="currentColor" opacity=".7"/>
+                        </svg>
+                    </div>
 
-                <div
-                    class="outdoors-hero-overlay"
-                ></div>
-
-
-                <div class="outdoors-hero-copy">
-
-                    <span class="section-eyebrow">
-                        ${this.data.eyebrow}
-                    </span>
-
-
-                    <h2>
-                        ${this.data.title}
-                    </h2>
-
-
-                    <p>
-                        ${this.data.subtitle}
-                    </p>
-
+                    <div class="outdoors-title-area">
+                        <span class="section-eyebrow">${this.data.eyebrow}</span>
+                        <h2>${this.data.title}</h2>
+                        <p>${this.data.subtitle}</p>
+                    </div>
                 </div>
 
             </header>
@@ -378,7 +360,7 @@ class OutdoorsActivity {
 
         const images =
             this.container.querySelectorAll(
-                ".outdoors-hero-image, .outdoors-story-image"
+                ".outdoors-story-image"
             );
 
 

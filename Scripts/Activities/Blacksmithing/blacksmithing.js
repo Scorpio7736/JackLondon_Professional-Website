@@ -31,7 +31,7 @@ const blacksmithingActivityData = {
         "Winter 2022",
 
     banner:
-        "Images/Banners/Blacksmithing_BANNER1.jpg",
+        "Images/Banners/PFP_BANNER.png",
 
     icon:
         "Images/Icons/JLBlacksmithing_ICON.png",

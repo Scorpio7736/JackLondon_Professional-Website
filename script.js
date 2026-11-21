@@ -193,7 +193,9 @@ function moveSidebarIndicator(
 
 function openPage(
     pageName,
-    animate = false
+    animate = false,
+    targetSectionId = null,
+    skipExitAnimation = false
 ) {
 
     const selectedPage =
@@ -213,6 +215,9 @@ function openPage(
             "active"
         )
     ) {
+        if (targetSectionId) {
+            scrollToSection(targetSectionId);
+        }
         return;
     }
 
@@ -320,6 +325,14 @@ function openPage(
         setupSectionObserver(
             selectedPage
         );
+
+        if (targetSectionId) {
+            requestAnimationFrame(() => {
+                if (transitionId === pageTransitionId) {
+                    scrollToSection(targetSectionId);
+                }
+            });
+        }
 
 
         if (!animate) {
@@ -449,7 +462,8 @@ function openPage(
     };
 
 
-    if (!animate) {
+    // First load uses the existing entrance animation without an exit transition.
+    if (!animate || skipExitAnimation) {
 
         switchPage();
 
@@ -1181,7 +1195,8 @@ internalPageLinks.forEach(
 
                 openPage(
                     button.dataset.page,
-                    true
+                    true,
+                    button.dataset.sectionId || null
                 );
 
             }
@@ -1270,7 +1285,9 @@ buildCertifications();
 const initialPage = window.location.hash.slice(1).toLowerCase();
 openPage(
     Object.prototype.hasOwnProperty.call(pageConfig, initialPage) ? initialPage : "home",
-    false
+    true,
+    null,
+    true
 );
 
 window.addEventListener("hashchange", () => {

@@ -35,6 +35,63 @@
 
 
 /* =========================================
+   HERO PORTRAIT
+   ========================================= */
+
+.home-hero-layout {
+    display: grid;
+    grid-template-columns: clamp(190px, 28%, 300px) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(24px, 4vw, 48px);
+}
+
+.home-hero-content {
+    min-width: 0;
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.home-hero-photo {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-secondary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.home-hero-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+@media (max-width: 950px) {
+    .home-hero-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .home-hero-content {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .home-hero-photo {
+        grid-column: 1;
+        grid-row: 1;
+        width: min(100%, 320px);
+        justify-self: start;
+        aspect-ratio: 4 / 5;
+    }
+}
+
+/* =========================================
    HERO PROFILE
    ========================================= */
 
@@ -265,13 +322,7 @@
 
 .home-now-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(
-            4,
-            minmax(0, 1fr)
-        );
-
+    grid-template-columns: minmax(0, 1fr);
     gap: 12px;
 }
 
@@ -279,8 +330,7 @@
 .home-now-card {
     min-width: 0;
 
-    min-height:
-        200px;
+    min-height: auto;
 
     display: flex;
 
@@ -425,6 +475,48 @@
         1.55;
 }
 
+
+/* AI engineering preview inside the existing Home card */
+.home-ai-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+}
+
+.home-ai-skills > span {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 7px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--surface-secondary);
+    color: var(--accent-light);
+    font-size: 0.66rem;
+    line-height: 1.25;
+    white-space: nowrap;
+}
+
+.home-ai-cta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 15px;
+    color: var(--accent-light);
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.home-now-card:hover .home-ai-cta > span {
+    transform: translateX(3px);
+}
+
+.home-ai-cta > span {
+    transition: transform 150ms ease;
+}
 
 /* =========================================
    BEYOND CODE
@@ -590,12 +682,6 @@
 @media (min-width: 751px) {
     .page-view[data-page="home"].active {
         padding-bottom: clamp(120px, 22dvh, 220px);
-    }
-}
-
-@media (min-width: 751px) and (max-width: 1100px) {
-    .home-now-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 

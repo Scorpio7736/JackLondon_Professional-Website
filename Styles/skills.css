@@ -1,4 +1,135 @@
 /* =========================================
+   CODE-GENERATED SKILLS BANNERS
+   Intentional background accents, not hero illustrations.
+   No image assets, cropping, or animation required.
+   ========================================= */
+
+.content-card.skills-content-card {
+    padding: 0;
+    overflow: hidden;
+}
+
+.skills-top {
+    margin-bottom: 0;
+    background: var(--surface-secondary);
+}
+
+.skills-banner {
+    --banner-accent: #85adce;
+    position: relative;
+    height: clamp(90px, 8vw, 110px);
+    width: 100%;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    background:
+        radial-gradient(ellipse at 76% 48%, color-mix(in srgb, var(--banner-accent) 11%, transparent), transparent 50%),
+        linear-gradient(110deg, #28282e, #252932 65%, #27262d);
+}
+
+.skills-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, .028) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, .028) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: linear-gradient(to right, transparent 20%, #000 85%);
+}
+
+.skills-banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to right, #28282e 8%, transparent 55%, #28282e 100%);
+    opacity: .53;
+}
+
+.skills-banner svg {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    height: 100%;
+    width: min(85%, 760px);
+    transform: translateY(-50%);
+    color: var(--banner-accent);
+    opacity: .42;
+    pointer-events: none;
+}
+
+.skills-banner .banner-drawing { opacity: .68; }
+.skills-banner .banner-nodes { opacity: .75; }
+
+.skills-top-ai .skills-banner { --banner-accent: #76b6d5; }
+.skills-top-languages .skills-banner { --banner-accent: #c7ab7e; }
+.skills-top-frameworks .skills-banner { --banner-accent: #7daaa1; }
+.skills-top-tools .skills-banner { --banner-accent: #91a7c6; }
+.skills-top-other .skills-banner { --banner-accent: #a9b68a; }
+
+/* Follow the 404 Network activity's overlapping banner/icon composition. */
+.skills-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 28px 26px;
+    margin-top: -42px;
+}
+
+.skills-icon-badge {
+    position: relative;
+    display: flex;
+    width: 96px;
+    height: 96px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #212026;
+    border: 5px solid #29282e;
+    border-radius: 18px;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.35);
+}
+
+.skills-icon-badge img {
+    display: block;
+    width: 78px;
+    height: 78px;
+    object-fit: contain;
+}
+
+.skills-title-group {
+    min-width: 0;
+    padding-top: 42px;
+}
+
+.skills-title-group h2 {
+    margin: 3px 0 5px;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+}
+
+.skills-title-group .section-eyebrow {
+    display: block;
+}
+
+.skills-content-card > .language-card-grid { padding: 0 26px 26px; }
+
+@media (max-width: 550px) {
+    .skills-banner { height: 80px; }
+    .skills-banner svg { width: min(115%, 760px); opacity: .34; }
+    .skills-header { gap: 14px; padding: 0 18px 20px; margin-top: -32px; }
+    .skills-icon-badge { width: 72px; height: 72px; border-radius: 15px; border-width: 4px; }
+    .skills-icon-badge img { width: 58px; height: 58px; }
+    .skills-title-group { padding-top: 32px; }
+    .skills-title-group h2 { font-size: 1.4rem; }
+    .skills-content-card > .language-card-grid { padding: 0 18px 18px; }
+}
+
+/* =========================================
    SKILL CARD GRID
    ========================================= */
 

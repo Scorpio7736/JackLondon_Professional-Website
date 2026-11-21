@@ -363,6 +363,18 @@ const aiSkills = [
     },
 
     {
+        name: "Google Notebook LM",
+        image: "Images/Icons/GoogleLMNotebook_ICON.png",
+        shortName: "LM",
+        comfort: 9,
+        projects: [
+            "Research & Understanding",
+            "Study assistance",
+            "Teaching & learning assistance"
+        ]
+    },
+
+    {
         name: "Claude",
         image: "Images/Icons/Claude_ICON.png",
         shortName: "CL",

@@ -46,20 +46,19 @@
 
 .network404-banner {
     position: relative;
-
     width: 100%;
     height: 240px;
-
     overflow: hidden;
-
-    background:
-        linear-gradient(
-            135deg,
-            #202027,
-            #373641
-        );
+    background: #000;
 }
 
+/* Recreated original 404 artwork as resolution-independent SVG. */
+.network404-banner-art {
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
 
 .network404-banner-image {
     width: 100%;
@@ -99,19 +98,7 @@
 
 
 .network404-banner-overlay {
-    position: absolute;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    background:
-        linear-gradient(
-            to bottom,
-            transparent 35%,
-            rgba(25, 24, 29, 0.2) 60%,
-            rgba(25, 24, 29, 0.86) 100%
-        );
+    display: none;
 }
 
 

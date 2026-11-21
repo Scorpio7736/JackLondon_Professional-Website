@@ -65,19 +65,19 @@ Any modern desktop browser and a basic static web server are sufficient for the 
    cd JackLondon_Professional-Website
    ```
 
-2. Start a local static server from the repository root. For example, with Python 3:
+2. Start the **local smoke-test server** from the repository root:
 
-   ```bash
-   python -m http.server 8000
+   ```powershell
+   python dev_server.py
    ```
 
-   On systems that use `python3`:
+   This serves the static website and returns the custom `404.html` with an **actual HTTP 404 status** for nonexistent URLs, such as `http://localhost:8000/asdf`. The script binds only to localhost and does not affect Vercel or production.
 
-   ```bash
-   python3 -m http.server 8000
-   ```
+   If port 8000 is busy, stop the existing server with **Ctrl+C**, or start this one using `python dev_server.py --port 8001`.
 
-3. Open **[http://localhost:8000](http://localhost:8000)** in a browser.
+   For a basic static preview, `python -m http.server 8000` also works, but **Python's built-in server shows its own generic error page for missing URLs**, rather than using the site's custom 404.
+
+3. Open **[http://localhost:8000](http://localhost:8000)** in a browser. To test the branded error page and HTTP status, visit **[http://localhost:8000/asdf](http://localhost:8000/asdf)** and check the Network tab for a 404 response.
 
 Some browsers can open `index.html` directly, but using a local server provides more consistent behavior for linked assets and nested project pages.
 
@@ -86,6 +86,7 @@ Some browsers can open `index.html` directly, but using a local server provides 
 ```text
 JackLondon_Professional-Website/
 ├── index.html
+├── dev_server.py         # Optional local preview server with custom 404
 ├── stylesheet.css
 ├── script.js
 ├── Styles/
@@ -113,7 +114,7 @@ JackLondon_Professional-Website/
 ├── ProjectPages/
 │   ├── ProjectPageStyles.css
 │   └── MTG_Pack_Opener/
-└── UnderConstruction.html
+└── 404.html
 ```
 
 ### Important files
@@ -128,6 +129,17 @@ JackLondon_Professional-Website/
 - **`Scripts/projects.js`** — Defines and renders project entries.
 - **`Scripts/education.js`** — Defines and renders education and certifications.
 - **`ProjectPages/`** — Contains additional project-specific web content, including an MTG Pack Opener page.
+- **`404.html`** — Shared dynamic error template for HTTP 403, 404, 500, 503, and 504 illustrations and messages.
+- **`Styles/error-pages.css`** — Styling shared by every error state.
+
+### Error page previews
+
+The single `404.html` file displays the **404** state by default. Vercel uses it as the custom page for missing URLs.
+
+To preview the other error states, open `/404.html?code=403`, `/404.html?code=500`, `/404.html?code=503`, or `/404.html?code=504`. Each state keeps its original text and animated GIF. Unrecognized codes fall back to 404.
+
+These query-parameter previews **do not set the HTTP response status**: directly requesting `/404.html?code=500` still requests a real static HTML file. Vercel automatically serves the custom 404 page with a 404 status for missing URLs. On non-Enterprise Vercel plans, the shared page does not intercept Vercel platform-generated 5xx failures.
+
 
 ## Architecture and interactions
 
