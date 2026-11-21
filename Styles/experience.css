@@ -180,33 +180,6 @@
 
 
 /* =========================================
-   FULL-ARTWORK EXPERIENCE BANNERS
-   Preserve the complete ERT emblem and lettering instead of
-   cropping them to the default 150px cover window.
-   ========================================= */
-
-.experience-banner.experience-banner--uncropped {
-    height: auto;
-    aspect-ratio: 4 / 1;
-    background: #e8edf2;
-}
-
-.experience-banner--uncropped::before,
-.experience-banner--uncropped::after {
-    display: none;
-}
-
-.experience-banner--uncropped img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-}
-
-
-/* =========================================
    EXPERIENCE HEADER
    Match the overlapping 404 Network / Skills header.
    ========================================= */
