@@ -53,6 +53,15 @@ Completed development identified before the November 17, 2026 transition to 1.3:
   - [x] Add the existing **Grid AI icon** to the **MCP** tooltip. ([d3f62e6](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/d3f62e67051e41e3095c88eb5b6f1cb3bc64f349))
 
 
+
+**Pre-release smoke test fixes and verification (part of 1.3.0):**
+
+- [x] Replace missing sidebar and hover-card portrait references with the existing headshot icon. ([2123964](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/21239645a8f26e6143a91c6b2782090575c07d8d))
+- [x] Declare the existing headshot PNG as the site favicon to prevent automatic `/favicon.ico` requests. ([2a465b7](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/2a465b74e389cd56c9ee7c57fcb676dfe8fa9a62))
+- [x] Shorten the MI6-007 soundtrack lead-in (start at 16 seconds instead of 12) while preserving the 20-second walk and 23-second shot cues. ([6641320](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/6641320b91870ce67dcdda74d750ec1452862da7))
+- [x] Add optional `dev_server.py` for local custom 404 responses with proper HTTP 404 status; document local smoke testing. ([b1a0ea1](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/b1a0ea10101c43b58d6fdf2e92d27372026eaf4f))
+- [ ] Re-run the MI6-007, favicon, and missing-route 404 checks in a browser against the updated build, then verify the Vercel preview before production.
+
 **Post-release hotfixes:** None recorded for 1.3.0. Reserve `1.3.1`, `1.3.2`, etc. for actual fixes after the release.
 
 
