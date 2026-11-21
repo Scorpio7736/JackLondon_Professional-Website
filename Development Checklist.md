@@ -58,7 +58,7 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 
 - [x] Replace missing sidebar and hover-card portrait references with the existing headshot icon. ([2123964](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/21239645a8f26e6143a91c6b2782090575c07d8d))
 - [x] Declare the existing headshot PNG as the site favicon to prevent automatic `/favicon.ico` requests. ([2a465b7](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/2a465b74e389cd56c9ee7c57fcb676dfe8fa9a62))
-- [x] Shorten the MI6-007 soundtrack lead-in (start at 16 seconds instead of 12) while preserving the 20-second walk and 23-second shot cues. ([6641320](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/6641320b91870ce67dcdda74d750ec1452862da7))
+- [x] Adjust the MI6-007 soundtrack lead-in to start at **13 seconds** (only one second trimmed from the original 12-second starting point) after the 16-second version felt too short. Keep the walk at 20 seconds and shot at 23 seconds. ([6641320](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/6641320b91870ce67dcdda74d750ec1452862da7), [eb5e1b0](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/eb5e1b0106e42f94264733bb46c19c841026fda9))
 - [x] Add optional `dev_server.py` for local custom 404 responses with proper HTTP 404 status; document local smoke testing. ([b1a0ea1](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/b1a0ea10101c43b58d6fdf2e92d27372026eaf4f))
 - [ ] Re-run the MI6-007, favicon, and missing-route 404 checks in a browser against the updated build, then verify the Vercel preview before production.
 
