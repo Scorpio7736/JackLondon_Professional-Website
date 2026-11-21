@@ -1120,10 +1120,12 @@
     const BOND_TURN_FRAMES = [7, 8, 9, 10, 11, 12, 13];
     // Timing is expressed in seconds on the original Gunbarrel.mp3 timeline.
     const BOND_BARREL_PATH = "Images/EasterEggs/Bond_Barrel.png";
-    const BOND_SCAN_START = 12;
-    const BOND_RED_WASH_DURATION = 3000; // slower downward blood drips, milliseconds
     const BOND_AUDIO_PATH = "Audio/Gunbarrel.mp3";
-    const BOND_AUDIO_START = 12;
+    // Trim four more seconds of the opening without shifting the walk (20s)
+    // or shot (23s) cues. Both visuals and sound use the same media clock.
+    const BOND_AUDIO_START = 16;
+    const BOND_SCAN_START = BOND_AUDIO_START;
+    const BOND_RED_WASH_DURATION = 3000; // slower downward blood drips, milliseconds
     const BOND_WALK_START = 20;
     const BOND_SHOT_TIME = 23;
     const BOND_TURN_DURATION = 600; // milliseconds before the gunshot
@@ -1344,7 +1346,7 @@
             bar.classList.add("active");
             document.querySelector(".app-shell")?.classList.add("band-open");
 
-            // Seek before playback; never play the first 12 seconds.
+            // Seek before playback; skip the first 16 seconds of the soundtrack.
             const audio = new Audio(BOND_AUDIO_PATH);
             audio.preload = "auto";
             audio.volume = 0.7;
@@ -1414,7 +1416,7 @@
             ctx.imageSmoothingEnabled = false;
             ctx.clearRect(0, 0, width, height);
 
-            // Play from 12s, remain offscreen until 20s, hit full aim at 23s.
+            // Play from 16s, remain offscreen until 20s, hit full aim at 23s.
             // Drive poses from the media clock so the gunshot stays aligned.
             const mediaTime = run.audio && !run.audio.paused
                 ? run.audio.currentTime
