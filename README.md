@@ -113,7 +113,7 @@ JackLondon_Professional-Website/
 ├── ProjectPages/
 │   ├── ProjectPageStyles.css
 │   └── MTG_Pack_Opener/
-└── UnderConstruction.html
+└── 404.html
 ```
 
 ### Important files
@@ -128,6 +128,17 @@ JackLondon_Professional-Website/
 - **`Scripts/projects.js`** — Defines and renders project entries.
 - **`Scripts/education.js`** — Defines and renders education and certifications.
 - **`ProjectPages/`** — Contains additional project-specific web content, including an MTG Pack Opener page.
+- **`404.html`** — Shared dynamic error template for HTTP 403, 404, 500, 503, and 504 illustrations and messages.
+- **`Styles/error-pages.css`** — Styling shared by every error state.
+
+### Error page previews
+
+The single `404.html` file displays the **404** state by default. Vercel uses it as the custom page for missing URLs.
+
+To preview the other error states, open `/404.html?code=403`, `/404.html?code=500`, `/404.html?code=503`, or `/404.html?code=504`. Each state keeps its original text and animated GIF. Unrecognized codes fall back to 404.
+
+These query-parameter previews **do not set the HTTP response status**: directly requesting `/404.html?code=500` still requests a real static HTML file. Vercel automatically serves the custom 404 page with a 404 status for missing URLs. On non-Enterprise Vercel plans, the shared page does not intercept Vercel platform-generated 5xx failures.
+
 
 ## Architecture and interactions
 
