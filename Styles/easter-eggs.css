@@ -17,7 +17,7 @@
     /* Madison's State Capitol sits behind the On Wisconsin parade. */
     background-color: #1686e7;
     /* Trees fill the width; the Capitol is a transparent cutout above them. */
-    background-image: url("../Images/EasterEggs/UW_MarchingBand_Trees.png");
+    background-image: url("../Images/EasterEggs/ONWISCONSIN/Backgrounds/UW_MarchingBand_Trees.png");
     background-position: center center;
     background-size: auto 100%;
     background-repeat: repeat-x;
@@ -36,7 +36,7 @@
     width: auto;
     aspect-ratio: 2172 / 724;
     transform: translateX(-50%);
-    background: url("../Images/EasterEggs/UW_MarchingBand_Background.png") center / 100% 100% no-repeat;
+    background: url("../Images/EasterEggs/ONWISCONSIN/Backgrounds/UW_MarchingBand_Background.png") center / 100% 100% no-repeat;
     image-rendering: pixelated;
     pointer-events: none;
 }
@@ -55,7 +55,7 @@
     border-top: 0;
     box-shadow: none;
     /* Looping 8-bit art: cracked sand, concrete slabs, dead grass, and fires. */
-    background: url("../Images/EasterEggs/Terminator_Battlefield_Ground.png") left bottom / auto 36px repeat-x;
+    background: url("../Images/EasterEggs/ILLBEBACK/Backgrounds/Terminator_Battlefield_Ground.png") left bottom / auto 36px repeat-x;
 }
 .marching-band-bar.terminator-mode::after {
     display: none;

@@ -26,19 +26,21 @@
        MARCHING BAND CONFIGURATION
        ===================================== */
 
+    const BAND_ASSET_ROOT = "Images/EasterEggs/ONWISCONSIN/Sprites/";
+
     const BAND_CONFIG = {
 
         // One unchanged upper-body image per section. Every person uses
         // the SAME universal pair of legs for a consistent marching step.
         images: {
-            percussion: "UW_Retro_Percussion_A.png",
-            lowBrass: "UW_Retro_LowBrass_A.png",
-            brass: "UW_Retro_Brass_A.png",
-            woodwinds: "UW_Retro_Woodwinds_A.png"
+            percussion: "Percussion/UW_Retro_Percussion_A.png",
+            lowBrass: "LowBrass/UW_Retro_LowBrass_A.png",
+            brass: "Brass/UW_Retro_Brass_A.png",
+            woodwinds: "Woodwinds/UW_Retro_Woodwinds_A.png"
         },
-        legs: ["UW_UniversalLegs_Step_A.png", "UW_UniversalLegs_Step_B.png"],
-        drumMajorCar: ["UW_DrumMajorCar_A.png", "UW_DrumMajorCar_B.png"],
-        finaleCar: ["UW_JackFinaleCar_Driver_A.png", "UW_JackFinaleCar_Driver_B.png"],
+        legs: ["Legs/UW_UniversalLegs_Step_A.png", "Legs/UW_UniversalLegs_Step_B.png"],
+        drumMajorCar: ["DrumMajorCar/UW_DrumMajorCar_A.png", "DrumMajorCar/UW_DrumMajorCar_B.png"],
+        finaleCar: ["FinaleCar/UW_JackFinaleCar_Driver_A.png", "FinaleCar/UW_JackFinaleCar_Driver_B.png"],
         leadGap: 24,
         finaleGap: 24,
 
@@ -484,7 +486,7 @@
                 const image = new Image();
                 image.onload = () => resolve(image);
                 image.onerror = () => reject(new Error("Missing band sprite: " + filename));
-                image.src = "Images/EasterEggs/" + filename;
+                image.src = BAND_ASSET_ROOT + filename;
             });
             bandImagesPromise = Promise.all(
                 Object.entries(BAND_CONFIG.images).map(async ([section, file]) =>
@@ -680,9 +682,9 @@
     const TERMINATOR_FRONT_INDEX = TERMINATOR_WALK_OFFSET + 4;
     const terminatorAssetPaths = [
         ...Array.from({ length: JACK_RUN_FRAME_COUNT }, (_, i) =>
-            "Jack_Run_Smooth_" + String(i).padStart(2, "0") + ".png"),
-        ...[0, 1, 2, 3].map(i => "Terminator_ArmedWalk_Clean_" + i + ".png"),
-        "Terminator_ArmedFront.png"
+            "Jack/Jack_Run_Smooth_" + String(i).padStart(2, "0") + ".png"),
+        ...[0, 1, 2, 3].map(i => "Terminator/Terminator_ArmedWalk_Clean_" + i + ".png"),
+        "Terminator/Terminator_ArmedFront.png"
     ];
     let terminatorLoadedImages = null;
     function ensureTerminatorImages() {
@@ -698,7 +700,7 @@
             };
             image.onerror = () => reject(new Error(
                 "ILLBEBACK image unavailable: " + terminatorAssetPaths[i]));
-            image.src = "Images/EasterEggs/" + terminatorAssetPaths[i];
+            image.src = "Images/EasterEggs/ILLBEBACK/Sprites/" + terminatorAssetPaths[i];
         });
         // Begin *all* requests immediately. Nonessential poses never block
         // startup; missing images keep their nearest available fallback.
@@ -1034,7 +1036,7 @@
                     celebrationTimer = setTimeout(() => {
                         celebrationTimer = null;
                         showBandCelebration("blue", {
-                            image: "Images/EasterEggs/Jack_Trombone.png",
+                            image: "Images/EasterEggs/ONWISCONSIN/Photos/Jack_Trombone.png",
                             imageAlt: "Jack playing trombone"
                         });
                     }, bandTransitionMs + 80);
@@ -1112,7 +1114,7 @@
     // Sprite files are numbered 01-21. Frames 15-21 contain the updated
     // seven-pose walking cycle; 08-14 retain the cinematic turn and aim.
     const BOND_FRAME_PATHS = Array.from({ length: 21 }, (_, i) =>
-        "Images/EasterEggs/Bond_Frame_" + String(i + 1).padStart(2, "0") + ".png"
+        "Images/EasterEggs/MI6-007/Sprites/Bond/Bond_Frame_" + String(i + 1).padStart(2, "0") + ".png"
     );
     // Zero-based indices into the preloaded sprites.
     const BOND_WALK_FRAMES = [14, 15, 16, 17, 18, 19, 20];
@@ -1120,7 +1122,7 @@
     const BOND_TURN_FRAMES = [7, 8, 9, 10, 11, 12, 13];
     // The updated Gunbarrel.mp3 is already trimmed by 12 seconds.
     // All cues below use its new 0-based media timeline.
-    const BOND_BARREL_PATH = "Images/EasterEggs/Bond_Barrel.png";
+    const BOND_BARREL_PATH = "Images/EasterEggs/MI6-007/Backgrounds/Bond_Barrel.png";
     // Versioned URL forces browsers to fetch the newly trimmed MP3, not a cached old cut.
     const BOND_AUDIO_PATH = "Audio/Gunbarrel.mp3?v=c44c8ef0";
     const BOND_AUDIO_START = 0;
