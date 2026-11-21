@@ -69,6 +69,7 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 ## 1.4.0 - [Rollin]
 
 **Planned initial release scope — 1.4.0** (all tasks below are part of the same release):
+- [x] Reorganize all 56 Easter egg image assets into dedicated folders under `Images/EasterEggs/` for `ONWISCONSIN`, `ILLBEBACK`, and `MI6-007`, with individual sprite groups plus backgrounds/photos as appropriate. Preserve filenames and image contents; update the asset references in `Scripts/easter-eggs.js` and `Styles/easter-eggs.css`. Confirm all 56 files are present in the new hierarchy with none left in the original flat directory. Browser animation testing remains outstanding. ([6fa2251](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/6fa225107deb7ff3f497fc6a175ad35b59a86a60))
 - [ ] Added RickRoll EasterEgg with the key of "JackRoll"
 - [ ] Improve accessible mobile navigation without changing the existing desktop-inspired visual design.
   - [ ] Add explicit accessible names to the six sidebar page buttons (Home, Skills, Experience, Projects, Education, Activities), so their purpose is announced even when CSS hides text labels below 700px.
