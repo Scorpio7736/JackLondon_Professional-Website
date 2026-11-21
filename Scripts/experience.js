@@ -226,10 +226,6 @@ const experiences = [
         banner:
             "Images/Banners/ERT_BANNER.png",
 
-        // Show the entire 4:1 artwork, including its original emblem and lettering.
-        bannerFit:
-            "uncropped",
-
         iconFallback:
             "ERT",
 
@@ -493,10 +489,6 @@ function buildExperience(
     banner.classList.add(
         "experience-banner"
     );
-
-    if (experience.bannerFit === "uncropped") {
-        banner.classList.add("experience-banner--uncropped");
-    }
 
     if (experience.banner) {
 
