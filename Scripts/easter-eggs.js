@@ -1118,16 +1118,15 @@
     const BOND_WALK_FRAMES = [14, 15, 16, 17, 18, 19, 20];
     const BOND_WALK_FRAME_COUNT = BOND_WALK_FRAMES.length;
     const BOND_TURN_FRAMES = [7, 8, 9, 10, 11, 12, 13];
-    // Timing is expressed in seconds on the original Gunbarrel.mp3 timeline.
+    // The updated Gunbarrel.mp3 is already trimmed by 12 seconds.
+    // All cues below use its new 0-based media timeline.
     const BOND_BARREL_PATH = "Images/EasterEggs/Bond_Barrel.png";
     const BOND_AUDIO_PATH = "Audio/Gunbarrel.mp3";
-    // Keep nearly all of the original opening, trimming only one second.
-    // Walk (20s) and shot (23s) cues remain synced to the media clock.
-    const BOND_AUDIO_START = 13;
+    const BOND_AUDIO_START = 0;
     const BOND_SCAN_START = BOND_AUDIO_START;
     const BOND_RED_WASH_DURATION = 3000; // slower downward blood drips, milliseconds
-    const BOND_WALK_START = 20;
-    const BOND_SHOT_TIME = 23;
+    const BOND_WALK_START = 8;  // formerly 20s on the untrimmed track
+    const BOND_SHOT_TIME = 11; // formerly 23s on the untrimmed track
     const BOND_TURN_DURATION = 600; // milliseconds before the gunshot
     const BOND_HOLD_DURATION = 5000;
     const BOND_WALK_FRAME_DURATION = 150;
@@ -1346,7 +1345,7 @@
             bar.classList.add("active");
             document.querySelector(".app-shell")?.classList.add("band-open");
 
-            // Seek before playback; skip the first 13 seconds of the soundtrack.
+            // Play the pre-trimmed soundtrack from its beginning.
             const audio = new Audio(BOND_AUDIO_PATH);
             audio.preload = "auto";
             audio.volume = 0.7;
@@ -1416,7 +1415,7 @@
             ctx.imageSmoothingEnabled = false;
             ctx.clearRect(0, 0, width, height);
 
-            // Play from 13s, remain offscreen until 20s, hit full aim at 23s.
+            // Play from 0s, remain offscreen until 8s, hit full aim at 11s.
             // Drive poses from the media clock so the gunshot stays aligned.
             const mediaTime = run.audio && !run.audio.paused
                 ? run.audio.currentTime
