@@ -10,7 +10,8 @@
 .project-category-card {
     width: 100%;
 
-    padding: 24px;
+    padding: 0;
+    overflow: hidden;
 
     background:
         #29282e;
@@ -30,29 +31,114 @@
 }
 
 
+
+/* =========================================
+   PROJECT CATEGORY BANNERS
+   Match the coded SVG panels and overlapping icons on Skills.
+   Individual project cards retain their original layout.
+   ========================================= */
+
+.project-category-banner {
+    --category-accent: #91a7c6;
+    position: relative;
+    width: 100%;
+    height: clamp(90px, 8vw, 110px);
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    background:
+        radial-gradient(ellipse at 76% 48%, color-mix(in srgb, var(--category-accent) 11%, transparent), transparent 50%),
+        linear-gradient(110deg, #28282e, #252932 65%, #27262d);
+}
+
+.project-category-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, .028) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, .028) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: linear-gradient(to right, transparent 20%, #000 85%);
+}
+
+.project-category-banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to right, #28282e 8%, transparent 55%, #28282e 100%);
+    opacity: .53;
+}
+
+.project-category-banner svg {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: min(85%, 760px);
+    height: 100%;
+    transform: translateY(-50%);
+    color: var(--category-accent);
+    opacity: .42;
+    pointer-events: none;
+}
+
+.project-category-banner .banner-drawing { opacity: .68; }
+.project-category-banner .banner-nodes { opacity: .75; }
+
+.project-category-banner-desktop { --category-accent: #91a7c6; }
+.project-category-banner-mobile { --category-accent: #8ba9c9; }
+.project-category-banner-web { --category-accent: #7daaa1; }
+.project-category-banner-hardware { --category-accent: #c7ab7e; }
+.project-category-banner-experiments { --category-accent: #ab9bc9; }
+
 /* =========================================
    PROJECT CATEGORY HEADER
    ========================================= */
 
 .project-category-header {
+    position: relative;
+    z-index: 3;
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-
+    align-items: center;
     gap: 20px;
+    padding: 0 28px 26px;
+    margin-top: -42px;
+}
 
-    margin-bottom: 20px;
+.project-category-icon-badge {
+    position: relative;
+    display: flex;
+    width: 96px;
+    height: 96px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: #91a7c6;
+    background: #212026;
+    border: 5px solid #29282e;
+    border-radius: 18px;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, .35);
+}
 
-    padding-bottom: 20px;
+.project-category-icon-badge img,
+.project-category-icon-badge svg {
+    display: block;
+    width: 78px;
+    height: 78px;
+    object-fit: contain;
+}
 
-    border-bottom:
-        1px solid var(--border);
+.project-category-title-group {
+    min-width: 0;
+    padding-top: 42px;
 }
 
 
 .project-category-header h2 {
-    margin-top: 4px;
-    margin-bottom: 8px;
+    margin-top: 3px;
+    margin-bottom: 5px;
 
     font-size:
         clamp(
@@ -86,6 +172,7 @@
 
 .project-list {
     width: 100%;
+    padding: 0 26px 26px;
 
     display: flex;
     flex-direction: column;
@@ -101,8 +188,7 @@
 .project-card {
     width: 100%;
 
-    padding: 0;
-    overflow: hidden;
+    padding: 24px;
 
     background:
         #302f35;
@@ -140,60 +226,6 @@
 
 
 /* =========================================
-   CODED PROJECT BANNERS
-   Same SVG treatment and icon overlap used by Skills.
-   ========================================= */
-
-.project-banner {
-    --project-banner-accent: #91a5d6;
-    position: relative;
-    width: 100%;
-    height: clamp(90px, 8vw, 110px);
-    overflow: hidden;
-    border-bottom: 1px solid var(--border);
-    background:
-        radial-gradient(ellipse at 76% 48%, color-mix(in srgb, var(--project-banner-accent) 11%, transparent), transparent 50%),
-        linear-gradient(110deg, #28282e, #252932 65%, #27262d);
-}
-
-.project-banner::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-        linear-gradient(to right, rgba(255, 255, 255, .028) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, .028) 1px, transparent 1px);
-    background-size: 28px 28px;
-    mask-image: linear-gradient(to right, transparent 20%, #000 85%);
-}
-
-.project-banner::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(to right, #28282e 8%, transparent 55%, #28282e 100%);
-    opacity: .53;
-}
-
-.project-banner svg {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    width: min(85%, 760px);
-    height: 100%;
-    transform: translateY(-50%);
-    color: var(--project-banner-accent);
-    opacity: .42;
-    pointer-events: none;
-}
-
-.project-banner .project-banner-drawing { opacity: .68; }
-.project-banner .project-banner-nodes { opacity: .75; }
-
-
-/* =========================================
    PROJECT HEADER
    ========================================= */
 
@@ -207,13 +239,13 @@
    ========================================= */
 
 .project-card-header-main {
-    position: relative;
-    z-index: 3;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
+
     gap: 20px;
-    margin: -42px 24px 14px;
+
+    margin-bottom: 14px;
 }
 
 
@@ -223,9 +255,11 @@
 
 .project-card-header-left {
     min-width: 0;
+
     display: flex;
     align-items: center;
-    gap: 20px;
+
+    gap: 14px;
 }
 
 
@@ -234,32 +268,42 @@
    ========================================= */
 
 .project-card-icon {
-    position: relative;
-    display: flex;
-    width: 96px;
-    height: 96px;
+    width: 60px;
+    height: 60px;
+
     flex-shrink: 0;
+
+    display: flex;
     align-items: center;
     justify-content: center;
+
+    background:
+        #25242a;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 10px;
+
     overflow: hidden;
-    color: var(--accent-light);
-    background: #212026;
-    border: 5px solid #302f35;
-    border-radius: 18px;
-    box-shadow: 0 5px 16px rgba(0, 0, 0, .35);
+
+    box-shadow:
+        0 2px 7px rgba(
+            0,
+            0,
+            0,
+            0.18
+        );
 }
+
 
 .project-card-icon img {
-    display: block;
-    width: 78px;
-    height: 78px;
-    object-fit: contain;
-}
+    width: 100%;
+    height: 100%;
 
-.project-card-icon svg {
     display: block;
-    width: 72px;
-    height: 72px;
+
+    object-fit: cover;
 }
 
 
@@ -285,7 +329,6 @@
 
 .project-card-heading {
     min-width: 0;
-    padding-top: 42px;
 }
 
 
@@ -331,12 +374,10 @@
    ========================================= */
 
 .project-card-header-right {
-    position: absolute;
-    right: 0;
-    top: -44px;
+    flex-shrink: 0;
+
     display: flex;
     align-items: flex-start;
-    flex-shrink: 0;
 }
 
 
@@ -347,7 +388,7 @@
 .project-description {
     max-width: 850px;
 
-    margin: 0 24px;
+    margin-left: 74px;
 
     color:
         var(--text-secondary);
@@ -423,7 +464,6 @@
 
 .project-inner-grid {
     display: grid;
-    margin: 0 24px 24px;
 
     grid-template-columns:
         minmax(250px, 0.8fr)
@@ -920,7 +960,7 @@
 
     gap: 10px;
 
-    margin: 0 24px 24px;
+    margin-top: 16px;
 
     padding-top: 16px;
 
@@ -956,19 +996,22 @@
 @media (max-width: 650px) {
 
     .project-category-card {
-        padding: 18px;
+        padding: 0;
     }
 
 
     .project-category-header {
-        margin-bottom: 16px;
+        gap: 14px;
+        padding: 0 18px 20px;
+    }
 
-        padding-bottom: 16px;
+    .project-list {
+        padding: 0 18px 18px;
     }
 
 
     .project-card {
-        padding: 0;
+        padding: 20px;
     }
 
 
@@ -1004,65 +1047,48 @@
 }
 
 
+@media (max-width: 550px) {
+    .project-category-banner { height: 80px; }
+    .project-category-banner svg { width: min(115%, 760px); opacity: .34; }
+    .project-category-header { margin-top: -32px; }
+    .project-category-icon-badge { width: 72px; height: 72px; border-width: 4px; border-radius: 15px; }
+    .project-category-icon-badge img,
+    .project-category-icon-badge svg { width: 58px; height: 58px; }
+    .project-category-title-group { padding-top: 32px; }
+    .project-category-header h2 { font-size: 1.4rem; }
+}
+
 /* =========================================
    RESPONSIVE - 550PX
    ========================================= */
 
 @media (max-width: 550px) {
 
-    .project-banner {
-        height: 80px;
-    }
-
-    .project-banner svg {
-        width: min(115%, 760px);
-        opacity: .34;
-    }
-
     .project-card-header-main {
         gap: 12px;
-        margin: -32px 18px 14px;
     }
+
 
     .project-card-header-left {
-        gap: 14px;
+        gap: 11px;
     }
+
 
     .project-card-icon {
-        width: 72px;
-        height: 72px;
-        border-width: 4px;
-        border-radius: 15px;
+        width: 50px;
+        height: 50px;
+
+        border-radius: 8px;
     }
 
-    .project-card-icon img,
-    .project-card-icon svg {
-        width: 58px;
-        height: 58px;
+
+    .project-description {
+        margin-left: 0;
     }
 
-    .project-card-heading {
-        padding-top: 32px;
-    }
-
-    .project-card-header-right {
-        top: -32px;
-    }
 
     .project-card-heading h2 {
         font-size: 1.2rem;
-    }
-
-    .project-description {
-        margin: 0 18px;
-    }
-
-    .project-inner-grid {
-        margin: 0 18px 18px;
-    }
-
-    .project-links {
-        margin: 0 18px 18px;
     }
 
 }
@@ -1075,7 +1101,7 @@
 @media (max-width: 450px) {
 
     .project-card {
-        padding: 0;
+        padding: 17px;
     }
 
 
