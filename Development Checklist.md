@@ -94,6 +94,28 @@ Completed development identified before the November 17, 2026 transition to 1.3:
   - [ ] Refine marching and instrument movement for coherent frame-to-frame motion, stable positioning, and no flicker or unwanted floating.
   - [ ] Verify first-load sprite availability, timing against the soundtrack, scene transitions, and cleanup when closing.
   - [ ] **Acceptance criteria:** Smooth, synchronized band animation with stable sprites and no visual regressions on desktop or mobile.
+- [ ] Redesign and optimize `index.html` for mobile devices with a dedicated mobile layout.
+  - [ ] Create a mobile-specific interface rather than simply shrinking the desktop layout.
+  - [ ] Preserve the existing desktop design and functionality.
+  - [ ] Implement responsive layouts using CSS media queries.
+  - [ ] Redesign mobile navigation for touchscreens with accessible buttons and clear navigation between sections.
+  - [ ] Optimize Home, Skills, Experience, Projects, Education, and Activities for mobile viewing.
+  - [ ] Adjust typography, spacing, cards, galleries, and images for smaller screens.
+  - [ ] Ensure mobile users can access all important website features.
+  - [ ] Minimize horizontal scrolling and unnecessary vertical whitespace.
+  - [ ] Optimize mobile image loading and animation performance.
+  - [ ] Test different mobile screen sizes, orientations, and browsers.
+  - [ ] **Acceptance criteria:** Mobile users receive a dedicated, responsive, touch-friendly experience while the existing desktop design remains unchanged.
+- [ ] Implement a dedicated mobile Easter egg activation system.
+  - [ ] Preserve existing keyboard-triggered Easter eggs on desktop.
+  - [ ] Add a mobile-friendly way to discover and activate Easter eggs without requiring a physical keyboard.
+  - [ ] Create a themed, touch-accessible Easter egg menu or secret interaction panel.
+  - [ ] Support ONWISCONSIN, ILLBEBACK, and MI6-007 through the mobile activation system.
+  - [ ] Adapt Easter egg animations, sprites, and scene dimensions to mobile screens.
+  - [ ] Ensure audio playback begins through user interaction and remains synchronized with animations.
+  - [ ] Provide clear controls for closing or interrupting Easter eggs.
+  - [ ] Ensure the mobile Easter egg system does not interfere with normal website navigation.
+  - [ ] **Acceptance criteria:** Mobile users can activate, watch, and close every supported Easter egg without a keyboard. All animations work correctly on mobile, and desktop Easter egg behavior remains unchanged.
 
 **Post-release hotfixes:** None yet. Reserve `1.4.1`, `1.4.2`, etc. for fixes after 1.4.0 is released.
 
