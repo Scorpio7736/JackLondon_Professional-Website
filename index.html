@@ -48,7 +48,7 @@
     <link rel="stylesheet" href="Styles/skills.css?v=activity-style-skills-header-1">
     <link rel="stylesheet" href="Styles/experience.css?v=experience-icon-overlay-fix-2">
     <link rel="stylesheet" href="Styles/glossary.css?v=4">
-    <link rel="stylesheet" href="Styles/projects.css?v=project-category-svg-banners-1">
+    <link rel="stylesheet" href="Styles/projects.css?v=project-category-icon-matched-2">
     <link rel="stylesheet" href="Styles/education.css?v=overlapping-education-headers-1">
     <link rel="stylesheet" href="Styles/activities.css">
     <link rel="stylesheet" href="Styles/responsive.css">
@@ -1209,8 +1209,15 @@
 
                             <div class="project-category-banner project-category-banner-desktop" role="presentation" aria-hidden="true">
                                 <svg viewBox="0 0 760 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                                    <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
-                                        <rect x="252" y="14" width="333" height="95" rx="7"/><path d="M252 36h333 M267 25h4 M281 25h4 M294 25h4"/><path d="m285 56 14 10-14 10 M309 77h29 M362 55h116 M362 73h149 M362 91h77"/><rect x="610" y="22" width="95" height="72" rx="5"/><path d="M610 43h95 M624 59h64 M624 74h45"/>
+                                    <!-- Desktop_ICON: dark teal monitor, two overlapping light-cyan windows, and a stand. -->
+                                    <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="348" y="13" width="266" height="82" rx="9" fill="currentColor" fill-opacity=".045"/>
+                                        <rect x="363" y="28" width="113" height="50" rx="3" fill="currentColor" fill-opacity=".12"/>
+                                        <rect x="477" y="20" width="86" height="44" rx="3" fill="currentColor" fill-opacity=".08"/>
+                                        <path d="M348 84h266 M466 95l-7 17h49l-7-17 M448 112h70" stroke-width="2.3"/>
+                                        <path d="M589 90h7" stroke-width="3.2"/>
+                                        <path d="M253 35h61 M263 52h45 M270 70h59 M635 37h68 M647 55h50 M635 74h74" opacity=".58"/>
+                                        <rect x="279" y="89" width="37" height="19" rx="2" opacity=".55"/>
                                     </g>
                                 </svg>
                             </div>
@@ -1261,8 +1268,29 @@
 
                             <div class="project-category-banner project-category-banner-mobile" role="presentation" aria-hidden="true">
                                 <svg viewBox="0 0 760 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                                    <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
-                                        <rect x="330" y="5" width="98" height="110" rx="14"/><path d="M356 17h44 M368 102h23"/><rect x="345" y="31" width="68" height="35" rx="5"/><path d="M347 78h62 M347 90h47"/><rect x="472" y="16" width="82" height="93" rx="12"/><path d="M495 27h37 M498 99h30"/><rect x="485" y="38" width="56" height="24" rx="4"/><path d="M485 74h55 M485 84h40 M275 40h33 M275 55h25 M575 41h59 M575 57h40 M575 73h66"/>
+                                    <!-- MobileDevelopment_ICON: split Android green / Apple gray roundel. -->
+                                    <defs>
+                                        <clipPath id="projects-mobile-icon-circle"><circle cx="537" cy="60" r="49"/></clipPath>
+                                    </defs>
+                                    <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                                        <path d="M299 29h57 M311 46h43 M299 63h69 M678 32h49 M667 51h57 M679 70h41" opacity=".5"/>
+                                        <circle cx="537" cy="60" r="49" opacity=".35"/>
+                                    </g>
+                                    <g clip-path="url(#projects-mobile-icon-circle)">
+                                        <rect x="488" y="11" width="49" height="98" fill="#94c91d" fill-opacity=".38"/>
+                                        <rect x="537" y="11" width="49" height="98" fill="#a9acb2" fill-opacity=".34"/>
+                                        <path d="M537 11v98" stroke="#d0d4d7" stroke-width="1.3" opacity=".7"/>
+                                        <g fill="none" stroke="#edf9de" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity=".86">
+                                            <path d="M495 54c0-11 8-19 18-19s18 8 18 19Z"/>
+                                            <path d="m499 36-5-7 M527 36l5-7"/>
+                                            <rect x="494" y="57" width="38" height="29" rx="5"/>
+                                            <path d="M490 61v20 M536 61v20 M504 86v11 M523 86v11"/>
+                                        </g>
+                                        <g fill="#edf9de" opacity=".9"><circle cx="503" cy="46" r="1.5"/><circle cx="523" cy="46" r="1.5"/></g>
+                                        <g fill="#f0f2f3" opacity=".87">
+                                            <path d="M561 46c-6-3-10-1-14 1-6 2-10-1-15-1-9 0-13 10-10 20 3 14 11 24 18 24 3 0 6-3 11-3 4 0 7 3 11 3 8 0 16-12 18-23-8-3-11-13-5-18-4-3-9-4-14-3Z"/>
+                                            <path d="M552 42c0-8 7-15 16-15-1 8-7 14-16 15Z"/>
+                                        </g>
                                     </g>
                                 </svg>
                             </div>
@@ -1313,8 +1341,22 @@
 
                             <div class="project-category-banner project-category-banner-web" role="presentation" aria-hidden="true">
                                 <svg viewBox="0 0 760 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                                    <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
-                                        <rect x="265" y="12" width="344" height="97" rx="7"/><path d="M265 35h344 M279 24h4 M291 24h4 M303 24h4"/><path d="M284 54h111 M284 72h81 M284 90h118"/><path d="m469 52-20 17 20 17 M533 52l20 17-20 17 M514 45l-26 49" stroke-width="2"/><path d="M635 25h60 M635 44h46 M635 63h74 M635 82h42"/>
+                                    <!-- WebDevelopment_ICON: globe meridians and a WWW nameplate. -->
+                                    <defs>
+                                        <linearGradient id="projects-web-globe" x1="0" y1="0" x2="1" y2="1">
+                                            <stop offset="0" stop-color="#00dce9"/>
+                                            <stop offset="1" stop-color="#1783f4"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <g class="banner-drawing" fill="none" stroke="url(#projects-web-globe)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                                        <circle cx="525" cy="60" r="52"/>
+                                        <ellipse cx="525" cy="60" rx="25" ry="52"/>
+                                        <path d="M473 60h104 M481 31c27 15 61 15 88 0 M481 89c27-15 61-15 88 0"/>
+                                        <rect x="447" y="46" width="156" height="30" rx="6" fill="#1c2734" stroke-width="2.5"/>
+                                        <path d="M466 53l6 16 7-14 7 14 6-16 M506 53l6 16 7-14 7 14 6-16 M546 53l6 16 7-14 7 14 6-16" stroke-width="2.8"/>
+                                        <path d="M272 29h78 M284 45h49 M276 88h65 M634 34h72 M645 52h48 M634 91h69" opacity=".6"/>
+                                        <circle cx="368" cy="28" r="3" fill="#00dce9" stroke="none"/>
+                                        <circle cx="687" cy="76" r="3" fill="#1783f4" stroke="none"/>
                                     </g>
                                 </svg>
                             </div>
@@ -1417,8 +1459,31 @@
 
                             <div class="project-category-banner project-category-banner-experiments" role="presentation" aria-hidden="true">
                                 <svg viewBox="0 0 760 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                                    <g class="banner-drawing" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
-                                        <rect x="282" y="39" width="103" height="40" rx="5"/><path d="M385 59h57"/><path d="M464 33 495 59 464 85 433 59Z"/><path d="M495 59h42V31h32 M537 59v32h32" stroke-dasharray="5 5"/><rect x="569" y="14" width="113" height="35" rx="5"/><rect x="569" y="73" width="113" height="35" rx="5"/><path d="m306 54-8 6 8 6 M336 53l8 7-8 7 M328 51l-9 20 M591 31h66 M591 91h66 M224 39h31 M240 22v34 M704 52h20 M714 42v20"/>
+                                    <!-- Experiments_ICON: bubbling lab flask plus a blue coding gear with </> strokes. -->
+                                    <g class="banner-drawing" fill="none" stroke="#268fd4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M287 34h45 M297 51h30 M662 36h52 M673 53h29 M661 91h46" opacity=".5"/>
+                                        <g transform="translate(574 67)">
+                                            <rect x="-7" y="-50" width="14" height="19" rx="2" fill="#268fd4" fill-opacity=".2"/>
+                                            <rect x="-7" y="-50" width="14" height="19" rx="2" fill="#268fd4" fill-opacity=".2" transform="rotate(45)"/>
+                                            <rect x="-7" y="-50" width="14" height="19" rx="2" fill="#268fd4" fill-opacity=".2" transform="rotate(90)"/>
+                                            <rect x="-7" y="-50" width="14" height="19" rx="2" fill="#268fd4" fill-opacity=".2" transform="rotate(135)"/>
+                                            <rect x="-7" y="-50" width="14" height="19" rx="2" fill="#268fd4" fill-opacity=".2" transform="rotate(180)"/>
+                                            <rect x="-7" y="-50" width="14" height="19" rx="2" fill="#268fd4" fill-opacity=".2" transform="rotate(225)"/>
+                                            <rect x="-7" y="-50" width="14" height="19" rx="2" fill="#268fd4" fill-opacity=".2" transform="rotate(270)"/>
+                                            <rect x="-7" y="-50" width="14" height="19" rx="2" fill="#268fd4" fill-opacity=".2" transform="rotate(315)"/>
+                                            <circle r="40" stroke-width="3.1"/>
+                                            <circle r="25" fill="#162733" fill-opacity=".3"/>
+                                            <path d="m-14-10-11 10 11 10 M14-10 25 0 14 10 M7-16-5 16" stroke="#b4d3e2" stroke-width="4"/>
+                                        </g>
+                                        <g stroke="#a5b5c6" stroke-width="3.2">
+                                            <path d="M392 21h57 M401 21v42l-28 37q-5 8 7 8h82q12 0 7-8l-28-37V21"/>
+                                        </g>
+                                        <path d="M397 87h49l11 17h-72Z" fill="#268fd4" fill-opacity=".35" stroke="#268fd4" stroke-width="1.3"/>
+                                        <circle cx="413" cy="93" r="3.5" fill="#afdcec" stroke="none"/>
+                                        <circle cx="435" cy="99" r="5" fill="#afdcec" stroke="none"/>
+                                        <circle cx="425" cy="15" r="3" fill="#268fd4" stroke="none"/>
+                                        <circle cx="438" cy="6" r="5" fill="#268fd4" stroke="none"/>
+                                        <circle cx="418" cy="4" r="2" fill="#268fd4" stroke="none"/>
                                     </g>
                                 </svg>
                             </div>
