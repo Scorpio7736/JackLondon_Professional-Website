@@ -12,12 +12,6 @@ const portfolioGlossary = Object.freeze({
         image: "Images/Icons/PapercutAvengers_ICON.png",
         imageAlt: "Papercut Avengers team emblem"
     },
-    "Sun Life DentaQuest": {
-        title: "Sun Life",
-        definition: "Sun Life is a financial services company. My IT Service & Delivery internship was with its DentaQuest dental benefits business.",
-        image: "Images/Icons/SunLife_ICON.png",
-        imageAlt: "Sun Life logo"
-    },
     "Utilization Management": {
         title: "Utilization Management (UM)",
         definition: "A healthcare process for reviewing whether services meet clinical and coverage requirements, including medical necessity and prior authorization."
