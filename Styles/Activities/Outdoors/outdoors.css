@@ -40,9 +40,8 @@
 }
 
 /* =========================================
-   CODED OUTDOORS BANNER
-   Quiet mountain-and-water texture, matching the 404 vector approach.
-   No photography, stretching, or crop workarounds.
+   OUTDOORS IMAGE BANNER
+   Display the supplied banner without stretching its aspect ratio.
    ========================================= */
 
 .outdoors-banner {
@@ -57,13 +56,14 @@
         linear-gradient(120deg, #25242c 4%, #1f2328 56%, #23252c 100%);
 }
 
-.outdoors-banner-art {
+.outdoors-banner-image {
     position: absolute;
     inset: 0;
     display: block;
     width: 100%;
     height: 100%;
-    opacity: .82;
+    object-fit: cover;
+    object-position: center;
     pointer-events: none;
 }
 
