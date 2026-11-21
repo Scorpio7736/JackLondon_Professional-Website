@@ -47,5 +47,9 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 - [ ] **1.3.11** - Combine all existing error pages into one dynamic error page that changes its content and presentation based on the error code.
 - [ ] **1.3.12** - Add space for images on the tooltips for certian items. Key items are FHIR, PapercutAvengers, Top-Rope Belay, and MCP.
 
+
+## 1.4 - [Rollin]
+- [ ] **1.4.0** - Added RickRoll EasterEgg with the key of "JackRoll"
+
 ---
 *Historical entries are reconstructed from representative commits, not a complete commit-by-commit audit. The 1.1 and 1.2 names and the 1.3 name were read from historical `index.html` version headers. Where commits did not assign a patch version to a particular change, checklist numbers are organizational rather than original release tags.*
