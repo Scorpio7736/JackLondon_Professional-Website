@@ -127,7 +127,7 @@
 
         // Only explicit visits to the error template can select other codes.
         // A genuinely missing URL always shows the actual 404 messaging.
-        const isTemplateUrl = /(?:^|\\/)404\\.html$/i.test(location.pathname);
+        const isTemplateUrl = location.pathname.toLowerCase().endsWith("/404.html");
         const requestedCode = isTemplateUrl
             ? new URLSearchParams(location.search).get("code")
             : null;
