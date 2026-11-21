@@ -84,6 +84,16 @@ Completed development identified before the November 17, 2026 transition to 1.3:
   - [ ] Review JavaScript/CSS and media loading for unnecessary requests, blocking work, cache behavior, and opportunities to defer noncritical resources.
   - [ ] Re-run Lighthouse and browser smoke tests at desktop and mobile widths; compare against baseline and resolve major regressions.
   - [ ] **Acceptance criteria:** Measurable loading improvements without broken media, layout shifts, altered visual design, or degraded Easter egg timing; document before/after results.
+- [ ] Fix and polish the `ILLBEBACK` Easter egg sprites and running animation.
+  - [ ] Review all sprite frames for consistent 8-bit character design, scale, transparency, alignment, and ground contact.
+  - [ ] Correct running-cycle motion so arms and legs alternate naturally without floating, sliding, jitter, or morphing between frames.
+  - [ ] Verify sprite preloading, first-trigger behavior, animation transitions, and cleanup on close or interruption.
+  - [ ] **Acceptance criteria:** Smooth, consistent running animation on first and subsequent activations at desktop and mobile sizes; no visual regressions or broken audio synchronization.
+- [ ] Fix and polish the `ONWISCONSIN` Easter egg sprites and marching-band animation.
+  - [ ] Review band-member, conductor, vehicle, and character sprites for consistent 8-bit styling, scale, alignment, and transparent edges.
+  - [ ] Refine marching and instrument movement for coherent frame-to-frame motion, stable positioning, and no flicker or unwanted floating.
+  - [ ] Verify first-load sprite availability, timing against the soundtrack, scene transitions, and cleanup when closing.
+  - [ ] **Acceptance criteria:** Smooth, synchronized band animation with stable sprites and no visual regressions on desktop or mobile.
 
 **Post-release hotfixes:** None yet. Reserve `1.4.1`, `1.4.2`, etc. for fixes after 1.4.0 is released.
 
