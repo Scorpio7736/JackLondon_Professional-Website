@@ -53,6 +53,13 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 
 ## 1.4 - [Rollin]
 - [ ] **1.4.0** - Added RickRoll EasterEgg with the key of "JackRoll"
+- [ ] **1.4.1** - Improve accessible mobile navigation without changing the existing desktop-inspired visual design.
+  - [ ] Add explicit accessible names to the six sidebar page buttons (Home, Skills, Experience, Projects, Education, Activities), so their purpose is announced even when CSS hides text labels below 700px.
+  - [ ] Give icon-only bottom navigation links (GitHub and LinkedIn) meaningful accessible names on narrow screens; keep links and destinations unchanged.
+  - [ ] Expose the currently selected page with an appropriate programmatic state (such as `aria-current="page"`) and update it whenever the active page changes.
+  - [ ] Check that keyboard tab order, visible focus indicators, Enter/Space activation, and screen-reader names remain usable in collapsed and expanded sidebar layouts.
+  - [ ] Review mobile touch-target spacing and overflow at approximately 320px, 375px, 700px, and tablet widths; preserve responsive layout and existing hover interactions.
+  - [ ] **Acceptance criteria:** All icon-only navigation actions have meaningful accessible names; the active page is announced correctly; mouse, touch, and keyboard navigation still work; no visual regression on desktop or mobile. Test with browser accessibility inspection and at least one screen reader (e.g., NVDA).
 
 ---
 *Historical entries are reconstructed from representative commits, not a complete commit-by-commit audit. The 1.1 and 1.2 names and the 1.3 name were read from historical `index.html` version headers. Where commits did not assign a patch version to a particular change, checklist numbers are organizational rather than original release tags.*
