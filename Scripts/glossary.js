@@ -26,7 +26,9 @@ const portfolioGlossary = Object.freeze({
     },
     "MCP": {
         title: "MCP — Master Control Program",
-        definition: "Grid.AI's coordinating agent. MCP organizes requests, delegates tasks to specialized agents, and routes proposed actions through review and approval."
+        definition: "Grid.AI's coordinating agent. MCP organizes requests, delegates tasks to specialized agents, and routes proposed actions through review and approval.",
+        image: "Images/Icons/GridAI_ICON.png",
+        imageAlt: "Grid AI icon"
     },
     "Multi-Agent Orchestration": {
         title: "Multi-Agent Orchestration",
