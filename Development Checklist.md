@@ -43,7 +43,7 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 - [x] **1.3.7** - Add more AI-related skills to the homepage.
 - [x] **1.3.8** - Add a note explaining that I use AI as an accelerator and thought partner.
 - [ ] **1.3.9** - Improve search discoverability by incorporating relevant keywords naturally into page content, headings, titles, and metadata so Google can better understand and surface the website.
-- [ ] **1.3.10** - Fix the Blacksmithing banner image.
+- [x] **1.3.10** - Fix the Blacksmithing banner image.
 - [ ] **1.3.11** - Combine all existing error pages into one dynamic error page that changes its content and presentation based on the error code.
 - [ ] **1.3.12** - Add space for images on the tooltips for certian items. Key items are FHIR, PapercutAvengers, Top-Rope Belay, and MCP.
 
