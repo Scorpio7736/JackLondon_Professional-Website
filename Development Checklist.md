@@ -46,7 +46,7 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 - [x] **1.3.10** - Fix the Blacksmithing banner image.
 - [x] **1.3.11** - Combine the 403, 404, 500, 503, and 504 pages into one dynamic `404.html` template with error-specific messages and GIFs; remove obsolete error pages and `UnderConstruction.html`. ([e738904](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/e738904842d0a70f5ce81f499de78cff85726db2))
 - [ ] **1.3.12** - Add optional images to selected glossary tooltips.
-  - [x] Add logo-backed tooltips for **FHIR**, **Papercut Avengers**, and **Sun Life DentaQuest** using existing repository icons. ([61d2dcb](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/61d2dcb40a1b7db21a40b9e870de4e5a9b35d870))
+  - [x] Add logo-backed tooltips for **FHIR** and **Papercut Avengers** using existing repository icons. ([61d2dcb](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/61d2dcb40a1b7db21a40b9e870de4e5a9b35d870))
   - [ ] Add appropriate images for **Top-Rope Belay** and **MCP** tooltips.
 
 
