@@ -1121,7 +1121,8 @@
     // The updated Gunbarrel.mp3 is already trimmed by 12 seconds.
     // All cues below use its new 0-based media timeline.
     const BOND_BARREL_PATH = "Images/EasterEggs/Bond_Barrel.png";
-    const BOND_AUDIO_PATH = "Audio/Gunbarrel.mp3";
+    // Versioned URL forces browsers to fetch the newly trimmed MP3, not a cached old cut.
+    const BOND_AUDIO_PATH = "Audio/Gunbarrel.mp3?v=c44c8ef0";
     const BOND_AUDIO_START = 0;
     const BOND_SCAN_START = BOND_AUDIO_START;
     const BOND_RED_WASH_DURATION = 3000; // slower downward blood drips, milliseconds
