@@ -669,18 +669,8 @@ function buildExperience(
     );
 
 
-    // The Sun Life company heading opens its logo-backed glossary entry.
-    // All other employer headings retain their existing plain text display.
-    if (experience.company === "Sun Life DentaQuest") {
-        appendGlossaryText(
-            companyName,
-            experience.company,
-            ["Sun Life DentaQuest"]
-        );
-    } else {
-        companyName.textContent =
-            experience.company;
-    }
+    companyName.textContent =
+        experience.company;
 
 
     const positionTitle =
