@@ -68,9 +68,23 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 
 ## 1.4.0 - [Rollin]
 
-**Planned initial release scope — 1.4.0** (all tasks below are part of the same release):
+**Initial release scope — 1.4.0** (all tasks below are part of the same release):
 - [x] Reorganize all 56 Easter egg image assets into dedicated folders under `Images/EasterEggs/` for `ONWISCONSIN`, `ILLBEBACK`, and `MI6-007`, with individual sprite groups plus backgrounds/photos as appropriate. Preserve filenames and image contents; update the asset references in `Scripts/easter-eggs.js` and `Styles/easter-eggs.css`. Confirm all 56 files are present in the new hierarchy with none left in the original flat directory. Browser animation testing remains outstanding. ([6fa2251](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/6fa225107deb7ff3f497fc6a175ad35b59a86a60))
-- [ ] Added RickRoll EasterEgg with the key of "JackRoll"
+- [x] Add the featured **Even G2 Glasses Agent Workflow** project to the Hardware section, including its description, technologies, learning outcomes, Even Realities icon, and three promotional images.
+- [x] Update the homepage introduction to emphasize efficient AI workflows and intelligent delegation.
+
+**Pre-release verification (no additional features required):**
+
+- [ ] Align the version header in `index.html` with the initial `1.4.0` release and refresh cache identifiers for modified scripts and styles.
+- [ ] Smoke-test the existing Easter eggs after the asset reorganization, verify the new G2 project card and gallery, and check the browser console for errors before merging into `main`.
+
+**Post-release hotfixes:** None yet. Reserve `1.4.1`, `1.4.2`, etc. for fixes after 1.4.0 is released.
+
+## 1.5.0 - [INSERT NAME]
+
+**Deferred feature backlog — not required for the 1.4.0 release.** This is a provisional grouping for a future feature release; individual priorities can be revised.
+
+- [ ] Add the RickRoll Easter egg with the activation key `JackRoll`.
 - [ ] Improve accessible mobile navigation without changing the existing desktop-inspired visual design.
   - [ ] Add explicit accessible names to the six sidebar page buttons (Home, Skills, Experience, Projects, Education, Activities), so their purpose is announced even when CSS hides text labels below 700px.
   - [ ] Give icon-only bottom navigation links (GitHub and LinkedIn) meaningful accessible names on narrow screens; keep links and destinations unchanged.
@@ -118,7 +132,7 @@ Completed development identified before the November 17, 2026 transition to 1.3:
   - [ ] Ensure the mobile Easter egg system does not interfere with normal website navigation.
   - [ ] **Acceptance criteria:** Mobile users can activate, watch, and close every supported Easter egg without a keyboard. All animations work correctly on mobile, and desktop Easter egg behavior remains unchanged.
 
-**Post-release hotfixes:** None yet. Reserve `1.4.1`, `1.4.2`, etc. for fixes after 1.4.0 is released.
+**Post-release hotfixes:** None yet. Reserve `1.5.1`, `1.5.2`, etc. for fixes after 1.5.0 is released.
 
 ---
 *Historical entries are reconstructed from representative commits, not a complete commit-by-commit audit. The 1.1 and 1.2 names and the 1.3 name were read from historical `index.html` version headers. The historical 1.1 and 1.2 entries retain their prior numbering. Beginning with 1.3.0, feature checklist entries are grouped under the initial release; patch numbers are reserved for subsequent hotfixes.*
