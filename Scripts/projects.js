@@ -395,9 +395,9 @@ const projects = [
             "A custom AI-powered development workflow that integrates Even Realities G2 smart glasses with my desktop development environment. The system enables remote interaction with AI coding agents, real-time task management, and approval requests directly through the glasses. It leverages intelligent task delegation, cloud and local AI models, and persistent context handoffs to maintain development continuity while maximizing efficiency and minimizing AI usage costs.",
 
         technologies: [
-            "Powershell",
+            "PowerShell",
             "Hardware Integrations",
-            "Typescript"
+            "TypeScript"
         ],
 
         learned: [
