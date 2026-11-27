@@ -374,6 +374,55 @@ const projects = [
             null
     },
 
+    /* =====================================
+       Even G2 Glasses Agent Workflow
+       ===================================== */
+
+    {
+        title:
+            "Even G2 Glasses Agent Workflow",
+
+        section:
+            "hardware",
+
+        icon:
+            "Images/Icons/EvenRealities_ICON.png",
+
+        featured:
+            true,
+
+        description:
+            "A custom AI-powered development workflow that integrates Even Realities G2 smart glasses with my desktop development environment. The system enables remote interaction with AI coding agents, real-time task management, and approval requests directly through the glasses. It leverages intelligent task delegation, cloud and local AI models, and persistent context handoffs to maintain development continuity while maximizing efficiency and minimizing AI usage costs.",
+
+        technologies: [
+            "Powershell",
+            "Hardware Integrations",
+            "Typescript"
+        ],
+
+        learned: [
+            "Integrating wearable hardware with AI-powered software development workflows.",
+            "Building automated multi-agent orchestration and intelligent task delegation systems.",
+            "Managing cloud and local AI models to optimize performance, efficiency, and resource consumption.",
+            "Preserving conversational context and task state across AI providers.",
+            "Implementing remote communication and real-time approval systems.",
+            "Designing resilient workflows with fallback mechanisms and persistent connections.",
+            "Developing PowerShell automation and TypeScript integrations for connected devices."
+        ],
+
+        images: [
+            "Images/ProjectScreenshots/G2/G2_PROMO_1.png",
+            "Images/ProjectScreenshots/G2/G2_PROMO_2.png",
+            "Images/ProjectScreenshots/G2/G2_PROMO_3.png"
+        ],
+
+        repoLink:
+            null,
+
+        demoLink:
+            null
+    },
+
 
     /* =====================================
        PROGRAMMING LANGUAGE
