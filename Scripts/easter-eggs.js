@@ -1154,45 +1154,50 @@
     let bondFrameBounds = null;
     let bondRequestId = 0;
 
-    // Transparent padding differs between the original and added sprites.
-    // Measure the opaque character, not the PNG canvas, once at preload.
+    // Precomputed from all 21 checked-in 220 × 355 PNGs using alpha >= 190,
+    // matching the previous opaque-pixel measurement (ignoring floor shadows).
+    // Recalculate these bounds if the source sprite artwork changes.
+    // Avoid reading canvas pixels at runtime: file:// and other restricted
+    // origins can taint a canvas even when the images render correctly.
+    const BOND_SPRITE_BOUNDS = [
+        [10, 24, 200, 314], // Frame 01
+        [52, 25, 116, 313], // Frame 02
+        [60, 25, 98, 313], // Frame 03
+        [57, 25, 106, 313], // Frame 04
+        [57, 25, 105, 312], // Frame 05
+        [55, 25, 110, 312], // Frame 06
+        [59, 25, 95, 313], // Frame 07
+        [53, 22, 113, 315], // Frame 08
+        [48, 22, 124, 316], // Frame 09
+        [43, 22, 134, 316], // Frame 10
+        [42, 22, 136, 316], // Frame 11
+        [44, 23, 131, 315], // Frame 12
+        [40, 23, 139, 314], // Frame 13
+        [41, 23, 138, 314], // Frame 14
+        [10, 24, 200, 314], // Frame 15
+        [60, 25, 98, 313], // Frame 16
+        [59, 25, 95, 313], // Frame 17
+        [36, 25, 149, 314], // Frame 18
+        [32, 25, 155, 313], // Frame 19
+        [15, 25, 190, 313], // Frame 20
+        [52, 25, 116, 313] // Frame 21
+    ];
+
+    let bondBoundsWarningIssued = false;
     function measureBondSprite(image) {
-        const canvas = document.createElement("canvas");
-        canvas.width = image.naturalWidth;
-        canvas.height = image.naturalHeight;
-        const context = canvas.getContext("2d", { willReadFrequently: true });
-        if (!context) return { x: 0, y: 0,
-            width: image.naturalWidth, height: image.naturalHeight };
-        try {
-            context.drawImage(image, 0, 0);
-        } catch (error) {
-            console.warn("MI6 sprite could not be measured:", error);
-            return { x: 0, y: 0, width: canvas.width, height: canvas.height };
+        // Identify the actual loaded image rather than its array position:
+        // a failed optional walk frame may reuse an original frame.
+        const match = image.src.match(/Bond_Frame_(\d{2})\.png(?:[?#]|$)/);
+        const known = match && BOND_SPRITE_BOUNDS[Number(match[1]) - 1];
+        if (known && image.naturalWidth === 220 && image.naturalHeight === 355) {
+            const [x, y, width, height] = known;
+            return { x, y, width, height };
         }
-        let pixels;
-        try {
-            pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
-        } catch (error) {
-            // Canvas pixel reads can be blocked by hosting/security settings.
-            // Never let this disable the MI6 trigger.
-            console.warn("MI6 sprite pixel access unavailable:", error);
-            return { x: 0, y: 0, width: canvas.width, height: canvas.height };
+        if (!bondBoundsWarningIssued) {
+            bondBoundsWarningIssued = true;
+            console.warn("MI6 sprite dimensions or filename changed; update the precomputed bounds.");
         }
-        let left = canvas.width, top = canvas.height, right = -1, bottom = -1;
-        for (let y = 0; y < canvas.height; y++) {
-            for (let x = 0; x < canvas.width; x++) {
-                // Ignore the translucent floor shadow while measuring height.
-                if (pixels[(y * canvas.width + x) * 4 + 3] < 190) continue;
-                left = Math.min(left, x);
-                right = Math.max(right, x);
-                top = Math.min(top, y);
-                bottom = Math.max(bottom, y);
-            }
-        }
-        return right < left
-            ? { x: 0, y: 0, width: canvas.width, height: canvas.height }
-            : { x: left, y: top, width: right - left + 1,
-                height: bottom - top + 1 };
+        return { x: 0, y: 0, width: image.naturalWidth, height: image.naturalHeight };
     }
 
     function loadBondFrames() {
