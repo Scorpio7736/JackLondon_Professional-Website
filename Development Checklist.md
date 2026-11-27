@@ -75,8 +75,10 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 
 **Pre-release verification (no additional features required):**
 
-- [ ] Align the version header in `index.html` with the initial `1.4.0` release and refresh cache identifiers for modified scripts and styles.
-- [ ] Smoke-test the existing Easter eggs after the asset reorganization, verify the new G2 project card and gallery, and check the browser console for errors before merging into `main`.
+- [x] Align the version header in `index.html` with the initial `1.4.0` release and refresh cache identifiers for modified scripts and styles.
+- [x] Complete the pre-release smoke test (passed per maintainer confirmation).
+
+- [x] Correct homepage punctuation and PowerShell/TypeScript capitalization in the G2 project.
 
 **Post-release hotfixes:** None yet. Reserve `1.4.1`, `1.4.2`, etc. for fixes after 1.4.0 is released.
 
