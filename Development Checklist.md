@@ -79,6 +79,8 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 - [x] Complete the pre-release smoke test (passed per maintainer confirmation).
 
 - [x] Correct homepage punctuation and PowerShell/TypeScript capitalization in the G2 project.
+- [x] Fix MI6 canvas security warnings by precomputing opaque-pixel bounds for all 21 sprite files, preserving original alignment and optional-frame fallback behavior.
+- [ ] Re-test MI6 after the canvas fix on the local HTTP preview (and direct-file preview if used); confirm no repeated canvas security warnings and unchanged animation alignment.
 
 **Post-release hotfixes:** None yet. Reserve `1.4.1`, `1.4.2`, etc. for fixes after 1.4.0 is released.
 
