@@ -1017,44 +1017,17 @@ function createProjectCard(
     );
 
 
-    const preview = document.createElement("div");
-    preview.className = "project-preview-tags project-stack-tags";
-    project.technologies.slice(0, 4).forEach(technology => {
-        const tag = document.createElement("span");
-        appendGlossaryText(tag, technology, project.stackGlossaryTerms ?? project.glossaryTerms ?? []);
-        preview.appendChild(tag);
-    });
-    header.appendChild(preview);
     card.appendChild(header);
+    card.appendChild(createProjectTechnologyCell(
+        project.technologies,
+        project.stackGlossaryTerms ?? project.glossaryTerms ?? []
+    ));
 
     if (project.repoLink || project.demoLink) {
         card.appendChild(createProjectLinks(project));
     }
 
-    const details = document.createElement("details");
-    details.className = "project-details";
-    const summary = document.createElement("summary");
-    summary.textContent = "View technical details";
-    details.appendChild(summary);
-    let initialized = false;
-    details.addEventListener("toggle", () => {
-        summary.textContent = details.open ? "Hide technical details" : "View technical details";
-        if (!details.open || initialized) return;
-        initialized = true;
-        const fullDescription = document.createElement("p");
-        fullDescription.className = "project-full-description";
-        appendGlossaryText(fullDescription, project.description, project.descriptionGlossaryTerms ?? project.glossaryTerms ?? []);
-        details.appendChild(fullDescription);
-        const innerGrid = document.createElement("div");
-        innerGrid.className = "project-inner-grid";
-        innerGrid.appendChild(createProjectTechnologyCell(project.technologies, project.stackGlossaryTerms ?? project.glossaryTerms ?? []));
-        innerGrid.appendChild(createProjectLearnedCell(project.learned, project.glossaryTerms || [], project.title));
-        if (project.images?.length) {
-            innerGrid.appendChild(createProjectGallery(project.images, project.title));
-        }
-        details.appendChild(innerGrid);
-    });
-    card.appendChild(details);
+    card.appendChild(createProjectDisclosure(project));
 
     return card;
 
@@ -1065,96 +1038,108 @@ function createProjectCard(
    TECHNOLOGY CELL
    ========================================= */
 
-function createProjectTechnologyCell(
-    technologies,
-    terms = []
-) {
-
-    const cell =
-        document.createElement(
-            "div"
-        );
-
-
-    cell.classList.add(
-        "project-inner-cell",
-        "project-stack-cell"
-    );
-
-
-    const label =
-        document.createElement(
-            "span"
-        );
-
-
-    label.classList.add(
-        "project-cell-label"
-    );
-
-
-    label.textContent =
-        "Languages / Frameworks";
-
-
-    const title =
-        document.createElement(
-            "h3"
-        );
-
-
-    title.textContent =
-        "Stack";
-
-
-    const tags =
-        document.createElement(
-            "div"
-        );
-
-
-    tags.classList.add(
-        "project-stack-tags"
-    );
-
-
-    technologies.forEach(
-        technology => {
-
-            const tag =
-                document.createElement(
-                    "span"
-                );
-
-
-            appendGlossaryText(tag, technology, terms);
-
-
-            tags.appendChild(
-                tag
-            );
-
-        }
-    );
-
-
-    cell.appendChild(
-        label
-    );
-
-
-    cell.appendChild(
-        title
-    );
-
-
-    cell.appendChild(
-        tags
-    );
-
-
+function createProjectTechnologyCell(technologies, terms = []) {
+    const cell = document.createElement("div");
+    cell.className = "project-visible-stack";
+    const title = document.createElement("h3");
+    title.textContent = "Stack";
+    const tags = document.createElement("div");
+    tags.className = "project-visible-stack-values";
+    technologies.forEach(technology => {
+        const tag = document.createElement("span");
+        tag.className = "project-visible-stack-item";
+        appendGlossaryText(tag, technology, terms);
+        tags.appendChild(tag);
+    });
+    cell.append(title, tags);
     return cell;
+}
 
+function createProjectDisclosure(project) {
+    const details = document.createElement("details");
+    details.className = "project-details";
+    const summary = document.createElement("summary");
+    const label = document.createElement("span");
+    label.textContent = "Learn More";
+    summary.appendChild(label);
+    const body = document.createElement("div");
+    body.className = "project-details-body";
+    details.append(summary, body);
+
+    let initialized = false;
+    let animation = null;
+    let expanded = false;
+
+    function initialize() {
+        if (initialized) return;
+        initialized = true;
+        const fullDescription = document.createElement("p");
+        fullDescription.className = "project-full-description";
+        appendGlossaryText(fullDescription, project.description, project.descriptionGlossaryTerms ?? project.glossaryTerms ?? []);
+        body.appendChild(fullDescription);
+        const innerGrid = document.createElement("div");
+        innerGrid.className = "project-inner-grid";
+        innerGrid.appendChild(createProjectLearnedCell(project.learned, project.glossaryTerms || [], project.title));
+        if (project.images?.length) {
+            innerGrid.appendChild(createProjectGallery(project.images, project.title));
+        }
+        body.appendChild(innerGrid);
+    }
+
+    function updateLabel(open) {
+        label.textContent = open ? "Show Less" : "Learn More";
+        details.classList.toggle("is-expanded", open);
+    }
+
+    function setExpanded(open) {
+        const startHeight = details.open ? body.getBoundingClientRect().height : 0;
+        const startOpacity = details.open ? Number(getComputedStyle(body).opacity) : 0;
+        if (animation) {
+            animation.cancel();
+            animation = null;
+        }
+        expanded = open;
+        updateLabel(open);
+        if (open) {
+            details.open = true;
+            initialize();
+        } else if (body.contains(document.activeElement)) {
+            summary.focus();
+        }
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !body.animate) {
+            details.open = open;
+            body.classList.remove("is-animating");
+            return;
+        }
+        body.classList.add("is-animating");
+        const endHeight = open ? body.scrollHeight : 0;
+        const running = body.animate([
+            { height: startHeight + "px", opacity: startOpacity },
+            { height: endHeight + "px", opacity: open ? 1 : 0 }
+        ], { duration: 280, easing: "cubic-bezier(.2,.75,.25,1)", fill: "both" });
+        animation = running;
+        running.onfinish = () => {
+            if (animation !== running) return;
+            animation = null;
+            details.open = open;
+            running.cancel();
+            body.classList.remove("is-animating");
+        };
+    }
+
+    summary.addEventListener("click", event => {
+        event.preventDefault();
+        setExpanded(!expanded);
+    });
+
+    // Preserve native details behavior for programmatic navigation from Home.
+    details.addEventListener("toggle", () => {
+        if (animation) return;
+        expanded = details.open;
+        updateLabel(expanded);
+        if (expanded) initialize();
+    });
+    return details;
 }
 
 
