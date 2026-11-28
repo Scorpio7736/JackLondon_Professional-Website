@@ -24,11 +24,17 @@ const portfolioGlossary = Object.freeze({
         title: "Agentic Workflows",
         definition: "Processes where AI agents plan, coordinate, and carry out multi-step tasks using tools, with appropriate permissions and human oversight."
     },
-    "MCP": {
-        title: "MCP — Master Control Program",
-        definition: "Grid.AI's coordinating agent. MCP organizes requests, delegates tasks to specialized agents, and routes proposed actions through review and approval.",
+    "Mcp": {
+        title: "Mcp — Master Control Program",
+        definition: "Grid.AI's coordinating agent. Mcp organizes requests, delegates tasks to specialized agents, and routes proposed actions through review and approval.",
         image: "Images/Icons/GridAI_ICON.png",
         imageAlt: "Grid AI icon"
+    },
+    "Model Context Protocol": {
+        title: "MCP — Model Context Protocol",
+        definition: "An open protocol that standardizes how AI applications connect to external tools, resources, and prompts. This Linux server is designed to provide shared context, persistent coordination, and permission-controlled services to AI clients.",
+        image: "Images/Icons/MCPServer_ICON.png",
+        imageAlt: "Linux MCP Server icon"
     },
     "Multi-Agent Orchestration": {
         title: "Multi-Agent Orchestration",
@@ -126,7 +132,17 @@ function appendGlossaryText(container, sourceText, termNames = []) {
     }
 
     // Longest terms first, so related names do not match inside one another.
-    const terms = termNames.filter(term => portfolioGlossary[term]).sort((a, b) => b.length - a.length);
+    // A scoped alias can give the same visible acronym a different definition
+    // without changing the default definition used elsewhere in the portfolio.
+    const definitions = new Map();
+    for (const entry of termNames) {
+        const term = typeof entry === "string" ? entry : entry?.term;
+        const key = typeof entry === "string" ? entry : entry?.key;
+        if (term && Object.prototype.hasOwnProperty.call(portfolioGlossary, key)) {
+            definitions.set(term, portfolioGlossary[key]);
+        }
+    }
+    const terms = [...definitions.keys()].sort((a, b) => b.length - a.length);
     let position = 0;
     while (position < sourceText.length) {
         let bestIndex = sourceText.length;
@@ -162,7 +178,7 @@ function appendGlossaryText(container, sourceText, termNames = []) {
         trigger.setAttribute("aria-expanded", "false");
         trigger.setAttribute("aria-haspopup", "true");
 
-        const definition = portfolioGlossary[match];
+        const definition = definitions.get(match);
         trigger.addEventListener("mouseenter", () => openPortfolioGlossary(trigger, definition));
         trigger.addEventListener("mouseleave", () => {
             if (document.activeElement !== trigger) closePortfolioGlossary();

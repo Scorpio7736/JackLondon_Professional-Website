@@ -36,7 +36,7 @@ const projects = [
         title:
             "Grid.AI",
 
-        glossaryTerms: ["Agentic Workflows","MCP","Multi-Agent Orchestration"],
+        glossaryTerms: ["Agentic Workflows","Mcp","Multi-Agent Orchestration"],
 
         section:
             "desktop",
@@ -48,7 +48,7 @@ const projects = [
             true,
 
         description:
-            "Your AI agents, your workflows, your data. Grid.AI is an actively developed, local-first multi-agent platform that turns conversations into coordinated, reviewable tasks. MCP orchestrates six specialist agents for software development, security, storage, resources, and communications, with persistent context and human-approved actions. Designed to travel on a flash drive, its prepared self-contained Windows package carries the application, local models, and runtime together so compatible computers need no separate Grid.AI or AI-model installation. Run locally, work offline, and keep control of your tools and information.",
+            "Your AI agents, your workflows, your data. Grid.AI is an actively developed, local-first multi-agent platform that turns conversations into coordinated, reviewable tasks. Mcp orchestrates six specialist agents for software development, security, storage, resources, and communications, with persistent context and human-approved actions. Designed to travel on a flash drive, its prepared self-contained Windows package carries the application, local models, and runtime together so compatible computers need no separate Grid.AI or AI-model installation. Run locally, work offline, and keep control of your tools and information.",
 
         technologies: [
             "C#",
@@ -65,7 +65,7 @@ const projects = [
 
         learned: [
             "Designing specialized AI agents with distinct responsibilities, identities, permissions, and persistent conversation context.",
-            "Coordinating agentic workflows through MCP, including specialist delegation, task planning, human review, and saved execution results.",
+            "Coordinating agentic workflows through Mcp, including specialist delegation, task planning, human review, and saved execution results.",
             "Implementing multi-agent conversations and collaboration while maintaining boundaries between private and shared context.",
             "Connecting agents to controlled local tools for repository inspection, approved build and test operations, diagnostics, and reviewed source changes.",
             "Building reliable orchestration with authorization checks, scoped memory, task persistence, and audit records across application restarts.",
@@ -425,6 +425,72 @@ const projects = [
 
 
     /* =====================================
+       LINUX MCP SERVER
+       ===================================== */
+
+    {
+        title:
+            "Linux MCP Server",
+
+        glossaryTerms: ["Multi-Agent Orchestration"],
+
+        descriptionGlossaryTerms: [
+            { term: "MCP", key: "Model Context Protocol" },
+            "Multi-Agent Orchestration"
+        ],
+
+        stackGlossaryTerms: [
+            { term: "Model Context Protocol (MCP)", key: "Model Context Protocol" },
+            "Multi-Agent Orchestration"
+        ],
+
+        section:
+            "hardware",
+
+        icon:
+            "Images/Icons/MCPServer_ICON.png",
+
+        featured:
+            true,
+
+        description:
+            "A self-hosted Model Context Protocol (MCP) server under development for a dedicated Raspberry Pi 5. Designed to provide centralized infrastructure for AI agents through persistent memory, project context, intelligent task delegation, Git automation, communication integrations, and secure user approvals. The server aims to connect cloud and local AI workflows through a provider-independent coordination layer while maintaining privacy, execution control, and development continuity. The technology stack is planned and subject to validation.",
+
+        technologies: [
+            "Linux",
+            "Raspberry Pi 5",
+            "Python",
+            "Model Context Protocol (MCP)",
+            "SQLite",
+            "Docker",
+            "REST APIs",
+            "OAuth",
+            "VoIP",
+            "Multi-Agent Orchestration"
+        ],
+
+        learned: [
+            "Designing centralized, self-hosted infrastructure for distributed AI agents.",
+            "Architecting Model Context Protocol tools, resources, and persistent context systems.",
+            "Designing hierarchical agent coordination and intelligent task delegation.",
+            "Planning persistent memory, state management, and recovery across AI providers.",
+            "Designing controlled Git automation and isolated multi-agent development workflows.",
+            "Planning integrations with Google, Microsoft, WhatsApp, and private voice communication services.",
+            "Designing secure authentication, permission management, and human approval systems.",
+            "Architecting resilient Linux services with an emphasis on privacy, reliability, and resource efficiency."
+        ],
+
+        images: [],
+
+        repoLink:
+            null,
+
+        demoLink:
+            null
+    },
+
+
+    /* =====================================
        PROGRAMMING LANGUAGE
        ===================================== */
 
@@ -746,8 +812,7 @@ function createProjectCard(
         );
 
 
-    title.textContent =
-        project.title;
+    appendGlossaryText(title, project.title, project.glossaryTerms || []);
 
 
     heading.appendChild(
@@ -838,7 +903,7 @@ function createProjectCard(
     );
 
 
-    appendGlossaryText(description, project.description, project.glossaryTerms || []);
+    appendGlossaryText(description, project.description, project.descriptionGlossaryTerms ?? project.glossaryTerms ?? []);
 
 
     header.appendChild(
@@ -873,7 +938,7 @@ function createProjectCard(
     innerGrid.appendChild(
         createProjectTechnologyCell(
             project.technologies,
-            project.glossaryTerms || []
+            project.stackGlossaryTerms ?? project.glossaryTerms ?? []
         )
     );
 
