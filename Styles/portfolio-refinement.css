@@ -1,0 +1,131 @@
+/* Portfolio refinement preview: progressive disclosure and quieter hierarchy. */
+.home-selected-panel .home-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.home-selected-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 235px), 1fr));
+    gap: 12px;
+}
+.home-selected-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    min-width: 0;
+    padding: 18px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+.home-selected-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.home-selected-heading img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+.home-selected-heading h3 {
+    font-size: 1rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+.home-selected-card p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: .87rem;
+    line-height: 1.55;
+}
+.home-selected-card .home-selected-stack {
+    color: var(--text-muted);
+    font-size: .76rem;
+}
+.home-selected-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+}
+.home-selected-actions .primary-button,
+.home-selected-actions .secondary-button {
+    font-size: .78rem;
+    padding: 8px 10px;
+    white-space: normal;
+}
+.home-now-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+}
+.home-now-card {
+    padding: 16px;
+}
+.project-card {
+    padding: 18px;
+}
+.project-card-header {
+    margin-bottom: 12px;
+}
+.project-card-header-right {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 6px;
+}
+.project-status {
+    color: var(--text-secondary);
+    font-size: .72rem;
+    line-height: 1.4;
+    text-align: right;
+}
+.project-preview-tags {
+    margin: 12px 0 0 74px;
+}
+.project-card .project-links {
+    margin-top: 10px;
+    padding-top: 0;
+    border-top: 0;
+}
+.project-details {
+    margin-top: 14px;
+    border-top: 1px solid var(--border);
+}
+.project-details > summary {
+    cursor: pointer;
+    padding: 13px 0 2px;
+    color: var(--accent-light);
+    font-size: .86rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+.project-details > summary:focus-visible,
+.home-selected-actions button:focus-visible,
+.home-selected-actions a:focus-visible {
+    outline: 2px solid var(--accent-light);
+    outline-offset: 4px;
+}
+.project-details[open] > summary {
+    margin-bottom: 14px;
+}
+.project-full-description {
+    color: var(--text-secondary);
+    font-size: .9rem;
+    line-height: 1.65;
+    margin-bottom: 14px;
+    max-width: 850px;
+}
+@media (max-width: 650px) {
+    .home-selected-card, .project-card { padding: 14px; }
+    .project-preview-tags { margin-left: 0; }
+    .project-card-header-main { flex-wrap: wrap; }
+    .project-card-header-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+    .project-status { text-align: left; }
+}
