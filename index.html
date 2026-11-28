@@ -1,8 +1,8 @@
 <!--
     PROJECT: Jack London Portfolio
-    VERSION: 1.4.2
-    VERSION DATE: 11/27/2026
-    VERSION NAME: [Rollin]
+    VERSION: 1.5.0-preview
+    VERSION DATE: 11/28/2026
+    VERSION NAME: [Portfolio Refinement]
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -102,6 +102,7 @@
     <link rel="stylesheet" href="Styles/activities.css">
     <link rel="stylesheet" href="Styles/responsive.css">
     <link rel="stylesheet" href="Styles/easter-eggs.css?v=1.4.0">
+    <link rel="stylesheet" href="Styles/portfolio-refinement.css?v=1.5.0-preview">
 </head>
 
 <body>
@@ -529,21 +530,11 @@
             <div class="home-hero-copy">
 
                 <h2>
-                    I build useful software, solve weird problems, and leverage AI through smart delegation and efficient workflows to bring ideas to life, sometimes just because it's fun!
+                    I build useful software, solve weird problems, and make things just because it's fun!
                 </h2>
 
                 <p>
-                    I'm a Computer Science student focused on
-                    Software Engineering at UW–Green Bay.
-                    Most of my projects start with either
-                    “this would be useful” or
-                    “I wonder if I can build that.”
-                    I leverage AI to turn those ideas into working software
-                    faster, automate repetitive tasks, and find more efficient
-                    ways to solve problems. I'm especially interested in AI
-                    agents and local models, exploring how they can enhance
-                    development while keeping creativity and technical
-                    decisions in my hands.
+                    I'm a Computer Science student at UW–Green Bay focused on software engineering, automation, and AI-powered development. I combine technical problem-solving with intelligent AI delegation to build practical software efficiently.
                 </p>
 
             </div>
@@ -597,6 +588,19 @@
     </section>
 
 
+    <section class="page-section" id="home-selected" data-tab="Selected Work">
+        <section class="home-panel home-selected-panel">
+            <div class="home-section-heading">
+                <div>
+                    <span class="section-eyebrow">selected_work</span>
+                    <h2>What I've Built</h2>
+                </div>
+                <button class="secondary-button internal-page-link" data-page="projects" type="button">All projects</button>
+            </div>
+            <div class="home-selected-grid" id="homeSelectedWork"></div>
+        </section>
+    </section>
+
     <!-- ==================================
          HOME - RIGHT NOW
          ================================== -->
@@ -648,20 +652,12 @@
                     </h3>
 
                     <p>
-                        I leverage AI to work smarter and more efficiently across
-                        software development and everyday workflows. From accelerating
-                        research and prototyping to automating repetitive tasks,
-                        debugging code, and coordinating AI agents, I focus on using
-                        these tools to improve productivity and deliver better results
-                        while applying my own judgment and technical understanding.
+                        I use AI agents and local models to accelerate development, automate repetitive work, and improve efficiency while retaining technical oversight.
                     </p>
 
                     <span class="home-ai-skills" aria-label="AI engineering areas">
                         <span>AI Agents</span>
-                        <span>Mcp</span>
                         <span>Local LLMs</span>
-                        <span>Agent Orchestration</span>
-                        <span>AI Memory</span>
                         <span>Human Review</span>
                     </span>
 
@@ -691,21 +687,13 @@
                     </h3>
 
                     <p>
-                        I'm working toward my Computer Science degree with a
-                        Software Engineering emphasis at UW–Green Bay. Through
-                        coursework and personal projects, I'm strengthening
-                        my skills in software design, data structures, databases,
-                        and application development, then putting what I learn
-                        into practice by building real software.
+                        I'm building a foundation in software design, data structures, and databases through coursework and practical development.
                     </p>
 
                     <span class="home-ai-skills" aria-label="Software engineering learning areas">
                         <span>Software Design</span>
                         <span>Data Structures</span>
                         <span>Databases</span>
-                        <span>Algorithms</span>
-                        <span>C#</span>
-                        <span>Problem Solving</span>
                     </span>
 
                     <span class="home-ai-cta" aria-hidden="true">
@@ -734,19 +722,12 @@
                     </h3>
 
                     <p>
-                        I like turning interesting ideas into working software,
-                        whether that's a desktop application, a website, or
-                        an experiment with local AI. My projects give me room
-                        to try new technologies, solve practical problems,
-                        and keep improving the way I design, build, and test.
+                        I turn practical problems and curiosity into desktop apps, web projects, and local AI experiments.
                     </p>
 
                     <span class="home-ai-skills" aria-label="Project development areas">
-                        <span>Desktop Apps</span>
-                        <span>Web Development</span>
                         <span>C# / .NET</span>
-                        <span>Local AI</span>
-                        <span>UI Design</span>
+                        <span>Web Development</span>
                         <span>Automation</span>
                     </span>
 
@@ -777,21 +758,13 @@
                     </h3>
 
                     <p>
-                        As a Lead Supervisor at the UW–Green Bay Climbing Tower,
-                        I help keep day-to-day operations running safely and
-                        smoothly. I coordinate schedules, train and support
-                        staff, teach climbing skills, and work on route setting
-                        and equipment maintenance while building my leadership
-                        and communication skills.
+                        I coordinate staff schedules, training, climbing safety, and equipment maintenance as a Lead Supervisor at UW–Green Bay.
                     </p>
 
                     <span class="home-ai-skills" aria-label="Climbing Tower leadership areas">
                         <span>Team Leadership</span>
                         <span>Staff Training</span>
                         <span>Scheduling</span>
-                        <span>Climbing Safety</span>
-                        <span>Route Setting</span>
-                        <span>Gear Maintenance</span>
                     </span>
 
                     <span class="home-ai-cta" aria-hidden="true">
@@ -1759,7 +1732,7 @@
 <script src="Scripts/glossary.js?v=mcp-capitalization-2"></script>
 <script src="Scripts/skills.js?v=shared-glossary-2"></script>
 <script src="Scripts/experience.js?v=plain-company-headings-1"></script>
-<script src="Scripts/projects.js?v=scv2-demo-1"></script>
+<script src="Scripts/projects.js?v=portfolio-refinement-1"></script>
 <script src="Scripts/education.js"></script>
 <script src="Scripts/easter-eggs.js?v=1.4.0-mi6-bounds-1"></script>
 <script src="Scripts/Activities/404/404.js"></script>
