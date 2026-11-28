@@ -124,34 +124,48 @@
 .project-visible-stack-item .portfolio-glossary-term {
     font-size: inherit;
 }
-.project-stack-row .project-links {
+.project-card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+.project-card-footer .project-links {
     flex: 0 1 auto;
     min-width: 0;
     max-width: 100%;
-    margin: 0 0 0 auto;
-    padding-top: 0;
-    border-top: 0;
-    align-items: flex-end;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    justify-content: flex-start;
+    align-items: center;
 }
-.project-details {
-    margin-top: 14px;
-    border-top: 1px solid var(--border);
+.project-description[hidden],
+.project-details[hidden] {
+    display: none;
 }
-.project-details > summary {
-    display: flex;
+.project-details-toggle {
+    display: inline-flex;
     align-items: center;
     justify-content: flex-end;
     gap: 10px;
-    list-style: none;
+    margin-left: auto;
+    padding: 8px 4px 8px 8px;
+    appearance: none;
+    background: transparent;
+    border: 0;
     cursor: pointer;
-    padding: 13px 0 2px;
     color: var(--accent-light);
+    font: inherit;
     font-size: .86rem;
     font-weight: 600;
     line-height: 1.5;
 }
-.project-details > summary::-webkit-details-marker { display: none; }
-.project-details > summary::after {
+.project-details-toggle::after {
     content: "";
     width: 8px;
     height: 8px;
@@ -161,7 +175,7 @@
     transform: rotate(45deg);
     transition: transform 280ms cubic-bezier(.2,.75,.25,1);
 }
-.project-details.is-expanded > summary::after {
+.project-details-toggle[aria-expanded="true"]::after {
     transform: rotate(225deg);
 }
 .project-details-body {
@@ -178,9 +192,9 @@
     margin-bottom: 10px;
 }
 @media (prefers-reduced-motion: reduce) {
-    .project-details > summary::after { transition: none; }
+    .project-details-toggle::after { transition: none; }
 }
-.project-details > summary:focus-visible,
+.project-details-toggle:focus-visible,
 .home-selected-actions button:focus-visible,
 .home-selected-actions a:focus-visible {
     outline: 2px solid var(--accent-light);
@@ -198,7 +212,7 @@
     .home-selected-card, .project-card { padding: 14px; }
     .project-description, .project-stack-row { margin-left: 0; }
     .project-stack-preview { flex-basis: 100%; }
-    .project-stack-row .project-links { flex-basis: 100%; justify-content: flex-end; }
+    .project-card-footer .project-links { flex-wrap: wrap; }
     .project-card-header-main { flex-wrap: wrap; }
     .project-card-header-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
     .project-status { text-align: left; }
@@ -236,4 +250,5 @@
 .portfolio-demo-alert button { margin: 0 auto; }
 @keyframes portfolio-demo-in { from { opacity: 0; transform: translateY(8px) scale(.97); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .portfolio-demo-alert[open] { animation: none; } }
-@media (max-width: 450px) { .project-stack-row .project-links button { width: 100%; } }
+@media (max-width: 450px) { .project-card-footer .project-links { flex-basis: 100%; }
+    .project-card-footer .project-links button { width: 100%; } }
