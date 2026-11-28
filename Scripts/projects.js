@@ -625,7 +625,7 @@ function buildSelectedWork() {
             const cardId = projectCardId(project);
             const target = document.getElementById(cardId);
             if (target) {
-                target.querySelector(".project-details").open = true;
+                target.querySelector(".project-details").dispatchEvent(new Event("project:expand"));
                 openPage("projects", true, cardId);
             } else {
                 openPage("projects", true, "projects-" + project.section);
@@ -1029,16 +1029,18 @@ function createProjectCard(
     );
     stackRow.appendChild(stackPreview);
 
-    const hasLinks = Boolean(project.repoLink || project.demoLink);
-    if (hasLinks) {
-        stackRow.appendChild(createProjectLinks(project));
+    const footer = document.createElement("div");
+    footer.className = "project-card-footer";
+    if (project.repoLink || project.demoLink) {
+        footer.appendChild(createProjectLinks(project));
     }
 
-    card.appendChild(stackRow);
-    card.appendChild(createProjectDisclosure(project, open => {
-        stackPreview.hidden = open;
-        stackRow.hidden = open && !hasLinks;
-    }));
+    const disclosure = createProjectDisclosure(project, open => {
+        description.hidden = open;
+        stackRow.hidden = open;
+    });
+    footer.appendChild(disclosure.toggle);
+    card.append(stackRow, disclosure.details, footer);
 
     return card;
 
@@ -1075,15 +1077,21 @@ function createProjectTechnologyCell(technologies, terms = [], preview = false) 
 }
 
 function createProjectDisclosure(project, onExpandedChange = () => {}) {
-    const details = document.createElement("details");
+    const details = document.createElement("div");
     details.className = "project-details";
-    const summary = document.createElement("summary");
+    details.id = projectCardId(project) + "-details";
+    details.hidden = true;
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "project-details-toggle";
+    toggle.setAttribute("aria-controls", details.id);
+    toggle.setAttribute("aria-expanded", "false");
     const label = document.createElement("span");
     label.textContent = "Learn More";
-    summary.appendChild(label);
+    toggle.appendChild(label);
     const body = document.createElement("div");
     body.className = "project-details-body";
-    details.append(summary, body);
+    details.appendChild(body);
 
     let initialized = false;
     let animation = null;
@@ -1119,13 +1127,14 @@ function createProjectDisclosure(project, onExpandedChange = () => {}) {
 
     function updateLabel(open) {
         label.textContent = open ? "Show Less" : "Learn More";
-        details.classList.toggle("is-expanded", open);
+        toggle.setAttribute("aria-expanded", String(open));
         onExpandedChange(open);
     }
 
-    function setExpanded(open) {
-        const startHeight = details.open ? body.getBoundingClientRect().height : 0;
-        const startOpacity = details.open ? Number(getComputedStyle(body).opacity) : 0;
+    function setExpanded(open, animate = true) {
+        if (expanded === open && !animation) return;
+        const startHeight = details.hidden ? 0 : body.getBoundingClientRect().height;
+        const startOpacity = details.hidden ? 0 : Number(getComputedStyle(body).opacity);
         if (animation) {
             animation.cancel();
             animation = null;
@@ -1133,13 +1142,13 @@ function createProjectDisclosure(project, onExpandedChange = () => {}) {
         expanded = open;
         updateLabel(open);
         if (open) {
-            details.open = true;
+            details.hidden = false;
             initialize();
         } else if (body.contains(document.activeElement)) {
-            summary.focus();
+            toggle.focus({ preventScroll: true });
         }
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !body.animate) {
-            details.open = open;
+        if (!animate || window.matchMedia("(prefers-reduced-motion: reduce)").matches || !body.animate) {
+            details.hidden = !open;
             body.classList.remove("is-animating");
             return;
         }
@@ -1153,25 +1162,17 @@ function createProjectDisclosure(project, onExpandedChange = () => {}) {
         running.onfinish = () => {
             if (animation !== running) return;
             animation = null;
-            details.open = open;
+            details.hidden = !open;
             running.cancel();
             body.classList.remove("is-animating");
         };
     }
 
-    summary.addEventListener("click", event => {
-        event.preventDefault();
-        setExpanded(!expanded);
-    });
+    toggle.addEventListener("click", () => setExpanded(!expanded));
 
-    // Preserve native details behavior for programmatic navigation from Home.
-    details.addEventListener("toggle", () => {
-        if (animation) return;
-        expanded = details.open;
-        updateLabel(expanded);
-        if (expanded) initialize();
-    });
-    return details;
+    // Open immediately when navigating from Home, before scrolling to the card.
+    details.addEventListener("project:expand", () => setExpanded(true, false));
+    return { details, toggle };
 }
 
 
