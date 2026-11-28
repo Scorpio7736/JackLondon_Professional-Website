@@ -89,7 +89,8 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 **Deferred feature backlog — not required for the 1.4.0 release.** This is a provisional grouping for a future feature release; individual priorities can be revised.
 
 - [x] Add the featured Linux MCP Server project to Hardware with the existing `MCPServer_ICON.png`, planned stack and development focus; add context-specific Model Context Protocol glossary tooltips while preserving the Grid.AI Master Control Program definition.
-- [ ] Browser smoke-test the Linux MCP Server card and both MCP glossary definitions (hover, keyboard focus and touch); verify icon loading and unchanged Grid.AI rendering.
+- [x] Standardize Master Control Program as `Mcp` in Grid.AI, the homepage AI tags and glossary; reserve `MCP` for Model Context Protocol.
+- [ ] Browser smoke-test the Linux MCP Server card and both Mcp/MCP glossary definitions (hover, keyboard focus and touch); verify icon loading and Grid.AI rendering.
 - [ ] Add the RickRoll Easter egg with the activation key `JackRoll`.
 - [ ] Improve accessible mobile navigation without changing the existing desktop-inspired visual design.
   - [ ] Add explicit accessible names to the six sidebar page buttons (Home, Skills, Experience, Projects, Education, Activities), so their purpose is announced even when CSS hides text labels below 700px.

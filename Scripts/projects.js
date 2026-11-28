@@ -36,7 +36,7 @@ const projects = [
         title:
             "Grid.AI",
 
-        glossaryTerms: ["Agentic Workflows","MCP","Multi-Agent Orchestration"],
+        glossaryTerms: ["Agentic Workflows","Mcp","Multi-Agent Orchestration"],
 
         section:
             "desktop",
@@ -48,7 +48,7 @@ const projects = [
             true,
 
         description:
-            "Your AI agents, your workflows, your data. Grid.AI is an actively developed, local-first multi-agent platform that turns conversations into coordinated, reviewable tasks. MCP orchestrates six specialist agents for software development, security, storage, resources, and communications, with persistent context and human-approved actions. Designed to travel on a flash drive, its prepared self-contained Windows package carries the application, local models, and runtime together so compatible computers need no separate Grid.AI or AI-model installation. Run locally, work offline, and keep control of your tools and information.",
+            "Your AI agents, your workflows, your data. Grid.AI is an actively developed, local-first multi-agent platform that turns conversations into coordinated, reviewable tasks. Mcp orchestrates six specialist agents for software development, security, storage, resources, and communications, with persistent context and human-approved actions. Designed to travel on a flash drive, its prepared self-contained Windows package carries the application, local models, and runtime together so compatible computers need no separate Grid.AI or AI-model installation. Run locally, work offline, and keep control of your tools and information.",
 
         technologies: [
             "C#",
@@ -65,7 +65,7 @@ const projects = [
 
         learned: [
             "Designing specialized AI agents with distinct responsibilities, identities, permissions, and persistent conversation context.",
-            "Coordinating agentic workflows through MCP, including specialist delegation, task planning, human review, and saved execution results.",
+            "Coordinating agentic workflows through Mcp, including specialist delegation, task planning, human review, and saved execution results.",
             "Implementing multi-agent conversations and collaboration while maintaining boundaries between private and shared context.",
             "Connecting agents to controlled local tools for repository inspection, approved build and test operations, diagnostics, and reviewed source changes.",
             "Building reliable orchestration with authorization checks, scoped memory, task persistence, and audit records across application restarts.",

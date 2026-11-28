@@ -24,9 +24,9 @@ const portfolioGlossary = Object.freeze({
         title: "Agentic Workflows",
         definition: "Processes where AI agents plan, coordinate, and carry out multi-step tasks using tools, with appropriate permissions and human oversight."
     },
-    "MCP": {
-        title: "MCP — Master Control Program",
-        definition: "Grid.AI's coordinating agent. MCP organizes requests, delegates tasks to specialized agents, and routes proposed actions through review and approval.",
+    "Mcp": {
+        title: "Mcp — Master Control Program",
+        definition: "Grid.AI's coordinating agent. Mcp organizes requests, delegates tasks to specialized agents, and routes proposed actions through review and approval.",
         image: "Images/Icons/GridAI_ICON.png",
         imageAlt: "Grid AI icon"
     },
