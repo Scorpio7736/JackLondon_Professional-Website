@@ -82,17 +82,25 @@ Completed development identified before the November 17, 2026 transition to 1.3:
 - [x] Fix MI6 canvas security warnings by precomputing opaque-pixel bounds for all 21 sprite files, preserving original alignment and optional-frame fallback behavior.
 - [ ] Re-test MI6 after the canvas fix on the local HTTP preview (and direct-file preview if used); confirm no repeated canvas security warnings and unchanged animation alignment.
 
-**Post-release hotfixes:** None yet. Reserve `1.4.1`, `1.4.2`, etc. for fixes after 1.4.0 is released.
+## 1.4.2 - [Rollin]
+
+**Post-release content and glossary update — November 27, 2026.** Version 1.4.2 is explicitly assigned by the maintainer; no separate 1.4.1 release is recorded.
+
+- [x] Add the featured Linux MCP Server project to Hardware with the existing `MCPServer_ICON.png`, planned stack and development focus. ([49e9006](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/49e90065026b82bd3195bf20a3c1eb360be8c766))
+- [x] Standardize Master Control Program as `Mcp` in Grid.AI, the homepage AI tags and glossary; reserve `MCP` for Model Context Protocol. ([54a902d](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/54a902d0b37be76035552b52802fceee892b6fa6))
+- [x] Scope the Linux MCP Server glossary to the acronym in the description and the full Model Context Protocol (MCP) stack tag; keep the project title plain text and retain the Grid.AI Mcp tooltip. ([c228d03](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/c228d03133f97aceeb1ee09bb42a13f06459aea2))
+- [x] Update the lakeside homepage hero image. ([72476fb](https://github.com/Scorpio7736/JackLondon_Professional-Website/commit/72476fb0f00d4e78445ab8142e7a82b6bbb24111))
+- [x] Set the website version header to 1.4.2.
+- [x] Verify JavaScript syntax and scoped glossary trigger routing.
+- [ ] Browser smoke-test the Linux MCP Server card and Grid.AI Mcp glossary definition (hover, keyboard focus and touch); verify icon loading, plain project title, acronym-only description tooltip, full stack-tag tooltip and updated hero image.
+- [ ] Verify production deployment and MI6 canvas fix on a browser.
+
+**Future releases:** Keep the remaining 1.5.0 feature backlog separate.
 
 ## 1.5.0 - [INSERT NAME]
 
 **Deferred feature backlog — not required for the 1.4.0 release.** This is a provisional grouping for a future feature release; individual priorities can be revised.
 
-- [x] Add the featured Linux MCP Server project to Hardware with the existing `MCPServer_ICON.png`, planned stack and development focus; add context-specific Model Context Protocol glossary tooltips while preserving the Grid.AI Master Control Program definition.
-- [x] Standardize Master Control Program as `Mcp` in Grid.AI, the homepage AI tags and glossary; reserve `MCP` for Model Context Protocol.
-- [x] Remove the Model Context Protocol (MCP) hover notes from the Linux MCP Server card; retain the Master Control Program (Mcp) tooltip.
-- [x] Restore the MCP tooltip on the acronym in the Linux server description and the full Model Context Protocol (MCP) stack tag, keeping the title plain text.
-- [ ] Browser smoke-test the Linux MCP Server card and Grid.AI Mcp glossary definition (hover, keyboard focus and touch); verify icon loading, plain project title, acronym-only description tooltip and full stack-tag tooltip.
 - [ ] Add the RickRoll Easter egg with the activation key `JackRoll`.
 - [ ] Improve accessible mobile navigation without changing the existing desktop-inspired visual design.
   - [ ] Add explicit accessible names to the six sidebar page buttons (Home, Skills, Experience, Projects, Education, Activities), so their purpose is announced even when CSS hides text labels below 700px.
