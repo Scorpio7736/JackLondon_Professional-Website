@@ -1018,15 +1018,18 @@ function createProjectCard(
 
 
     card.appendChild(header);
-    card.appendChild(createProjectTechnologyCell(
+    const stackRow = document.createElement("div");
+    stackRow.className = "project-stack-row";
+    stackRow.appendChild(createProjectTechnologyCell(
         project.technologies,
         project.stackGlossaryTerms ?? project.glossaryTerms ?? []
     ));
 
     if (project.repoLink || project.demoLink) {
-        card.appendChild(createProjectLinks(project));
+        stackRow.appendChild(createProjectLinks(project));
     }
 
+    card.appendChild(stackRow);
     card.appendChild(createProjectDisclosure(project));
 
     return card;
