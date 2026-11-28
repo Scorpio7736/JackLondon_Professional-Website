@@ -1699,6 +1699,47 @@ function openProjectImageViewer(
    PROJECT LINKS
    ========================================= */
 
+function showPortfolioDemoAlert(trigger) {
+    if (document.getElementById("portfolio-demo-alert")) return;
+    const dialog = document.createElement("dialog");
+    dialog.id = "portfolio-demo-alert";
+    dialog.className = "portfolio-demo-alert";
+    dialog.setAttribute("aria-labelledby", "portfolio-demo-alert-title");
+    dialog.setAttribute("aria-describedby", "portfolio-demo-alert-message");
+
+    const title = document.createElement("h2");
+    title.id = "portfolio-demo-alert-title";
+    title.textContent = "You're already in the demo!";
+    const message = document.createElement("p");
+    message.id = "portfolio-demo-alert-message";
+    message.textContent = "Congratulations. You've successfully opened the website you're currently using. Very efficient.";
+    const image = document.createElement("img");
+    image.src = "Images/Other/Laugh.gif";
+    image.alt = "A laughing reaction";
+    image.addEventListener("error", () => image.remove(), { once: true });
+    const close = document.createElement("button");
+    close.type = "button";
+    close.className = "primary-button";
+    close.textContent = "Well played.";
+    close.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", event => {
+        if (event.target !== dialog) return;
+        const bounds = dialog.getBoundingClientRect();
+        if (event.clientX < bounds.left || event.clientX > bounds.right ||
+            event.clientY < bounds.top || event.clientY > bounds.bottom) {
+            dialog.close();
+        }
+    });
+    dialog.addEventListener("close", () => {
+        dialog.remove();
+        trigger?.focus();
+    }, { once: true });
+    dialog.append(title, message, image, close);
+    document.body.appendChild(dialog);
+    dialog.showModal();
+    close.focus();
+}
+
 function createProjectLinks(
     project
 ) {
@@ -1782,10 +1823,16 @@ function createProjectLinks(
         demo.textContent =
             "Open Demo";
 
-
-        links.appendChild(
-            demo
-        );
+        if (project.title === "Professional Portfolio Website") {
+            const alertButton = document.createElement("button");
+            alertButton.type = "button";
+            alertButton.className = "primary-button";
+            alertButton.textContent = "Open Demo";
+            alertButton.addEventListener("click", () => showPortfolioDemoAlert(alertButton));
+            links.appendChild(alertButton);
+        } else {
+            links.appendChild(demo);
+        }
 
     }
 
