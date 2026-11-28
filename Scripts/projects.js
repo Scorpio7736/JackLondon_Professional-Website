@@ -1073,12 +1073,20 @@ function createProjectDisclosure(project) {
     function initialize() {
         if (initialized) return;
         initialized = true;
+        const innerGrid = document.createElement("div");
+        innerGrid.className = "project-inner-grid";
+        const overview = document.createElement("div");
+        overview.className = "project-inner-cell project-overview-cell";
+        const overviewLabel = document.createElement("span");
+        overviewLabel.className = "project-cell-label";
+        overviewLabel.textContent = "Project Details";
+        const overviewTitle = document.createElement("h3");
+        overviewTitle.textContent = "Overview";
         const fullDescription = document.createElement("p");
         fullDescription.className = "project-full-description";
         appendGlossaryText(fullDescription, project.description, project.descriptionGlossaryTerms ?? project.glossaryTerms ?? []);
-        body.appendChild(fullDescription);
-        const innerGrid = document.createElement("div");
-        innerGrid.className = "project-inner-grid";
+        overview.append(overviewLabel, overviewTitle, fullDescription);
+        innerGrid.appendChild(overview);
         innerGrid.appendChild(createProjectLearnedCell(project.learned, project.glossaryTerms || [], project.title));
         if (project.images?.length) {
             innerGrid.appendChild(createProjectGallery(project.images, project.title));
