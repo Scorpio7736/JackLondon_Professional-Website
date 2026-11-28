@@ -970,10 +970,12 @@ function createProjectCard(
     }
 
 
-    const status = document.createElement("span");
-    status.className = "project-status";
-    status.textContent = project.status;
-    headerRight.appendChild(status);
+    if (!project.featured && project.status) {
+        const status = document.createElement("span");
+        status.className = "project-status";
+        status.textContent = project.status;
+        headerRight.appendChild(status);
+    }
 
     /* =====================================
        BUILD MAIN HEADER
