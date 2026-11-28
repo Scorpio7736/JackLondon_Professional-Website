@@ -82,7 +82,7 @@ const projects = [
             "https://github.com/Scorpio7736/Grid.AI",
 
         demoLink:
-            null
+            "https://gridai-demo.jacklondon.site/"
     },
 
 
