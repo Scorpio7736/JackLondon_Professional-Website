@@ -47,6 +47,9 @@ const projects = [
         featured:
             true,
 
+        status: "Active development",
+        summary: "A portable, local-first AI platform that coordinates specialized agents, maintains persistent context, and keeps automated actions under human review.",
+
         description:
             "Your AI agents, your workflows, your data. Grid.AI is an actively developed, local-first multi-agent platform that turns conversations into coordinated, reviewable tasks. Mcp orchestrates six specialist agents for software development, security, storage, resources, and communications, with persistent context and human-approved actions. Designed to travel on a flash drive, its prepared self-contained Windows package carries the application, local models, and runtime together so compatible computers need no separate Grid.AI or AI-model installation. Run locally, work offline, and keep control of your tools and information.",
 
@@ -64,12 +67,12 @@ const projects = [
         ],
 
         learned: [
-            "Designing specialized AI agents with distinct responsibilities, identities, permissions, and persistent conversation context.",
-            "Coordinating agentic workflows through Mcp, including specialist delegation, task planning, human review, and saved execution results.",
-            "Implementing multi-agent conversations and collaboration while maintaining boundaries between private and shared context.",
-            "Connecting agents to controlled local tools for repository inspection, approved build and test operations, diagnostics, and reviewed source changes.",
-            "Building reliable orchestration with authorization checks, scoped memory, task persistence, and audit records across application restarts.",
-            "Packaging the AI runtime, models, and saved state for self-contained flash-drive deployment without separate target-machine installation."
+            "Designed specialized agents with distinct identities, responsibilities, permissions and persistent conversation context.",
+            "Implemented Mcp-based task delegation, planning, human review and saved execution results.",
+            "Built multi-agent collaboration with boundaries between shared and private context.",
+            "Integrated controlled local tools for repository inspection, approved builds, tests and reviewed source changes.",
+            "Added authorization checks, scoped memory, task persistence and audit records.",
+            "Packaged the runtime, models and saved state for self-contained flash-drive deployment."
         ],
 
         images: [
@@ -103,6 +106,9 @@ const projects = [
         featured:
             true,
 
+        status: "Demo available",
+        summary: "A workforce scheduling and management application for employee availability, days off, staff records and operational workflows.",
+
         description:
             "A workforce scheduling and management application designed to organize employee availability, schedules, days off, staff information, and operational workflows. An interactive browser demo lets visitors explore representative scheduling and staff management features using fictional data.",
 
@@ -115,10 +121,10 @@ const projects = [
         ],
 
         learned: [
-            "Designing and organizing larger WPF applications with multiple views.",
-            "Connecting desktop applications to SQL Server databases.",
-            "Building reusable scheduling and employee-management workflows.",
-            "Creating validation and data-handling systems for real-world operational use."
+            "Built a multi-view WPF application for workforce management.",
+            "Integrated SQL Server persistence for employee and scheduling data.",
+            "Developed reusable scheduling and employee-management workflows.",
+            "Implemented validation and data handling for real operational requirements."
         ],
 
         images: [
@@ -154,7 +160,10 @@ const projects = [
             null,
 
         featured:
-            true,
+            false,
+
+        status: "Demo available",
+        summary: "A JavaFX application that organizes climbing tower maintenance, estimates work hours, and tracks progress and completion.",
 
         description:
             "A JavaFX desktop application designed to simplify maintenance task management for climbing tower operations. Originally developed as a console application, the project evolved into an interactive graphical interface for organizing maintenance work, estimating required hours, monitoring progress, and tracking completed tasks. Features include customizable task quantities, setup and cleanup requirements, live productivity statistics, completion timestamps, and animated feedback.",
@@ -169,12 +178,12 @@ const projects = [
         ],
 
         learned: [
-            "Transitioning a console-based Java application into an interactive desktop application using JavaFX and FXML.",
-            "Applying object-oriented programming principles to model maintenance tasks and work categories.",
-            "Implementing event-driven interfaces with observable collections, property bindings, and interactive tables.",
-            "Calculating live productivity statistics, including estimated remaining hours, completed work hours, and common task categories.",
-            "Building task completion workflows with timestamps, dynamic interface updates, and animated visual feedback.",
-            "Managing dependencies and application builds using Maven."
+            "Converted a console application into a JavaFX/FXML desktop interface.",
+            "Modeled maintenance tasks and work categories with object-oriented design.",
+            "Used observable collections, property bindings and interactive tables.",
+            "Calculated live productivity and estimated remaining work hours.",
+            "Implemented task completion timestamps and dynamic feedback.",
+            "Managed dependencies and builds using Maven."
         ],
 
         images: [
@@ -203,7 +212,10 @@ const projects = [
             "Images/Logos/TheUltimateEasterEggGuide_LOGO.png",
 
         featured:
-            true,
+            false,
+
+        status: "Mobile project",
+        summary: "An Android reference app for Call of Duty Zombies maps, Easter egg steps, strategies and rewards.",
 
         description:
             "An Android application for navigating Call of Duty Zombies maps, Easter Egg steps, strategies, rewards, and supporting gameplay information.",
@@ -256,6 +268,9 @@ const projects = [
         featured:
             false,
 
+        status: "Mobile project",
+        summary: "A SwiftUI app for simulating Magic: The Gathering booster packs and managing card collections across profiles.",
+
         description:
             "A SwiftUI application for opening simulated Magic: The Gathering booster packs and managing card collections across multiple profiles.",
 
@@ -302,7 +317,10 @@ const projects = [
             "Images/Icons/Headshot_ICON.png",
 
         featured:
-            true,
+            false,
+
+        status: "Live website",
+        summary: "A framework-free portfolio with a desktop-inspired interface, reusable components and responsive layouts.",
 
         description:
             "A custom portfolio website designed to present my software projects, technical skills, professional experience, education, and activities through a desktop-workspace-inspired interface.",
@@ -315,10 +333,10 @@ const projects = [
         ],
 
         learned: [
-            "Designing a larger website using modular JavaScript and CSS files.",
-            "Building reusable data-driven components with vanilla JavaScript.",
-            "Creating responsive layouts that work across desktop and mobile devices.",
-            "Developing a consistent visual system across multiple sections and page types."
+            "Organized the website into modular JavaScript and CSS files.",
+            "Built reusable data-driven components with vanilla JavaScript.",
+            "Implemented responsive layouts across desktop and mobile.",
+            "Established a shared visual system across pages."
         ],
 
         images: [
@@ -348,6 +366,9 @@ const projects = [
 
         featured:
             false,
+
+        status: "Experimental",
+        summary: "Embedded experiments connecting microcontrollers, sensors, networks and physical hardware.",
 
         description:
             "A collection of experimental embedded-system projects focused on microcontrollers, sensors, networking, and connecting software to physical hardware.",
@@ -391,6 +412,9 @@ const projects = [
         featured:
             true,
 
+        status: "Active development",
+        summary: "Remote AI-assisted development and approval workflows through smart glasses, with cloud/local model handoffs and persistent context.",
+
         description:
             "A custom AI-powered development workflow that integrates Even Realities G2 smart glasses with my desktop development environment. The system enables remote interaction with AI coding agents, real-time task management, and approval requests directly through the glasses. It leverages intelligent task delegation, cloud and local AI models, and persistent context handoffs to maintain development continuity while maximizing efficiency and minimizing AI usage costs.",
 
@@ -401,13 +425,13 @@ const projects = [
         ],
 
         learned: [
-            "Integrating wearable hardware with AI-powered software development workflows.",
-            "Building automated multi-agent orchestration and intelligent task delegation systems.",
-            "Managing cloud and local AI models to optimize performance, efficiency, and resource consumption.",
-            "Preserving conversational context and task state across AI providers.",
-            "Implementing remote communication and real-time approval systems.",
-            "Designing resilient workflows with fallback mechanisms and persistent connections.",
-            "Developing PowerShell automation and TypeScript integrations for connected devices."
+            "Integrated wearable hardware with AI development workflows.",
+            "Designed multi-agent orchestration and task delegation.",
+            "Combined cloud and local AI models to manage resource usage.",
+            "Built mechanisms for preserving conversation context across providers.",
+            "Developed remote communication and approval workflows.",
+            "Designed fallback mechanisms and persistent connections.",
+            "Developed PowerShell automation and TypeScript integrations."
         ],
 
         images: [
@@ -451,7 +475,10 @@ const projects = [
             "Images/Icons/MCPServer_ICON.png",
 
         featured:
-            true,
+            false,
+
+        status: "In development · planned stack",
+        summary: "A self-hosted MCP server under development for Raspberry Pi 5, designed to coordinate AI agents, persistent context and permission-controlled tools.",
 
         description:
             "A self-hosted Model Context Protocol (MCP) server under development for a dedicated Raspberry Pi 5. Designed to provide centralized infrastructure for AI agents through persistent memory, project context, intelligent task delegation, Git automation, communication integrations, and secure user approvals. The server aims to connect cloud and local AI workflows through a provider-independent coordination layer while maintaining privacy, execution control, and development continuity. The technology stack is planned and subject to validation.",
@@ -509,6 +536,9 @@ const projects = [
         featured:
             false,
 
+        status: "Experimental",
+        summary: "An experimental Python-based programming language designed to read more naturally while supporting traditional programming concepts.",
+
         description:
             "An experimental programming language written in Python with syntax designed to read more naturally while still supporting traditional programming concepts.",
 
@@ -545,6 +575,55 @@ const projects = [
    BUILD ALL PROJECTS
    ========================================= */
 
+function buildSelectedWork() {
+    const container = document.getElementById("homeSelectedWork");
+    if (!container) return;
+    container.replaceChildren();
+    projects.filter(project => project.featured).forEach(project => {
+        const card = document.createElement("article");
+        card.className = "home-selected-card";
+        const heading = document.createElement("div");
+        heading.className = "home-selected-heading";
+        if (project.icon) {
+            const icon = document.createElement("img");
+            icon.src = project.icon;
+            icon.alt = "";
+            icon.loading = "lazy";
+            heading.appendChild(icon);
+        }
+        const title = document.createElement("h3");
+        title.textContent = project.title;
+        heading.appendChild(title);
+        card.appendChild(heading);
+        const description = document.createElement("p");
+        description.textContent = project.summary;
+        card.appendChild(description);
+        const stack = document.createElement("p");
+        stack.className = "home-selected-stack";
+        stack.textContent = project.technologies.slice(0, 3).join(" · ");
+        card.appendChild(stack);
+        const actions = document.createElement("div");
+        actions.className = "home-selected-actions";
+        if (project.demoLink) {
+            const demo = document.createElement("a");
+            demo.href = project.demoLink;
+            demo.target = "_blank";
+            demo.rel = "noopener noreferrer";
+            demo.className = "primary-button";
+            demo.textContent = "Open demo";
+            actions.appendChild(demo);
+        }
+        const view = document.createElement("button");
+        view.type = "button";
+        view.className = "secondary-button";
+        view.textContent = project.demoLink ? "Project details" : "Explore project";
+        view.addEventListener("click", () => openPage("projects", true, "projects-" + project.section));
+        actions.appendChild(view);
+        card.appendChild(actions);
+        container.appendChild(card);
+    });
+}
+
 function buildProjects() {
 
     Object.values(
@@ -568,6 +647,8 @@ function buildProjects() {
         }
     );
 
+
+    buildSelectedWork();
 
     projects.forEach(
         project => {
@@ -874,6 +955,11 @@ function createProjectCard(
     }
 
 
+    const status = document.createElement("span");
+    status.className = "project-status";
+    status.textContent = project.status;
+    headerRight.appendChild(status);
+
     /* =====================================
        BUILD MAIN HEADER
        ===================================== */
@@ -903,7 +989,7 @@ function createProjectCard(
     );
 
 
-    appendGlossaryText(description, project.description, project.descriptionGlossaryTerms ?? project.glossaryTerms ?? []);
+    appendGlossaryText(description, project.summary || project.description, project.descriptionGlossaryTerms ?? project.glossaryTerms ?? []);
 
 
     header.appendChild(
@@ -916,91 +1002,44 @@ function createProjectCard(
     );
 
 
-    /* =====================================
-       INNER GRID
-       ===================================== */
+    const preview = document.createElement("div");
+    preview.className = "project-preview-tags project-stack-tags";
+    project.technologies.slice(0, 4).forEach(technology => {
+        const tag = document.createElement("span");
+        appendGlossaryText(tag, technology, project.stackGlossaryTerms ?? project.glossaryTerms ?? []);
+        preview.appendChild(tag);
+    });
+    header.appendChild(preview);
+    card.appendChild(header);
 
-    const innerGrid =
-        document.createElement(
-            "div"
-        );
-
-
-    innerGrid.classList.add(
-        "project-inner-grid"
-    );
-
-
-    /* =====================================
-       STACK
-       ===================================== */
-
-    innerGrid.appendChild(
-        createProjectTechnologyCell(
-            project.technologies,
-            project.stackGlossaryTerms ?? project.glossaryTerms ?? []
-        )
-    );
-
-
-    /* =====================================
-       WHAT I LEARNED
-       ===================================== */
-
-    innerGrid.appendChild(
-        createProjectLearnedCell(
-            project.learned,
-            project.glossaryTerms || []
-        )
-    );
-
-
-    /* =====================================
-       IMAGE GALLERY
-       ===================================== */
-
-    if (
-        project.images &&
-        project.images.length > 0
-    ) {
-
-        innerGrid.appendChild(
-            createProjectGallery(
-                project.images,
-                project.title
-            )
-        );
-
+    if (project.repoLink || project.demoLink) {
+        card.appendChild(createProjectLinks(project));
     }
 
-
-    card.appendChild(
-        header
-    );
-
-
-    card.appendChild(
-        innerGrid
-    );
-
-
-    /* =====================================
-       LINKS
-       ===================================== */
-
-    if (
-        project.repoLink ||
-        project.demoLink
-    ) {
-
-        card.appendChild(
-            createProjectLinks(
-                project
-            )
-        );
-
-    }
-
+    const details = document.createElement("details");
+    details.className = "project-details";
+    const summary = document.createElement("summary");
+    summary.textContent = "View technical details";
+    details.appendChild(summary);
+    let initialized = false;
+    details.addEventListener("toggle", () => {
+        summary.textContent = details.open ? "Hide technical details" : "View technical details";
+        if (!details.open || initialized) return;
+        initialized = true;
+        const fullDescription = document.createElement("p");
+        fullDescription.className = "project-full-description";
+        appendGlossaryText(fullDescription, project.description, project.descriptionGlossaryTerms ?? project.glossaryTerms ?? []);
+        details.appendChild(fullDescription);
+        const innerGrid = document.createElement("div");
+        innerGrid.className = "project-inner-grid";
+        innerGrid.appendChild(createProjectTechnologyCell(project.technologies, project.stackGlossaryTerms ?? project.glossaryTerms ?? []));
+        innerGrid.appendChild(createProjectLearnedCell(project.learned, project.glossaryTerms || [], project.title));
+        if (project.images?.length) {
+            innerGrid.appendChild(createProjectGallery(project.images, project.title));
+        }
+        details.appendChild(innerGrid);
+    });
+    card.appendChild(details);
 
     return card;
 
@@ -1108,10 +1147,7 @@ function createProjectTechnologyCell(
    WHAT I LEARNED CELL
    ========================================= */
 
-function createProjectLearnedCell(
-    learned,
-    terms = []
-) {
+function createProjectLearnedCell(learned, terms = [], projectTitle = "") {
 
     const cell =
         document.createElement(
@@ -1137,7 +1173,7 @@ function createProjectLearnedCell(
 
 
     label.textContent =
-        "Development Takeaways";
+        "Technical development";
 
 
     const title =
@@ -1147,7 +1183,7 @@ function createProjectLearnedCell(
 
 
     title.textContent =
-        "What I Learned";
+        projectTitle === "Linux MCP Server" ? "Planned engineering scope" : "Engineering highlights";
 
 
     const list =
