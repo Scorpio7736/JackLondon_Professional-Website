@@ -575,6 +575,10 @@ const projects = [
    BUILD ALL PROJECTS
    ========================================= */
 
+function projectCardId(project) {
+    return "project-card-" + project.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-$/, "");
+}
+
 function buildSelectedWork() {
     const container = document.getElementById("homeSelectedWork");
     if (!container) return;
@@ -617,7 +621,16 @@ function buildSelectedWork() {
         view.type = "button";
         view.className = "secondary-button";
         view.textContent = project.demoLink ? "Project details" : "Explore project";
-        view.addEventListener("click", () => openPage("projects", true, "projects-" + project.section));
+        view.addEventListener("click", () => {
+            const cardId = projectCardId(project);
+            const target = document.getElementById(cardId);
+            if (target) {
+                target.querySelector(".project-details").open = true;
+                openPage("projects", true, cardId);
+            } else {
+                openPage("projects", true, "projects-" + project.section);
+            }
+        });
         actions.appendChild(view);
         card.appendChild(actions);
         container.appendChild(card);
@@ -720,6 +733,8 @@ function createProjectCard(
         "project-card"
     );
 
+
+    card.id = projectCardId(project);
 
     if (project.featured) {
 
