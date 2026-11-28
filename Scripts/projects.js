@@ -432,11 +432,7 @@ const projects = [
         title:
             "Linux MCP Server",
 
-        glossaryTerms: [
-            "Model Context Protocol",
-            { term: "MCP", key: "Model Context Protocol" },
-            "Multi-Agent Orchestration"
-        ],
+        glossaryTerms: ["Multi-Agent Orchestration"],
 
         section:
             "hardware",
