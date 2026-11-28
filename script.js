@@ -695,12 +695,14 @@ function scrollToSection(
     }
 
 
+    const activeSectionId = section.closest(".page-section[data-tab]")?.id || sectionId;
+
     isProgrammaticScroll =
         true;
 
 
     setActiveTabBySection(
-        sectionId
+        activeSectionId
     );
 
 
@@ -744,7 +746,7 @@ function scrollToSection(
         startScroll,
         finalTarget,
         500,
-        sectionId
+        activeSectionId
     );
 
 }
