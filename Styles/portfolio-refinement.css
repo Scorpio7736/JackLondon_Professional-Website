@@ -197,3 +197,11 @@
     .project-card-header-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
     .project-status { text-align: left; }
 }
+
+/* Match a single screenshot to the thumbnail size of a two-image gallery. */
+@media (min-width: 651px) {
+    .project-details .project-gallery-1 {
+        grid-template-columns: minmax(0, calc((100% - 10px) / 2));
+        justify-content: center;
+    }
+}
