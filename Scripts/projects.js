@@ -425,6 +425,66 @@ const projects = [
 
 
     /* =====================================
+       LINUX MCP SERVER
+       ===================================== */
+
+    {
+        title:
+            "Linux MCP Server",
+
+        glossaryTerms: [
+            "Model Context Protocol",
+            { term: "MCP", key: "Model Context Protocol" },
+            "Multi-Agent Orchestration"
+        ],
+
+        section:
+            "hardware",
+
+        icon:
+            "Images/Icons/MCPServer_ICON.png",
+
+        featured:
+            true,
+
+        description:
+            "A self-hosted Model Context Protocol (MCP) server under development for a dedicated Raspberry Pi 5. Designed to provide centralized infrastructure for AI agents through persistent memory, project context, intelligent task delegation, Git automation, communication integrations, and secure user approvals. The server aims to connect cloud and local AI workflows through a provider-independent coordination layer while maintaining privacy, execution control, and development continuity. The technology stack is planned and subject to validation.",
+
+        technologies: [
+            "Linux",
+            "Raspberry Pi 5",
+            "Python",
+            "Model Context Protocol (MCP)",
+            "SQLite",
+            "Docker",
+            "REST APIs",
+            "OAuth",
+            "VoIP",
+            "Multi-Agent Orchestration"
+        ],
+
+        learned: [
+            "Designing centralized, self-hosted infrastructure for distributed AI agents.",
+            "Architecting Model Context Protocol tools, resources, and persistent context systems.",
+            "Designing hierarchical agent coordination and intelligent task delegation.",
+            "Planning persistent memory, state management, and recovery across AI providers.",
+            "Designing controlled Git automation and isolated multi-agent development workflows.",
+            "Planning integrations with Google, Microsoft, WhatsApp, and private voice communication services.",
+            "Designing secure authentication, permission management, and human approval systems.",
+            "Architecting resilient Linux services with an emphasis on privacy, reliability, and resource efficiency."
+        ],
+
+        images: [],
+
+        repoLink:
+            null,
+
+        demoLink:
+            null
+    },
+
+
+    /* =====================================
        PROGRAMMING LANGUAGE
        ===================================== */
 
@@ -746,8 +806,7 @@ function createProjectCard(
         );
 
 
-    title.textContent =
-        project.title;
+    appendGlossaryText(title, project.title, project.glossaryTerms || []);
 
 
     heading.appendChild(
