@@ -67,12 +67,12 @@ const projects = [
         ],
 
         learned: [
-            "Designed specialized agents with distinct identities, responsibilities, permissions and persistent conversation context.",
-            "Implemented Mcp-based task delegation, planning, human review and saved execution results.",
-            "Built multi-agent collaboration with boundaries between shared and private context.",
-            "Integrated controlled local tools for repository inspection, approved builds, tests and reviewed source changes.",
-            "Added authorization checks, scoped memory, task persistence and audit records.",
-            "Packaged the runtime, models and saved state for self-contained flash-drive deployment."
+            "Designing specialized AI agents with distinct identities, responsibilities, permissions, and persistent conversation context.",
+            "Understanding how Mcp coordinates task delegation, planning, human review, and saved execution results.",
+            "Managing multi-agent collaboration while maintaining boundaries between shared and private context.",
+            "Connecting AI agents to controlled local tools for repository inspection, approved builds, tests, and reviewed source changes.",
+            "Understanding the importance of authorization checks, scoped memory, task persistence, and audit records.",
+            "Learning how to package runtimes, models, and saved state for self-contained flash-drive deployment."
         ],
 
         images: [
@@ -121,10 +121,10 @@ const projects = [
         ],
 
         learned: [
-            "Built a multi-view WPF application for workforce management.",
-            "Integrated SQL Server persistence for employee and scheduling data.",
-            "Developed reusable scheduling and employee-management workflows.",
-            "Implemented validation and data handling for real operational requirements."
+            "Structuring a multi-view WPF application around workforce management requirements.",
+            "Integrating SQL Server persistence for employee and scheduling data.",
+            "Designing reusable scheduling and employee-management workflows.",
+            "Applying validation and data-handling techniques to real operational requirements."
         ],
 
         images: [
@@ -178,12 +178,12 @@ const projects = [
         ],
 
         learned: [
-            "Converted a console application into a JavaFX/FXML desktop interface.",
-            "Modeled maintenance tasks and work categories with object-oriented design.",
-            "Used observable collections, property bindings and interactive tables.",
-            "Calculated live productivity and estimated remaining work hours.",
-            "Implemented task completion timestamps and dynamic feedback.",
-            "Managed dependencies and builds using Maven."
+            "Transitioning a console application into a JavaFX and FXML desktop interface.",
+            "Applying object-oriented design to maintenance tasks and work categories.",
+            "Working with observable collections, property bindings, and interactive tables.",
+            "Calculating live productivity statistics and estimating remaining work hours.",
+            "Designing task completion workflows with timestamps and dynamic feedback.",
+            "Managing Java application dependencies and builds using Maven."
         ],
 
         images: [
@@ -333,10 +333,10 @@ const projects = [
         ],
 
         learned: [
-            "Organized the website into modular JavaScript and CSS files.",
-            "Built reusable data-driven components with vanilla JavaScript.",
-            "Implemented responsive layouts across desktop and mobile.",
-            "Established a shared visual system across pages."
+            "Organizing a growing website into modular JavaScript and CSS files.",
+            "Building reusable, data-driven components with vanilla JavaScript.",
+            "Designing responsive layouts across desktop and mobile devices.",
+            "Maintaining a consistent visual system across different pages."
         ],
 
         images: [
@@ -425,13 +425,13 @@ const projects = [
         ],
 
         learned: [
-            "Integrated wearable hardware with AI development workflows.",
-            "Designed multi-agent orchestration and task delegation.",
-            "Combined cloud and local AI models to manage resource usage.",
-            "Built mechanisms for preserving conversation context across providers.",
-            "Developed remote communication and approval workflows.",
-            "Designed fallback mechanisms and persistent connections.",
-            "Developed PowerShell automation and TypeScript integrations."
+            "Integrating wearable hardware with AI-assisted software development workflows.",
+            "Designing multi-agent orchestration and effective task delegation.",
+            "Balancing cloud and local AI models to manage resource usage.",
+            "Understanding how to preserve conversational context across AI providers.",
+            "Developing remote communication and human approval workflows.",
+            "Designing resilient fallback mechanisms and persistent connections.",
+            "Working with PowerShell automation and TypeScript integrations for connected devices."
         ],
 
         images: [
