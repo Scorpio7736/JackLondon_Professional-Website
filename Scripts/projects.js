@@ -104,7 +104,7 @@ const projects = [
             true,
 
         description:
-            "A workforce scheduling and management application designed to organize employee availability, schedules, days off, staff information, and operational workflows.",
+            "A workforce scheduling and management application designed to organize employee availability, schedules, days off, staff information, and operational workflows. An interactive browser demo lets visitors explore representative scheduling and staff management features using fictional data.",
 
         technologies: [
             "C#",
@@ -132,7 +132,7 @@ const projects = [
             "https://github.com/Scorpio7736/Schedule_Creator_V2",
 
         demoLink:
-            null
+            "https://scv2-demo.jacklondon.site"
     },
 
 
