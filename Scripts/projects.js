@@ -434,6 +434,16 @@ const projects = [
 
         glossaryTerms: ["Multi-Agent Orchestration"],
 
+        descriptionGlossaryTerms: [
+            { term: "MCP", key: "Model Context Protocol" },
+            "Multi-Agent Orchestration"
+        ],
+
+        stackGlossaryTerms: [
+            { term: "Model Context Protocol (MCP)", key: "Model Context Protocol" },
+            "Multi-Agent Orchestration"
+        ],
+
         section:
             "hardware",
 
@@ -893,7 +903,7 @@ function createProjectCard(
     );
 
 
-    appendGlossaryText(description, project.description, project.glossaryTerms || []);
+    appendGlossaryText(description, project.description, project.descriptionGlossaryTerms ?? project.glossaryTerms ?? []);
 
 
     header.appendChild(
@@ -928,7 +938,7 @@ function createProjectCard(
     innerGrid.appendChild(
         createProjectTechnologyCell(
             project.technologies,
-            project.glossaryTerms || []
+            project.stackGlossaryTerms ?? project.glossaryTerms ?? []
         )
     );
 
