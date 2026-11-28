@@ -1022,17 +1022,23 @@ function createProjectCard(
     card.appendChild(header);
     const stackRow = document.createElement("div");
     stackRow.className = "project-stack-row";
-    stackRow.appendChild(createProjectTechnologyCell(
-        project.technologies,
-        project.stackGlossaryTerms ?? project.glossaryTerms ?? []
-    ));
+    const stackPreview = createProjectTechnologyCell(
+        project.technologies.slice(0, 4),
+        project.stackGlossaryTerms ?? project.glossaryTerms ?? [],
+        true
+    );
+    stackRow.appendChild(stackPreview);
 
-    if (project.repoLink || project.demoLink) {
+    const hasLinks = Boolean(project.repoLink || project.demoLink);
+    if (hasLinks) {
         stackRow.appendChild(createProjectLinks(project));
     }
 
     card.appendChild(stackRow);
-    card.appendChild(createProjectDisclosure(project));
+    card.appendChild(createProjectDisclosure(project, open => {
+        stackPreview.hidden = open;
+        stackRow.hidden = open && !hasLinks;
+    }));
 
     return card;
 
@@ -1043,11 +1049,19 @@ function createProjectCard(
    TECHNOLOGY CELL
    ========================================= */
 
-function createProjectTechnologyCell(technologies, terms = []) {
+function createProjectTechnologyCell(technologies, terms = [], preview = false) {
     const cell = document.createElement("div");
-    cell.className = "project-visible-stack";
-    const title = document.createElement("h3");
-    title.textContent = "Stack";
+    cell.className = preview ? "project-stack-preview" : "project-inner-cell project-stack-cell";
+    if (preview) {
+        cell.setAttribute("aria-label", "Core technologies");
+    } else {
+        const label = document.createElement("span");
+        label.className = "project-cell-label";
+        label.textContent = "Languages / Frameworks";
+        const title = document.createElement("h3");
+        title.textContent = "Stack";
+        cell.append(label, title);
+    }
     const tags = document.createElement("div");
     tags.className = "project-visible-stack-values";
     technologies.forEach(technology => {
@@ -1056,11 +1070,11 @@ function createProjectTechnologyCell(technologies, terms = []) {
         appendGlossaryText(tag, technology, terms);
         tags.appendChild(tag);
     });
-    cell.append(title, tags);
+    cell.appendChild(tags);
     return cell;
 }
 
-function createProjectDisclosure(project) {
+function createProjectDisclosure(project, onExpandedChange = () => {}) {
     const details = document.createElement("details");
     details.className = "project-details";
     const summary = document.createElement("summary");
@@ -1092,6 +1106,10 @@ function createProjectDisclosure(project) {
         appendGlossaryText(fullDescription, project.description, project.descriptionGlossaryTerms ?? project.glossaryTerms ?? []);
         overview.append(overviewLabel, overviewTitle, fullDescription);
         innerGrid.appendChild(overview);
+        innerGrid.appendChild(createProjectTechnologyCell(
+            project.technologies,
+            project.stackGlossaryTerms ?? project.glossaryTerms ?? []
+        ));
         innerGrid.appendChild(createProjectLearnedCell(project.learned, project.glossaryTerms || [], project.title));
         if (project.images?.length) {
             innerGrid.appendChild(createProjectGallery(project.images, project.title));
@@ -1102,6 +1120,7 @@ function createProjectDisclosure(project) {
     function updateLabel(open) {
         label.textContent = open ? "Show Less" : "Learn More";
         details.classList.toggle("is-expanded", open);
+        onExpandedChange(open);
     }
 
     function setExpanded(open) {
