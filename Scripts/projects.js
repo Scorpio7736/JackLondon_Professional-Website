@@ -1173,7 +1173,7 @@ function createProjectLearnedCell(learned, terms = [], projectTitle = "") {
 
 
     label.textContent =
-        "Technical development";
+        "Development Takeaways";
 
 
     const title =
@@ -1183,7 +1183,7 @@ function createProjectLearnedCell(learned, terms = [], projectTitle = "") {
 
 
     title.textContent =
-        projectTitle === "Linux MCP Server" ? "Planned engineering scope" : "Engineering highlights";
+        projectTitle === "Linux MCP Server" ? "Planned engineering scope" : "What I Learned";
 
 
     const list =
