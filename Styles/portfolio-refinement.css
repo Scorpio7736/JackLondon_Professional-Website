@@ -89,34 +89,37 @@
 .project-visible-stack {
     display: grid;
     grid-template-columns: 56px minmax(0, 1fr);
-    align-items: baseline;
+    align-items: center;
     gap: 8px 12px;
     margin: 4px 0 0 74px;
-    padding: 10px 0;
-    border-top: 1px solid var(--border);
+    padding: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
 }
 .project-visible-stack h3 {
     color: var(--text-secondary);
-    font-size: .78rem;
+    font-size: .8rem;
     font-weight: 600;
 }
 .project-visible-stack-values {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
-    gap: 5px 0;
+    align-items: center;
+    gap: 6px;
     min-width: 0;
 }
 .project-visible-stack-item {
+    display: inline-block;
+    max-width: 100%;
+    padding: 5px 9px;
     color: var(--text-secondary);
+    background: var(--surface-secondary);
+    border: 1px solid var(--border);
+    border-radius: 5px;
     font-size: .78rem;
     line-height: 1.5;
     overflow-wrap: anywhere;
-}
-.project-visible-stack-item:not(:last-child)::after {
-    content: "·";
-    color: var(--text-muted);
-    margin: 0 9px;
 }
 .project-visible-stack-item .portfolio-glossary-term {
     font-size: inherit;
@@ -133,8 +136,8 @@
 .project-details > summary {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    justify-content: flex-end;
+    gap: 10px;
     list-style: none;
     cursor: pointer;
     padding: 13px 0 2px;
